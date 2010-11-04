@@ -6,13 +6,16 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import dk.andsen.asqlitemanager.DBViewer;
 import dk.andsen.asqlitemanager.R;
 
 /**
@@ -27,6 +30,7 @@ public class FilePicker extends ListActivity {
 	private TextView myPath;
 	boolean mExternalStorageAvailable = false;
 	boolean mExternalStorageWriteable = false;
+	private Context context = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -34,6 +38,7 @@ public class FilePicker extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filepicker);
 		myPath = (TextView)findViewById(R.id.path);
+		context = this.getBaseContext();
 		File path = null;
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -109,6 +114,8 @@ public class FilePicker extends ListActivity {
 			.setPositiveButton("OK", 
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
+					Intent i = new Intent(context, DBViewer.class);
+					startActivity(i);
 				}
 			}).show();
 		}
