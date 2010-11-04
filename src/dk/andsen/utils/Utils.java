@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class Utils {
 
-	private static String app = "a41";
+	private static String app = "aSQLMan";
 	/**
 	 * Write a debug message to the log
 	 * @param msg Message

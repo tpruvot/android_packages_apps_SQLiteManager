@@ -53,14 +53,12 @@ public class FilePicker extends ListActivity {
 				public void onClick(DialogInterface dialog, int which) {
 				}
 			}).show();
-
 		}
 	}
 
 	private void getDir(String dirPath)
 	{
 		myPath.setText("Location: " + dirPath);
-
 		item = new ArrayList<String>();
 		path = new ArrayList<String>();
 		File f = new File(dirPath);
@@ -105,7 +103,6 @@ public class FilePicker extends ListActivity {
 				}).show();
 			}
 		} else {
-			//funcData.loadProgramme(db, file);
 			new AlertDialog.Builder(this)
 			.setIcon(R.drawable.icon)
 			.setTitle("[" + file.getAbsolutePath() + "]")
