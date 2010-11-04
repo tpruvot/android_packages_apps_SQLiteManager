@@ -10,5 +10,11 @@
     android:text="Database viewer comming here"
     android:id="@+id/ViewerHeader"
     />
+ <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Database viewer comming here"
+    android:id="@+id/DatabaseToView"
+    />
     
 </LinearLayout>

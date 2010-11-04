@@ -91,7 +91,7 @@ public class FilePicker extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		File file = new File(path.get(position));
+		final File file = new File(path.get(position));
 		if (file.isDirectory())
 		{
 			if(file.canRead())
@@ -110,14 +110,19 @@ public class FilePicker extends ListActivity {
 		} else {
 			new AlertDialog.Builder(this)
 			.setIcon(R.drawable.icon)
-			.setTitle("[" + file.getAbsolutePath() + "]")
+			.setTitle("View [" + file.getAbsolutePath() + "]")
 			.setPositiveButton("OK", 
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Intent i = new Intent(context, DBViewer.class);
+					i.putExtra("db", ""+ file.getAbsolutePath());
 					startActivity(i);
 				}
-			}).show();
+			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					//dialog.dismiss();
+				}
+			}) .show();
 		}
 	}
 }
