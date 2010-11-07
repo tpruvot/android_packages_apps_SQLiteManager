@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
+    <string name="AboutHeader">About</string>
+    <string name="AboutText">Andsens SQLite manager</string>
 </resources>

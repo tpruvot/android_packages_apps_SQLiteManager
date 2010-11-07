@@ -44,7 +44,7 @@ public class FilePicker extends ListActivity {
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			mExternalStorageAvailable = mExternalStorageWriteable = true;
 			path = Environment.getExternalStorageDirectory();
-			File programDirectory = new File(path.getAbsolutePath() + "/a41/");
+			File programDirectory = new File(path.getAbsolutePath());
 			// have the object build the directory structure, if needed.
 			programDirectory.mkdirs();
 			getDir(programDirectory.getAbsolutePath());

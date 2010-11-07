@@ -3,11 +3,15 @@ package dk.andsen.asqlitemanager;
 import dk.andsen.utils.FilePicker;
 import dk.andsen.utils.Utils;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * @author andsen
@@ -21,6 +25,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         setContentView(R.layout.main);
         Button open = (Button) this.findViewById(R.id.Open);
         open.setOnClickListener(this);
+        Button about = (Button) this.findViewById(R.id.About);
+        about.setOnClickListener(this);
+        
         Utils.logD("Created");
     }
 
@@ -29,6 +36,16 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			if (key == R.id.Open) {
 				Intent i = new Intent(this, FilePicker.class);
 				startActivity(i);
+			} else if (key == R.id.About) {
+				Context mContext = this;
+				Dialog dial = new Dialog(mContext);
+				dial.setContentView(R.layout.about);
+				dial.setTitle(getString(R.string.AboutHeader));
+				TextView text = (TextView) dial.findViewById(R.id.text);
+				text.setText(getString(R.string.AboutText));
+				ImageView image = (ImageView) dial.findViewById(R.id.image);
+				image.setImageResource(R.drawable.and);
+				dial.show();
 			}
       Utils.logD("Filepicker called");
 
