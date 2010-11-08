@@ -64,4 +64,15 @@ public class Database {
 		return index;
 	}
 
+	public String[] getFields(String table) {
+		String sql = "select * from " + table + " limit 1";
+		Cursor res = _db.rawQuery(sql, null);
+		if (res.moveToFirst()) {
+			int fields = res.getColumnCount();
+			
+		}
+		
+		return null;
+	}
+
 }

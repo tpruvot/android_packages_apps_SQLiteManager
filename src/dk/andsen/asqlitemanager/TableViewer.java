@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,62 +15,45 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.utils.Utils;
 
-public class DBViewer extends Activity implements OnClickListener {
+public class TableViewer extends Activity implements OnClickListener {
 	private String _dbPath;
 	private Database _db = null;
-	private String[] tables;
-	private String[] views;
 	private ListView list;
 	private String[] toList;
+	private String _table;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dbviewer);
-		TextView tvDB = (TextView)this.findViewById(R.id.DatabaseToView);
-		Button bTab = (Button) this.findViewById(R.id.Tables);
-		Button bVie = (Button) this.findViewById(R.id.Views);
-		Button bInd = (Button) this.findViewById(R.id.Index);
+		TextView tvDB = (TextView)this.findViewById(R.id.TableToView);
+		Button bTab = (Button) this.findViewById(R.id.Fields);
+		Button bVie = (Button) this.findViewById(R.id.Data);
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
-		bInd.setOnClickListener(this);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
 			Context cont = tvDB.getContext();
 			_dbPath = extras.getString("db");
-			tvDB.setText("Viewing database: " + _dbPath);
 			Utils.logD("Opening database");
+			_table = extras.getString("Table");
+			tvDB.setText("Table: " + _table);
 			_db = new Database(_dbPath, cont);
-			if (!_db.isDatabase) {
-				Utils.logD("Not a database!");
-				Utils.showException(_dbPath + " is not a database!", cont);
-			} else {
-				Utils.logD("Database open");
-				tables = _db.getTables();
-				views = _db.getViews();
-				for(String str: tables) {
-					Utils.logD("Table: " + str);
-				}
-				for(String str: views) {
-					Utils.logD("View: " + str);
-				}
-				list = (ListView) findViewById(R.id.LVList);
-				buildList("Tables");
-			}
+			Utils.logD("Database open");
+			list = (ListView) findViewById(R.id.LVList);
+			buildList(_table);
 		}
 	}
 
-	private void buildList(final String type) {
+	private void buildList(String table) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
 
-		if (type.equals("Index"))
-			toList = _db.getIndex();
-		else if (type.equals("Views")) 
-			toList = _db.getViews();
-		else 
-			toList = _db.getTables();
-		int recs = toList.length;
+		String sql = "select * from " + table;
+		String[] fields = _db.getFields(table);
+		
+		int recs = 2;
 		for (int i = 0; i < recs; i++) {
 			map = new HashMap<String, String>();
 			map.put("name", toList[i]);
@@ -84,7 +66,7 @@ public class DBViewer extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
 				// Do something with the table / view / index clicked on
-				selectRecord(type, position);
+				selectRecord("ddd", position);
 			}
 		});
 	}
@@ -100,10 +82,6 @@ public class DBViewer extends Activity implements OnClickListener {
 			
 		}
 		else if (type.equals("Tables")){
-			Intent i = new Intent(this, TableViewer.class);
-			i.putExtra("db", _dbPath);
-			i.putExtra("Table", name);
-			startActivity(i);
 			
 		}
 	}

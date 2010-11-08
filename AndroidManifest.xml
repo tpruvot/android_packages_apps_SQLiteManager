@@ -14,6 +14,7 @@
 		</activity>
 		<activity android:name="dk.andsen.utils.FilePicker"></activity>
 		<activity android:name=".DBViewer"></activity>
+        <activity android:name=".TableViewer"></activity>
 	</application>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 
