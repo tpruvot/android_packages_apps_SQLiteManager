@@ -39,6 +39,7 @@ public class Database {
 			tables[i] = res.getString(0);
 			i++;
 		}
+		res.close();
 		return tables;
 	}
 
@@ -53,6 +54,7 @@ public class Database {
 			views[i] = res.getString(0);
 			i++;
 		}
+		res.close();
 		return views;
 	}
 
@@ -67,6 +69,7 @@ public class Database {
 			index[i] = res.getString(0);
 			i++;
 		}
+		res.close();
 		return index;
 	}
 
