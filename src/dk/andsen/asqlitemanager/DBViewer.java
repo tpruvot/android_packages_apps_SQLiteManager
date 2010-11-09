@@ -23,6 +23,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	private String[] views;
 	private ListView list;
 	private String[] toList;
+	Context _cont;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,14 +39,14 @@ public class DBViewer extends Activity implements OnClickListener {
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
-			Context cont = tvDB.getContext();
+			_cont = tvDB.getContext();
 			_dbPath = extras.getString("db");
 			tvDB.setText("Viewing database: " + _dbPath);
 			Utils.logD("Opening database");
-			_db = new Database(_dbPath, cont);
+			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
 				Utils.logD("Not a database!");
-				Utils.showException(_dbPath + " is not a database!", cont);
+				Utils.showException(_dbPath + " is not a database!", _cont);
 			} else {
 				Utils.logD("Database open");
 				tables = _db.getTables();
@@ -60,7 +62,20 @@ public class DBViewer extends Activity implements OnClickListener {
 			}
 		}
 	}
+	
+	@Override
+	protected void onPause() {
+		_db.close();
+		super.onPause();
+	}
 
+	@Override
+	protected void onRestart() {
+		_db = new Database(_dbPath, _cont);
+		super.onRestart();
+	}
+
+	
 	private void buildList(final String type) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;

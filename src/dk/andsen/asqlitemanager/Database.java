@@ -4,10 +4,12 @@ import dk.andsen.utils.Utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 
 public class Database {
 	public boolean isDatabase = false;
 	private SQLiteDatabase _db = null; 
+	
 	/**
 	 * Open a existing database at the given path
 	 * @param dbPath Path to the database
@@ -20,6 +22,10 @@ public class Database {
 			// not a database
 			isDatabase = false;
 		}
+	}
+	
+	public void close() {
+		_db.close();
 	}
 
 	public String[] getTables() {
@@ -67,12 +73,13 @@ public class Database {
 	public String[] getFields(String table) {
 		String sql = "select * from " + table + " limit 1";
 		Cursor res = _db.rawQuery(sql, null);
+		String[] fields = null;
 		if (res.moveToFirst()) {
-			int fields = res.getColumnCount();
-			
+			fields = res.getColumnNames();
+			Bundle dd = res.getExtras();
+			Utils.logD("getExtras: " + dd.toString());
 		}
-		
-		return null;
+		return fields;
 	}
 
 }
