@@ -21,6 +21,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private ListView list;
 	private String _table;
 	Context _cont;
+	private String _type = "Fields";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			_db = new Database(_dbPath, _cont);
 			Utils.logD("Database open");
 			list = (ListView) findViewById(R.id.LVList);
-			buildList(_table);
+			buildList(_type);
 		}
 	}
 	
@@ -58,26 +59,36 @@ public class TableViewer extends Activity implements OnClickListener {
 		super.onRestart();
 	}
 	
-	private void buildList(String table) {
+	private void buildList(final String viewType) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
-
-		String[] fields = _db.getFields(table);
-		
-		int recs = fields.length;
-		for (int i = 0; i < recs; i++) {
-			map = new HashMap<String, String>();
-			map.put("name", fields[i]);
-			mylist.add(map);
+		// show the fields of the table
+		if (viewType.equals("Fields")) {
+			Field[] fields = _db.getFields(_table);
+			int recs = fields.length;
+			for (int i = 0; i < recs; i++) {
+				String notNull = " - null ";
+				if (fields[i].getNotNull() == 1)
+					notNull = " - not null ";
+				map = new HashMap<String, String>();
+				map.put("name", fields[i].getFieldName()
+						+ " - " + fields[i].getFieldType()
+						+ notNull
+						+ " - (pk) " + fields[i].getPk()
+						+ " - (def) " + fields[i].getDef());
+				mylist.add(map);
+			} 
+			SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
+					new String[] {"name"}, new int[] {R.id.rowtext});
+			list.setAdapter(mSchedule);
+		} else if (viewType.equals("Data")) {
+			
 		}
-		SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
-				new String[] {"name"}, new int[] {R.id.rowtext});
-		list.setAdapter(mSchedule);
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
 				// Do something with the table / view / index clicked on
-				selectRecord("ddd", position);
+				selectRecord(viewType, position);
 			}
 		});
 	}
@@ -88,12 +99,12 @@ public class TableViewer extends Activity implements OnClickListener {
 
 	public void onClick(View v) {
 		int key = v.getId();
-		if (key == R.id.Tables) {
-			//buildList("Tables");
-		} else if (key == R.id.Views) {
-			//buildList("Views");
-		} else if (key == R.id.Index) {
-			//buildList("Index");
+		if (key == R.id.Fields) {
+			_type = "Fields";
+			buildList(_type);
+		} else if (key == R.id.Data) {
+			_type = "Data";
+			buildList(_type);
 		}
 	}
 }

@@ -4,17 +4,18 @@ import dk.andsen.utils.Utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 
 public class Database {
 	public boolean isDatabase = false;
-	private SQLiteDatabase _db = null; 
+	private SQLiteDatabase _db = null;
+	private String _dbPath; 
 	
 	/**
 	 * Open a existing database at the given path
 	 * @param dbPath Path to the database
 	 */
 	public Database(String dbPath, Context cont) {
+		_dbPath = dbPath;
 		try {
 			_db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 			isDatabase = true;
@@ -28,7 +29,13 @@ public class Database {
 		_db.close();
 	}
 
+	private void testDB() {
+		if (_db == null) {
+			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+		}
+	}
 	public String[] getTables() {
+		testDB();
 		String sql ="select name from sqlite_master where type = 'table'";
 		Cursor res = _db.rawQuery(sql, null);
 		int recs = res.getCount();
@@ -44,6 +51,7 @@ public class Database {
 	}
 
 	public String[] getViews() {
+		testDB();
 		String sql ="select name from sqlite_master where type = 'view'";
 		Cursor res = _db.rawQuery(sql, null);
 		int recs = res.getCount();
@@ -59,6 +67,7 @@ public class Database {
 	}
 
 	public String[] getIndex() {
+		testDB();
 		String sql ="select name from sqlite_master where type = 'index'";
 		Cursor res = _db.rawQuery(sql, null);
 		int recs = res.getCount();
@@ -73,15 +82,28 @@ public class Database {
 		return index;
 	}
 
-	public String[] getFields(String table) {
+	public Field[] getFields(String table) {
+		// Get field type
+		// SELECT typeof(sql) FROM sqlite_master where typeof(sql) <> "null" limit 1
+		testDB();
 		String sql = "select * from " + table + " limit 1";
+		sql = "pragma table_info(" + table + ")";
 		Cursor res = _db.rawQuery(sql, null);
-		String[] fields = null;
-		if (res.moveToFirst()) {
-			fields = res.getColumnNames();
-			Bundle dd = res.getExtras();
-			Utils.logD("getExtras: " + dd.toString());
+		int cols = res.getCount();
+		Field[] fields = new Field[cols];
+		int i = 0;
+		// getting field names
+		while(res.moveToNext()) {
+			Field field = new Field();
+			field.setFieldName(res.getString(1));
+			field.setFieldType(res.getString(2));
+			field.setNotNull(res.getInt(3));
+			field.setDef(res.getString(4));
+			field.setPk(res.getInt(5));
+			fields[i] = field;
+			i++;
 		}
+		res.close();
 		return fields;
 	}
 
