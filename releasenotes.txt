@@ -2,5 +2,9 @@ Version 0.1
 
 Now able to:
   Browse SDCard and open a database
-  See tables, Views and Index
-  See table structure   
+  See tables, views and index
+  See table structure
+  
+Working on:
+  Data grid to display data
+  See triggers   
