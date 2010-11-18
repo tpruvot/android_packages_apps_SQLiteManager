@@ -33,6 +33,12 @@
     android:text="Data"
     android:id="@+id/Data"
   />
+  <Button
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="SQL"
+    android:id="@+id/SQL"
+  />
   </LinearLayout>
   <ListView android:id="@+id/LVList"
     android:layout_width="fill_parent"

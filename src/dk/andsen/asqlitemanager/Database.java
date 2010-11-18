@@ -107,4 +107,14 @@ public class Database {
 		return fields;
 	}
 
+	public int getNumCols(String table) {
+		// TODO Auto-generated method stub
+		return 8;
+	}
+
+	public String[][] getTableData(String table) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

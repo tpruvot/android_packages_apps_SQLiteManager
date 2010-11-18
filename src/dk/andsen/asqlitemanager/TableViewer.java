@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -104,7 +105,13 @@ public class TableViewer extends Activity implements OnClickListener {
 			buildList(_type);
 		} else if (key == R.id.Data) {
 			_type = "Data";
-			buildList(_type);
+			//buildList(_type);
+			Intent i = new Intent(this, DataGrid.class);
+			i.putExtra("db", _dbPath);
+			i.putExtra("Table", _table);
+			startActivity(i);
+		} else if (key == R.id.SQL) {
+			
 		}
 	}
 }
