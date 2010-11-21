@@ -16,8 +16,8 @@ public class TextViewAdapter extends BaseAdapter  {
   public TextViewAdapter(Context c, String dbPath, String table) {
       _context = c;
       _table = table;
-      _db = new Database(_dbPath, _context);
-      String[][] tableData = _db.getTableData(table);
+      //_db = new Database(_dbPath, _context);
+      //String[][] tableData = _db.getTableData(table);
       
       
   }

@@ -5,6 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * @author Andsen
+ *
+ */
 public class Database {
 	public boolean isDatabase = false;
 	private SQLiteDatabase _db = null;
@@ -25,15 +29,26 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Close the database
+	 */
 	public void close() {
 		_db.close();
 	}
 
+	/**
+	 * Test the database if not open open it
+	 */
 	private void testDB() {
 		if (_db == null) {
 			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 		}
 	}
+	
+	/**
+	 * Retrieve all the table names of the database
+	 * @return
+	 */
 	public String[] getTables() {
 		testDB();
 		String sql ="select name from sqlite_master where type = 'table'";
@@ -50,6 +65,10 @@ public class Database {
 		return tables;
 	}
 
+	/**
+	 * Retrieve all views from a database
+	 * @return
+	 */
 	public String[] getViews() {
 		testDB();
 		String sql ="select name from sqlite_master where type = 'view'";
@@ -66,6 +85,10 @@ public class Database {
 		return views;
 	}
 
+	/**
+	 * Retrieve all views from a database
+	 * @return
+	 */
 	public String[] getIndex() {
 		testDB();
 		String sql ="select name from sqlite_master where type = 'index'";
@@ -82,6 +105,11 @@ public class Database {
 		return index;
 	}
 
+	/**
+	 * Retrieve a list of field names from a table
+	 * @param table
+	 * @return
+	 */
 	public Field[] getFields(String table) {
 		// Get field type
 		// SELECT typeof(sql) FROM sqlite_master where typeof(sql) <> "null" limit 1
@@ -107,14 +135,59 @@ public class Database {
 		return fields;
 	}
 
-	public int getNumCols(String table) {
-		// TODO Auto-generated method stub
-		return 8;
+	public String[] getFieldsNames(String table) {
+		testDB();
+		String sql = "select * from " + table + " limit 1";
+		sql = "pragma table_info(" + table + ")";
+		Cursor res = _db.rawQuery(sql, null);
+		int cols = res.getCount();
+		String[] fields = new String[cols];
+		int i = 0;
+		// getting field names
+		while(res.moveToNext()) {
+			fields[i] = res.getString(1);
+			i++;
+		}
+		res.close();
+		return fields;
 	}
 
+	
+	
+	/**
+	 * Retrieve the number of columns in a table
+	 * @param table
+	 * @return
+	 */
+	public int getNumCols(String table) {
+		testDB();
+		String sql = "select * from " + table + " limit 1";
+		Cursor cursor = _db.rawQuery(sql, null);
+		int cols = cursor.getColumnCount();
+		return cols;
+	}
+
+	/**
+	 * Retrieve all data form the tables and return it as two dimentional string list
+	 * @param table
+	 * @return
+	 */
 	public String[][] getTableData(String table) {
-		// TODO Auto-generated method stub
-		return null;
+		testDB();
+		String sql = "select * from " + table;
+		Cursor cursor = _db.rawQuery(sql, null);
+		int cols = cursor.getColumnCount();
+		int rows = cursor.getCount();
+		String[][] res = new String[rows][cols];
+		int i = 0;
+		//int j = 0;
+		while(cursor.moveToNext()) {
+			for (int k=0; k<cols; k++) {
+				res[i][k] = cursor.getString(k);
+			}
+			i++;
+		}
+		return res;
 	}
 
 }
