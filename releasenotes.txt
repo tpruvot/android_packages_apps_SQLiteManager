@@ -1,6 +1,7 @@
-Version 0.1
+Version 0.11
 
 Now able to:
+  Can now display table data
   Browse SDCard and open a database
   See tables, views and index
   See table structure
