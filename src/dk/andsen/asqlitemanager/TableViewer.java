@@ -31,8 +31,10 @@ public class TableViewer extends Activity implements OnClickListener {
 		TextView tvDB = (TextView)this.findViewById(R.id.TableToView);
 		Button bTab = (Button) this.findViewById(R.id.Fields);
 		Button bVie = (Button) this.findViewById(R.id.Data);
+		Button sVie = (Button) this.findViewById(R.id.SQL);
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
+		sVie.setOnClickListener(this);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
@@ -84,6 +86,23 @@ public class TableViewer extends Activity implements OnClickListener {
 			list.setAdapter(mSchedule);
 		} else if (viewType.equals("Data")) {
 			
+		} else if (viewType.equals("SQL")) {
+
+			// show the fields of the table
+				String[] sql = _db.getSQL(_table);
+				int recs = sql.length;
+				for (int i = 0; i < recs; i++) {
+					map = new HashMap<String, String>();
+					map.put("name", sql[i]);
+					mylist.add(map);
+				} 
+				SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
+						new String[] {"name"}, new int[] {R.id.rowtext});
+				list.setAdapter(mSchedule);
+			
+			
+			
+			
 		}
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position,
@@ -111,7 +130,8 @@ public class TableViewer extends Activity implements OnClickListener {
 			i.putExtra("Table", _table);
 			startActivity(i);
 		} else if (key == R.id.SQL) {
-			
+			_type = "SQL";
+			buildList(_type);
 		}
 	}
 }

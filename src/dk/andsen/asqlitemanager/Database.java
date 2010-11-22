@@ -164,6 +164,7 @@ public class Database {
 		String sql = "select * from " + table + " limit 1";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
+		cursor.close();
 		return cols;
 	}
 
@@ -187,6 +188,27 @@ public class Database {
 			}
 			i++;
 		}
+		return res;
+	}
+
+	/**
+	 * Return the SQL that defines the table
+	 * @param table
+	 * @return a String[] with sql needed to create the table
+	 */
+	public String[] getSQL(String table) {
+		String [] res;
+		testDB();
+		String sql = "select sql from sqlite_master where type = 'table' and tbl_name = '" + table +"'";
+		Cursor cursor = _db.rawQuery(sql, null);
+		int i = 0;
+		res = new String[cursor.getCount()];
+		// Split SQL in lines
+		while(cursor.moveToNext()) {
+				res[i] = cursor.getString(0);
+			i++;
+		}
+		cursor.close();
 		return res;
 	}
 
