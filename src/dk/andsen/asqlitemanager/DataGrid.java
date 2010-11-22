@@ -55,16 +55,16 @@ public class DataGrid extends Activity  {
 		for(int i=0; i<rowSize; i++){
 			TableRow row = new TableRow(this);
 			if (i%2 == 1)
-				row.setBackgroundColor(Color.GRAY);
+				row.setBackgroundColor(Color.DKGRAY);
 			for(int j=0; j<colSize; j++){
 				TextView c = new TextView(this);
 				c.setText(data[i][j]);
 				c.setPadding(3, 3, 3, 3);
-				if (j%2 == 1)
-					if (i%2 == 1)
-						c.setBackgroundColor(Color.BLUE);
-					else
-						c.setBackgroundColor(Color.BLUE & Color.GRAY);
+//				if (j%2 == 1)
+//					if (i%2 == 1)
+//						c.setBackgroundColor(Color.BLUE);
+//					else
+//						c.setBackgroundColor(Color.BLUE & Color.GRAY);
 				row.addView(c);
 			}
 			table.addView(row, new TableLayout.LayoutParams());
@@ -74,7 +74,7 @@ public class DataGrid extends Activity  {
 	private void appendTitles(TableLayout table, String[] amortization) {
 		int rowSize=amortization.length;
 		TableRow row = new TableRow(this);
-		row.setBackgroundColor(Color.CYAN);
+		row.setBackgroundColor(Color.BLUE);
 		for(int i=0; i<rowSize; i++){
 				TextView c = new TextView(this);
 				c.setText(amortization[i]);

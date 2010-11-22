@@ -7,5 +7,6 @@ Now able to:
   See table structure
   
 Working on:
-  Data grid to display data
+  Enhancing data grid layout
+  Display view data
   See triggers   

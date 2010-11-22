@@ -199,7 +199,7 @@ public class Database {
 	public String[] getSQL(String table) {
 		String [] res;
 		testDB();
-		String sql = "select sql from sqlite_master where type = 'table' and tbl_name = '" + table +"'";
+		String sql = "select sql from sqlite_master where tbl_name = '" + table +"'";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int i = 0;
 		res = new String[cursor.getCount()];

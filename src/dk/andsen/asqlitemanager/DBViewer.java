@@ -79,7 +79,6 @@ public class DBViewer extends Activity implements OnClickListener {
 	private void buildList(final String type) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
-
 		if (type.equals("Index"))
 			toList = _db.getIndex();
 		else if (type.equals("Views")) 
@@ -112,14 +111,16 @@ public class DBViewer extends Activity implements OnClickListener {
 
 		}
 		else if (type.equals("Views")) {
-			
+			Intent i = new Intent(this, TableViewer.class);
+			i.putExtra("db", _dbPath);
+			i.putExtra("Table", name);
+			startActivity(i);
 		}
 		else if (type.equals("Tables")){
 			Intent i = new Intent(this, TableViewer.class);
 			i.putExtra("db", _dbPath);
 			i.putExtra("Table", name);
 			startActivity(i);
-			
 		}
 	}
 
