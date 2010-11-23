@@ -28,16 +28,16 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textColor="#FFF"
+              android:paddingBottom="5pt"
               />
+  </LinearLayout>    
+  </LinearLayout>    
 	<TextView android:id="@+id/mail"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textColor="#FFF"
               />              
-	  
-  </LinearLayout>    
-  </LinearLayout>    
-  <TextView android:id="@+id/www"
+    <TextView android:id="@+id/www"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textColor="#FFF"

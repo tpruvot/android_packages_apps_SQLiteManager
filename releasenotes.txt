@@ -1,12 +1,26 @@
+Next version
+  Display view data
+  Display create script for tables and views
+  Enhanced file picker (sorted list - directories before files)
+  Two way scrolling data grid
+  Can be moved to SDCard
+
+Working on:
+  Enhancing data grid layout
+  Table structure in grid layout
+  
+Later:
+  See triggers
+  Query database
+
 Version 0.11
 
-Now able to:
+New in this version:
   Can now display table data
+
+Version 0.1
+
+Now able to:
   Browse SDCard and open a database
   See tables, views and index
   See table structure
-  
-Working on:
-  Enhancing data grid layout
-  Display view data
-  See triggers   

@@ -3,19 +3,32 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<TextView  
+    android:background="@color/red">
+  <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/hello"
-    />
-    <Button
+    android:fadingEdge="horizontal|vertical"
+    android:gravity="center_vertical|center_horizontal"
+    android:textColor="@color/yellow"
+    android:textStyle="bold"
+    android:textSize="10pt"
+    android:background="@color/black"
+    android:fadingEdgeLength="10pt"
+    android:padding="4pt"/>
+  <ImageView
+    android:id="@+id/logo"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:src="@drawable/sqlite_icon"
+    android:gravity="center_vertical"/>  
+  <Button
     android:id="@+id/Open"
     android:text="Open Database"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     />
-    <Button
+  <Button
     android:id="@+id/About"
     android:text="About"
     android:layout_width="fill_parent" 
