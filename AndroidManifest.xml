@@ -15,6 +15,7 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="dk.andsen.utils.FilePicker"></activity>
+        <activity android:name="dk.andsen.utils.NewFilePicker"></activity>
 		<activity android:name=".DBViewer"></activity>
         <activity android:name=".TableViewer"></activity>
         <activity android:name=".DataGrid"></activity>

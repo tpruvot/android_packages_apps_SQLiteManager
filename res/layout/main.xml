@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/red">
+    android:background="@color/frontred">
   <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
@@ -24,13 +24,19 @@
     android:gravity="center_vertical"/>  
   <Button
     android:id="@+id/Open"
-    android:text="Open Database"
+    android:text="@string/OpdenDB"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     />
   <Button
     android:id="@+id/About"
-    android:text="About"
+    android:text="@string/About"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    />
+  <Button
+    android:id="@+id/Test"
+    android:text="Testing"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     />
