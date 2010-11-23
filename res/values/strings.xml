@@ -2,6 +2,10 @@
 <resources>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
-    <string name="AboutHeader">About</string>
+    <string name="AboutHeader">About aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager</string>
+    <string name="WWW">Check for updates at: \nhttp://asqlitemanager.sourceforge.net/</string>
+    <string name="MAIL">Comments welcome android41cv@gmail.com</string>
+    <string name="OpdenDB">Open Database</string>
+    <string name="About">About</string>
 </resources>

@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,10 +25,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         Button open = (Button) this.findViewById(R.id.Open);
+        open.setText(getString(R.string.OpdenDB));
         open.setOnClickListener(this);
         Button about = (Button) this.findViewById(R.id.About);
+        about.setText(getString(R.string.About));
         about.setOnClickListener(this);
-        
         Utils.logD("Created");
     }
 
@@ -45,11 +47,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				text.setText(getString(R.string.AboutText));
 				ImageView image = (ImageView) dial.findViewById(R.id.image);
 				image.setImageResource(R.drawable.and);
+				TextView mail = (TextView) dial.findViewById(R.id.mail);
+				mail.setAutoLinkMask(Linkify.ALL);
+				mail.setText(getString(R.string.MAIL));
+				TextView www = (TextView) dial.findViewById(R.id.www);
+				www.setAutoLinkMask(Linkify.ALL);
+				www.setText(getString(R.string.WWW));
 				dial.show();
 			}
       Utils.logD("Filepicker called");
-
 		}
-    
-    
 }

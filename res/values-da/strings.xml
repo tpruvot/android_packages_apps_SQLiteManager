@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">aSQLiteManager!</string>
+    <string name="app_name">aSQLiteManager</string>
+    <string name="AboutHeader">Om aSQLiteManager</string>
+    <string name="AboutText">Andsens SQLite manager</string>
+    <string name="WWW">Tjek for opdateringer her: \nhttp://asqlitemanager.sourceforge.net/</string>
+    <string name="MAIL">Kommentarer velkomne android41cv@gmail.com</string>
+    <string name="OpdenDB">Åbn Database</string>
+    <string name="About">Om</string>
+</resources>
