@@ -1,268 +1,131 @@
 package dk.andsen.utils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import android.app.Activity;
-import android.app.AlertDialog;
+import dk.andsen.asqlitemanager.R;
+import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import dk.andsen.asqlitemanager.DBViewer;
-import dk.andsen.asqlitemanager.R;
+import android.widget.Toast;
 
-/**
- * @author andsen
- * 
- */
-//TODO Skal denne være baseret på ListView for at linier kan highlightes?
-public class NewFilePicker extends Activity implements OnClickListener {
+public class NewFilePicker extends ListActivity {
+  private EfficientAdapter adap;
+  private static String[] data = new String[] { "0", "1", "2", "3", "4" };
 
-	private List<String> item = null;
-	private List<String> path = null;
-	private String root="/";
-	private TextView _myPath;
-	boolean mExternalStorageAvailable = false;
-	boolean mExternalStorageWriteable = false;
-	private Context context = null;
-	private TableLayout _aTable;
-	private File[] _files;
-	private ArrayList<Boolean> dir;
-	
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.newfilepicker);
-		_myPath = (TextView)findViewById(R.id.path);
-		_aTable=(TableLayout)findViewById(R.id.filelist);
-		context = this.getBaseContext();
-		File path = null;
-		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			mExternalStorageAvailable = mExternalStorageWriteable = true;
-			path = Environment.getExternalStorageDirectory();
-			File programDirectory = new File(path.getAbsolutePath());
-			// have the object build the directory structure, if needed.
-			//programDirectory.mkdirs();
-			getDir(programDirectory.getAbsolutePath());
-		} else {
-			// No SDCard
-			new AlertDialog.Builder(this)
-			.setIcon(R.drawable.icon)
-			.setTitle("No SDCard available")
-			.setPositiveButton("OK", 
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-				}
-			}).show();
-		}
-	}
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    setContentView(R.layout.newfilepicker);
+    adap = new EfficientAdapter(this);
+    setListAdapter(adap);
+  }
 
-	private void getDir(String dirPath)
-	{
-		_myPath.setText("Location: " + dirPath);
-		item = new ArrayList<String>();
-		path = new ArrayList<String>();
-		dir = new ArrayList<Boolean>();
-		File f = new File(dirPath);
-		_files = f.listFiles();
-		if(!dirPath.equals(root))
-		{
-			item.add(root);
-			path.add(root);
-			dir.add(true);
-			item.add("../");
-			path.add(f.getParent());
-			dir.add(true);
-		}
-		Arrays.sort(_files, new FileComparator());
-		for(int i=0; i < _files.length; i++)
-		{
-			File file = _files[i];
-			path.add(file.getPath());
-			if(file.isDirectory()) {
-				item.add(file.getName() + "/");
-				dir.add(true);
-			}
-			else {
-				item.add(file.getName());
-				dir.add(false);
-			}
-		}
-		appendRows();
-	}
+  @Override
+  protected void onListItemClick(ListView l, View v, int position, long id) {
+    // TODO Auto-generated method stub
+    super.onListItemClick(l, v, position, id);
+    Toast.makeText(this, "Click-" + String.valueOf(position), Toast.LENGTH_SHORT).show();
+  }
 
+  public static class EfficientAdapter extends BaseAdapter implements Filterable {
+    private LayoutInflater mInflater;
+    private Bitmap mIcon1;
+    private Context context;
+    public EfficientAdapter(Context context) {
+      // Cache the LayoutInflate to avoid asking for a new one each time.
+      mInflater = LayoutInflater.from(context);
+      this.context = context;
+    }
 
-	private void appendRows() {
-		_aTable.removeAllViews();
-		for(int i=0; i < item.size(); i++)
-		{
-			TableRow row = new TableRow(this);
-			row.setBackgroundColor(R.drawable.textviewstates);
-
-			if (i%2 == 1)
-				row.setBackgroundColor(Color.DKGRAY);
-			row.setFocusable(true);
-			row.setFocusableInTouchMode(true);
-			ImageView iV = new ImageView(this);
-			TextView tV = new TextView(this);
-			if(dir.get(i))
-				iV.setImageResource(R.drawable.ic_folder);
-			else
-				iV.setImageResource(R.drawable.ic_document);
-			iV.setPadding(3, 3, 3, 3);
-			iV.setId(2000+1);
-			tV.setText(item.get(i));
-			//tV.setBackgroundColor(R.drawable.textviewstates);
-			
-			//tV.setPadding(3, 3, 3, 3);
-
-			tV.setId(1000+i);
-			tV.setOnClickListener(this);
-			tV.setLayoutParams(new TableRow.LayoutParams(
-          TableRow.LayoutParams.FILL_PARENT,
-          TableRow.LayoutParams.WRAP_CONTENT
-      ));
-
-			row.addView(iV);
-			row.addView(tV);
-			row.setId(i);
-			row.setOnClickListener(this);
-			_aTable.addView(row, new TableLayout.LayoutParams());
-		}
-	}
-
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		final File file = new File(path.get(position));
-		if (file.isDirectory())
-		{
-			if(file.canRead())
-				getDir(path.get(position));
-			else
-			{
-				new AlertDialog.Builder(this)
-				.setIcon(R.drawable.icon)
-				.setTitle("[" + file.getName() + "] folder can't be read!")
-				.setPositiveButton("OK", 
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).show();
-			}
-		} else {
-			new AlertDialog.Builder(this)
-			.setIcon(R.drawable.icon)
-			.setTitle("View [" + file.getAbsolutePath() + "]")
-			.setPositiveButton("OK", 
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					Intent i = new Intent(context, DBViewer.class);
-					i.putExtra("db", ""+ file.getAbsolutePath());
-					startActivity(i);
-				}
-			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					//dialog.dismiss();
-				}
-			}) .show();
-		}
-	}
-	
-	/**
-	 * Sort files first directories then files	
-	 * @author andsen
-	 *
-	 */
-	class FileComparator implements Comparator<File> {
-	   
-	    public int compare(File file1, File file2){
-	    	String f1 = ((File)file1).getName();
-	    	String f2 = ((File)file2).getName();
-	    	int f1Length = f1.length();
-	    	int f2Length = f2.length();
-	    	boolean f1Dir = (((File)file1).isDirectory()) ? true: false;
-	    	boolean f2Dir = (((File)file2).isDirectory()) ? true: false;
-	    	int shortest = (f1Length > f2Length) ? f2Length : f1Length;
-	    	// one of the files is a directory
-	    	if (f1Dir && !f2Dir)
-	    		return -1;
-	    	if (f2Dir && !f1Dir)
-	    		return 1;
-	    	// sort alphabetically
-	    	for (int i = 0; i < shortest; i++) {
-	    		if (f1.charAt(i) > f2.charAt(i))
-	    			return 1;
-	    		else if (f1.charAt(i) < f2.charAt(i))
-	    			return -1;
-	    	}
-	    	if (f1Length > f2Length)
-	    		return 1;
-	    	else
-	    		return 0; 
-	    }
-	}
-
-	public void onClick(View v) {
-		final int pos = v.getId();
-		int row = pos;
-		if (pos >= 1000) {
-			row = pos - 1000;
-		}
-		Utils.logD("Table row: " + pos + " clicked");
-		
-		if (row < 2) {
-			getDir(path.get(row));
-		} else {
-			if (_files[row-2].isDirectory())
-			{
-				if(_files[row-2].canRead())
-					getDir(path.get(row));
-				else
-				{
-					new AlertDialog.Builder(this)
-					.setIcon(R.drawable.icon)
-					.setTitle("[" + _files[row-2].getName() + "] folder can't be read!")
-					.setPositiveButton("OK", 
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-						}
-					}).show();
-				}
-			} else {
-				new AlertDialog.Builder(this)
-				.setIcon(R.drawable.icon)
-				.setTitle("View [" + _files[row-2].getAbsolutePath() + "]")
-				.setPositiveButton("OK", 
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						Intent i = new Intent(context, DBViewer.class);
-						int row = pos;
-						if (pos >= 1000)
-							row = pos - 1000;
-						i.putExtra("db", ""+ _files[row-2].getAbsolutePath());
-						startActivity(i);
-					}
-				}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						//dialog.dismiss();
-					}
-				}) .show();
-			}
-		}
-		//getDir(path.get(pos));
-	}
-}
+    /**
+     * Make a view to hold each row.
+     * 
+     * @see android.widget.ListAdapter#getView(int, android.view.View,
+     *      android.view.ViewGroup)
+     */
+    public View getView(final int position, View convertView, ViewGroup parent) {
+      // A ViewHolder keeps references to children views to avoid
+      // unneccessary calls
+      // to findViewById() on each row.
+      ViewHolder holder;
+      // When convertView is not null, we can reuse it directly, there is
+      // no need
+      // to reinflate it. We only inflate a new View when the convertView
+      // supplied
+      // by ListView is null.
+      if (convertView == null) {
+        convertView = mInflater.inflate(R.layout.adaptor_content, null);
+        // Creates a ViewHolder and store references to the two children
+        // views
+        // we want to bind data to.
+        holder = new ViewHolder();
+        holder.textLine = (TextView) convertView.findViewById(R.id.textLine);
+        holder.iconLine = (ImageView) convertView.findViewById(R.id.iconLine);
+        holder.buttonLine = (Button) convertView.findViewById(R.id.buttonLine);
+        convertView.setOnClickListener(new OnClickListener() {
+          private int pos = position;
+          public void onClick(View v) {
+            Toast.makeText(context, "Click-" + String.valueOf(pos), Toast.LENGTH_SHORT).show();    
+          }
+        });
+        holder.buttonLine.setOnClickListener(new OnClickListener() {
+          private int pos = position;
+          public void onClick(View v) {
+            Toast.makeText(context, "Delete-" + String.valueOf(pos), Toast.LENGTH_SHORT).show();
+          }
+        });
+        convertView.setTag(holder);
+      } else {
+        // Get the ViewHolder back to get fast access to the TextView
+        // and the ImageView.
+        holder = (ViewHolder) convertView.getTag();
+      }
+      // Get flag name and id
+      String filename = "flag_" + String.valueOf(position);
+      int id = context.getResources().getIdentifier(filename, "drawable", "dk.andsen.sqlitemanager");
+         Utils.logD("Flag " + filename);
+      // Icons bound to the rows.
+      if (id != 0x0) {
+        mIcon1 = BitmapFactory.decodeResource(context.getResources(), id);
+      }
+      // Bind the data efficiently with the holder.
+      holder.iconLine.setImageBitmap(mIcon1);
+      holder.textLine.setText("flag " + String.valueOf(position));
+      return convertView;
+    }
+    static class ViewHolder {
+      TextView textLine;
+      ImageView iconLine;
+      Button buttonLine;
+    }
+    public Filter getFilter() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    public long getItemId(int position) {
+      // TODO Auto-generated method stub
+      return 0;
+    }
+    public int getCount() {
+      // TODO Auto-generated method stub
+      return data.length;
+    }
+    public Object getItem(int position) {
+      // TODO Auto-generated method stub
+      return data[position];
+    }
+  }
+} 
