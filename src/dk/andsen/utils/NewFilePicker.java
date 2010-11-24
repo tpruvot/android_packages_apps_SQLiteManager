@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,8 +26,9 @@ import dk.andsen.asqlitemanager.R;
 
 /**
  * @author andsen
- *
+ * 
  */
+//TODO Skal denne være baseret på ListView for at linier kan highlightes?
 public class NewFilePicker extends Activity implements OnClickListener {
 
 	private List<String> item = null;
@@ -110,8 +112,12 @@ public class NewFilePicker extends Activity implements OnClickListener {
 		for(int i=0; i < item.size(); i++)
 		{
 			TableRow row = new TableRow(this);
+			row.setBackgroundColor(R.drawable.textviewstates);
+
 			if (i%2 == 1)
 				row.setBackgroundColor(Color.DKGRAY);
+			row.setFocusable(true);
+			row.setFocusableInTouchMode(true);
 			ImageView iV = new ImageView(this);
 			TextView tV = new TextView(this);
 			if(dir.get(i))
@@ -121,9 +127,17 @@ public class NewFilePicker extends Activity implements OnClickListener {
 			iV.setPadding(3, 3, 3, 3);
 			iV.setId(2000+1);
 			tV.setText(item.get(i));
-			tV.setPadding(3, 3, 3, 3);
+			//tV.setBackgroundColor(R.drawable.textviewstates);
+			
+			//tV.setPadding(3, 3, 3, 3);
+
 			tV.setId(1000+i);
 			tV.setOnClickListener(this);
+			tV.setLayoutParams(new TableRow.LayoutParams(
+          TableRow.LayoutParams.FILL_PARENT,
+          TableRow.LayoutParams.WRAP_CONTENT
+      ));
+
 			row.addView(iV);
 			row.addView(tV);
 			row.setId(i);
