@@ -1,8 +1,10 @@
-package dk.andsen.asqlitemanager;
+package dk.andsen.utils;
 
 public class FileHolder {
   private String fileName;
   private boolean isDirectory;
+  private String filePath;
+  
 	public String getFileName() {
 		return fileName;
 	}
@@ -14,5 +16,11 @@ public class FileHolder {
 	}
 	public void setDirectory(boolean isDirectory) {
 		this.isDirectory = isDirectory;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

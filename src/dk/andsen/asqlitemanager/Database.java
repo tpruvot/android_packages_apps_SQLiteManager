@@ -196,19 +196,39 @@ public class Database {
 	 * @param table
 	 * @return a String[] with sql needed to create the table
 	 */
-	public String[] getSQL(String table) {
-		String [] res;
+	public String[][] getSQL(String table) {
 		testDB();
 		String sql = "select sql from sqlite_master where tbl_name = '" + table +"'";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int i = 0;
-		res = new String[cursor.getCount()];
+		String[][] res = new String[cursor.getCount()][1];
 		// Split SQL in lines
 		while(cursor.moveToNext()) {
-				res[i] = cursor.getString(0);
+				res[i][0] = cursor.getString(0);
 			i++;
 		}
 		cursor.close();
+		return res;
+	}
+
+	public String[] getTableStructureHeadings(String table) {
+		String[] ret = {"id", "name","type","notnull","dflt_value","pk"};
+		return ret;
+	}
+	public String[][] getTableStructure(String table) {
+		testDB();
+		String sql = "pragma table_info ("+table+")";
+		Cursor cursor = _db.rawQuery(sql, null);
+		int cols = cursor.getColumnCount();
+		int rows = cursor.getCount();
+		String[][] res = new String[rows][cols];
+		int i = 0;
+		while(cursor.moveToNext()) {
+			for (int k=0; k<cols; k++) {
+				res[i][k] = cursor.getString(k);
+			}
+			i++;
+		}
 		return res;
 	}
 

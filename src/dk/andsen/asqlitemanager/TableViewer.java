@@ -24,9 +24,9 @@ public class TableViewer extends Activity implements OnClickListener {
 	private ListView list;
 	private String _table;
 	Context _cont;
-	private String _type = "Fields";
+	//private String _type = "Fields";
 	private TableLayout _aTable;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,10 +49,11 @@ public class TableViewer extends Activity implements OnClickListener {
 			_db = new Database(_dbPath, _cont);
 			Utils.logD("Database open");
 			list = (ListView) findViewById(R.id.LVList);
-			buildList(_type);
+			onClick(bTab);
+			//buildList(_type);
 		}
 	}
-	
+
 	@Override
 	protected void onPause() {
 		_db.close();
@@ -64,51 +65,14 @@ public class TableViewer extends Activity implements OnClickListener {
 		_db = new Database(_dbPath, _cont);
 		super.onRestart();
 	}
-	
+
 	private void buildList(final String viewType) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String> map;
+		//HashMap<String, String> map;
 		// show the fields of the table
-		if (viewType.equals("Fields")) {
-			Field[] fields = _db.getFields(_table);
-			int recs = fields.length;
-			for (int i = 0; i < recs; i++) {
-				String notNull = " - null ";
-				if (fields[i].getNotNull() == 1)
-					notNull = " - not null ";
-				map = new HashMap<String, String>();
-				map.put("name", fields[i].getFieldName()
-						+ " - " + fields[i].getFieldType()
-						+ notNull
-						+ " - (pk) " + fields[i].getPk()
-						+ " - (def) " + fields[i].getDef());
-				mylist.add(map);
-			} 
-			SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
-					new String[] {"name"}, new int[] {R.id.rowtext});
-			list.setAdapter(mSchedule);
-		} else if (viewType.equals("Data")) {
-			SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
-					new String[] {"name"}, new int[] {R.id.rowtext});
-			list.setAdapter(mSchedule);			
-		} else if (viewType.equals("SQL")) {
-
-			// show the fields of the table
-				String[] sql = _db.getSQL(_table);
-				int recs = sql.length;
-				for (int i = 0; i < recs; i++) {
-					map = new HashMap<String, String>();
-					map.put("name", sql[i]);
-					mylist.add(map);
-				} 
-				SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
-						new String[] {"name"}, new int[] {R.id.rowtext});
-				list.setAdapter(mSchedule);
-			
-			
-			
-			
-		}
+		SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
+				new String[] {"name"}, new int[] {R.id.rowtext});
+		list.setAdapter(mSchedule);			
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
@@ -126,27 +90,32 @@ public class TableViewer extends Activity implements OnClickListener {
 		int key = v.getId();
 		_aTable=(TableLayout)findViewById(R.id.datagrid);
 		if (key == R.id.Fields) {
-			_aTable.removeAllViews();
-			_type = "Fields";
-			buildList(_type);
+			buildList("Data");
+			String[] fieldNames = _db.getTableStructureHeadings(_table);
+			setTitles(_aTable, fieldNames);
+			String [][] data = _db.getTableStructure(_table);
+			appendRows(_aTable, data);
 		} else if (key == R.id.Data) {
 			//list.
-			_type = "Data";
-			buildList(_type); // clears the list
+			buildList("Data"); // clears the list
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getTableData(_table);
 			appendRows(_aTable, data);
-
 			//buildList(_type);
-//			Intent i = new Intent(this, DataGrid.class);
-//			i.putExtra("db", _dbPath);
-//			i.putExtra("Table", _table);
-//			startActivity(i);
+			//			Intent i = new Intent(this, DataGrid.class);
+			//			i.putExtra("db", _dbPath);
+			//			i.putExtra("Table", _table);
+			//			startActivity(i);
 		} else if (key == R.id.SQL) {
-			_aTable.removeAllViews();
-			_type = "SQL";
-			buildList(_type);
+			buildList("Data");
+			String [] fieldNames = {"SQL"};
+			setTitles(_aTable, fieldNames);
+			String [][] data = _db.getSQL(_table);
+			appendRows(_aTable, data);
+
+
+
 		}
 	}
 	private void appendRows(TableLayout table, String[][] data) {
@@ -160,11 +129,11 @@ public class TableViewer extends Activity implements OnClickListener {
 				TextView c = new TextView(this);
 				c.setText(data[i][j]);
 				c.setPadding(3, 3, 3, 3);
-//				if (j%2 == 1)
-//					if (i%2 == 1)
-//						c.setBackgroundColor(Color.BLUE);
-//					else
-//						c.setBackgroundColor(Color.BLUE & Color.GRAY);
+				//				if (j%2 == 1)
+				//					if (i%2 == 1)
+				//						c.setBackgroundColor(Color.BLUE);
+				//					else
+				//						c.setBackgroundColor(Color.BLUE & Color.GRAY);
 				row.addView(c);
 			}
 			table.addView(row, new TableLayout.LayoutParams());
@@ -177,10 +146,10 @@ public class TableViewer extends Activity implements OnClickListener {
 		TableRow row = new TableRow(this);
 		row.setBackgroundColor(Color.BLUE);
 		for(int i=0; i<rowSize; i++){
-				TextView c = new TextView(this);
-				c.setText(amortization[i]);
-				c.setPadding(3, 3, 3, 3);
-				row.addView(c);
+			TextView c = new TextView(this);
+			c.setText(amortization[i]);
+			c.setPadding(3, 3, 3, 3);
+			row.addView(c);
 		}
 		table.addView(row, new TableLayout.LayoutParams());
 	}

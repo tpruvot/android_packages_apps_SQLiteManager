@@ -30,7 +30,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         Button about = (Button) this.findViewById(R.id.About);
         about.setOnClickListener(this);
         Button test = (Button) this.findViewById(R.id.Test);
-        test.setOnClickListener(this);
+        //test.setOnClickListener(this);
+        test.setVisibility(4); //0 = visib. 1 = invis, 2 = gone
         Utils.logD("Created");
     }
 
