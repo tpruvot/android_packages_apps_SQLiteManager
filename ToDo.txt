@@ -1,7 +1,10 @@
 ToDo
-	Make a proper grid viewer
+	Better horizontal scrolling
+	Tab view
+	Paging large data sets
+	Configuration
+		Number of records to display
+	Create new database
 	
-Stuff to try:
-  button.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
-  button.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFFAA0000));
-	
+	Query mode
+		Query builder

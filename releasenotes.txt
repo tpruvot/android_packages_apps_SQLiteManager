@@ -1,13 +1,15 @@
 Next version
+
+Working on:
+  File picker
+  Layout
+  
+Version 0.50
   Display view data
   Display create script for tables and views
   Enhanced file picker (sorted list - directories before files and icons)
   Two way scrolling data grid
   Can be moved to SDCard
-
-Working on:
-  Enhancing data grid layout
-  Table structure in grid layout
   
 Later:
   See triggers
