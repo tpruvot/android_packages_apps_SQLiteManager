@@ -8,4 +8,14 @@
     <string name="MAIL">Comments welcome on: \nandroid41cv@gmail.com</string>
     <string name="OpdenDB">Open Database</string>
     <string name="About">About</string>
+    <string name="Location">Location</string>
+    <string name="View">View</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="DBTables">Tables</string>
+    <string name="DBViews">Views</string>
+    <string name="DBIndex">Index</string>
+    <string name="DBField">Field</string>
+    <string name="DBData">Data</string>
+    <string name="DBSQL">SQL</string>
 </resources>
