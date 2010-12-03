@@ -54,8 +54,8 @@ public class FilePicker extends ListActivity {
 			// No SDCard
 			new AlertDialog.Builder(this)
 			.setIcon(R.drawable.icon)
-			.setTitle("No SDCard available")
-			.setPositiveButton("OK", 
+			.setTitle(getText(R.string.NoSDCard))
+			.setPositiveButton(R.string.OK, 
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 				}
@@ -65,7 +65,7 @@ public class FilePicker extends ListActivity {
 
 	private void getDir(String dirPath)
 	{
-		myPath.setText("Location: " + dirPath);
+		myPath.setText(getText(R.string.Path)+ " " + dirPath);
 		item = new ArrayList<String>();
 		path = new ArrayList<String>();
 		File f = new File(dirPath);
@@ -104,7 +104,7 @@ public class FilePicker extends ListActivity {
 			{
 				new AlertDialog.Builder(this)
 				.setIcon(R.drawable.icon)
-				.setTitle("[" + file.getName() + "] folder can't be read!")
+				.setTitle("[" + file.getName() + "] " + getText(R.string.ReadOnlyFolder))
 				.setPositiveButton("OK", 
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
@@ -114,7 +114,7 @@ public class FilePicker extends ListActivity {
 		} else {
 			new AlertDialog.Builder(this)
 			.setIcon(R.drawable.icon)
-			.setTitle("View [" + file.getAbsolutePath() + "]")
+			.setTitle(getText(R.string.View) + " [" + file.getAbsolutePath() + "]")
 			.setPositiveButton("OK", 
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
@@ -122,7 +122,7 @@ public class FilePicker extends ListActivity {
 					i.putExtra("db", ""+ file.getAbsolutePath());
 					startActivity(i);
 				}
-			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+			}).setNegativeButton(getText(R.string.No), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					//dialog.dismiss();
 				}

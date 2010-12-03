@@ -45,7 +45,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			_dbPath = extras.getString("db");
 			Utils.logD("Opening database");
 			_table = extras.getString("Table");
-			tvDB.setText("Table: " + _table);
+			tvDB.setText(getString(R.string.DBTable) + " " + _table);
 			_db = new Database(_dbPath, _cont);
 			Utils.logD("Database open");
 			list = (ListView) findViewById(R.id.LVList);

@@ -14,8 +14,16 @@
     <string name="No">No</string>
     <string name="DBTables">Tables</string>
     <string name="DBViews">Views</string>
+    <string name="DBIndexs">Index</string>
+    <string name="DBTable">Table</string>
+    <string name="DBView">View</string>
     <string name="DBIndex">Index</string>
     <string name="DBField">Field</string>
     <string name="DBData">Data</string>
     <string name="DBSQL">SQL</string>
+    <string name="OpenDatabase">Open database</string>
+    <string name="NoSDCard">No SDCard available</string>
+    <string name="OK">OK</string>
+    <string name="Path">Path:</string>
+    <string name="ReadOnlyFolder">folder can\'t be read!</string>
 </resources>
