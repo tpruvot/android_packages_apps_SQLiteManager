@@ -232,4 +232,29 @@ public class Database {
 		return res;
 	}
 
+	public String[] getSQLQuery(String sql) {
+		testDB();
+		String[] tables = {"No result"};
+		try {
+			Cursor res = _db.rawQuery(sql, null);
+			int recs = res.getCount();
+			tables = new String[recs];
+			int i = 0;
+			Utils.logD("Views: " + recs);
+			while(res.moveToNext()) {
+				for(int j = 0; j < res.getColumnCount(); j++) {
+					if (j == 0)
+						tables[i] = res.getString(j);
+					else 
+						tables[i] += ", " + res.getString(j);
+				}
+				i++;
+			}
+			res.close();
+		} catch (Exception e) {
+			tables = new String [] {"Error: " + e.toString()};
+		}
+		return tables;
+	}
+
 }

@@ -18,21 +18,47 @@
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Tables"
+    android:text="@string/DBTables"
     android:id="@+id/Tables"
   />
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Views"
+    android:text="@string/DBViews"
     android:id="@+id/Views"
   />
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Index"
+    android:text="@string/DBIndexs"
     android:id="@+id/Index"
   />
+  <Button
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="@string/DBQuery"
+    android:id="@+id/Query"
+  />
+  </LinearLayout>
+  <LinearLayout
+    android:id="@+id/QueryFrame"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+    <EditText
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      android:text="@string/SQLStm"
+      android:id="@+id/SQLStm"
+      />
+    <Button
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      android:text="@string/Run"
+      android:id="@+id/Run"
+      android:gravity="right"
+      />
   </LinearLayout>
   <ListView android:id="@+id/LVList"
     android:layout_width="fill_parent"

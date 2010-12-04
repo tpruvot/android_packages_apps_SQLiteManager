@@ -20,6 +20,12 @@ import android.widget.TextView;
  *
  */
 public class aSQLiteManager extends Activity implements OnClickListener {
+	
+	/**
+	 * True to enable functions under test
+	 */
+	private final boolean testing = true;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,11 +36,18 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         Button about = (Button) this.findViewById(R.id.About);
         about.setOnClickListener(this);
         Button test = (Button) this.findViewById(R.id.Test);
-        //test.setOnClickListener(this);
-        test.setVisibility(4); //0 = visib. 1 = invis, 2 = gone
+        TextView tv = (TextView) this.findViewById(R.id.Version);
+        tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
+        if (!testing) {
+          test.setOnClickListener(this);
+        	test.setVisibility(4);
+        }
         Utils.logD("Created");
     }
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		public void onClick(View v) {
 			int key = v.getId();
 			if (key == R.id.Open) {

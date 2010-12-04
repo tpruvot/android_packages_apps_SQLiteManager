@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -22,6 +24,9 @@ public class DBViewer extends Activity implements OnClickListener {
 	private String[] tables;
 	private String[] views;
 	private ListView list;
+	private LinearLayout query;
+	private EditText tvQ;
+	private Button btR;
 	private String[] toList;
 	Context _cont;
 	
@@ -33,15 +38,26 @@ public class DBViewer extends Activity implements OnClickListener {
 		Button bTab = (Button) this.findViewById(R.id.Tables);
 		Button bVie = (Button) this.findViewById(R.id.Views);
 		Button bInd = (Button) this.findViewById(R.id.Index);
+		Button bQue = (Button) this.findViewById(R.id.Query);
+		query = (LinearLayout) this.findViewById(R.id.QueryFrame);
+		tvQ = (EditText) this.findViewById(R.id.SQLStm);
+		btR = (Button) this.findViewById(R.id.Run);
+		btR.setOnClickListener(this);
+		// Hide query panel
+		tvQ.setVisibility(View.GONE);
+		btR.setVisibility(View.GONE);
+		query.setVisibility(View.GONE);
+
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
 		bInd.setOnClickListener(this);
+		bQue.setOnClickListener(this);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
 			_cont = tvDB.getContext();
 			_dbPath = extras.getString("db");
-			tvDB.setText("Viewing database: " + _dbPath);
+			tvDB.setText(getText(R.string.Database) + ": " + _dbPath);
 			Utils.logD("Opening database");
 			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
@@ -79,7 +95,9 @@ public class DBViewer extends Activity implements OnClickListener {
 	private void buildList(final String type) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
-		if (type.equals("Index"))
+		if (type.equals("SQL"))
+			toList = _db.getSQLQuery(tvQ.getText().toString());
+		else if (type.equals("Index"))
 			toList = _db.getIndex();
 		else if (type.equals("Views")) 
 			toList = _db.getViews();
@@ -114,12 +132,14 @@ public class DBViewer extends Activity implements OnClickListener {
 			Intent i = new Intent(this, TableViewer.class);
 			i.putExtra("db", _dbPath);
 			i.putExtra("Table", name);
+			i.putExtra("type", Types.VIEW);
 			startActivity(i);
 		}
 		else if (type.equals("Tables")){
 			Intent i = new Intent(this, TableViewer.class);
 			i.putExtra("db", _dbPath);
 			i.putExtra("Table", name);
+			i.putExtra("type", Types.TABLE);
 			startActivity(i);
 		}
 	}
@@ -127,11 +147,26 @@ public class DBViewer extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int key = v.getId();
 		if (key == R.id.Tables) {
+			tvQ.setVisibility(View.GONE);
+			btR.setVisibility(View.GONE);
+			query.setVisibility(View.GONE);
 			buildList("Tables");
 		} else if (key == R.id.Views) {
+			tvQ.setVisibility(View.GONE);
+			btR.setVisibility(View.GONE);
+			query.setVisibility(View.GONE);
 			buildList("Views");
 		} else if (key == R.id.Index) {
+			tvQ.setVisibility(View.GONE);
+			btR.setVisibility(View.GONE);
+			query.setVisibility(View.GONE);
 			buildList("Index");
+		} else if (key == R.id.Run || key == R.id.Query) {
+			tvQ.setVisibility(View.VISIBLE);
+			btR.setVisibility(View.VISIBLE);
+			query.setVisibility(View.VISIBLE);
+			buildList("SQL");
+			//query.setL
 		}
 	}
 }

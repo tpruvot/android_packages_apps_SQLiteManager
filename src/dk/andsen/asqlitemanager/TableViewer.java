@@ -42,10 +42,14 @@ public class TableViewer extends Activity implements OnClickListener {
 		if(extras !=null)
 		{
 			_cont = tvDB.getContext();
+			int sourceType = extras.getInt("type");
 			_dbPath = extras.getString("db");
 			Utils.logD("Opening database");
 			_table = extras.getString("Table");
-			tvDB.setText(getString(R.string.DBTable) + " " + _table);
+			if (sourceType == Types.TABLE)
+				tvDB.setText(getString(R.string.DBTable) + " " + _table);
+			else if (sourceType == Types.VIEW)
+				tvDB.setText(getString(R.string.DBView) + " " + _table);
 			_db = new Database(_dbPath, _cont);
 			Utils.logD("Database open");
 			list = (ListView) findViewById(R.id.LVList);
@@ -113,9 +117,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getSQL(_table);
 			appendRows(_aTable, data);
-
-
-
 		}
 	}
 	private void appendRows(TableLayout table, String[][] data) {
