@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="Version">Version</string>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Om aSQLiteManager</string>
@@ -8,4 +9,26 @@
     <string name="MAIL">Kommentarer velkomne på: \nandroid41cv@gmail.com</string>
     <string name="OpdenDB">Åbn Database</string>
     <string name="About">Om</string>
+    <string name="Location">Sti</string>
+    <string name="View">Se</string>
+    <string name="Yes">Ja</string>
+    <string name="No">Nej</string>
+    <string name="DBTables">Tabeller</string>
+    <string name="DBViews">Views</string>
+    <string name="DBIndexs">Index</string>
+    <string name="DBTable">Tabel</string>
+    <string name="DBView">View</string>
+    <string name="DBIndex">Index</string>
+    <string name="DBField">Felt</string>
+    <string name="DBData">Data</string>
+    <string name="DBSQL">SQL</string>
+    <string name="OpenDatabase">Åbn database</string>
+    <string name="NoSDCard">Intet SDCard</string>
+    <string name="OK">OK</string>
+    <string name="Path">Sti:</string>
+    <string name="ReadOnlyFolder">mappen kan ikke læses!</string>
+    <string name="Database">Database</string>
+    <string name="DBQuery">Query</string>
+    <string name="Run">Kør</string>
+    <string name="SQLStm">select * from </string>
 </resources>

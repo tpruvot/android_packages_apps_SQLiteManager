@@ -45,20 +45,19 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    >
+    android:gravity="right">
     <EditText
-      android:layout_width="wrap_content" 
       android:layout_height="wrap_content" 
       android:text="@string/SQLStm"
       android:id="@+id/SQLStm"
-      />
+      android:layout_width="wrap_content"/>
     <Button
       android:layout_width="wrap_content" 
       android:layout_height="wrap_content" 
       android:text="@string/Run"
       android:id="@+id/Run"
       android:gravity="right"
-      />
+      android:layout_gravity="right"/>
   </LinearLayout>
   <ListView android:id="@+id/LVList"
     android:layout_width="fill_parent"

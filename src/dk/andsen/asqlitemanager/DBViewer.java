@@ -147,26 +147,29 @@ public class DBViewer extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int key = v.getId();
 		if (key == R.id.Tables) {
-			tvQ.setVisibility(View.GONE);
-			btR.setVisibility(View.GONE);
-			query.setVisibility(View.GONE);
+			setDisplay("List");
 			buildList("Tables");
 		} else if (key == R.id.Views) {
-			tvQ.setVisibility(View.GONE);
-			btR.setVisibility(View.GONE);
-			query.setVisibility(View.GONE);
+			setDisplay("List");
 			buildList("Views");
 		} else if (key == R.id.Index) {
-			tvQ.setVisibility(View.GONE);
-			btR.setVisibility(View.GONE);
-			query.setVisibility(View.GONE);
+			setDisplay("List");
 			buildList("Index");
 		} else if (key == R.id.Run || key == R.id.Query) {
+			setDisplay("Query");
+			buildList("SQL");
+		}
+	}
+	
+	private void setDisplay(String type) {
+		if (type.equals("Query")) {
 			tvQ.setVisibility(View.VISIBLE);
 			btR.setVisibility(View.VISIBLE);
 			query.setVisibility(View.VISIBLE);
-			buildList("SQL");
-			//query.setL
+		} else {
+			tvQ.setVisibility(View.GONE);
+			btR.setVisibility(View.GONE);
+			query.setVisibility(View.GONE);
 		}
 	}
 }

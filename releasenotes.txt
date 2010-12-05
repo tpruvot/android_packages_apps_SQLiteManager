@@ -1,8 +1,14 @@
 Next version
 
 Working on:
-  File picker
+  Query result in data grid
+  SQL builder
+  File picker with icons on directories and files
   Layout
+
+Version 0.6
+  Simple execution of SQL and display of result (for the time being as comma
+  separated lines in list)
   
 Version 0.50
   Display view data

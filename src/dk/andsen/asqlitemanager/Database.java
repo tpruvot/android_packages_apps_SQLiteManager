@@ -135,6 +135,11 @@ public class Database {
 		return fields;
 	}
 
+	/** 
+	 * Return a String list with all field names of the table
+	 * @param table
+	 * @return
+	 */
 	public String[] getFieldsNames(String table) {
 		testDB();
 		String sql = "select * from " + table + " limit 1";
@@ -151,8 +156,6 @@ public class Database {
 		res.close();
 		return fields;
 	}
-
-	
 	
 	/**
 	 * Retrieve the number of columns in a table
@@ -211,10 +214,20 @@ public class Database {
 		return res;
 	}
 
+	/**
+	 * Return the headings for a tables structure
+	 * @param table
+	 * @return
+	 */
 	public String[] getTableStructureHeadings(String table) {
 		String[] ret = {"id", "name","type","notnull","dflt_value","pk"};
 		return ret;
 	}
+	/**
+	 * Return table structure i two dimentional string list
+	 * @param table
+	 * @return
+	 */
 	public String[][] getTableStructure(String table) {
 		testDB();
 		String sql = "pragma table_info ("+table+")";
@@ -232,6 +245,11 @@ public class Database {
 		return res;
 	}
 
+	/**
+	 * Return the result of the query as a comma separated test in String list
+	 * @param sql
+	 * @return
+	 */
 	public String[] getSQLQuery(String sql) {
 		testDB();
 		String[] tables = {"No result"};

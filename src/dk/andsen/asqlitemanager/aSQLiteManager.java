@@ -24,7 +24,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	/**
 	 * True to enable functions under test
 	 */
-	private final boolean testing = true;
+	private final boolean testing = false;
 	
     /** Called when the activity is first created. */
     @Override
@@ -39,8 +39,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         TextView tv = (TextView) this.findViewById(R.id.Version);
         tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
         if (!testing) {
-          test.setOnClickListener(this);
         	test.setVisibility(4);
+        } else {
+        	test.setOnClickListener(this);
         }
         Utils.logD("Created");
     }
