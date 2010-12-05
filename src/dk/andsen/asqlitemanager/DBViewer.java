@@ -281,7 +281,7 @@ public class DBViewer extends Activity implements OnClickListener {
 					sql += listOfTables[i] + ", ";
 				}
 			}
-			return null;
+			return sql;
 		}
 	}
 
