@@ -3,9 +3,14 @@ package dk.andsen.asqlitemanager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -19,6 +24,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.utils.Utils;
 
 public class DBViewer extends Activity implements OnClickListener {
+	private static final int MENU_TABLES = 0;
+	private static final int MENU_FIELDS = 1;
 	private String _dbPath;
 	private Database _db = null;
 	private String[] tables;
@@ -28,7 +35,12 @@ public class DBViewer extends Activity implements OnClickListener {
 	private EditText tvQ;
 	private Button btR;
 	private String[] toList;
-	Context _cont;
+	private Context _cont;
+	private boolean[] listOfTables_selected;
+	private String[] listOfTables;
+	private boolean[] listOfFields_selected;
+	private String[] listOfFields;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -172,4 +184,105 @@ public class DBViewer extends Activity implements OnClickListener {
 			query.setVisibility(View.GONE);
 		}
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_TABLES, 0, R.string.DBTables);
+		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
+		//menu.add(0, MENU_LOAD, 0, R.string.Load).setIcon(R.drawable.ic_menu_load);
+		//menu.add(0, MENU_OPT, 0, R.string.Option).setIcon(R.drawable.ic_menu_preferences);
+		//menu.add(0, MENU_PRGS, 0, R.string.Progs).setIcon(R.drawable.ic_menu_compose);
+		//menu.add(0, MENU_RESET, 0, R.string.Reset).setIcon(R.drawable.ic_menu_close_clear_cancel);
+		return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_TABLES:
+			showDialog( 0 );
+			break;
+		case MENU_FIELDS:
+			showDialog( 1 );
+			break;
+			
+		}
+		return false;
+	}
+		
+	@Override
+	protected Dialog onCreateDialog( int id ) 
+	{
+		CharSequence[] posts = null;
+		boolean[] post_selected = null;
+		String title = "";
+		switch (id) {
+		case 0:
+			title = getText(R.string.DBTables).toString();
+			listOfTables = _db.getTables();
+			listOfTables_selected = new boolean[listOfTables.length];
+			posts = listOfTables; 
+			post_selected = listOfTables_selected;
+			
+			break;
+		case 1:
+			title = getText(R.string.DBViews).toString();
+			//count selected tables
+			int selTables = 0;
+			for (boolean sel: listOfTables_selected) {
+				if (sel)
+				  selTables++;
+			}
+			String[] tables = new String[selTables];
+			selTables = 0;
+			for (int i = 0; i < listOfTables.length; i++) {
+				if (listOfTables_selected[i]) {
+					tables[selTables] = listOfTables[i];
+				  selTables++;
+				}
+			}
+			listOfFields = _db.getTablesFieldsNames(tables);
+			listOfFields_selected = new boolean[listOfFields.length];
+			posts = listOfFields; 
+			post_selected = listOfFields_selected;
+			break;
+		}
+		return 
+		new AlertDialog.Builder( this )
+		.setTitle(title)
+		.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
+		.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
+		.create();
+	}
+	
+	public class DialogSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener {
+		public void onClick( DialogInterface dialog, int clicked, boolean selected )
+		{
+			//Log.d( "aWine", _grapes[ clicked ] + " selected: " + selected );
+		}
+	}
+	
+	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
+		public void onClick( DialogInterface dialog, int clicked )
+		{
+			switch( clicked )
+			{
+			case DialogInterface.BUTTON_POSITIVE:
+				String sql = buildSQL();
+				tvQ.setText(sql);
+				//printSelectedGrapes();
+				break;
+			}
+		}
+
+		private String buildSQL() {
+			String sql = "select * from ";
+			for (int i = 0; i < listOfTables.length; i++) {
+				if (listOfTables_selected[i]) {
+					sql += listOfTables[i] + ", ";
+				}
+			}
+			return null;
+		}
+	}
+
 }

@@ -1,5 +1,7 @@
 package dk.andsen.asqlitemanager;
 
+import java.util.ArrayList;
+import java.util.List;
 import dk.andsen.utils.Utils;
 import android.content.Context;
 import android.database.Cursor;
@@ -142,8 +144,7 @@ public class Database {
 	 */
 	public String[] getFieldsNames(String table) {
 		testDB();
-		String sql = "select * from " + table + " limit 1";
-		sql = "pragma table_info(" + table + ")";
+		String sql = "pragma table_info(" + table + ")";
 		Cursor res = _db.rawQuery(sql, null);
 		int cols = res.getCount();
 		String[] fields = new String[cols];
@@ -273,6 +274,33 @@ public class Database {
 			tables = new String [] {"Error: " + e.toString()};
 		}
 		return tables;
+	}
+
+	public String[] getTablesFieldsNames(String[] tables) {
+		testDB();
+		Cursor res;
+		List<String> tList = new ArrayList<String>();
+		int i = 0;
+		for (int j = 0; j < tables.length; j++) {
+			String sql = "pragma table_info(" + tables[j] + ")";
+			Utils.logD("getTablesFieldsNames: " + sql);
+			res = _db.rawQuery(sql, null);
+			i = 0;
+			// getting field names
+			while(res.moveToNext()) {
+				tList.add(res.getString(1));
+				//fields[i] = res.getString(1);
+				i++;
+			}
+			res.close();
+		}
+		String[] fieldList = new String[tList.size()];
+		i = 0;
+		for (String str: tList) {
+			fieldList[i] = str;
+			i++;
+		}
+		return fieldList;
 	}
 
 }

@@ -53,6 +53,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			int key = v.getId();
 			if (key == R.id.Open) {
 				Intent i = new Intent(this, FilePicker.class);
+				//startActivityForResult(intent, requestCode)
+				// onActivityResult() 
 				startActivity(i);
 			} else if (key == R.id.About) {
 				Context mContext = this;
