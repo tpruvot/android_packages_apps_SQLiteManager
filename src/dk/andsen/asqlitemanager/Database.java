@@ -288,7 +288,7 @@ public class Database {
 			i = 0;
 			// getting field names
 			while(res.moveToNext()) {
-				tList.add(res.getString(1));
+				tList.add(tables[j] + "." + res.getString(1));
 				//fields[i] = res.getString(1);
 				i++;
 			}

@@ -59,7 +59,6 @@ public class DBViewer extends Activity implements OnClickListener {
 		tvQ.setVisibility(View.GONE);
 		btR.setVisibility(View.GONE);
 		query.setVisibility(View.GONE);
-
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
 		bInd.setOnClickListener(this);
@@ -103,7 +102,9 @@ public class DBViewer extends Activity implements OnClickListener {
 		super.onRestart();
 	}
 
-	
+	/**
+	 * @param type
+	 */
 	private void buildList(final String type) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
@@ -133,6 +134,10 @@ public class DBViewer extends Activity implements OnClickListener {
 		});
 	}
 
+	/**
+	 * @param type
+	 * @param position
+	 */
 	protected void selectRecord(String type, int position) {
 		String name;
 		name = toList[position];
@@ -173,6 +178,10 @@ public class DBViewer extends Activity implements OnClickListener {
 		}
 	}
 	
+	/**
+	 * Toggle display mode
+	 * @param type
+	 */
 	private void setDisplay(String type) {
 		if (type.equals("Query")) {
 			tvQ.setVisibility(View.VISIBLE);
@@ -240,7 +249,7 @@ public class DBViewer extends Activity implements OnClickListener {
 				  selTables++;
 				}
 			}
-			listOfFields = _db.getTablesFieldsNames(tables);
+			listOfFields = _db.getTablesFieldsNames(listOfTables);
 			listOfFields_selected = new boolean[listOfFields.length];
 			posts = listOfFields; 
 			post_selected = listOfFields_selected;
@@ -273,13 +282,28 @@ public class DBViewer extends Activity implements OnClickListener {
 				break;
 			}
 		}
-
+		int i = 0;
 		private String buildSQL() {
-			String sql = "select * from ";
-			for (int i = 0; i < listOfTables.length; i++) {
-				if (listOfTables_selected[i]) {
-					sql += listOfTables[i] + ", ";
+			String sql = "";
+			if (listOfFields == null)
+				sql = "select * \nfrom ";
+			else {
+				sql = "select ";
+				for (i= 0; i < listOfFields.length; i++) {
+					if (listOfFields_selected[i]) {
+							sql += listOfFields[i]+ ", ";
+					}
 				}
+				sql = sql.substring(0, sql.length() - 2);
+				sql += "\nfrom ";
+			}
+			if (listOfTables != null) {
+				for (i = 0; i < listOfTables.length; i++) {
+					if (listOfTables_selected[i]) {
+						sql += listOfTables[i] + ", ";
+					}
+				}
+				sql = sql.substring(0, sql.length() - 2);
 			}
 			return sql;
 		}

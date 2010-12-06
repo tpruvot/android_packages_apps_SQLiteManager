@@ -1,5 +1,7 @@
 Next version
-
+  A simple SQL builder where tables and fields from the "select fields from tables"
+  part can be selected from a list
+  
 Working on:
   Query result in data grid
   SQL builder
