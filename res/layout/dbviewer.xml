@@ -51,7 +51,6 @@
       android:layout_height="wrap_content" 
       android:text="@string/Run"
       android:id="@+id/Run"
-      android:gravity="right"
       android:layout_gravity="right"
       android:minWidth="30px"/>
     <EditText
