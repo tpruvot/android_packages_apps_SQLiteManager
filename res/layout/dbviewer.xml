@@ -39,6 +39,7 @@
     android:text="@string/DBQuery"
     android:id="@+id/Query"
   />
+  
   </LinearLayout>
   <LinearLayout
     android:id="@+id/QueryFrame"

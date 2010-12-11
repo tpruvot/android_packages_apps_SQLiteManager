@@ -26,6 +26,8 @@ public class TableViewer extends Activity implements OnClickListener {
 	Context _cont;
 	//private String _type = "Fields";
 	private TableLayout _aTable;
+	private int offset = 0;
+	private int limit = 15;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,11 @@ public class TableViewer extends Activity implements OnClickListener {
 		Button bTab = (Button) this.findViewById(R.id.Fields);
 		Button bVie = (Button) this.findViewById(R.id.Data);
 		Button sVie = (Button) this.findViewById(R.id.SQL);
+		Button bUp = (Button) this.findViewById(R.id.PgUp);
+		Button bDwn = (Button) this.findViewById(R.id.PgDwn);
+		bUp.setOnClickListener(this);
+		bDwn.setOnClickListener(this);
+
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
 		sVie.setOnClickListener(this);
@@ -94,6 +101,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		int key = v.getId();
 		_aTable=(TableLayout)findViewById(R.id.datagrid);
 		if (key == R.id.Fields) {
+			offset = 0;
 			buildList("Data");
 			String[] fieldNames = _db.getTableStructureHeadings(_table);
 			setTitles(_aTable, fieldNames);
@@ -104,7 +112,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			buildList("Data"); // clears the list
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames);
-			String [][] data = _db.getTableData(_table);
+			String [][] data = _db.getTableData(_table, offset, limit);
 			appendRows(_aTable, data);
 			//buildList(_type);
 			//			Intent i = new Intent(this, DataGrid.class);
@@ -117,7 +125,29 @@ public class TableViewer extends Activity implements OnClickListener {
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getSQL(_table);
 			appendRows(_aTable, data);
+		} else if (key == R.id.PgDwn) {
+			// TODO kun hvis der vises pster
+			{
+				offset += limit;
+				buildList("Data"); // clears the list
+				String [] fieldNames = _db.getFieldsNames(_table);
+				setTitles(_aTable, fieldNames);
+				String [][] data = _db.getTableData(_table, offset, limit);
+				appendRows(_aTable, data);
+			}
+			Utils.logD("PgDwn:" + offset);
+		} else if (key == R.id.PgUp) {
+			offset -= limit;
+			if (offset < 0)
+				offset = 0;
+			buildList("Data"); // clears the list
+			String [] fieldNames = _db.getFieldsNames(_table);
+			setTitles(_aTable, fieldNames);
+			String [][] data = _db.getTableData(_table, offset, limit);
+			appendRows(_aTable, data);
+			Utils.logD("PgUp: " + offset);
 		}
+		
 	}
 	private void appendRows(TableLayout table, String[][] data) {
 		int rowSize=data.length;

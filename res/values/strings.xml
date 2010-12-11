@@ -33,4 +33,6 @@
     <string name="Run">Run</string>
     <string name="SQLStm">select * from </string>
     <string name="DBFields">Fields</string>
+    <string name="PgUp">PgUp</string>
+    <string name="PgDwn">PgDwn</string>
 </resources>

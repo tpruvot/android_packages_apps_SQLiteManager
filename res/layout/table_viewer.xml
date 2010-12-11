@@ -33,6 +33,19 @@
     android:text="SQL"
     android:id="@+id/SQL"
   />
+    <Button
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="@string/PgUp"
+    android:id="@+id/PgUp"
+  />
+  <Button
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="@string/PgDwn"
+    android:id="@+id/PgDwn"
+  />
+  
   </LinearLayout>
   <ListView android:id="@+id/LVList"
     android:layout_width="fill_parent"

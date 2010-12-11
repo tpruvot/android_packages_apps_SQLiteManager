@@ -32,7 +32,7 @@ public class DataGrid extends Activity  {
 			Utils.logD("Database open");
 			String [] fieldNames = _db.getFieldsNames(_table);
 			appendTitles(aTable, fieldNames);
-			String [][] data = _db.getTableData(_table);
+			String [][] data = _db.getTableData(_table, 0, 20);
 			appendRows(aTable, data);
 		}		
 	}

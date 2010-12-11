@@ -177,9 +177,10 @@ public class Database {
 	 * @param table
 	 * @return
 	 */
-	public String[][] getTableData(String table) {
+	public String[][] getTableData(String table, int offset, int limit) {
 		testDB();
-		String sql = "select * from " + table;
+		String sql = "select * from " + table + " limit " + limit + " offset " + offset;
+		Utils.logD("SQL = " + sql);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
 		int rows = cursor.getCount();
