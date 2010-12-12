@@ -40,9 +40,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	private String[] listOfTables;
 	private boolean[] listOfFields_selected;
 	private String[] listOfFields;
-	private int offset = 0;
-	private int limit = 20;
-
+//	private int offset = 0;
+//	private int limit = 20;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
