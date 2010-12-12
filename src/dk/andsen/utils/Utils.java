@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 /**
  * Part of a41cv
@@ -44,6 +46,12 @@ public class Utils {
 			}
 		});
 		alertDialog.show();
+	}
+
+	public static void toastMsg(Context context, String msg) {
+      Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT) ;
+      toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+      toast.show();
 	}
 
 }

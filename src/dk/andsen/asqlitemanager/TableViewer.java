@@ -39,6 +39,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		bDwn.setOnClickListener(this);
 		bUp.setVisibility(View.GONE);
 		bDwn.setVisibility(View.GONE);
+		_cont = this;
 		
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
@@ -169,12 +170,14 @@ public class TableViewer extends Activity implements OnClickListener {
 				//					else
 				//						c.setBackgroundColor(Color.BLUE & Color.GRAY);
 				c.setOnClickListener(new OnClickListener() {
-				   public void onClick(View v) {
+
+					public void onClick(View v) {
 				      // button 1 was clicked!
 				  	 Utils.logD("OnClick: " + v.getId());
 				  	 String text = (String)((TextView)v).getText();
 				  	 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				  	 clipboard.setText(text);
+				  	 Utils.toastMsg(_cont, "Text copied to clip board");
 				   }
 				  });
 				row.addView(c);
