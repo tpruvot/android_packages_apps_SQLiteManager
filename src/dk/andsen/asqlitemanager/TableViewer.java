@@ -1,33 +1,29 @@
 package dk.andsen.asqlitemanager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.utils.Utils;
 
 public class TableViewer extends Activity implements OnClickListener {
 	private String _dbPath;
 	private Database _db = null;
-	private ListView list;
 	private String _table;
 	Context _cont;
 	//private String _type = "Fields";
 	private TableLayout _aTable;
 	private int offset = 0;
 	private int limit = 15;
+	Button bUp;
+	Button bDwn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +33,13 @@ public class TableViewer extends Activity implements OnClickListener {
 		Button bTab = (Button) this.findViewById(R.id.Fields);
 		Button bVie = (Button) this.findViewById(R.id.Data);
 		Button sVie = (Button) this.findViewById(R.id.SQL);
-		Button bUp = (Button) this.findViewById(R.id.PgUp);
-		Button bDwn = (Button) this.findViewById(R.id.PgDwn);
+		bUp = (Button) this.findViewById(R.id.PgUp);
+		bDwn = (Button) this.findViewById(R.id.PgDwn);
 		bUp.setOnClickListener(this);
 		bDwn.setOnClickListener(this);
-
+		bUp.setVisibility(View.GONE);
+		bDwn.setVisibility(View.GONE);
+		
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
 		sVie.setOnClickListener(this);
@@ -59,7 +57,6 @@ public class TableViewer extends Activity implements OnClickListener {
 				tvDB.setText(getString(R.string.DBView) + " " + _table);
 			_db = new Database(_dbPath, _cont);
 			Utils.logD("Database open");
-			list = (ListView) findViewById(R.id.LVList);
 			onClick(bTab);
 			//buildList(_type);
 		}
@@ -77,22 +74,6 @@ public class TableViewer extends Activity implements OnClickListener {
 		super.onRestart();
 	}
 
-	private void buildList(final String viewType) {
-		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-		//HashMap<String, String> map;
-		// show the fields of the table
-		SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
-				new String[] {"name"}, new int[] {R.id.rowtext});
-		list.setAdapter(mSchedule);			
-		list.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position,
-					long id) {
-				// Do something with the table / view / index clicked on
-				selectRecord(viewType, position);
-			}
-		});
-	}
-
 	protected void selectRecord(String type, int position) {
 		//TODO what?
 	}
@@ -102,17 +83,18 @@ public class TableViewer extends Activity implements OnClickListener {
 		_aTable=(TableLayout)findViewById(R.id.datagrid);
 		if (key == R.id.Fields) {
 			offset = 0;
-			buildList("Data");
 			String[] fieldNames = _db.getTableStructureHeadings(_table);
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getTableStructure(_table);
+			updateButtons(false);
 			appendRows(_aTable, data);
 		} else if (key == R.id.Data) {
 			//list.
-			buildList("Data"); // clears the list
+			offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getTableData(_table, offset, limit);
+			updateButtons(true);
 			appendRows(_aTable, data);
 			//buildList(_type);
 			//			Intent i = new Intent(this, DataGrid.class);
@@ -120,16 +102,17 @@ public class TableViewer extends Activity implements OnClickListener {
 			//			i.putExtra("Table", _table);
 			//			startActivity(i);
 		} else if (key == R.id.SQL) {
-			buildList("Data");
+			offset = 0;
 			String [] fieldNames = {"SQL"};
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getSQL(_table);
+			updateButtons(false);
 			appendRows(_aTable, data);
 		} else if (key == R.id.PgDwn) {
-			// TODO kun hvis der vises pster
-			{
+			int childs = _aTable.getChildCount();
+			Utils.logD("Table childs: " + childs);
+			if (childs >= limit) {  //  No more data on to display - no need to PgDwn
 				offset += limit;
-				buildList("Data"); // clears the list
 				String [] fieldNames = _db.getFieldsNames(_table);
 				setTitles(_aTable, fieldNames);
 				String [][] data = _db.getTableData(_table, offset, limit);
@@ -140,7 +123,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			offset -= limit;
 			if (offset < 0)
 				offset = 0;
-			buildList("Data"); // clears the list
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames);
 			String [][] data = _db.getTableData(_table, offset, limit);
@@ -149,11 +131,32 @@ public class TableViewer extends Activity implements OnClickListener {
 		}
 		
 	}
+	/**
+	 * If paging = true show paging buttons otherwise not
+	 * @param paging
+	 */
+	private void updateButtons(boolean paging) {
+		if (paging) {
+			bUp.setVisibility(View.VISIBLE);
+			bDwn.setVisibility(View.VISIBLE);
+		} else {
+			bUp.setVisibility(View.GONE);
+			bDwn.setVisibility(View.GONE);
+		}
+	}
+
 	private void appendRows(TableLayout table, String[][] data) {
 		int rowSize=data.length;
 		int colSize=(data.length>0)?data[0].length:0;
 		for(int i=0; i<rowSize; i++){
 			TableRow row = new TableRow(this);
+			row.setOnClickListener(new OnClickListener() {
+			   public void onClick(View v) {
+			      // button 1 was clicked!
+			  	 Utils.logD("OnClick: " + v.getId());
+			   }
+			  });
+
 			if (i%2 == 1)
 				row.setBackgroundColor(Color.DKGRAY);
 			for(int j=0; j<colSize; j++){
@@ -165,6 +168,15 @@ public class TableViewer extends Activity implements OnClickListener {
 				//						c.setBackgroundColor(Color.BLUE);
 				//					else
 				//						c.setBackgroundColor(Color.BLUE & Color.GRAY);
+				c.setOnClickListener(new OnClickListener() {
+				   public void onClick(View v) {
+				      // button 1 was clicked!
+				  	 Utils.logD("OnClick: " + v.getId());
+				  	 String text = (String)((TextView)v).getText();
+				  	 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+				  	 clipboard.setText(text);
+				   }
+				  });
 				row.addView(c);
 			}
 			table.addView(row, new TableLayout.LayoutParams());

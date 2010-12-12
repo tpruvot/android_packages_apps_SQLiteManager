@@ -18,22 +18,22 @@
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Fields"
+    android:text="@string/DBFields"
     android:id="@+id/Fields"
   />
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="Data"
-    android:id="@+id/Data"
+    android:text="@string/DBSQL"
+    android:id="@+id/SQL"
   />
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="SQL"
-    android:id="@+id/SQL"
+    android:text="@string/DBData"
+    android:id="@+id/Data"
   />
-    <Button
+  <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
     android:text="@string/PgUp"
@@ -42,15 +42,11 @@
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="@string/PgDwn"
+    android:text="@string/PgDn"
     android:id="@+id/PgDwn"
   />
   
   </LinearLayout>
-  <ListView android:id="@+id/LVList"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    />
   <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
  	android:layout_width="fill_parent"

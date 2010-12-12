@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="VersionNo">0.60</string>
+    <string name="VersionNo">0.70</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
@@ -34,5 +34,21 @@
     <string name="SQLStm">select * from </string>
     <string name="DBFields">Fields</string>
     <string name="PgUp">PgUp</string>
-    <string name="PgDwn">PgDwn</string>
+    <string name="PgDn">PgDn</string>
+    <string name="Option">Options</string>
+    <string name="Help">Help</string>
+    <string name="HelpHeader">aSQLiteManager help</string>
+    <string name="HelpText">
+Here you will find some more help in the future.
+\n\nIf you click on a field in the data grid the content is copied to the clip board.
+\n\nOn the query view click on the menu button to build a select statement with: 
+\nselect [fields] from [tables]
+\n\nVisit aSQLiteMagers\'s home page at:
+\nhttp://asqlitemanager.sourceforge.net
+\n\nCheck for updates at:
+\nhttp://sourceforge.net/projects/asqlitemanager
+\n\n\nYou can also send comments to me at:
+\nandroid41cv@gmail.com
+\n\nMartin
+    </string>
 </resources>

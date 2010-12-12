@@ -1,6 +1,9 @@
 Next version
   A simple SQL builder where tables and fields from the "select fields from tables"
   part can be selected from a list
+  Paging on Table and View data viewer implemented
+  Clicking on a field in the data browser copy the content to the clip board
+  A help screen with a little help, links and mailto
   
 Working on:
   Query result in data grid

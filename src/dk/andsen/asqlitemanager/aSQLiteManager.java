@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.util.Linkify;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,6 +27,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	 * True to enable functions under test
 	 */
 	private final boolean testing = false;
+	private static final int MENU_OPT = 1;
+	private static final int MENU_HLP = 2;
 	
     /** Called when the activity is first created. */
     @Override
@@ -78,4 +82,33 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			}
       Utils.logD("Filepicker called");
 		}
+		
+		/*
+		 *  Creates the menu items
+		 */
+		public boolean onCreateOptionsMenu(Menu menu) {
+			menu.add(0, MENU_OPT, 0, R.string.Option).setIcon(R.drawable.ic_menu_preferences);
+			menu.add(0, MENU_HLP, 0, R.string.Help).setIcon(R.drawable.ic_menu_help);
+			return true;
+		}
+		
+		/* (non-Javadoc) Handles item selections
+		 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+		 */
+		public boolean onOptionsItemSelected(MenuItem item) {
+			switch (item.getItemId()) {
+	    case MENU_OPT:
+	    	// TODO implements options for Paging rows to retrieve
+	    	
+	      return true;
+	    case MENU_HLP:
+	    	// TODO implements options for Paging rows to retrieve
+				Intent i = new Intent(this, Help.class);
+				startActivity(i);
+	    	
+	      return true;
+			}
+			return false;
+		}
+
 }
