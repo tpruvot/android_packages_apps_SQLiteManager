@@ -48,10 +48,14 @@ public class Utils {
 		alertDialog.show();
 	}
 
+	/**
+	 * Display the message as a short toast message
+	 * @param context
+	 * @param msg the message to display
+	 */
 	public static void toastMsg(Context context, String msg) {
       Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT) ;
-      toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+      toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0);
       toast.show();
 	}
-
 }
