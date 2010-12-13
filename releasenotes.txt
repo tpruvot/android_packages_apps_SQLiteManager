@@ -1,7 +1,8 @@
 Next version
   A simple SQL builder where tables and fields from the "select fields from tables"
-  part can be selected from a list
-  Paging on Table and View data viewer implemented
+    part can be selected from two lists
+  Paging on Table and View data viewer implemented. Numbers of records to return can be
+    configured form option menu at the main form
   Clicking on a field in the data browser copy the content to the clip board
   A help screen with a little help, links and mailto
   

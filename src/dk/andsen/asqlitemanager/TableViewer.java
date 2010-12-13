@@ -40,6 +40,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		bUp.setVisibility(View.GONE);
 		bDwn.setVisibility(View.GONE);
 		_cont = this;
+		limit = Prefs.getPageSize(this);
 		
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);

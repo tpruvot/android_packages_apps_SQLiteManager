@@ -1,0 +1,10 @@
+<PreferenceScreen
+   xmlns:android="http://schemas.android.com/apk/res/android">
+  <EditTextPreference
+    android:key="PageSize"
+    android:title="@string/PageSize"
+    android:summary="@string/PageSizeText"
+    android:inputType="number"
+    android:defaultValue="15"
+  />
+</PreferenceScreen>

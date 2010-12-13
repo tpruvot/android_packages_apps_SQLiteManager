@@ -98,14 +98,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		public boolean onOptionsItemSelected(MenuItem item) {
 			switch (item.getItemId()) {
 	    case MENU_OPT:
-	    	// TODO implements options for Paging rows to retrieve
-	    	
+	      startActivity(new Intent(this, Prefs.class));
 	      return true;
 	    case MENU_HLP:
-	    	// TODO implements options for Paging rows to retrieve
 				Intent i = new Intent(this, Help.class);
 				startActivity(i);
-	    	
 	      return true;
 			}
 			return false;

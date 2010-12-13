@@ -19,6 +19,7 @@
         <activity android:name=".TableViewer"></activity>
         <activity android:name=".DataGrid"></activity>
         <activity android:name=".Help"></activity>
+        <activity android:name=".Prefs"></activity>
 	</application>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 
