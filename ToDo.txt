@@ -1,10 +1,14 @@
 ToDo
+	Create new database
+	More functions (and stability) in query builder
+	Save SQL - must be bound to the database by name of database or in database
 	Better horizontal scrolling
 	Tab view
+
+Done
 	Paging large data sets
 	Configuration
 		Number of records to display
-	Create new database
-	
 	Query mode
 		Query builder
+	
