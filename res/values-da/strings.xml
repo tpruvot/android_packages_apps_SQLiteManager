@@ -4,7 +4,7 @@
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Om aSQLiteManager</string>
-    <string name="AboutText">Andsens SQLite manager. Browse your Android databases</string>
+    <string name="AboutText">Andsens SQLite manager. Se dine Android databaser</string>
     <string name="WWW">Tjek for opdateringer her: \nhttp://asqlitemanager.sourceforge.net/</string>
     <string name="MAIL">Kommentarer velkomne på: \nandroid41cv@gmail.com</string>
     <string name="OpdenDB">Åbn Database</string>
@@ -30,5 +30,27 @@
     <string name="Database">Database</string>
     <string name="DBQuery">Query</string>
     <string name="Run">Kør</string>
-    <string name="SQLStm">select * from </string>
+    <string name="DBFields">Felter</string>
+    <string name="PgUp">PgUp</string>
+    <string name="PgDn">PgDn</string>
+    <string name="Option">Options</string>
+    <string name="Help">Hjælp</string>
+    <string name="HelpHeader">aSQLiteManager hjælp</string>
+    <string name="PageSize">Side størrelse</string>
+    <string name="PressMenuSQL">Tryk menu for at bygge SQL</string>
+    <string name="PageSizeText">Antal liner der skal hentes ved bladring</string>
+    <string name="Open">Åbn</string>
+    <string name="HelpText">
+Her vil der i fremtiden være mere hjælp.
+\n\nKlik på et felt i data gridtet for at kopiere indholdet til clip boarded.
+\n\nI SQL mode tryk på menu for at bygge en select forespørgsel: 
+\nselect [fields] from [tables]
+\n\nBesøg aSQLiteMagers\'s hjemmeside på:
+\nhttp://asqlitemanager.sourceforge.net
+\n\nTjek for opdateringer på:
+\nhttp://sourceforge.net/projects/asqlitemanager
+\n\n\nDu kan også sende en kommentar til mig på:
+\nandroid41cv@gmail.com
+\n\nMartin
+    </string>
 </resources>
