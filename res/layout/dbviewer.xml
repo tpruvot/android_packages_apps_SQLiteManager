@@ -56,11 +56,10 @@
       android:minWidth="30px"/>
     <EditText
       android:layout_height="wrap_content" 
-      android:text="@string/SQLStm"
       android:id="@+id/SQLStm"
       android:layout_width="fill_parent"
       android:inputType="textMultiLine"
-      />
+      android:hint="@string/PressMenuSQL"/>
   </LinearLayout>
   <ListView android:id="@+id/LVList"
     android:layout_width="fill_parent"

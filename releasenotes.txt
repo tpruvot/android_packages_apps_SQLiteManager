@@ -1,4 +1,5 @@
 Next version
+  Executed statements can be saved in a table named aSQLiteManager (configuration)
   A simple SQL builder where tables and fields from the "select fields from tables"
     part can be selected from two lists
   Paging on Table and View data viewer implemented. Numbers of records to return can be
@@ -25,7 +26,6 @@ Version 0.50
   
 Later:
   See triggers
-  Query database
 
 Version 0.11
 

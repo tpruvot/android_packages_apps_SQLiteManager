@@ -109,8 +109,14 @@ public class DBViewer extends Activity implements OnClickListener {
 	private void buildList(final String type) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
-		if (type.equals("SQL"))
+		if (type.equals("SQL")) {
 			toList = _db.getSQLQuery(tvQ.getText().toString());
+			boolean save = Prefs.getSaveSQL(_cont);
+			if (save)
+				_db.saveSQL(tvQ.getText().toString());
+		}
+		else if (type.equals("Clear"))
+			toList = new String [] {};
 		else if (type.equals("Index"))
 			toList = _db.getIndex();
 		else if (type.equals("Views")) 
@@ -173,8 +179,10 @@ public class DBViewer extends Activity implements OnClickListener {
 		} else if (key == R.id.Index) {
 			setDisplay("List");
 			buildList("Index");
-		} else if (key == R.id.Run || key == R.id.Query) {
+		} else if (key == R.id.Query) {
 			setDisplay("Query");
+			buildList("Clear");
+		} else if (key == R.id.Run) {
 			buildList("SQL");
 		}
 	}

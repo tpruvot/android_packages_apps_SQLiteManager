@@ -7,4 +7,10 @@
     android:inputType="number"
     android:defaultValue="15"
   />
+  <CheckBoxPreference
+    android:key="SaveSQL"
+    android:title="Save SQL"
+    android:summary="Save SQL in database"
+    android:defaultValue="false"
+  />
 </PreferenceScreen>

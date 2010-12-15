@@ -31,7 +31,6 @@
     <string name="Database">Database</string>
     <string name="DBQuery">Query</string>
     <string name="Run">Run</string>
-    <string name="SQLStm">select * from </string>
     <string name="DBFields">Fields</string>
     <string name="PgUp">PgUp</string>
     <string name="PgDn">PgDn</string>
@@ -39,7 +38,9 @@
     <string name="Help">Help</string>
     <string name="HelpHeader">aSQLiteManager help</string>
     <string name="PageSize">Page size</string>
+    <string name="PressMenuSQL">Press menu to build SQL</string>
     <string name="PageSizeText">Number of lines to retrieve when paging data</string>
+    <string name="Open">Open</string>
     <string name="HelpText">
 Here you will find some more help in the future.
 \n\nClick on any field in the data grid to copy its content to the clip board.

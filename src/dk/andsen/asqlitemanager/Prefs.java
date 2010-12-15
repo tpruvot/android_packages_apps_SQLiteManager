@@ -18,6 +18,8 @@ public class Prefs extends PreferenceActivity {
    // Option names and default values
    private static final String OPT_PAGESIZE = "PageSize";
    private static final String OPT_PAGESIZE_DEF = "20";
+   private static final String OPT_SAVESQL = "SaveSQL";
+   private static final boolean OPT_SAVESQL_DEF = false;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -35,4 +37,13 @@ public class Prefs extends PreferenceActivity {
            .getString(OPT_PAGESIZE, OPT_PAGESIZE_DEF)).intValue();
   }
 
+  /**
+   * Return true if executed statements are stored in database
+   * @param context
+   * @return
+   */
+  public static boolean getSaveSQL(Context context) {
+  	return PreferenceManager.getDefaultSharedPreferences(context)
+  		.getBoolean(OPT_SAVESQL, OPT_SAVESQL_DEF);
+  }
 }

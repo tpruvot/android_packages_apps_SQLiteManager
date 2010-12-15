@@ -5,6 +5,7 @@ import java.util.List;
 import dk.andsen.utils.Utils;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -43,6 +44,9 @@ public class Database {
 	 */
 	private void testDB() {
 		if (_db == null) {
+			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+		}
+		if (!_db.isOpen()) {
 			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 		}
 	}
@@ -304,4 +308,37 @@ public class Database {
 		return fieldList;
 	}
 
+	/**
+	 * Save a SQL statement in a aSQLiteManager table in the current database.
+	 * @param saveSql statement to save
+	 */
+	public void saveSQL(String saveSql) {
+		testDB();
+		testHistoryTable();
+		String sql = "insert into aSQLiteManager (sql) values (\"" + saveSql +"\")";
+		try {
+			_db.execSQL(sql);
+			Utils.logD("SQL save");
+		} catch (SQLException e) {
+			Utils.logD(e.toString());
+		}
+	}
+
+	/**
+	 * Test for a aSQLiteManager table in the current database. If it does not
+	 * exists create it.
+	 */
+	private void testHistoryTable() {
+		testDB();
+		Cursor res = _db.rawQuery("select name from sqlite_master where type = \"table\" and name = \"aSQLiteManager\"", null);
+		int recs = res.getCount();
+		if (recs > 0) {
+			return;
+		} else {
+			// create the aSQLiteManager table
+			String sql = "create table aSQLiteManager (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, sql TEXT NOT NULL)";
+			_db.execSQL(sql);
+			Utils.logD("aSQLiteManager table created");
+		}
+	}
 }
