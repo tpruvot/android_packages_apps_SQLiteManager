@@ -339,6 +339,26 @@ public class Database {
 			String sql = "create table aSQLiteManager (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, sql TEXT NOT NULL)";
 			_db.execSQL(sql);
 			Utils.logD("aSQLiteManager table created");
+			saveSQL("delete from aSQLiteManager where 1=1");
+			saveSQL("drop table aSQLiteManager");
 		}
+	}
+
+	public String[][] getSQLQueryPage(String sqlStatement, int offset, int limit) {
+		testDB();
+		String sql = sqlStatement + " limit " + limit + " offset " + offset;
+		Utils.logD("SQL = " + sql);
+		Cursor cursor = _db.rawQuery(sql, null);
+		int cols = cursor.getColumnCount();
+		int rows = cursor.getCount();
+		String[][] res = new String[rows][cols];
+		int i = 0;
+		while(cursor.moveToNext()) {
+			for (int k=0; k<cols; k++) {
+				res[i][k] = cursor.getString(k);
+			}
+			i++;
+		}
+		return res;
 	}
 }

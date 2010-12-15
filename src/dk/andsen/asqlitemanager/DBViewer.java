@@ -180,10 +180,14 @@ public class DBViewer extends Activity implements OnClickListener {
 			setDisplay("List");
 			buildList("Index");
 		} else if (key == R.id.Query) {
-			setDisplay("Query");
-			buildList("Clear");
+			Intent i = new Intent(this, QueryViewer.class);
+			i.putExtra("db", _dbPath);
+			startActivity(i);
+			//setDisplay("Query");
+			//buildList("Clear");
 		} else if (key == R.id.Run) {
-			buildList("SQL");
+			// TODO drop when Query changed and clean up layout etc.
+			//buildList("SQL");
 		}
 	}
 	

@@ -20,6 +20,7 @@
         <activity android:name=".DataGrid"></activity>
         <activity android:name=".Help"></activity>
         <activity android:name=".Prefs"></activity>
+        <activity android:name=".QueryViewer"></activity>
 	</application>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 

@@ -187,14 +187,14 @@ public class TableViewer extends Activity implements OnClickListener {
 		}
 	}
 
-	private void setTitles(TableLayout table, String[] amortization) {
-		int rowSize=amortization.length;
+	private void setTitles(TableLayout table, String[] titles) {
+		int rowSize=titles.length;
 		table.removeAllViews();
 		TableRow row = new TableRow(this);
 		row.setBackgroundColor(Color.BLUE);
 		for(int i=0; i<rowSize; i++){
 			TextView c = new TextView(this);
-			c.setText(amortization[i]);
+			c.setText(titles[i]);
 			c.setPadding(3, 3, 3, 3);
 			row.addView(c);
 		}
