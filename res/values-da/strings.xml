@@ -40,6 +40,7 @@
     <string name="PressMenuSQL">Tryk menu for at bygge SQL</string>
     <string name="PageSizeText">Antal liner der skal hentes ved bladring</string>
     <string name="Open">Åbn</string>
+    <string name="NoResult">Intet resultat</string>
     <string name="HelpText">
 Her vil der i fremtiden være mere hjælp.
 \n\nKlik på et felt i data gridtet for at kopiere indholdet til clip boarded.

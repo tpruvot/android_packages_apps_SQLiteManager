@@ -3,19 +3,13 @@ package dk.andsen.asqlitemanager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -24,24 +18,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.utils.Utils;
 
 public class DBViewer extends Activity implements OnClickListener {
-	private static final int MENU_TABLES = 0;
-	private static final int MENU_FIELDS = 1;
 	private String _dbPath;
 	private Database _db = null;
 	private String[] tables;
 	private String[] views;
 	private ListView list;
 	private LinearLayout query;
-	private EditText tvQ;
-	private Button btR;
 	private String[] toList;
 	private Context _cont;
-	private boolean[] listOfTables_selected;
-	private String[] listOfTables;
-	private boolean[] listOfFields_selected;
-	private String[] listOfFields;
-//	private int offset = 0;
-//	private int limit = 20;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,12 +37,6 @@ public class DBViewer extends Activity implements OnClickListener {
 		Button bInd = (Button) this.findViewById(R.id.Index);
 		Button bQue = (Button) this.findViewById(R.id.Query);
 		query = (LinearLayout) this.findViewById(R.id.QueryFrame);
-		tvQ = (EditText) this.findViewById(R.id.SQLStm);
-		btR = (Button) this.findViewById(R.id.Run);
-		btR.setOnClickListener(this);
-		// Hide query panel
-		tvQ.setVisibility(View.GONE);
-		btR.setVisibility(View.GONE);
 		query.setVisibility(View.GONE);
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
@@ -109,13 +87,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private void buildList(final String type) {
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
-		if (type.equals("SQL")) {
-			toList = _db.getSQLQuery(tvQ.getText().toString());
-			boolean save = Prefs.getSaveSQL(_cont);
-			if (save)
-				_db.saveSQL(tvQ.getText().toString());
-		}
-		else if (type.equals("Clear"))
+		if (type.equals("Clear"))
 			toList = new String [] {};
 		else if (type.equals("Index"))
 			toList = _db.getIndex();
@@ -171,155 +143,15 @@ public class DBViewer extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int key = v.getId();
 		if (key == R.id.Tables) {
-			setDisplay("List");
 			buildList("Tables");
 		} else if (key == R.id.Views) {
-			setDisplay("List");
 			buildList("Views");
 		} else if (key == R.id.Index) {
-			setDisplay("List");
 			buildList("Index");
 		} else if (key == R.id.Query) {
 			Intent i = new Intent(this, QueryViewer.class);
 			i.putExtra("db", _dbPath);
 			startActivity(i);
-			//setDisplay("Query");
-			//buildList("Clear");
-		} else if (key == R.id.Run) {
-			// TODO drop when Query changed and clean up layout etc.
-			//buildList("SQL");
-		}
+		} 
 	}
-	
-	/**
-	 * Toggle display mode
-	 * @param type
-	 */
-	private void setDisplay(String type) {
-		if (type.equals("Query")) {
-			tvQ.setVisibility(View.VISIBLE);
-			btR.setVisibility(View.VISIBLE);
-			query.setVisibility(View.VISIBLE);
-		} else {
-			tvQ.setVisibility(View.GONE);
-			btR.setVisibility(View.GONE);
-			query.setVisibility(View.GONE);
-		}
-	}
-	
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_TABLES, 0, R.string.DBTables);
-		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
-		//menu.add(0, MENU_LOAD, 0, R.string.Load).setIcon(R.drawable.ic_menu_load);
-		//menu.add(0, MENU_OPT, 0, R.string.Option).setIcon(R.drawable.ic_menu_preferences);
-		//menu.add(0, MENU_PRGS, 0, R.string.Progs).setIcon(R.drawable.ic_menu_compose);
-		//menu.add(0, MENU_RESET, 0, R.string.Reset).setIcon(R.drawable.ic_menu_close_clear_cancel);
-		return true;
-	}
-
-	
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_TABLES:
-			showDialog( 0 );
-			break;
-		case MENU_FIELDS:
-			showDialog( 1 );
-			break;
-			
-		}
-		return false;
-	}
-		
-	@Override
-	protected Dialog onCreateDialog( int id ) 
-	{
-		CharSequence[] posts = null;
-		boolean[] post_selected = null;
-		String title = "";
-		switch (id) {
-		case 0:
-			title = getText(R.string.DBTables).toString();
-			listOfTables = _db.getTables();
-			listOfTables_selected = new boolean[listOfTables.length];
-			posts = listOfTables; 
-			post_selected = listOfTables_selected;
-			
-			break;
-		case 1:
-			title = getText(R.string.DBViews).toString();
-			//count selected tables
-			int selTables = 0;
-			for (boolean sel: listOfTables_selected) {
-				if (sel)
-				  selTables++;
-			}
-			String[] tables = new String[selTables];
-			selTables = 0;
-			for (int i = 0; i < listOfTables.length; i++) {
-				if (listOfTables_selected[i]) {
-					tables[selTables] = listOfTables[i];
-				  selTables++;
-				}
-			}
-			listOfFields = _db.getTablesFieldsNames(listOfTables);
-			listOfFields_selected = new boolean[listOfFields.length];
-			posts = listOfFields; 
-			post_selected = listOfFields_selected;
-			break;
-		}
-		return 
-		new AlertDialog.Builder( this )
-		.setTitle(title)
-		.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
-		.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
-		.create();
-	}
-	
-	public class DialogSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener {
-		public void onClick( DialogInterface dialog, int clicked, boolean selected )
-		{
-			//Log.d( "aWine", _grapes[ clicked ] + " selected: " + selected );
-		}
-	}
-	
-	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
-		public void onClick( DialogInterface dialog, int clicked )
-		{
-			switch( clicked )
-			{
-			case DialogInterface.BUTTON_POSITIVE:
-				String sql = buildSQL();
-				tvQ.setText(sql);
-				//printSelectedGrapes();
-				break;
-			}
-		}
-		int i = 0;
-		private String buildSQL() {
-			String sql = "";
-			if (listOfFields == null)
-				sql = "select * \nfrom ";
-			else {
-				sql = "select ";
-				for (i= 0; i < listOfFields.length; i++) {
-					if (listOfFields_selected[i]) {
-							sql += listOfFields[i]+ ", ";
-					}
-				}
-				sql = sql.substring(0, sql.length() - 2);
-				sql += "\nfrom ";
-			}
-			if (listOfTables != null) {
-				for (i = 0; i < listOfTables.length; i++) {
-					if (listOfTables_selected[i]) {
-						sql += listOfTables[i] + ", ";
-					}
-				}
-				sql = sql.substring(0, sql.length() - 2);
-			}
-			return sql;
-		}
-	}
-
 }

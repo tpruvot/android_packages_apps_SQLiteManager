@@ -346,19 +346,39 @@ public class Database {
 
 	public String[][] getSQLQueryPage(String sqlStatement, int offset, int limit) {
 		testDB();
-		String sql = sqlStatement + " limit " + limit + " offset " + offset;
+		String sql;
+		if (sqlStatement.startsWith("select"))
+			sql = sqlStatement + " limit " + limit + " offset " + offset;
+		else 
+			sql = sqlStatement;
+		String[][] res;
 		Utils.logD("SQL = " + sql);
-		Cursor cursor = _db.rawQuery(sql, null);
-		int cols = cursor.getColumnCount();
-		int rows = cursor.getCount();
-		String[][] res = new String[rows][cols];
-		int i = 0;
-		while(cursor.moveToNext()) {
-			for (int k=0; k<cols; k++) {
-				res[i][k] = cursor.getString(k);
+		Cursor cursor;
+		try {
+			cursor = _db.rawQuery(sql, null);
+			int cols = cursor.getColumnCount();
+			int rows = cursor.getCount();
+			if (rows == 0) {
+				res = new String[1][1];
+				res[0][0] = "No result";			
+				return res;
+			} else {
+				//TOD get column names
+				res = new String[rows][cols];
+				int i = 0;
+				while(cursor.moveToNext()) {
+					for (int k=0; k<cols; k++) {
+						res[i][k] = cursor.getString(k);
+					}
+					i++;
+				}
 			}
-			i++;
+			return res;
+		} catch (Exception e) {
+			res = new String[1][1];
+			res[0][0] = "Error:\n" + e.toString();			
+			return res;
 		}
-		return res;
+		//return res;
 	}
 }

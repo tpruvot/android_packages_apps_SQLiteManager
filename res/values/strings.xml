@@ -41,6 +41,7 @@
     <string name="PressMenuSQL">Press menu to build SQL</string>
     <string name="PageSizeText">Number of lines to retrieve when paging data</string>
     <string name="Open">Open</string>
+    <string name="NoResult">No result</string>
     <string name="HelpText">
 Here you will find some more help in the future.
 \n\nClick on any field in the data grid to copy its content to the clip board.

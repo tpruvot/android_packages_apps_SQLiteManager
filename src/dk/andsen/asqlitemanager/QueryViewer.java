@@ -75,13 +75,14 @@ public class QueryViewer extends Activity implements OnClickListener{
 		String sql = _tvQ.getText().toString();
 		Utils.logD("Offset: " + _offset);
 		Utils.logD("Limit: " + _limit);
+		if (!sql.equals(""))
 		if (key == R.id.Run) {
 			String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save)
 				_db.saveSQL(_tvQ.getText().toString());
 			_aTable=(TableLayout)findViewById(R.id.datagrid);
 			String [] nn = {};
-			// TODO how to get titles???
+			// TODO how to get titles now only clear the table
 			setTitles(_aTable, nn);
 			appendRows(_aTable, data);			
 		}  else if (key == R.id.PgDwn) {
@@ -90,7 +91,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (childs >= _limit) {  //  No more data on to display - no need to PgDwn
 				_offset += _limit;
 				String [] nn = {};
-				// TODO how to get titles???
+				// TODO how to get titles now only clear the table
 				setTitles(_aTable, nn);
 				String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
 				appendRows(_aTable, data);
@@ -101,7 +102,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (_offset < 0)
 				_offset = 0;
 			String [] nn = {};
-			// TODO how to get titles???
+			// TODO how to get titles now only clear the table
 			setTitles(_aTable, nn);
 			String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
 			appendRows(_aTable, data);
