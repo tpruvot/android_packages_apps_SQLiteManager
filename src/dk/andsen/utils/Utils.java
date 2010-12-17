@@ -1,8 +1,10 @@
 package dk.andsen.utils;
 
+import java.io.File;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -58,4 +60,13 @@ public class Utils {
       toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0);
       toast.show();
 	}
+
+	public static boolean isSDAvailable() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		}
+		return false;
+	}
+
 }

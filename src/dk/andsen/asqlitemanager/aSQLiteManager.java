@@ -7,13 +7,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +45,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         open.setOnClickListener(this);
         Button about = (Button) this.findViewById(R.id.About);
         about.setOnClickListener(this);
+        Button newDatabase = (Button) this.findViewById(R.id.NewDB);
+        newDatabase.setOnClickListener(this);
         Button test = (Button) this.findViewById(R.id.Test);
         TextView tv = (TextView) this.findViewById(R.id.Version);
         tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
@@ -60,6 +65,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			int key = v.getId();
 			if (key == R.id.Open) {
 				Intent i = new Intent(this, FilePicker.class);
+				Utils.logD("Calling Filepicker");
 				//startActivityForResult(intent, requestCode)
 				// onActivityResult() 
 				startActivity(i);
@@ -79,13 +85,63 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				www.setAutoLinkMask(Linkify.ALL);
 				www.setText(getString(R.string.WWW));
 				dial.show();
+			}  else if (key == R.id.NewDB) {
+				Utils.logD("Create new database");
+				newDatabase();
 			} else if (key == R.id.Test) {
 				Intent i = new Intent(this, NewFilePicker.class);
+				Utils.logD("Calling NewFilepicker");
 				startActivity(i);
 			}
-      Utils.logD("Filepicker called");
+      
 		}
 		
+		private void newDatabase() {
+			final Dialog newCountryDialog = new Dialog(this);
+			newCountryDialog.setContentView(R.layout.new_database);
+			newCountryDialog.setTitle(getText(R.string.NewDBSDCard));
+			final EditText edNewDB = (EditText)newCountryDialog.findViewById(R.id.newCode);
+			edNewDB.setHint(getText(R.string.NewDBPath));
+			TextView tvMessage = (TextView) newCountryDialog.findViewById(R.id.newMessage);
+			tvMessage.setText(getText(R.string.Database));
+			newCountryDialog.show();
+			final Button btnMOK = (Button) newCountryDialog.findViewById(R.id.btnMOK);
+			btnMOK.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					String path;
+					if (v == btnMOK) {
+						if (Utils.isSDAvailable()) {
+							path = Environment.getExternalStorageDirectory().getAbsolutePath();
+							path += "/" + edNewDB.getText();
+							if (path.equals("")) {
+								// Give error and do nothing???
+							}
+							if (!path.endsWith(".sqlite"))
+								path += ".sqlite";
+							SQLiteDatabase.openOrCreateDatabase(path, null);
+							
+							/*
+							 * Get path to SDCard - OK
+							 * If filename does not end with .sqlite add it OK
+							 * If no name entered do nothing
+							 * create database
+							 * //db.newCountry(edNewCountry.getText().toString());
+							 * ask if user wants to open it 
+							 */
+							
+							
+						} else {
+							// Give error - no SDCard available
+						}
+						Utils.logD("Path: " + edNewDB.getText().toString());
+						
+						
+						newCountryDialog.dismiss();
+					}
+				}
+			});
+		}
+
 		/*
 		 *  Creates the menu items
 		 */

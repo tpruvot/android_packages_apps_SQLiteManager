@@ -1,4 +1,8 @@
-Next version
+Coming in next version:
+  Create new database
+
+Version 0.70
+  Query result in data grid
   Executed statements can be saved in current database in a table named
     aSQLiteManager (configuration)
   A simple SQL builder where tables and fields from the "select fields from tables"
@@ -9,8 +13,8 @@ Next version
   A help screen with a little help, links and mailto
   
 Working on:
-  Query result in data grid
-  SQL builder
+  Create new database
+  More advanced SQL builder
   File picker with icons on directories and files
   Layout
 

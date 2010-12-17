@@ -55,4 +55,7 @@ Here you will find some more help in the future.
 \nandroid41cv@gmail.com
 \n\nMartin
     </string>
+    <string name="NewDB">New database</string>
+    <string name="NewDBSDCard">New database on SDCard</string>
+    <string name="NewDBPath">Path to new database</string>
 </resources>

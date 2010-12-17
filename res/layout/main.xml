@@ -35,6 +35,12 @@
     android:layout_height="wrap_content" 
     />
   <Button
+    android:id="@+id/NewDB" 
+    android:text="@string/NewDB" 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    />
+  <Button
     android:id="@+id/Test"
     android:text="Testing"
     android:layout_width="fill_parent" 
@@ -48,4 +54,5 @@
     android:gravity="bottom|center_horizontal"
     android:textSize="7pt"
     android:padding="4pt"/>
+
 </LinearLayout>
