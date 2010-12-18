@@ -35,7 +35,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private final boolean testing = false;
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
-	
+	private Context _cont;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         Button test = (Button) this.findViewById(R.id.Test);
         TextView tv = (TextView) this.findViewById(R.id.Version);
         tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
+        _cont = this;
         if (!testing) {
         	test.setVisibility(4);
         } else {
@@ -97,15 +98,15 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		}
 		
 		private void newDatabase() {
-			final Dialog newCountryDialog = new Dialog(this);
-			newCountryDialog.setContentView(R.layout.new_database);
-			newCountryDialog.setTitle(getText(R.string.NewDBSDCard));
-			final EditText edNewDB = (EditText)newCountryDialog.findViewById(R.id.newCode);
+			final Dialog newDatabaseDialog = new Dialog(this);
+			newDatabaseDialog.setContentView(R.layout.new_database);
+			newDatabaseDialog.setTitle(getText(R.string.NewDBSDCard));
+			final EditText edNewDB = (EditText)newDatabaseDialog.findViewById(R.id.newCode);
 			edNewDB.setHint(getText(R.string.NewDBPath));
-			TextView tvMessage = (TextView) newCountryDialog.findViewById(R.id.newMessage);
+			TextView tvMessage = (TextView) newDatabaseDialog.findViewById(R.id.newMessage);
 			tvMessage.setText(getText(R.string.Database));
-			newCountryDialog.show();
-			final Button btnMOK = (Button) newCountryDialog.findViewById(R.id.btnMOK);
+			newDatabaseDialog.show();
+			final Button btnMOK = (Button) newDatabaseDialog.findViewById(R.id.btnMOK);
 			btnMOK.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					String path;
@@ -115,28 +116,18 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 							path += "/" + edNewDB.getText();
 							if (path.equals("")) {
 								// Give error and do nothing???
+							} else {
+								if (!path.endsWith(".sqlite"))
+									path += ".sqlite";
+								SQLiteDatabase.openOrCreateDatabase(path, null);
+								// Ask before??
+								Intent i = new Intent(_cont, DBViewer.class);
+								i.putExtra("db", path);
+								startActivity(i);
 							}
-							if (!path.endsWith(".sqlite"))
-								path += ".sqlite";
-							SQLiteDatabase.openOrCreateDatabase(path, null);
-							
-							/*
-							 * Get path to SDCard - OK
-							 * If filename does not end with .sqlite add it OK
-							 * If no name entered do nothing
-							 * create database
-							 * //db.newCountry(edNewCountry.getText().toString());
-							 * ask if user wants to open it 
-							 */
-							
-							
-						} else {
-							// Give error - no SDCard available
 						}
 						Utils.logD("Path: " + edNewDB.getText().toString());
-						
-						
-						newCountryDialog.dismiss();
+						newDatabaseDialog.dismiss();
 					}
 				}
 			});

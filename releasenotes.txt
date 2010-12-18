@@ -1,5 +1,13 @@
 Coming in next version:
-  Create new database
+  Create new database and open it
+
+Working on:
+  Index viewer
+  Open Table and Index views in data mode? (make Data button first)) 
+  More advanced SQL builder (for create view, create table, delete from, ???)
+  An unique index on SQL field in aSQLiteManager table to prevent duplicate commands?
+  File picker with icons on directories and files
+  Layout
 
 Version 0.70
   Query result in data grid
@@ -12,12 +20,6 @@ Version 0.70
   Clicking on a field in the data browser copy the content to the clip board
   A help screen with a little help, links and mailto
   
-Working on:
-  Create new database
-  More advanced SQL builder
-  File picker with icons on directories and files
-  Layout
-
 Version 0.6
   Simple execution of SQL and display of result (for the time being as comma
   separated lines in list)

@@ -29,16 +29,16 @@
     android:layout_height="wrap_content" 
     />
   <Button
+    android:layout_width="fill_parent"
+    android:id="@+id/NewDB"
+    android:text="@string/NewDB"
+    android:layout_height="wrap_content"
+    />
+  <Button
     android:id="@+id/About"
     android:text="@string/About"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    />
-  <Button
-    android:id="@+id/NewDB" 
-    android:text="@string/NewDB" 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
     />
   <Button
     android:id="@+id/Test"
@@ -54,5 +54,6 @@
     android:gravity="bottom|center_horizontal"
     android:textSize="7pt"
     android:padding="4pt"/>
+
 
 </LinearLayout>
