@@ -114,7 +114,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 						if (Utils.isSDAvailable()) {
 							path = Environment.getExternalStorageDirectory().getAbsolutePath();
 							path += "/" + edNewDB.getText();
-							if (path.equals("")) {
+							if (edNewDB.getText().equals("")) {
 								// Give error and do nothing???
 							} else {
 								if (!path.endsWith(".sqlite"))

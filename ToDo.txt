@@ -1,11 +1,20 @@
 ToDo
-	Create new database
+	Compress SQL wines.name -> t1.names in resulting SQL not on lists
 	More functions (and stability) in query builder
+	  Select from
+	  Create View
+	  Create Table
+	  Drop
+	  Delete from
+	Primary index on SQL in aSQLiteManager to avoid duplicate SQL
+	Select SQL history from query form	  
+	Data entry and editing form
 	Better horizontal scrolling
 	Tab view
 	See index
 
 Done
+	Create new database
 	Paging large data sets
 	Configuration
 		Number of records to display
