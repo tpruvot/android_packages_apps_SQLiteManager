@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private Database _db = null;
 	private String[] tables;
 	private String[] views;
+	private String[] indexes;
 	private ListView list;
 	private LinearLayout query;
 	private String[] toList;
@@ -57,6 +59,7 @@ public class DBViewer extends Activity implements OnClickListener {
 				Utils.logD("Database open");
 				tables = _db.getTables();
 				views = _db.getViews();
+				indexes = _db.getIndex();
 				for(String str: tables) {
 					Utils.logD("Table: " + str);
 				}
@@ -122,7 +125,17 @@ public class DBViewer extends Activity implements OnClickListener {
 		name = toList[position];
 		Utils.logD("Handle: " + type + " " + name);
 		if (type.equals("Index")) {
-
+			// TODO do not work with sqlite_autoindex
+			String indexDef = "";
+			if (indexes[position].startsWith("sqlite_autoindex_"))
+				indexDef = (String) this.getText(R.string.AutoIndex);
+			else
+			  indexDef = _db.getIndexDef(indexes[position]);
+	  	ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+	  	clipboard.setText(indexDef);
+	  	Utils.showMessage(this.getString(R.string.Message), indexDef, _cont);
+	  	Utils.toastMsg(_cont, "Index definition copied to clip board");
+			Utils.logD("IndexDef; " + indexDef);
 		}
 		else if (type.equals("Views")) {
 			Intent i = new Intent(this, TableViewer.class);

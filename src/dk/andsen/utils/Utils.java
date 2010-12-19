@@ -1,6 +1,5 @@
 package dk.andsen.utils;
 
-import java.io.File;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -50,6 +49,19 @@ public class Utils {
 		alertDialog.show();
 	}
 
+	public static void showMessage(String title, String msg, Context cont) {
+		AlertDialog alertDialog = new AlertDialog.Builder(cont).create();
+		alertDialog.setTitle(title);
+		alertDialog.setMessage(msg);
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				return;
+			}
+		});
+		alertDialog.show();
+	}
+
+	
 	/**
 	 * Display the message as a short toast message
 	 * @param context

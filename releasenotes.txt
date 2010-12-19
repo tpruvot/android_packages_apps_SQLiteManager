@@ -1,11 +1,12 @@
 Coming in next version:
+  The first beta version of aSQLiteManager
   Create new database and open it
+  Headers on query results
+  Don not save the same SQL more than one time (unique constraints on SQL)
+  Index viewer
 
 Working on:
-  Index viewer
-  Open Table and Index views in data mode? (make Data button first)) 
   More advanced SQL builder (for create view, create table, delete from, ???)
-  An unique index on SQL field in aSQLiteManager table to prevent duplicate commands?
   File picker with icons on directories and files
   Layout
 

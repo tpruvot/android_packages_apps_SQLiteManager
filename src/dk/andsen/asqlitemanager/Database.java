@@ -320,6 +320,7 @@ public class Database {
 			_db.execSQL(sql);
 			Utils.logD("SQL save");
 		} catch (SQLException e) {
+			// All duplicate SQL ends here
 			Utils.logD(e.toString());
 		}
 	}
@@ -336,7 +337,7 @@ public class Database {
 			return;
 		} else {
 			// create the aSQLiteManager table
-			String sql = "create table aSQLiteManager (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, sql TEXT NOT NULL)";
+			String sql = "create table aSQLiteManager (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, sql TEXT NOT NULL UNIQUE)";
 			_db.execSQL(sql);
 			Utils.logD("aSQLiteManager table created");
 			saveSQL("delete from aSQLiteManager where 1=1");
@@ -344,41 +345,64 @@ public class Database {
 		}
 	}
 
-	public String[][] getSQLQueryPage(String sqlStatement, int offset, int limit) {
+	public QueryResult getSQLQueryPage(String sqlStatement, int offset, int limit) {
 		testDB();
 		String sql;
 		if (sqlStatement.startsWith("select"))
 			sql = sqlStatement + " limit " + limit + " offset " + offset;
 		else 
 			sql = sqlStatement;
-		String[][] res;
+		//String[][] res;
 		Utils.logD("SQL = " + sql);
 		Cursor cursor;
+		QueryResult nres = new QueryResult();
 		try {
 			cursor = _db.rawQuery(sql, null);
 			int cols = cursor.getColumnCount();
 			int rows = cursor.getCount();
+			nres.columnNames = cursor.getColumnNames();
 			if (rows == 0) {
-				res = new String[1][1];
-				res[0][0] = "No result";			
-				return res;
+				nres.Data = new String[1][1];
+				//res = new String[1][1];
+				//res[0][0] = "No result";
+				nres.Data[0][0] = "No result";
+				return nres;
 			} else {
 				//TOD get column names
-				res = new String[rows][cols];
+				nres.Data = new String[rows][cols];
+				//res = new String[rows][cols];
 				int i = 0;
 				while(cursor.moveToNext()) {
 					for (int k=0; k<cols; k++) {
-						res[i][k] = cursor.getString(k);
+						//res[i][k] = cursor.getString(k);
+						nres.Data[i][k] = cursor.getString(k);
 					}
 					i++;
 				}
 			}
-			return res;
+			return nres;
 		} catch (Exception e) {
-			res = new String[1][1];
-			res[0][0] = "Error:\n" + e.toString();			
-			return res;
+			nres.Data = new String[1][1];
+			nres.Data[0][0] = "Error:\n" + e.toString();			
+			//res = new String[1][1];
+			//res[0][0] = "Error:\n" + e.toString();			
+			return nres;
 		}
-		//return res;
+	}
+
+	public String getIndexDef(String indexName) {
+		testDB();
+		String res = "";
+		String sql;
+		sql = "select sql from sqlite_master where type = \"index\" and name = \"" + indexName + "\"";
+		Utils.logD("get indexef: "+ sql);
+		Cursor cursor = _db.rawQuery(sql, null);
+		int rows = cursor.getCount();
+		if (rows > 0) {
+			while(cursor.moveToNext()) {
+				res = cursor.getString(0);
+			}
+		}
+		return res;
 	}
 }

@@ -55,4 +55,8 @@ Her vil der i fremtiden være mere hjælp.
 \n\nMartin
     </string>
     <string name="NewDB">Ny database</string>
+    <string name="NewDBSDCard">Ny database på SDCard</string>
+    <string name="NewDBPath">Sti til ny database</string>
+    <string name="AutoIndex">Kan ikke hente auto index definitioner</string>
+    <string name="Message">Besked</string>
 </resources>

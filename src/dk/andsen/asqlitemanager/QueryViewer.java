@@ -77,35 +77,35 @@ public class QueryViewer extends Activity implements OnClickListener{
 		Utils.logD("Limit: " + _limit);
 		if (!sql.equals(""))
 		if (key == R.id.Run) {
-			String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
+			//String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
+			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save)
 				_db.saveSQL(_tvQ.getText().toString());
 			_aTable=(TableLayout)findViewById(R.id.datagrid);
-			String [] nn = {};
-			// TODO how to get titles now only clear the table
-			setTitles(_aTable, nn);
-			appendRows(_aTable, data);			
+			//String [] nn = {};
+			setTitles(_aTable, result.getColumnNames());
+			appendRows(_aTable, result.getData());			
 		}  else if (key == R.id.PgDwn) {
 			int childs = _aTable.getChildCount();
 			Utils.logD("Table childs: " + childs);
 			if (childs >= _limit) {  //  No more data on to display - no need to PgDwn
 				_offset += _limit;
 				String [] nn = {};
-				// TODO how to get titles now only clear the table
 				setTitles(_aTable, nn);
-				String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
-				appendRows(_aTable, data);
+				//String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
+				QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
+				setTitles(_aTable, result.getColumnNames());
+				appendRows(_aTable, result.getData());
 			}
 			Utils.logD("PgDwn:" + _offset);
 		} else if (key == R.id.PgUp) {
 			_offset -= _limit;
 			if (_offset < 0)
 				_offset = 0;
-			String [] nn = {};
-			// TODO how to get titles now only clear the table
-			setTitles(_aTable, nn);
-			String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
-			appendRows(_aTable, data);
+			//String [] nn = {};
+			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
+			setTitles(_aTable, result.getColumnNames());
+			appendRows(_aTable, result.getData());
 			Utils.logD("PgUp: " + _offset);
 		}
 	}

@@ -58,4 +58,6 @@ Here you will find some more help in the future.
     <string name="NewDB">New database</string>
     <string name="NewDBSDCard">New database on SDCard</string>
     <string name="NewDBPath">Path to new database</string>
+    <string name="AutoIndex">Can\'t retrieve auto index definition</string>
+    <string name="Message">Message</string>
 </resources>
