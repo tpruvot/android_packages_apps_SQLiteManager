@@ -6,12 +6,10 @@ ToDo
 	  Create Table
 	  Drop
 	  Delete from
-	Primary index on SQL in aSQLiteManager to avoid duplicate SQL
 	Select SQL history from query form	  
 	Data entry and editing form
 	Better horizontal scrolling
 	Tab view
-	See index
 
 Done
 	Create new database
@@ -21,4 +19,6 @@ Done
 	Query mode
 		Query builder
 	Save SQL - must be bound to the database by name of database or in database
+	See index
+	Primary index on SQL in aSQLiteManager to avoid duplicate SQL
 	

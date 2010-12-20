@@ -15,7 +15,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class Database {
 	public boolean isDatabase = false;
 	private SQLiteDatabase _db = null;
-	private String _dbPath; 
+	private String _dbPath;
+	private Context _cont; 
 	
 	/**
 	 * Open a existing database at the given path
@@ -25,6 +26,7 @@ public class Database {
 		_dbPath = dbPath;
 		try {
 			_db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+			_cont = cont;
 			isDatabase = true;
 		} catch (Exception e) {
 			// not a database
@@ -258,7 +260,7 @@ public class Database {
 	 */
 	public String[] getSQLQuery(String sql) {
 		testDB();
-		String[] tables = {"No result"};
+		String[] tables = {_cont.getText(R.string.NoResult).toString()};
 		try {
 			Cursor res = _db.rawQuery(sql, null);
 			int recs = res.getCount();
@@ -333,6 +335,7 @@ public class Database {
 		testDB();
 		Cursor res = _db.rawQuery("select name from sqlite_master where type = \"table\" and name = \"aSQLiteManager\"", null);
 		int recs = res.getCount();
+		res.close();
 		if (recs > 0) {
 			return;
 		} else {
@@ -354,7 +357,7 @@ public class Database {
 			sql = sqlStatement;
 		//String[][] res;
 		Utils.logD("SQL = " + sql);
-		Cursor cursor;
+		Cursor cursor = null;
 		QueryResult nres = new QueryResult();
 		try {
 			cursor = _db.rawQuery(sql, null);
@@ -365,7 +368,8 @@ public class Database {
 				nres.Data = new String[1][1];
 				//res = new String[1][1];
 				//res[0][0] = "No result";
-				nres.Data[0][0] = "No result";
+				nres.setColumnNames(new String[] {""});
+				nres.Data[0][0] = _cont.getText(R.string.NoResult).toString();
 				return nres;
 			} else {
 				//TOD get column names
@@ -382,10 +386,13 @@ public class Database {
 			}
 			return nres;
 		} catch (Exception e) {
+			nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
 			nres.Data = new String[1][1];
-			nres.Data[0][0] = "Error:\n" + e.toString();			
+			nres.Data[0][0] = e.toString();			
 			//res = new String[1][1];
-			//res[0][0] = "Error:\n" + e.toString();			
+			//res[0][0] = "Error:\n" + e.toString();
+			if (cursor != null)
+				cursor.close();
 			return nres;
 		}
 	}
@@ -403,6 +410,7 @@ public class Database {
 				res = cursor.getString(0);
 			}
 		}
+	  cursor.close();
 		return res;
 	}
 }

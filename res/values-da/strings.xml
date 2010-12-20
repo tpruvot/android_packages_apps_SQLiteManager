@@ -59,4 +59,6 @@ Her vil der i fremtiden være mere hjælp.
     <string name="NewDBPath">Sti til ny database</string>
     <string name="AutoIndex">Kan ikke hente auto index definitioner</string>
     <string name="Message">Besked</string>
+    <string name="Error">Fejl</string>
+    <string name="NoFileName">Skal mindst give et filnavn</string>
 </resources>

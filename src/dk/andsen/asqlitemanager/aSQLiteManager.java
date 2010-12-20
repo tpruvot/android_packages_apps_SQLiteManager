@@ -112,10 +112,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					String path;
 					if (v == btnMOK) {
 						if (Utils.isSDAvailable()) {
+							String fileName = edNewDB.getEditableText().toString();
 							path = Environment.getExternalStorageDirectory().getAbsolutePath();
-							path += "/" + edNewDB.getText();
-							if (edNewDB.getText().equals("")) {
-								// Give error and do nothing???
+							path += "/" + fileName;
+							if (fileName.equals("")) {
+								Utils.showMessage((String)getText(R.string.Error), (String)getText(R.string.NoFileName), _cont);
 							} else {
 								if (!path.endsWith(".sqlite"))
 									path += ".sqlite";
@@ -123,11 +124,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 								// Ask before??
 								Intent i = new Intent(_cont, DBViewer.class);
 								i.putExtra("db", path);
+								newDatabaseDialog.dismiss();
 								startActivity(i);
 							}
 						}
 						Utils.logD("Path: " + edNewDB.getText().toString());
-						newDatabaseDialog.dismiss();
 					}
 				}
 			});

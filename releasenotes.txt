@@ -2,7 +2,7 @@ Coming in next version:
   The first beta version of aSQLiteManager
   Create new database and open it
   Headers on query results
-  Don not save the same SQL more than one time (unique constraints on SQL)
+  Don't save the same SQL more than one time (unique constraints on SQL)
   Index viewer
 
 Working on:

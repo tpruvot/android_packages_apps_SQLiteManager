@@ -60,4 +60,6 @@ Here you will find some more help in the future.
     <string name="NewDBPath">Path to new database</string>
     <string name="AutoIndex">Can\'t retrieve auto index definition</string>
     <string name="Message">Message</string>
+    <string name="Error">Error</string>
+    <string name="NoFileName">Must at least give a file name</string>
 </resources>
