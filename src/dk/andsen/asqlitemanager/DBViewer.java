@@ -55,6 +55,12 @@ public class DBViewer extends Activity implements OnClickListener {
 			if (!_db.isDatabase) {
 				Utils.logD("Not a database!");
 				Utils.showException(_dbPath + " is not a database!", _cont);
+				try {
+					finalize();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				Utils.logD("Database open");
 				tables = _db.getTables();
@@ -166,5 +172,20 @@ public class DBViewer extends Activity implements OnClickListener {
 			i.putExtra("db", _dbPath);
 			startActivity(i);
 		} 
+	}
+	
+	/* (non-Javadoc)
+	 * Update the lists to ensure new tables (created in query mode) and indexes
+	 * are retrieved
+	 * @see android.app.Activity#onWindowFocusChanged(boolean)
+	 */
+	public void onWindowFocusChanged(boolean hasFocus) {
+		Utils.logD("Focus changed: " + hasFocus);
+		if(hasFocus) {
+			tables = _db.getTables();
+			views = _db.getViews();
+			indexes = _db.getIndex();
+			buildList("Tables");
+		}
 	}
 }

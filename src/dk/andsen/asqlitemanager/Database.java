@@ -1,3 +1,10 @@
+/**
+ * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
+ * a Android SQLite Manager by andsen (http://sourceforge.net/users/andsen)
+ *
+ * @author andsen
+ *
+ */
 package dk.andsen.asqlitemanager;
 
 import java.util.ArrayList;
@@ -283,6 +290,11 @@ public class Database {
 		return tables;
 	}
 
+	/**
+	 * Return a string list with the field names of one ore more tables
+	 * @param tables
+	 * @return
+	 */
 	public String[] getTablesFieldsNames(String[] tables) {
 		testDB();
 		Cursor res;
@@ -348,6 +360,13 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Retrieve a number of rows based on a sql query
+	 * @param sqlStatement the statement
+	 * @param offset number of rows to skip
+	 * @param limit max number of rows to retrieve
+	 * @return a QueryResult object
+	 */
 	public QueryResult getSQLQueryPage(String sqlStatement, int offset, int limit) {
 		testDB();
 		String sql;
@@ -397,6 +416,11 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Return a index definition from its name
+	 * @param indexName name of index
+	 * @return the sql to create the index
+	 */
 	public String getIndexDef(String indexName) {
 		testDB();
 		String res = "";
