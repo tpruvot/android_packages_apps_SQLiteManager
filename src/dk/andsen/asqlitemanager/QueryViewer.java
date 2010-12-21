@@ -1,3 +1,10 @@
+/**
+ * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
+ * a a SQLite Manager by andsen (http://sourceforge.net/users/andsen)
+ *
+ * @author andsen
+ *
+ */
 package dk.andsen.asqlitemanager;
 
 import android.app.Activity;
@@ -70,6 +77,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
 	public void onClick(View v) {
 		int key = v.getId();
 		String sql = _tvQ.getText().toString();
@@ -77,12 +87,10 @@ public class QueryViewer extends Activity implements OnClickListener{
 		Utils.logD("Limit: " + _limit);
 		if (!sql.equals(""))
 		if (key == R.id.Run) {
-			//String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save)
 				_db.saveSQL(_tvQ.getText().toString());
 			_aTable=(TableLayout)findViewById(R.id.datagrid);
-			//String [] nn = {};
 			setTitles(_aTable, result.getColumnNames());
 			appendRows(_aTable, result.getData());			
 		}  else if (key == R.id.PgDwn) {
@@ -92,7 +100,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 				_offset += _limit;
 				String [] nn = {};
 				setTitles(_aTable, nn);
-				//String [][] data = _db.getSQLQueryPage(sql, _offset, _limit);
 				QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 				setTitles(_aTable, result.getColumnNames());
 				appendRows(_aTable, result.getData());
@@ -102,7 +109,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 			_offset -= _limit;
 			if (_offset < 0)
 				_offset = 0;
-			//String [] nn = {};
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			setTitles(_aTable, result.getColumnNames());
 			appendRows(_aTable, result.getData());
@@ -110,6 +116,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		}
 	}
 
+	/**
+	 * Add a String[] as titles
+	 * @param table
+	 * @param titles
+	 */
 	private void setTitles(TableLayout table, String[] titles) {
 		int rowSize=titles.length;
 		table.removeAllViews();
@@ -124,6 +135,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		table.addView(row, new TableLayout.LayoutParams());
 	}
 
+	/**
+	 * Add a String[][] list to the table layout as rows
+	 * @param table
+	 * @param data
+	 */
 	private void appendRows(TableLayout table, String[][] data) {
 		if (data == null)
 			return;

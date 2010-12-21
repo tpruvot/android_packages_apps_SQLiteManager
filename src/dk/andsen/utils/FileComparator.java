@@ -1,3 +1,9 @@
+/**
+ * Part of one of andsens open source project (a41cv / aSQLiteManager) 
+ *
+ * @author andsen
+ *
+ */
 package dk.andsen.utils;
 
 import java.io.File;

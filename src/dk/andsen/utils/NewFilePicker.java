@@ -1,3 +1,9 @@
+/**
+ * Part of one of andsens open source project (a41cv / aSQLiteManager) 
+ *
+ * @author andsen
+ *
+ */
 package dk.andsen.utils;
 
 import java.io.File;
@@ -156,7 +162,6 @@ public class NewFilePicker extends ListActivity {
         holder = new ViewHolder();
         holder.textLine = (TextView) convertView.findViewById(R.id.text);
         holder.iconLine = (ImageView) convertView.findViewById(R.id.icon);
-        Utils.logD("Image0: " + R.drawable.flag_0);
         if (fileH[position].isDirectory()) {
           holder.iconLine.setImageResource(R.drawable.ic_folder);
         } else {

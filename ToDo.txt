@@ -1,4 +1,4 @@
-ToDo
+ToDo / ideas for coming development
 	Compress SQL wines.name -> t1.names in resulting SQL not on lists
 	More functions (and stability) in query builder
 	  Select from
@@ -6,10 +6,11 @@ ToDo
 	  Create Table
 	  Drop
 	  Delete from
-	Select SQL history from query form	  
+	Select SQL history from query form
+	Sort data / query results by clicking on title
 	Data entry and editing form
 	Better horizontal scrolling
-	Tab view
+	"Tab" view / show active tab
 
 Done
 	Create new database
