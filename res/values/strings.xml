@@ -58,7 +58,7 @@ Here you will find some more help in the future.
     <string name="NewDB">New database</string>
     <string name="NewDBSDCard">New database on SDCard</string>
     <string name="NewDBPath">Path to new database</string>
-    <string name="AutoIndex">Can\'t retrieve auto index definition</string>
+    <string name="AutoIndex">SQLite does not store auto index definitions</string>
     <string name="Message">Message</string>
     <string name="Error">Error</string>
     <string name="NoFileName">Must at least give a file name</string>

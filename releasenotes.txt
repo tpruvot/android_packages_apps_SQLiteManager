@@ -1,11 +1,13 @@
 Coming in next version:
   The first beta version of aSQLiteManager
+  The sqlite_master table now included in list of tables
   Create new database and open it
   Headers on query results
   Don't save the same SQL more than one time (unique constraints on SQL)
   Index viewer
 
 Working on:
+  Going beta
   More advanced SQL builder (for create view, create table, delete from, ???)
   File picker with icons on directories and files
   Layout

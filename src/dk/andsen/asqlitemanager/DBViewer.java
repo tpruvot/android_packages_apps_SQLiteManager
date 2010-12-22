@@ -138,7 +138,7 @@ public class DBViewer extends Activity implements OnClickListener {
 		name = toList[position];
 		Utils.logD("Handle: " + type + " " + name);
 		if (type.equals("Index")) {
-			// TODO do not work with sqlite_autoindex
+			// TODO do not work with sqlite_autoindex as SQLite does not store its definition
 			String indexDef = "";
 			if (indexes[position].startsWith("sqlite_autoindex_"))
 				indexDef = (String) this.getText(R.string.AutoIndex);

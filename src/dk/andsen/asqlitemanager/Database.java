@@ -66,11 +66,12 @@ public class Database {
 	 */
 	public String[] getTables() {
 		testDB();
-		String sql ="select name from sqlite_master where type = 'table'";
+		String sql ="select name from sqlite_master where type = 'table' order by name";
 		Cursor res = _db.rawQuery(sql, null);
 		int recs = res.getCount();
-		String[] tables = new String[recs];
-		int i = 0;
+		String[] tables = new String[recs + 1];
+		int i = 1;
+		tables[0] = "sqlite_master";
 		Utils.logD("Views: " + recs);
 		while(res.moveToNext()) {
 			tables[i] = res.getString(0);
