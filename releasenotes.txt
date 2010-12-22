@@ -1,6 +1,6 @@
 Coming in next version:
   The first beta version of aSQLiteManager
-  The sqlite_master table now included in list of tables
+  The sqlite_master table now included in list of tables and sorted by name
   Create new database and open it
   Headers on query results
   Don't save the same SQL more than one time (unique constraints on SQL)

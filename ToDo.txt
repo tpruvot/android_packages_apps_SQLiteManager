@@ -1,5 +1,5 @@
 ToDo / ideas for coming development
-	Compress SQL wines.name -> t1.names in resulting SQL not on lists
+	Compress SQL wines.name -> t1.name in resulting SQL not on lists
 	More functions (and stability) in query builder
 	  Select from
 	  Create View

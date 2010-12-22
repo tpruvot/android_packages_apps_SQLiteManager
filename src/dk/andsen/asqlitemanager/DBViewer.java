@@ -35,6 +35,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private LinearLayout query;
 	private String[] toList;
 	private Context _cont;
+	private boolean _update = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,7 @@ public class DBViewer extends Activity implements OnClickListener {
 				try {
 					finalize();
 				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Utils.logD(e.getMessage());
 				}
 			} else {
 				Utils.logD("Database open");
@@ -98,6 +98,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	}
 
 	/**
+	 * Build / rebuild the lists with tables, views and indexes
 	 * @param type
 	 */
 	private void buildList(final String type) {
@@ -130,15 +131,15 @@ public class DBViewer extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * @param type
-	 * @param position
+	 * Handle the the item clicked on
+	 * @param type the type of list
+	 * @param position Number of item in the list
 	 */
 	protected void selectRecord(String type, int position) {
 		String name;
 		name = toList[position];
 		Utils.logD("Handle: " + type + " " + name);
 		if (type.equals("Index")) {
-			// TODO do not work with sqlite_autoindex as SQLite does not store its definition
 			String indexDef = "";
 			if (indexes[position].startsWith("sqlite_autoindex_"))
 				indexDef = (String) this.getText(R.string.AutoIndex);
@@ -166,6 +167,9 @@ public class DBViewer extends Activity implements OnClickListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
 	public void onClick(View v) {
 		int key = v.getId();
 		if (key == R.id.Tables) {
@@ -175,6 +179,7 @@ public class DBViewer extends Activity implements OnClickListener {
 		} else if (key == R.id.Index) {
 			buildList("Index");
 		} else if (key == R.id.Query) {
+			_update = true;
 			Intent i = new Intent(this, QueryViewer.class);
 			i.putExtra("db", _dbPath);
 			startActivity(i);
@@ -188,7 +193,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	 */
 	public void onWindowFocusChanged(boolean hasFocus) {
 		Utils.logD("Focus changed: " + hasFocus);
-		if(hasFocus) {
+		if(hasFocus & _update) {
+			_update = false;
 			tables = _db.getTables();
 			views = _db.getViews();
 			indexes = _db.getIndex();

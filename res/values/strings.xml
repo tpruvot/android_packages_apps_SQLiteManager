@@ -62,4 +62,5 @@ Here you will find some more help in the future.
     <string name="Message">Message</string>
     <string name="Error">Error</string>
     <string name="NoFileName">Must at least give a file name</string>
+    <string name="DBQueryType">Query Type</string>
 </resources>
