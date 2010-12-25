@@ -35,9 +35,10 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int QUERYTYPE_CREATEVIEW = 1;
 	private static final int QUERYTYPE_CREATETABLE = 2;
 	private static final int QUERYTYPE_DROPTABLE = 3;
-	private static final int QUERYTYPE_DELETE = 4;
+	private static final int QUERYTYPE_DROPVIEW = 5;
+	private static final int QUERYTYPE_DELETE = 6;
 	private String[] _queryTypes = new String[]
-    {"Select", "Create view" ,"Create table", "Drop table", "Delete from"};
+    {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from"};
 	private EditText _tvQ;
 	private Button _btR;
 	private Context _cont;
@@ -207,6 +208,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
+		//menu.clear();
+		//menu.
+		// kan menuen slettes og genoprettes når der f.eks. kommer nye tabeller?
 		menu.add(0, MENU_TABLES, 0, R.string.DBTables);
 		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 		menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
@@ -216,7 +220,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		//menu.add(0, MENU_RESET, 0, R.string.Reset).setIcon(R.drawable.ic_menu_close_clear_cancel);
 		return true;
 	}
-
+	
 	@Override
 	protected Dialog onCreateDialog( int id ) 
 	{
@@ -336,6 +340,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 			break;
 		case QUERYTYPE_CREATETABLE:
 			sql = buildCreateTableSQL();
+			//TODO does this update the menu??
+			//TODO
+			onCreateDialog(MENU_TABLES);
 			break;
 		case QUERYTYPE_CREATEVIEW:
 			sql = buildCreateViewSQL();
@@ -346,35 +353,15 @@ public class QueryViewer extends Activity implements OnClickListener{
 		case QUERYTYPE_DROPTABLE:
 			sql = buildDropTableSQL();
 			break;
+		case QUERYTYPE_DROPVIEW:
+			sql = buildDropViewSQL();
+			break;
 		default:
 			break;
 		}
 		return sql;
 	}
 
-	private String buildDropTableSQL() {
-		String sql = "Drop table ";
-		// TODO Auto-generated method stub
-		return sql;
-	}
-
-	private String buildDeleteSQL() {
-		String sql = "Delete from  ";
-		// TODO Auto-generated method stub
-		return sql;
-	}
-
-	private String buildCreateViewSQL() {
-		String sql = "Create view as select ";
-		// TODO Auto-generated method stub
-		return sql;
-	}
-
-	private String buildCreateTableSQL() {
-		String sql = "Create tables  ";
-		// TODO Auto-generated method stub
-		return sql;
-	}
 
 	private String buildSelectSQL() {
 		int i = 0;
@@ -399,6 +386,51 @@ public class QueryViewer extends Activity implements OnClickListener{
 			}
 			sql = sql.substring(0, sql.length() - 2);
 		}
+		return sql;
+	}
+
+	private String buildDropTableSQL() {
+		String sql = "Drop table ";
+		// Drop first of the selected tables
+		for (int i= 0; i < listOfTables.length; i++) {
+			if (listOfTables_selected[i]) {
+					sql += listOfTables[i];
+					break;
+			}
+		}
+		return sql;
+	}
+
+	private String buildDropViewSQL() {
+		String sql = "Drop view viewName";
+		return sql;
+	}
+
+	private String buildDeleteSQL() {
+		String sql = "Delete from  ";
+		for (int i= 0; i < listOfTables.length; i++) {
+			if (listOfTables_selected[i]) {
+					sql += listOfTables[i] + " where ";
+					break;
+			}
+		}
+		for (int i= 0; i < listOfFields.length; i++) {
+			if (listOfFields_selected[i]) {
+					sql += listOfFields[i]+ " = 'xxx'";
+					break;
+			}
+		}
+		return sql;
+	}
+
+	private String buildCreateViewSQL() {
+		String sql = "Create view ViewName as ";
+		sql += buildSelectSQL();
+		return sql;
+	}
+
+	private String buildCreateTableSQL() {
+		String sql = "Create tables TableName (feild1 f1type, feild2 f2type)";
 		return sql;
 	}
 
