@@ -55,6 +55,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private Button bUp;
 	private Button bDwn;
 	private int _queryType = 0;
+	boolean _rebuildMenu = false;
+	private String _tableDialogString;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save)
 				_db.saveSQL(_tvQ.getText().toString());
+//			onCreateDialog(MENU_TABLES);
+//			onCreateDialog(MENU_FIELDS);
 			_aTable=(TableLayout)findViewById(R.id.datagrid);
 			setTitles(_aTable, result.getColumnNames());
 			appendRows(_aTable, result.getData());			
@@ -207,6 +211,21 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return false;
 	}
 	
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (_rebuildMenu) {
+			Utils.logD("Preparing OptionMenu");
+			menu.clear();
+			//removeDialog(MENU_TABLES);
+			removeDialog(MENU_FIELDS);
+			//removeDialog(MENU_QUERYTYPE);
+			menu.add(0, MENU_TABLES, 0, R.string.DBTables);
+			menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
+			menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
+			_rebuildMenu = false;
+		}
+		return true;
+	}
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//menu.clear();
 		//menu.
@@ -221,27 +240,38 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return true;
 	}
 	
+//	protected Dialog onPrepareDialog(int id) {
+//		
+//		return null;
+//	}
+	
 	@Override
-	protected Dialog onCreateDialog( int id ) 
+	protected Dialog onCreateDialog(int id) 
 	{
-		CharSequence[] posts = null;
-		boolean[] post_selected = null;
+		//CharSequence[] posts = null;
+		//boolean[] post_selected = null;
 		String title = "";
 		switch (id) {
 		case MENU_TABLES:
+			Utils.logD("Creating MENU_TABLES");
 			title = getText(R.string.DBTables).toString();
 			listOfTables = _db.getTables();
+//			for (int i = 0; i < listOfTables.length; i++)
+//				Utils.logD("Table: " + listOfTables[i]);
 			listOfTables_selected = new boolean[listOfTables.length];
-			posts = listOfTables; 
-			post_selected = listOfTables_selected;
-			return 
-			new AlertDialog.Builder( this )
+//			posts = listOfTables; 
+//			post_selected = listOfTables_selected;
+			Dialog test = new AlertDialog.Builder(this)
 			.setTitle(title)
-			.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
-			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
+			.setMultiChoiceItems(listOfTables, listOfTables_selected, new DialogSelectionClickHandler())
+			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 			.create();
+			_tableDialogString = test.toString();
+			return test;
+			
 		case MENU_FIELDS:
-			title = getText(R.string.DBViews).toString();
+			Utils.logD("Creating MENU_FIELDS");
+			title = getText(R.string.DBFields).toString();
 			//count selected tables
 			int selTables = 0;
 			for (boolean sel: listOfTables_selected) {
@@ -256,32 +286,34 @@ public class QueryViewer extends Activity implements OnClickListener{
 				  selTables++;
 				}
 			}
-			listOfFields = _db.getTablesFieldsNames(listOfTables);
+			//listOfFields = _db.getTablesFieldsNames(listOfTables);
+			listOfFields = _db.getTablesFieldsNames(tables);
 			listOfFields_selected = new boolean[listOfFields.length];
-			posts = listOfFields; 
-			post_selected = listOfFields_selected;
+//			posts = listOfFields; 
+//			post_selected = listOfFields_selected;
 			return 
-			new AlertDialog.Builder( this )
+			new AlertDialog.Builder(this)
 			.setTitle(title)
-			.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
-			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
+			.setMultiChoiceItems( listOfFields, listOfFields_selected, new DialogSelectionClickHandler())
+			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 			.create();
-		case MENU_QUERYTYPE:
-			posts = _queryTypes; 
+		default: //case MENU_QUERYTYPE:
+			Utils.logD("Creating MENU_QUERYTYPE");
+			//posts = _queryTypes; 
 			return 
-			new AlertDialog.Builder( this )
+			new AlertDialog.Builder(this)
 			.setTitle(title)
-			.setSingleChoiceItems(posts, 0, new QueryTypeOnClickHandler() )
+			.setSingleChoiceItems(_queryTypes, 0, new QueryTypeOnClickHandler() )
 			//.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
 			//.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
 			.create();
 		}
-		return 
-		new AlertDialog.Builder( this )
-		.setTitle(title)
-		.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
-		.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
-		.create();
+//		return 
+//		new AlertDialog.Builder( this )
+//		.setTitle(title)
+//		.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
+//		.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
+//		.create();
 	}
 
 	/**
@@ -291,7 +323,16 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public class DialogSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener {
 		public void onClick( DialogInterface dialog, int clicked, boolean selected )
 		{
-			//Log.d( "aWine", _grapes[ clicked ] + " selected: " + selected );
+			Utils.logD("Dialog: " + dialog.getClass().getSimpleName());
+			// Clear selected fields to remove them from the sql
+			// but only if it a change in Tables dialog 
+			if (dialog.toString().equals(_tableDialogString)) {
+				_rebuildMenu = true;
+				if (listOfFields_selected != null) {
+					for (int i = 0; i < listOfFields_selected.length; i ++)
+						listOfFields_selected[i] = false;
+				}
+			}
 		}
 	}
 	
@@ -302,7 +343,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
 		public void onClick( DialogInterface dialog, int clicked )
 		{
-			switch( clicked )
+			Utils.logD("Dialog: " + dialog.getClass().getName());
+			switch(clicked)
 			{
 			case DialogInterface.BUTTON_POSITIVE:
 				String sql = buildSQL();
@@ -340,9 +382,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 			break;
 		case QUERYTYPE_CREATETABLE:
 			sql = buildCreateTableSQL();
-			//TODO does this update the menu??
-			//TODO
-			onCreateDialog(MENU_TABLES);
 			break;
 		case QUERYTYPE_CREATEVIEW:
 			sql = buildCreateViewSQL();
@@ -362,23 +401,27 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return sql;
 	}
 
-
 	private String buildSelectSQL() {
 		int i = 0;
 		String sql = "";
-		if (listOfFields == null)
+		boolean del2chars = false;
+		if (listOfFields == null || noSelected(listOfFields_selected) == 0)
 			sql = "select * \nfrom ";
 		else {
 			sql = "select ";
+			Utils.logD("List of fields: " + listOfFields.length);
 			for (i= 0; i < listOfFields.length; i++) {
 				if (listOfFields_selected[i]) {
-						sql += listOfFields[i]+ ", ";
+					Utils.logD("Selected field: " + listOfFields[i]);
+					sql += listOfFields[i]+ ", ";
+					del2chars = true;
 				}
 			}
-			sql = sql.substring(0, sql.length() - 2);
+			if (del2chars)
+				sql = sql.substring(0, sql.length() - 2);
 			sql += "\nfrom ";
 		}
-		if (listOfTables != null) {
+		if (listOfTables != null && listOfTables.length > 0) {
 			for (i = 0; i < listOfTables.length; i++) {
 				if (listOfTables_selected[i]) {
 					sql += listOfTables[i] + ", ";
@@ -387,6 +430,15 @@ public class QueryViewer extends Activity implements OnClickListener{
 			sql = sql.substring(0, sql.length() - 2);
 		}
 		return sql;
+	}
+
+	private int noSelected(boolean[] listOfFieldsSelected) {
+		int res = 0;
+		for (int i = 0; i < listOfFieldsSelected.length; i++) {
+			if (listOfFieldsSelected[i])
+				++res;
+		}
+		return res;
 	}
 
 	private String buildDropTableSQL() {

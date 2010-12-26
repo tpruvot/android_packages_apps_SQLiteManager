@@ -120,7 +120,7 @@ public class FilePicker extends ListActivity {
 		} else {
 			new AlertDialog.Builder(this)
 			//.setIcon(R.drawable.icon)
-			.setTitle(getText(R.string.Open) + "\n [" + file.getAbsolutePath() + "]?")
+			.setTitle(getText(R.string.Open) + "\n [" + file.getName() + "]?")
 			.setPositiveButton("OK", 
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
