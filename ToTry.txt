@@ -1,4 +1,5 @@
 Stuff to try:
   button.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
   button.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFFAA0000));
-	
+  
+  See how OpenSudoku handles import of MIME types	

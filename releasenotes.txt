@@ -1,5 +1,7 @@
 Coming in next version:
   The first beta version of aSQLiteManager
+  More advanced SQL builder (for Select, Create view, Create table, Drop table,
+    Drop view and Delete from)
   The sqlite_master table now included in list of tables and sorted by name
   Create new database and open it
   Headers on query results
@@ -8,7 +10,6 @@ Coming in next version:
 
 Working on:
   Going beta
-  More advanced SQL builder (for create view, create table, delete from, ???)
   File picker with icons on directories and files
   Layout
 
