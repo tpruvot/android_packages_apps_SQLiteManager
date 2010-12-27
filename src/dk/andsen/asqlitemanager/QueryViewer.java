@@ -35,8 +35,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int QUERYTYPE_CREATEVIEW = 1;
 	private static final int QUERYTYPE_CREATETABLE = 2;
 	private static final int QUERYTYPE_DROPTABLE = 3;
-	private static final int QUERYTYPE_DROPVIEW = 5;
-	private static final int QUERYTYPE_DELETE = 6;
+	private static final int QUERYTYPE_DROPVIEW = 4;
+	private static final int QUERYTYPE_DELETE = 5;
 	private String[] _queryTypes = new String[]
     {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from"};
 	private EditText _tvQ;
@@ -396,6 +396,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			sql = buildDropViewSQL();
 			break;
 		default:
+			sql = "";
 			break;
 		}
 		return sql;
@@ -444,12 +445,14 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private String buildDropTableSQL() {
 		String sql = "Drop table ";
 		// Drop first of the selected tables
-		for (int i= 0; i < listOfTables.length; i++) {
-			if (listOfTables_selected[i]) {
-					sql += listOfTables[i];
-					break;
-			}
-		}
+		if(listOfTables != null)
+			if (listOfTables.length > 0)
+				for (int i= 0; i < listOfTables.length; i++) {
+					if (listOfTables_selected[i]) {
+						sql += listOfTables[i];
+						break;
+					}
+				}
 		return sql;
 	}
 
@@ -460,23 +463,27 @@ public class QueryViewer extends Activity implements OnClickListener{
 
 	private String buildDeleteSQL() {
 		String sql = "Delete from  ";
-		for (int i= 0; i < listOfTables.length; i++) {
-			if (listOfTables_selected[i]) {
-					sql += listOfTables[i] + " where ";
-					break;
-			}
-		}
-		for (int i= 0; i < listOfFields.length; i++) {
-			if (listOfFields_selected[i]) {
-					sql += listOfFields[i]+ " = 'xxx'";
-					break;
-			}
-		}
+		if(listOfTables != null)
+			if (listOfTables.length > 0)
+				for (int i= 0; i < listOfTables.length; i++) {
+					if (listOfTables_selected[i]) {
+						sql += listOfTables[i] + " where ";
+						break;
+					}
+				}
+		if(listOfFields != null)
+			if (listOfFields.length > 0)
+				for (int i= 0; i < listOfFields.length; i++) {
+					if (listOfFields_selected[i]) {
+						sql += listOfFields[i]+ " = 'xxx'";
+						break;
+					}
+				}
 		return sql;
 	}
 
 	private String buildCreateViewSQL() {
-		String sql = "Create view ViewName as ";
+		String sql = "Create view ViewName as \n";
 		sql += buildSelectSQL();
 		return sql;
 	}

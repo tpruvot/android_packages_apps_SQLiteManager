@@ -1,4 +1,5 @@
-Coming in next version:
+Version 0.80
+  First beta version
   The first beta version of aSQLiteManager
   More advanced SQL builder (for Select, Create view, Create table, Drop table,
     Drop view and Delete from)
@@ -9,9 +10,8 @@ Coming in next version:
   Index viewer
 
 Working on:
-  Going beta
   File picker with icons on directories and files
-  Layout
+  Improving layout
 
 Version 0.70
   Query result in data grid
