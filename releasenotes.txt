@@ -1,5 +1,8 @@
+Next version
+  aSQLiteManager can be opened if a .sqlite file is clicked on in
+    OI File Manager (but not in Adao Teams File Manager)
+
 Version 0.80
-  First beta version
   The first beta version of aSQLiteManager
   More advanced SQL builder (for Select, Create view, Create table, Drop table,
     Drop view and Delete from)

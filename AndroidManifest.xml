@@ -21,6 +21,19 @@
         <activity android:name=".Help"></activity>
         <activity android:name=".Prefs"></activity>
         <activity android:name=".QueryViewer"></activity>
+        <activity android:name=".OpenOnClick"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.Dialog">
+            <intent-filter
+              android:icon="@drawable/sqlite_icon"
+              android:label="SQLite database"
+              >
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:scheme="file" android:host="*"  android:pathPattern=".*\\.sqlite" />
+                <data android:scheme="http" android:host="*"  android:pathPattern=".*\\.sqlite" />
+            </intent-filter> 
+        </activity>
 	</application>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 

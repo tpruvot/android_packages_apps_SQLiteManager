@@ -101,7 +101,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	 * Build / rebuild the lists with tables, views and indexes
 	 * @param type
 	 */
-	private void buildList(final String type) {
+  //TODO change type to private static final int DISPMODE_INDEX = 0 ...;
+	private void buildList(final String type) {  
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
 		if (type.equals("Clear"))
