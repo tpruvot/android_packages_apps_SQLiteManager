@@ -1,6 +1,6 @@
 Next version
-  aSQLiteManager can be opened if a .sqlite file is clicked on in
-    OI File Manager (but not in Adao Teams File Manager)
+  aSQLiteManager can be opened if a .sqlite or .db file is clicked on in
+    OI File Manager, in Adao Teams File Manager and in Simplest File Manager
 
 Version 0.80
   The first beta version of aSQLiteManager

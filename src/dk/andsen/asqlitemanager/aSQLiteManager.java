@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.webkit.*;
 
 public class aSQLiteManager extends Activity implements OnClickListener {
 	
@@ -56,6 +57,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         } else {
         	test.setOnClickListener(this);
         }
+        String mh = MimeTypeMap.getSingleton().getExtensionFromMimeType("db");
+        Utils.logD("MimeType for sqlite: " + mh);
+        //Utils.showMessage("Debug", "Mime Type for .sqlite: " + mh, this);
         Utils.logD("Created");
     }
 

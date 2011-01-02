@@ -21,9 +21,11 @@
         <activity android:name=".Help"></activity>
         <activity android:name=".Prefs"></activity>
         <activity android:name=".QueryViewer"></activity>
-        <!-- Don't know why but by repeating the OpenOnClick intend in these two
+        <!--
+          Don't know why but by repeating the OpenOnClick intend in these two
           different ways aSQLiteManager can be opened from FileManager (Adao Team)
-          and OI File Manager but not from "Simplest File Manager" -->        
+          and OI File Manager but not from "Simplest File Manager"
+        -->        
         <activity android:name=".OpenOnClick"
                   android:label="@string/app_name"
                   android:icon="@drawable/sqlite_icon"
@@ -36,11 +38,12 @@
                 <category android:name="android.intent.category.ALTERNATIVE" />
                 <category android:name="android.intent.category.SELECTED_ALTERNATIVE" />
                 <data android:scheme="file" android:host="*"  android:pathPattern=".*\\.sqlite" />
+                <data android:scheme="content" android:host="*"  android:pathPattern=".*\\.sqlite" />
                 <data android:scheme="http" android:host="*"  android:pathPattern=".*\\.sqlite" />
                 <data android:scheme="file" android:host="*"  android:pathPattern=".*\\.db" />
+                <data android:scheme="content" android:host="*"  android:pathPattern=".*\\.db" />
                 <data android:scheme="http" android:host="*"  android:pathPattern=".*\\.db" />
-                <data android:mimeType="application/x-asqlitemanager" /> 
-                
+                <data android:mimeType="*/*" /> 
             </intent-filter> 
         </activity>
         <activity android:name=".OpenOnClick2"
@@ -60,7 +63,6 @@
                 <data android:scheme="http" android:host="*"  android:pathPattern=".*\\.db" />
             </intent-filter> 
         </activity>
-
 	</application>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 
