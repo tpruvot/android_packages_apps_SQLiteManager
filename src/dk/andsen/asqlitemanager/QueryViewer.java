@@ -37,8 +37,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int QUERYTYPE_DROPTABLE = 3;
 	private static final int QUERYTYPE_DROPVIEW = 4;
 	private static final int QUERYTYPE_DELETE = 5;
+	private static final int QUERYTYPE_INSERT_INTO = 6;
 	private String[] _queryTypes = new String[]
-    {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from"};
+    {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from", "Insert into"};
 	private EditText _tvQ;
 	private Button _btR;
 	private Context _cont;
@@ -395,10 +396,19 @@ public class QueryViewer extends Activity implements OnClickListener{
 		case QUERYTYPE_DROPVIEW:
 			sql = buildDropViewSQL();
 			break;
+		case QUERYTYPE_INSERT_INTO:
+			sql = buildInsertIntoSQL();
+			break;
 		default:
 			sql = "";
 			break;
 		}
+		return sql;
+	}
+
+	private String buildInsertIntoSQL() {
+		String sql = "Insert Into TableName (field1, field2) Values ('Value1', 'Value2')";
+		// TODO build based on first table and selected fields from this table
 		return sql;
 	}
 

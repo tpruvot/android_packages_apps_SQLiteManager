@@ -75,8 +75,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				// onActivityResult() 
 				startActivity(i);
 			} else if (key == R.id.About) {
-				Context mContext = this;
-				Dialog dial = new Dialog(mContext);
+				Dialog dial = new Dialog(this);
 				dial.setContentView(R.layout.about);
 				dial.setTitle(getString(R.string.AboutHeader));
 				TextView text = (TextView) dial.findViewById(R.id.text);
