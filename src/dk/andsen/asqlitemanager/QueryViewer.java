@@ -407,8 +407,40 @@ public class QueryViewer extends Activity implements OnClickListener{
 	}
 
 	private String buildInsertIntoSQL() {
-		String sql = "Insert Into TableName (field1, field2) Values ('Value1', 'Value2')";
-		// TODO build based on first table and selected fields from this table
+		int noOfSelectedTables = 0;
+		if (listOfTables == null)
+			return "Insert Into TableName (field1, field2)\nValues ('Value1', 'Value2')";
+		for (int i= 0; i < listOfTables.length; i++) 
+			if (listOfTables_selected[i])
+				noOfSelectedTables++;
+		if (noOfSelectedTables > 1) {
+			Utils.showException("Insert mode only works with one selected table", _cont);
+			return "";
+		}
+		// create the field list with out the user having to open the fields menu
+		onCreateDialog(MENU_FIELDS);
+		//String sql = "Insert Into TableName (field1, field2) Values ('Value1', 'Value2')";
+		String sql = "Insert Into ";
+		if(listOfTables != null)
+			if (listOfTables.length > 0)
+				for (int i= 0; i < listOfTables.length; i++) {
+					if (listOfTables_selected[i]) {
+						sql += listOfTables[i] + " (";
+						break;
+					}
+				}
+		if(listOfFields != null)
+			if (listOfFields.length > 0)
+				for (int i= 0; i < listOfFields.length; i++) {
+						sql += listOfFields[i].substring(listOfFields[i].indexOf(".") + 1) + ", ";
+					}
+		sql = sql.substring(0, sql.length()-2) + ")\nvalues (";
+		if(listOfFields != null)
+			if (listOfFields.length > 0)
+				for (int i= 0; i < listOfFields.length; i++) {
+						sql += "'value" + (i + 1) + "', ";
+					}
+		sql = sql.substring(0, sql.length()-2) + ")";
 		return sql;
 	}
 

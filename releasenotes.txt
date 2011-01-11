@@ -1,6 +1,11 @@
 Next version
   aSQLiteManager can be opened if a .sqlite or .db file is clicked on in
     OI File Manager, in Adao Teams File Manager and in Simplest File Manager
+  Insert into SQL builder mode
+
+Working on:
+  Bug hunting
+  Improving layout
 
 Version 0.80
   The first beta version of aSQLiteManager
@@ -11,10 +16,6 @@ Version 0.80
   Headers on query results
   Don't save the same SQL more than one time (unique constraints on SQL)
   Index viewer
-
-Working on:
-  File picker with icons on directories and files
-  Improving layout
 
 Version 0.70
   Query result in data grid
