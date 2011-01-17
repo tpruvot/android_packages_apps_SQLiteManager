@@ -408,7 +408,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 
 	private String buildInsertIntoSQL() {
 		int noOfSelectedTables = 0;
-		if (listOfTables == null)
+		if (!(listOfTables != null))
 			return "Insert Into TableName (field1, field2)\nValues ('Value1', 'Value2')";
 		for (int i= 0; i < listOfTables.length; i++) 
 			if (listOfTables_selected[i])
