@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import dk.andsen.utils.Types;
 import dk.andsen.utils.Utils;
 
 public class TableViewer extends Activity implements OnClickListener {
@@ -48,7 +49,6 @@ public class TableViewer extends Activity implements OnClickListener {
 		bDwn.setVisibility(View.GONE);
 		_cont = this;
 		limit = Prefs.getPageSize(this);
-		
 		bTab.setOnClickListener(this);
 		bVie.setOnClickListener(this);
 		sVie.setOnClickListener(this);
@@ -67,7 +67,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			_db = new Database(_dbPath, _cont);
 			Utils.logD("Database open");
 			onClick(bTab);
-			//buildList(_type);
 		}
 	}
 
@@ -154,6 +153,11 @@ public class TableViewer extends Activity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * Add a row to the table
+	 * @param table
+	 * @param data
+	 */
 	private void appendRows(TableLayout table, String[][] data) {
 		int rowSize=data.length;
 		int colSize=(data.length>0)?data[0].length:0;
@@ -194,6 +198,11 @@ public class TableViewer extends Activity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * Add titles to the columns
+	 * @param table
+	 * @param titles
+	 */
 	private void setTitles(TableLayout table, String[] titles) {
 		int rowSize=titles.length;
 		table.removeAllViews();

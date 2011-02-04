@@ -9,6 +9,8 @@ package dk.andsen.asqlitemanager;
 
 import java.util.ArrayList;
 import java.util.List;
+import dk.andsen.utils.Field;
+import dk.andsen.utils.QueryResult;
 import dk.andsen.utils.Utils;
 import android.content.Context;
 import android.database.Cursor;

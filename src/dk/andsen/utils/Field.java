@@ -5,7 +5,7 @@
  * @author andsen
  *
  */
-package dk.andsen.asqlitemanager;
+package dk.andsen.utils;
 
 /**
  * class to describe a database field

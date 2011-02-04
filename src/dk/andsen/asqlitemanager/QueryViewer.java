@@ -24,8 +24,13 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import dk.andsen.utils.QueryResult;
 import dk.andsen.utils.Utils;
 
+/**
+ * @author os
+ *
+ */
 public class QueryViewer extends Activity implements OnClickListener{
 
 	private static final int MENU_TABLES = 0;
@@ -197,6 +202,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_TABLES:
@@ -212,6 +220,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
+	 */
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (_rebuildMenu) {
 			Utils.logD("Preparing OptionMenu");
@@ -228,23 +239,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
-		//menu.clear();
-		//menu.
-		// kan menuen slettes og genoprettes når der f.eks. kommer nye tabeller?
 		menu.add(0, MENU_TABLES, 0, R.string.DBTables);
 		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 		menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
-		//menu.add(0, MENU_LOAD, 0, R.string.Load).setIcon(R.drawable.ic_menu_load);
-		//menu.add(0, MENU_OPT, 0, R.string.Option).setIcon(R.drawable.ic_menu_preferences);
-		//menu.add(0, MENU_PRGS, 0, R.string.Progs).setIcon(R.drawable.ic_menu_compose);
-		//menu.add(0, MENU_RESET, 0, R.string.Reset).setIcon(R.drawable.ic_menu_close_clear_cancel);
 		return true;
 	}
-	
-//	protected Dialog onPrepareDialog(int id) {
-//		
-//		return null;
-//	}
 	
 	@Override
 	protected Dialog onCreateDialog(int id) 
@@ -309,12 +308,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 			//.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
 			.create();
 		}
-//		return 
-//		new AlertDialog.Builder( this )
-//		.setTitle(title)
-//		.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
-//		.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
-//		.create();
 	}
 
 	/**
@@ -406,6 +399,10 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return sql;
 	}
 
+	/**
+	 * Build a Insert into statement
+	 * @return the sql
+	 */
 	private String buildInsertIntoSQL() {
 		int noOfSelectedTables = 0;
 		if (!(listOfTables != null))
@@ -444,6 +441,10 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return sql;
 	}
 
+	/**
+	 * Build a select statement
+	 * @return the sql
+	 */
 	private String buildSelectSQL() {
 		int i = 0;
 		String sql = "";
@@ -475,6 +476,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return sql;
 	}
 
+	/**
+	 * find the number of true entries in a list of boolean
+	 * @param listOfFieldsSelected
+	 * @return
+	 */
 	private int noSelected(boolean[] listOfFieldsSelected) {
 		int res = 0;
 		for (int i = 0; i < listOfFieldsSelected.length; i++) {
@@ -484,6 +490,10 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return res;
 	}
 
+	/**
+	 * Build a drop table statement
+	 * @return the sql
+	 */
 	private String buildDropTableSQL() {
 		String sql = "Drop table ";
 		// Drop first of the selected tables
@@ -498,11 +508,19 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return sql;
 	}
 
+	/**
+	 * build a drop view statement
+	 * @return the sql statement
+	 */
 	private String buildDropViewSQL() {
 		String sql = "Drop view viewName";
 		return sql;
 	}
 
+	/**
+	 * Build a delete statement 
+	 * @return the sql statement
+	 */
 	private String buildDeleteSQL() {
 		String sql = "Delete from  ";
 		if(listOfTables != null)
@@ -524,12 +542,20 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return sql;
 	}
 
+	/**
+	 * Buil a create view statement
+	 * @return the sql statement
+	 */
 	private String buildCreateViewSQL() {
 		String sql = "Create view ViewName as \n";
 		sql += buildSelectSQL();
 		return sql;
 	}
 
+	/**
+	 * Build a create table statement
+	 * @return the sql statement
+	 */
 	private String buildCreateTableSQL() {
 		String sql = "Create tables TableName (feild1 f1type, feild2 f2type)";
 		return sql;
