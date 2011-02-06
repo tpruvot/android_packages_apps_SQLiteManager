@@ -1,12 +1,17 @@
+Version 1.0
+  First production release of aSQLiteManager
+  
+Working on:
+  Planning further development, feature request welcome, could be:
+  	Select SQL history from query form
+	Sort data / query results by clicking on title
+	Data entry and editing form use editing button at each row
+
 Version 0.81
   aSQLiteManager can be opened if a .sqlite or .db file is clicked on in
     OI File Manager, in Adao Teams File Manager and in Simplest File Manager
   Insert into SQL builder mode
   A few bug fixed
-
-Working on:
-  Bug hunting
-  Improving layout
 
 Version 0.80
   The first beta version of aSQLiteManager

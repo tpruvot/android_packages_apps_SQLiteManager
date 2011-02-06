@@ -61,6 +61,7 @@ Her vil der i fremtiden være mere hjælp.
     <string name="Message">Besked</string>
     <string name="Error">Fejl</string>
     <string name="NoFileName">Skal mindst give et filnavn</string>
+    <string name="DBQueryType">Query Type</string>
     <string name="OnClickedMess">Du klikkede på denne SQLite database:</string>
     <string name="OnClickedOpen">Åbn databasen med\naSQLiteManager</string>
 </resources>
