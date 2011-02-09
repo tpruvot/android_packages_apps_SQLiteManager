@@ -1,12 +1,17 @@
-Version 1.0
-  First production release of aSQLiteManager
+Next version
+  Select SQL history from query form
   
 Working on:
   Planning further development, feature request welcome, could be:
-  	Select SQL history from query form
+	Running scripts
+	Commit and roll back
 	Sort data / query results by clicking on title
 	Data entry and editing form use editing button at each row
+	Backup and restore of databases
 
+Version 1.0
+  First production release of aSQLiteManager
+  
 Version 0.81
   aSQLiteManager can be opened if a .sqlite or .db file is clicked on in
     OI File Manager, in Adao Teams File Manager and in Simplest File Manager

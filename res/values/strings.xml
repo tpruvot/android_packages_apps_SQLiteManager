@@ -65,4 +65,7 @@ Here you will find some more help in the future.
     <string name="DBQueryType">Query Type</string>
     <string name="OnClickedMess">You clicked on this SQLite database:</string>
     <string name="OnClickedOpen">Open database with\naSQLiteManager</string>
+
+    <string name="RecentSQL">Recent SQL</string>
+
 </resources>

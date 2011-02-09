@@ -36,6 +36,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int MENU_TABLES = 0;
 	private static final int MENU_FIELDS = 1;
 	private static final int MENU_QUERYTYPE = 2;
+	private static final int MENU_RESENT_SQL = 3;
 	private static final int QUERYTYPE_SELECT = 0;
 	private static final int QUERYTYPE_CREATEVIEW = 1;
 	private static final int QUERYTYPE_CREATETABLE = 2;
@@ -56,6 +57,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private boolean _save;
 	private boolean[] listOfTables_selected;
 	private String[] listOfTables;
+	private String[] listOfSQL;
 	private boolean[] listOfFields_selected;
 	private String[] listOfFields;
 	private Button bUp;
@@ -106,8 +108,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		if (!sql.equals(""))
 		if (key == R.id.Run) {
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
-			if (_save)
+			if (_save) {
 				_db.saveSQL(_tvQ.getText().toString());
+				// New SQL -> menu must be rebuild
+				_rebuildMenu = true;
+			}
 //			onCreateDialog(MENU_TABLES);
 //			onCreateDialog(MENU_FIELDS);
 			_aTable=(TableLayout)findViewById(R.id.datagrid);
@@ -208,13 +213,16 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_TABLES:
-			showDialog( MENU_TABLES );
+			showDialog(MENU_TABLES );
 			break;
 		case MENU_FIELDS:
-			showDialog( MENU_FIELDS );
+			showDialog(MENU_FIELDS );
 			break;
 		case MENU_QUERYTYPE:
-			showDialog( MENU_QUERYTYPE );
+			showDialog(MENU_QUERYTYPE );
+			break;
+		case MENU_RESENT_SQL:
+			showDialog(MENU_RESENT_SQL);
 			break;
 		}
 		return false;
@@ -233,6 +241,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			menu.add(0, MENU_TABLES, 0, R.string.DBTables);
 			menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 			menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
+			menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 			_rebuildMenu = false;
 		}
 		return true;
@@ -242,25 +251,20 @@ public class QueryViewer extends Activity implements OnClickListener{
 		menu.add(0, MENU_TABLES, 0, R.string.DBTables);
 		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 		menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
+		menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 		return true;
 	}
 	
 	@Override
 	protected Dialog onCreateDialog(int id) 
 	{
-		//CharSequence[] posts = null;
-		//boolean[] post_selected = null;
 		String title = "";
 		switch (id) {
 		case MENU_TABLES:
 			Utils.logD("Creating MENU_TABLES");
 			title = getText(R.string.DBTables).toString();
 			listOfTables = _db.getTables();
-//			for (int i = 0; i < listOfTables.length; i++)
-//				Utils.logD("Table: " + listOfTables[i]);
 			listOfTables_selected = new boolean[listOfTables.length];
-//			posts = listOfTables; 
-//			post_selected = listOfTables_selected;
 			Dialog test = new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setMultiChoiceItems(listOfTables, listOfTables_selected, new DialogSelectionClickHandler())
@@ -268,7 +272,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 			.create();
 			_tableDialogString = test.toString();
 			return test;
-			
 		case MENU_FIELDS:
 			Utils.logD("Creating MENU_FIELDS");
 			title = getText(R.string.DBFields).toString();
@@ -286,16 +289,21 @@ public class QueryViewer extends Activity implements OnClickListener{
 				  selTables++;
 				}
 			}
-			//listOfFields = _db.getTablesFieldsNames(listOfTables);
 			listOfFields = _db.getTablesFieldsNames(tables);
 			listOfFields_selected = new boolean[listOfFields.length];
-//			posts = listOfFields; 
-//			post_selected = listOfFields_selected;
 			return 
 			new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setMultiChoiceItems( listOfFields, listOfFields_selected, new DialogSelectionClickHandler())
 			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+			.create();
+		case MENU_RESENT_SQL:		
+			Utils.logD("Creating MENU_RESENT_SQL");
+			listOfSQL = _db.getListOfSQL();
+			return 
+			new AlertDialog.Builder(this)
+			.setTitle(title) //TODO fill listOfSQL 
+			.setSingleChoiceItems(listOfSQL, 0, new ResentSQLOnClickHandler() )
 			.create();
 		default: //case MENU_QUERYTYPE:
 			Utils.logD("Creating MENU_QUERYTYPE");
@@ -304,8 +312,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 			new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setSingleChoiceItems(_queryTypes, 0, new QueryTypeOnClickHandler() )
-			//.setMultiChoiceItems( posts, post_selected, new DialogSelectionClickHandler() )
-			//.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler() )
 			.create();
 		}
 	}
@@ -363,6 +369,21 @@ public class QueryViewer extends Activity implements OnClickListener{
 			_tvQ.setText(sql);
 		}
 	}
+
+	/**
+	 * Handles the click on the rwsent SQL menu
+	 * @author andsen
+	 *
+	 */
+	public class ResentSQLOnClickHandler implements DialogInterface.OnClickListener {
+		public void onClick(DialogInterface dialog, int which) {
+			_queryType = which;
+			//Utils.showMessage("qtype", "" + _queryType, _cont);
+			dialog.dismiss();
+			_tvQ.setText(listOfSQL[which]);
+		}
+	}
+
 	
 	/**
 	 * Build the SQL statement

@@ -440,4 +440,27 @@ public class Database {
 	  cursor.close();
 		return res;
 	}
+
+	/**
+	 * Return a list of recent executed SQL statements from current database
+	 * ordered by latest first
+	 * @return a String[] with SQL statements
+	 */
+	public String[] getListOfSQL() {
+		testDB();
+		String sql = "select * from aSQLiteManager order by _id desc";
+		Cursor res = _db.rawQuery(sql, null);
+		int cols = res.getCount();
+		String[] list = new String[cols];
+		int i = 0;
+		// getting field names
+		while(res.moveToNext()) {
+			String str = new String();
+			str = res.getString(1);
+			list[i] = str;
+			i++;
+		}
+		res.close();
+		return list;
+	}
 }
