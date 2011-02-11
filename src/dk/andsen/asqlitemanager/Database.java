@@ -7,6 +7,7 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import dk.andsen.utils.Field;
@@ -16,6 +17,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 /**
  * @author Andsen
@@ -462,5 +464,30 @@ public class Database {
 		}
 		res.close();
 		return list;
+	}
+	
+	/**
+	 * Backup current database
+	 * @return true on success
+	 */
+	public boolean backupDatabase() {
+		File path = Environment.getExternalStorageDirectory();
+		String dbName = _dbPath;
+		//TODO strip file name
+		File backupFile = new File(path.getAbsolutePath()+dbName + ".backup");
+		//backupFile.
+		
+		
+		
+		return false;
+	}
+	
+	/**
+	 * Restore current database
+	 * @return true on success
+	 */
+	public boolean restoreDatabase() {
+		
+		return false;
 	}
 }

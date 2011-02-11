@@ -11,6 +11,7 @@ Working on:
 
 Version 1.0
   First production release of aSQLiteManager
+  No known bugs
   
 Version 0.81
   aSQLiteManager can be opened if a .sqlite or .db file is clicked on in
