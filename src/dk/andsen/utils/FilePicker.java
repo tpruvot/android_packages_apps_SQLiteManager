@@ -59,7 +59,7 @@ public class FilePicker extends ListActivity {
 		} else {
 			// No SDCard
 			new AlertDialog.Builder(this)
-			.setIcon(R.drawable.icon)
+			.setIcon(R.drawable.sqlite_icon)
 			.setTitle(getText(R.string.NoSDCard))
 			.setPositiveButton(R.string.OK, 
 					new DialogInterface.OnClickListener() {
@@ -109,7 +109,7 @@ public class FilePicker extends ListActivity {
 			else
 			{
 				new AlertDialog.Builder(this)
-				.setIcon(R.drawable.icon)
+				.setIcon(R.drawable.sqlite_icon)
 				.setTitle("[" + file.getName() + "] " + getText(R.string.ReadOnlyFolder))
 				.setPositiveButton("OK", 
 						new DialogInterface.OnClickListener() {

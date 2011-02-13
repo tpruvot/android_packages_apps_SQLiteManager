@@ -58,7 +58,7 @@ public class NewFilePicker extends ListActivity {
 		} else {
 			// No SDCard
 			new AlertDialog.Builder(this)
-			.setIcon(R.drawable.icon)
+			.setIcon(R.drawable.sqlite_icon)
 			.setTitle("No SDCard available")
 			.setPositiveButton("OK", 
 					new DialogInterface.OnClickListener() {

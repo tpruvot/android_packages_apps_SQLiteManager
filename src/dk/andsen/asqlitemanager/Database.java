@@ -7,7 +7,10 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import dk.andsen.utils.Field;
@@ -473,12 +476,34 @@ public class Database {
 	public boolean backupDatabase() {
 		File path = Environment.getExternalStorageDirectory();
 		String dbName = _dbPath;
-		//TODO strip file name
+		// strip file name
+		_dbPath = _dbPath.substring(_dbPath.lastIndexOf('/'));
 		File backupFile = new File(path.getAbsolutePath()+dbName + ".backup");
 		//backupFile.
-		
-		
-		
+		if (backupFile.canWrite()) {
+			//backupFile.
+			FileWriter fstream;
+			try {
+				fstream = new FileWriter(backupFile);
+				Utils.logD("Exporting to; " + backupFile);
+	      BufferedWriter out = new BufferedWriter(fstream);
+	      Utils.logD("-- Database export made by aSQLiteManager");
+	      out.write("-- Database export made by aSQLiteManager");
+	      // export tables
+	      
+	      // export index
+	      
+	      // export constraints
+	      
+	      //Close the output stream
+	      out.close();
+	      return true;
+			} catch (IOException e) {
+				Utils.logD("Export error: " + e.getMessage());
+				e.printStackTrace();
+			}
+			
+		}
 		return false;
 	}
 	
@@ -487,6 +512,8 @@ public class Database {
 	 * @return true on success
 	 */
 	public boolean restoreDatabase() {
+		//TODO Just delete everything and then run the export as a script
+		
 		
 		return false;
 	}
