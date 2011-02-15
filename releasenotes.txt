@@ -1,10 +1,14 @@
 Next version
   Select SQL history from query form
+  Size of icons changed to right sizes for different displays
+  Begin transaction, Commit and rollback can be selected from option menu. 
+    Transactions can be nested (but level can not be seen). Rollback rollback
+    history as well
   
 Working on:
   Planning further development, feature request welcome, could be:
 	Running scripts
-	Commit and roll back
+	Commit and rollback
 	Sort data / query results by clicking on title
 	Data entry and editing form use editing button at each row
 	Backup and restore of databases

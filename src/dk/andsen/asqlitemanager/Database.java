@@ -474,6 +474,7 @@ public class Database {
 	 * @return true on success
 	 */
 	public boolean backupDatabase() {
+		testDB();
 		File path = Environment.getExternalStorageDirectory();
 		String dbName = _dbPath;
 		// strip file name
@@ -514,7 +515,26 @@ public class Database {
 	public boolean restoreDatabase() {
 		//TODO Just delete everything and then run the export as a script
 		
-		
 		return false;
+	}
+
+	public boolean beginTransaction() {
+		// TODO Auto-generated method stub
+		testDB();
+		_db.beginTransaction();
+		return _db.inTransaction();
+	}
+	
+	public boolean commit() {
+		testDB();
+		_db.setTransactionSuccessful();
+    _db.endTransaction();
+		return _db.inTransaction();
+	}
+	
+	public boolean rollback() {
+		testDB();
+    _db.endTransaction();
+		return _db.inTransaction();
 	}
 }

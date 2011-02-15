@@ -37,6 +37,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int MENU_FIELDS = 1;
 	private static final int MENU_QUERYTYPE = 2;
 	private static final int MENU_RESENT_SQL = 3;
+	private static final int MENU_TRANSACTION = 4;
+	private static final int TRANSACTION_BEGIN = 0;
+	private static final int TRANSACTION_ROLLBACK = 1;
+	private static final int TRANSACTION_COMMIT = 2;
+	private boolean inTransaction = false;
 	private static final int QUERYTYPE_SELECT = 0;
 	private static final int QUERYTYPE_CREATEVIEW = 1;
 	private static final int QUERYTYPE_CREATETABLE = 2;
@@ -46,8 +51,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int QUERYTYPE_INSERT_INTO = 6;
 	private String[] _queryTypes = new String[]
     {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from", "Insert into"};
+	private String[] _transaction = new String[]
+    {"Begin transaction", "Rollback" ,"Commit"};
 	private EditText _tvQ;
 	private Button _btR;
+	private TextView _tvTransaction;
 	private Context _cont;
 	private String _dbPath;
 	private Database _db;
@@ -71,6 +79,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.query_viewer);
 		_tvQ = (EditText) this.findViewById(R.id.SQLStm);
+		_tvTransaction = (TextView)this.findViewById(R.id.Transaction);
 		_btR = (Button) this.findViewById(R.id.Run);
 		_btR.setOnClickListener(this);
 		_cont = _tvQ.getContext();
@@ -107,14 +116,13 @@ public class QueryViewer extends Activity implements OnClickListener{
 		Utils.logD("Limit: " + _limit);
 		if (!sql.equals(""))
 		if (key == R.id.Run) {
+			// TODO if in transaction store sql in list
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save) {
 				_db.saveSQL(_tvQ.getText().toString());
 				// New SQL -> menu must be rebuild
 				_rebuildMenu = true;
 			}
-//			onCreateDialog(MENU_TABLES);
-//			onCreateDialog(MENU_FIELDS);
 			_aTable=(TableLayout)findViewById(R.id.datagrid);
 			setTitles(_aTable, result.getColumnNames());
 			appendRows(_aTable, result.getData());			
@@ -139,6 +147,16 @@ public class QueryViewer extends Activity implements OnClickListener{
 			appendRows(_aTable, result.getData());
 			Utils.logD("PgUp: " + _offset);
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		// Disable back key if in transaction
+		if(inTransaction) {
+			Utils.showMessage("Warning", "In transaction:\nCommit or Rollback before exiting", _cont);
+			return;
+		}
+		super.onBackPressed();
 	}
 
 	/**
@@ -224,6 +242,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 		case MENU_RESENT_SQL:
 			showDialog(MENU_RESENT_SQL);
 			break;
+		case MENU_TRANSACTION:
+			showDialog(MENU_TRANSACTION);
+			break;
 		}
 		return false;
 	}
@@ -242,6 +263,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 			menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
 			menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
+			menu.add(0, MENU_TRANSACTION, 0, R.string.Transaction);
 			_rebuildMenu = false;
 		}
 		return true;
@@ -252,6 +274,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 		menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
 		menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
+		menu.add(0, MENU_TRANSACTION, 0, R.string.Transaction);
 		return true;
 	}
 	
@@ -302,8 +325,15 @@ public class QueryViewer extends Activity implements OnClickListener{
 			listOfSQL = _db.getListOfSQL();
 			return 
 			new AlertDialog.Builder(this)
-			.setTitle(title) //TODO fill listOfSQL 
+			.setTitle(title) 
 			.setSingleChoiceItems(listOfSQL, 0, new ResentSQLOnClickHandler() )
+			.create();
+		case MENU_TRANSACTION:
+			Utils.logD("Creating MENU_TRANSACTION");
+			return 
+			new AlertDialog.Builder(this)
+			.setTitle(title)
+			.setSingleChoiceItems(_transaction, 0, new TransactionOnClickHandler())
 			.create();
 		default: //case MENU_QUERYTYPE:
 			Utils.logD("Creating MENU_QUERYTYPE");
@@ -311,7 +341,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			return 
 			new AlertDialog.Builder(this)
 			.setTitle(title)
-			.setSingleChoiceItems(_queryTypes, 0, new QueryTypeOnClickHandler() )
+			.setSingleChoiceItems(_queryTypes, 0, new QueryTypeOnClickHandler())
 			.create();
 		}
 	}
@@ -370,6 +400,40 @@ public class QueryViewer extends Activity implements OnClickListener{
 		}
 	}
 
+	/**
+	 * Handles the click on the transaction dialog
+	 * @author andsen
+	 *
+	 */
+	public class TransactionOnClickHandler implements DialogInterface.OnClickListener {
+		public void onClick(DialogInterface dialog, int id) {
+			//TODO handle transactions
+			Utils.logD("Transaction menu clicked");
+			switch(id) {
+			case TRANSACTION_BEGIN:
+				_tvTransaction.setText(getText(R.string.InTransaction));
+				_tvTransaction.setVisibility(View.VISIBLE);
+				
+				inTransaction = _db.beginTransaction();
+				break;
+			case TRANSACTION_COMMIT:
+				_tvTransaction.setText(getText(R.string.UpdatesCommitted));
+				
+				inTransaction = _db.commit();
+				break;
+			case TRANSACTION_ROLLBACK:
+				_tvTransaction.setText(getText(R.string.UpdatesRolledback));
+				
+				inTransaction = _db.rollback();
+				break;
+			default:
+				//Newer reached
+				break;
+			}
+			dialog.dismiss();
+		}
+	}
+	
 	/**
 	 * Handles the click on the rwsent SQL menu
 	 * @author andsen

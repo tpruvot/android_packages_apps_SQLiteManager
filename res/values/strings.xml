@@ -67,5 +67,12 @@ Here you will find some more help in the future.
     <string name="OnClickedOpen">Open database with\naSQLiteManager</string>
 
     <string name="RecentSQL">Recent SQL</string>
+    <string name="Transaction">Transaction</string>
+    <string name="BeginTransaction">Begin transaction</string>
+    <string name="Commit">Commit</string>
+    <string name="Rollback">Rollback</string>
+    <string name="InTransaction">In transaction</string>
+    <string name="UpdatesCommitted">Updates committed</string>
+    <string name="UpdatesRolledback">Updates rolled back</string>
 
 </resources>
