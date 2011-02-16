@@ -50,9 +50,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int QUERYTYPE_DELETE = 5;
 	private static final int QUERYTYPE_INSERT_INTO = 6;
 	private String[] _queryTypes = new String[]
-    {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from", "Insert into"};
+      {"Select", "Create view" ,"Create table", "Drop table", "Drop view", "Delete from", "Insert into"};
 	private String[] _transaction = new String[]
-    {"Begin transaction", "Rollback" ,"Commit"};
+      {"Begin transaction", "Rollback" ,"Commit"};
 	private EditText _tvQ;
 	private Button _btR;
 	private TextView _tvTransaction;
@@ -116,10 +116,14 @@ public class QueryViewer extends Activity implements OnClickListener{
 		Utils.logD("Limit: " + _limit);
 		if (!sql.equals(""))
 		if (key == R.id.Run) {
-			// TODO if in transaction store sql in list
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save) {
+				// TODO if in transaction store SQL - somehow
+				if(_db.inTransaction())
+				  _db.beginTransaction();
 				_db.saveSQL(_tvQ.getText().toString());
+				if(_db.inTransaction())
+				  _db.commit();
 				// New SQL -> menu must be rebuild
 				_rebuildMenu = true;
 			}

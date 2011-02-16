@@ -2,8 +2,8 @@ Next version
   Select SQL history from query form
   Size of icons changed to right sizes for different displays
   Begin transaction, Commit and rollback can be selected from option menu. 
-    Transactions can be nested (but level can not be seen). Rollback rollback
-    history as well
+    Transactions can be nested (but level can not be seen). Rollback might not 
+    rollback history any more
   
 Working on:
   Planning further development, feature request welcome, could be:

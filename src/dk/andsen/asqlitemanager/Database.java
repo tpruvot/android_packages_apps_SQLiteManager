@@ -528,13 +528,17 @@ public class Database {
 	public boolean commit() {
 		testDB();
 		_db.setTransactionSuccessful();
-    _db.endTransaction();
+		_db.endTransaction();
 		return _db.inTransaction();
 	}
 	
 	public boolean rollback() {
 		testDB();
-    _db.endTransaction();
+		_db.endTransaction();
+		return _db.inTransaction();
+	}
+	
+	public boolean inTransaction() {
 		return _db.inTransaction();
 	}
 }
