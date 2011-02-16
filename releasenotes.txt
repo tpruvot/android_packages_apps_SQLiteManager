@@ -3,7 +3,9 @@ Next version
   Size of icons changed to right sizes for different displays
   Begin transaction, Commit and rollback can be selected from option menu. 
     Transactions can be nested (but level can not be seen). Rollback might not 
-    rollback history any more
+    rollback history any more (think Android uses savepoint
+    http://www.sqlite.org/lang_savepoint.html as they can be nested according
+    to the specifications)
   
 Working on:
   Planning further development, feature request welcome, could be:
