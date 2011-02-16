@@ -1,11 +1,11 @@
 Next version
   Select SQL history from query form
   Size of icons changed to right sizes for different displays
-  Begin transaction, Commit and rollback can be selected from option menu. 
-    Transactions can be nested (but level can not be seen). Rollback might not 
-    rollback history any more (think Android uses savepoint
-    http://www.sqlite.org/lang_savepoint.html as they can be nested according
-    to the specifications)
+  Begin transaction, Commit and Rollback can be selected from option menu. 
+    Transactions can be nested as savepoints in SQLite (is the first transaction
+    rolled back all updates are rolled back). aSQLiteManager ensures that SQL
+    statements are stored in the database even if updates are rolled back.
+    See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
   
 Working on:
   Planning further development, feature request welcome, could be:

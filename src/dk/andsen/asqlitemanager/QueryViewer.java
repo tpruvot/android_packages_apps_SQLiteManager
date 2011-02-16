@@ -7,6 +7,8 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.util.ArrayList;
+import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -42,6 +44,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int TRANSACTION_ROLLBACK = 1;
 	private static final int TRANSACTION_COMMIT = 2;
 	private boolean inTransaction = false;
+	private int _transactionLevel = 0;
+	private List<String> saveSQL = new ArrayList<String>();
 	private static final int QUERYTYPE_SELECT = 0;
 	private static final int QUERYTYPE_CREATEVIEW = 1;
 	private static final int QUERYTYPE_CREATETABLE = 2;
@@ -120,10 +124,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (_save) {
 				// TODO if in transaction store SQL - somehow
 				if(_db.inTransaction())
-				  _db.beginTransaction();
+					saveSQL.add(new String(_tvQ.getText().toString()));
 				_db.saveSQL(_tvQ.getText().toString());
-				if(_db.inTransaction())
-				  _db.commit();
 				// New SQL -> menu must be rebuild
 				_rebuildMenu = true;
 			}
@@ -415,20 +417,54 @@ public class QueryViewer extends Activity implements OnClickListener{
 			Utils.logD("Transaction menu clicked");
 			switch(id) {
 			case TRANSACTION_BEGIN:
-				_tvTransaction.setText(getText(R.string.InTransaction));
+				_transactionLevel++;
+				_tvTransaction.setText(getText(R.string.InTransaction) + "(" + _transactionLevel + ")");
 				_tvTransaction.setVisibility(View.VISIBLE);
-				
+				if (!inTransaction && saveSQL != null)
+					saveSQL.clear();
 				inTransaction = _db.beginTransaction();
 				break;
 			case TRANSACTION_COMMIT:
-				_tvTransaction.setText(getText(R.string.UpdatesCommitted));
-				
-				inTransaction = _db.commit();
+				// only commit if in transaction
+				if (inTransaction) {
+					_transactionLevel--;
+					inTransaction = _db.commit();
+					if (_transactionLevel == 0) {
+						_tvTransaction.setText(getText(R.string.UpdatesCommitted));
+					} else {
+						_tvTransaction.setText(getText(R.string.UpdatesCommitted) + " "
+								+ getText(R.string.InTransaction) + "(" + _transactionLevel + ")");
+					}
+					// save the SQL executed before rollback 
+					if (!inTransaction && saveSQL != null)
+						for (String str: saveSQL) {
+							_db.saveSQL(str);
+						}
+				} else {
+					_tvTransaction.setVisibility(View.VISIBLE);
+					_tvTransaction.setText(getText(R.string.NothingToCommit));
+				}
 				break;
 			case TRANSACTION_ROLLBACK:
-				_tvTransaction.setText(getText(R.string.UpdatesRolledback));
-				
-				inTransaction = _db.rollback();
+				// only roll back if in transaction
+				if (inTransaction) {
+					_transactionLevel--;
+					inTransaction = _db.rollback();
+					if (_transactionLevel == 0) {
+						_tvTransaction.setText(getText(R.string.UpdatesRolledback));
+					} else {
+						_tvTransaction.setText(getText(R.string.UpdatesRolledback) + " - "
+								+ getText(R.string.InTransaction) + "(" + _transactionLevel + ")");
+					}
+					// save the SQL executed before rollback 
+					if (!inTransaction && saveSQL != null)
+						for (String str: saveSQL) {
+							_db.saveSQL(str);
+						}
+				} else {
+					_tvTransaction.setVisibility(View.VISIBLE);
+					_tvTransaction.setText(getText(R.string.NothingToRolledback));
+				}
 				break;
 			default:
 				//Newer reached

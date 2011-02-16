@@ -74,5 +74,7 @@ Here you will find some more help in the future.
     <string name="InTransaction">In transaction</string>
     <string name="UpdatesCommitted">Updates committed</string>
     <string name="UpdatesRolledback">Updates rolled back</string>
+    <string name="NothingToRolledback">Nothing to rolledback</string>
+    <string name="NothingToCommit">Nothing to commit</string>
 
 </resources>
