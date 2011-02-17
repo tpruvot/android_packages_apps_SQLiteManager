@@ -490,7 +490,9 @@ public class Database {
 			out = new BufferedWriter(f);
 			Utils.logD("Exporting to; " + backupFile);
       Utils.logD("-- Database export made by aSQLiteManager");
+			out.write("--\n");
       out.write("-- Database export made by aSQLiteManager\n");
+			out.write("--\n");
       // export table definitions
       exportTableDefinitions(out);
       // export data
@@ -508,38 +510,66 @@ public class Database {
     } catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return false;
 		}
 
 		Utils.logD("Exportet to; " + backupFile.getAbsolutePath());
 		//backupFile.
-		return false;
+		return true;
 	}
 	
+	/**
+	 * Export all data from current database
+	 * @param out
+	 */
 	private void exportData(BufferedWriter out) {
 		String sql = "select name from sqlite_master where type = 'table'"; 
 		Cursor res = _db.rawQuery(sql, null);
 		try {
 			while(res.moveToNext()) {
 				String tabName = res.getString(0);
+				out.write("--\n");
 				out.write("-- Exporting data for  " + tabName+ nl);
+				out.write("--\n");
 				// retrieve table informations
 				sql = "PRAGMA table_info (" + tabName + ")";
-				//Cursor tabInf = _db.rawQuery(sql, null);
+				Cursor tabInf = _db.rawQuery(sql, null);
 				// retrieve data
 				sql = "select * from " + res.getString(0);
 				Cursor data = _db.rawQuery(sql, null);
 				while (data.moveToNext()) {
 					// build value list based on result and field types
-
-					out.write("insert into " + tabName + " values (" + ");" + nl);
+					String fields = "";
+					for(int i = 0; i < data.getColumnCount(); i++) {
+						String val = data.getString(i);
+						tabInf.moveToPosition(i);
+						String type = tabInf.getString(2);
+						if (val == null){
+							fields += "null";
+							if (i != data.getColumnCount()-1)
+								fields += ", ";
+						} else if (type.equals("INTEGER") || type.equals("REAL")) {
+							fields += val;
+							if (i != data.getColumnCount()-1)
+								fields += ", ";
+						} else {  // it must be string or blob(?) so quote it
+							fields += "'" + val + "'";
+							if (i != data.getColumnCount()-1)
+								fields += ", ";
+						}
+					}
+					out.write("insert into " + tabName + " values (" + fields + ");" + nl);
 				}
-				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Export all index definitions from current database
+	 * @param out
+	 */
 	private void exportIndexDefinitions(BufferedWriter out) {
 		String sql = "select name, sql from sqlite_master where type = 'index'"; 
 		Cursor res = _db.rawQuery(sql, null);
@@ -547,7 +577,9 @@ public class Database {
 			while(res.moveToNext()) {
 				// for auto index SQL is null
 				if (res.getString(1) != null) {
+					out.write("--\n");
 					out.write("-- Exporting index definitions for " + res.getString(0) + nl);
+					out.write("--\n");
 					out.write(res.getString(1) + ";" + nl);
 				}
 			}
@@ -556,12 +588,18 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Export all view definitions from current database
+	 * @param out
+	 */
 	private void exportViews(BufferedWriter out) {
 		String sql = "select name, sql from sqlite_master where type = 'view'"; 
 		Cursor res = _db.rawQuery(sql, null);
 		try {
 			while(res.moveToNext()) {
+				out.write("--\n");
 				out.write("-- Exporting view definitions for " + res.getString(0) + nl);
+				out.write("--\n");
 				out.write(res.getString(1) + ";" + nl);
 			}
 		} catch (IOException e) {
@@ -569,12 +607,18 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Export all table definitions of current database
+	 * @param out
+	 */
 	private void exportTableDefinitions(BufferedWriter out) {
 		String sql = "select name, sql from sqlite_master where type = 'table'"; 
 		Cursor res = _db.rawQuery(sql, null);
 		try {
 			while(res.moveToNext()) {
+				out.write("--\n");
 				out.write("-- Exporting table definitions for " + res.getString(0)+ nl);
+				out.write("--\n");
 				out.write(res.getString(1) + ";" + nl);
 			}
 		} catch (IOException e) {

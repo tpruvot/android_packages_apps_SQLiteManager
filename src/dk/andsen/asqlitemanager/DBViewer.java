@@ -212,8 +212,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_EXPORT, 0, "Export database");
-		menu.add(0, MENU_RESTORE, 0, "Restoer database");
+		menu.add(0, MENU_EXPORT, 0, getText(R.string.Export));
+		menu.add(0, MENU_RESTORE, 0, getText(R.string.Restore));
 		return true;
 	}
 
@@ -237,21 +237,21 @@ public class DBViewer extends Activity implements OnClickListener {
 			Utils.logD("Creating MENU_EXPORT");
 			title = getText(R.string.Export).toString();
 			Dialog export = new AlertDialog.Builder(this)
-			.setTitle(title)
-			//.setSingleChoiceItems(1, 1, null)
-			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
-			.create();
+					.setTitle(title)
+					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+					.setNegativeButton(getText(R.string.Cancel), null)
+					.create();
 			return export;
-			
 		case MENU_RESTORE:
-			//Utils.showMessage("Not Implemented", "Restore of databases not implemented yet", _cont);
+			// Utils.showMessage("Not Implemented",
+			// "Restore of databases not implemented yet", _cont);
 			title = getText(R.string.Restore).toString() + "\nnot implemented";
-			Dialog restore = new AlertDialog.Builder(this)
-			.setTitle(title)
-			//.setSingleChoiceItems(1, 1, null)
-			.setPositiveButton(getText(R.string.OK), null)
-			//.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
-			.create();
+			Dialog restore = new AlertDialog.Builder(this).setTitle(title)
+					.setPositiveButton(getText(R.string.OK), null)
+					.setNegativeButton(getText(R.string.Cancel), null)
+					// .setPositiveButton(getText(R.string.OK), new
+					// DialogButtonClickHandler())
+					.create();
 			return restore;
 		}
 		return null;

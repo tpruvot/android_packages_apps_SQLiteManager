@@ -79,5 +79,6 @@ Here you will find some more help in the future.
     <string name="IsNotADatabase">is not a database</string>
     <string name="Export">Export database</string>
     <string name="Restore">Restore database</string>
+    <string name="Cancel">Cancel</string>
 
 </resources>
