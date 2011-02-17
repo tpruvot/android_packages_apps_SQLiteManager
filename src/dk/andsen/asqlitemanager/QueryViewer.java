@@ -122,9 +122,12 @@ public class QueryViewer extends Activity implements OnClickListener{
 		if (key == R.id.Run) {
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save) {
-				// TODO if in transaction store SQL - somehow
-				if(_db.inTransaction())
+				// If in transaction store SQL is List for later writing to table
+				if(_db.inTransaction()) {
 					saveSQL.add(new String(_tvQ.getText().toString()));
+					// Also write to database for use during transaction
+					_db.saveSQL(_tvQ.getText().toString());
+				}
 				_db.saveSQL(_tvQ.getText().toString());
 				// New SQL -> menu must be rebuild
 				_rebuildMenu = true;
@@ -413,7 +416,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	 */
 	public class TransactionOnClickHandler implements DialogInterface.OnClickListener {
 		public void onClick(DialogInterface dialog, int id) {
-			//TODO handle transactions
+			// Handle transactions
 			Utils.logD("Transaction menu clicked");
 			switch(id) {
 			case TRANSACTION_BEGIN:

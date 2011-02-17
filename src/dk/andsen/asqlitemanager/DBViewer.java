@@ -10,10 +10,15 @@ package dk.andsen.asqlitemanager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.ClipboardManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -37,6 +42,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	private String[] toList;
 	private Context _cont;
 	private boolean _update = false;
+	private final int MENU_EXPORT = 0;
+	private final int MENU_RESTORE = 1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,7 @@ public class DBViewer extends Activity implements OnClickListener {
 			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
 				Utils.logD("Not a database!");
-				Utils.showException(_dbPath + " is not a database!", _cont);
+				Utils.showException(_dbPath + getText(R.string.IsNotADatabase), _cont);
 				try {
 					finalize();
 				} catch (Throwable e) {
@@ -203,4 +210,66 @@ public class DBViewer extends Activity implements OnClickListener {
 			buildList("Tables");
 		}
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_EXPORT, 0, "Export database");
+		menu.add(0, MENU_RESTORE, 0, "Restoer database");
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_EXPORT:
+			showDialog(MENU_EXPORT);
+			break;
+		case MENU_RESTORE:
+			showDialog(MENU_RESTORE);
+			break;
+		}
+		return false;
+	}
+	
+	protected Dialog onCreateDialog(int id) 
+	{
+		String title = "";
+		switch (id) {
+		case MENU_EXPORT:
+			Utils.logD("Creating MENU_EXPORT");
+			title = getText(R.string.Export).toString();
+			Dialog export = new AlertDialog.Builder(this)
+			.setTitle(title)
+			//.setSingleChoiceItems(1, 1, null)
+			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+			.create();
+			return export;
+			
+		case MENU_RESTORE:
+			//Utils.showMessage("Not Implemented", "Restore of databases not implemented yet", _cont);
+			title = getText(R.string.Restore).toString() + "\nnot implemented";
+			Dialog restore = new AlertDialog.Builder(this)
+			.setTitle(title)
+			//.setSingleChoiceItems(1, 1, null)
+			.setPositiveButton(getText(R.string.OK), null)
+			//.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+			.create();
+			return restore;
+		}
+		return null;
+	}
+
+	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
+		public void onClick( DialogInterface dialog, int clicked )
+		{
+			Utils.logD("Dialog: " + dialog.getClass().getName());
+			switch(clicked)
+			{
+			case DialogInterface.BUTTON_POSITIVE:
+				Utils.logD("OK pressed");
+				_db.exportDatabase();
+				break;
+			}
+		}
+	}
+
+
 }

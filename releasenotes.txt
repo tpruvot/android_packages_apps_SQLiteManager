@@ -8,12 +8,11 @@ Next version
     See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
   
 Working on:
+  Export (as SQL script) and restore of databases
   Planning further development, feature request welcome, could be:
 	Running scripts
-	Commit and rollback
 	Sort data / query results by clicking on title
 	Data entry and editing form use editing button at each row
-	Backup and restore of databases
 
 Version 1.0
   First production release of aSQLiteManager

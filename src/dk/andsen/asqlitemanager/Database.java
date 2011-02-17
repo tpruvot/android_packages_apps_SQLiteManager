@@ -30,7 +30,8 @@ public class Database {
 	public boolean isDatabase = false;
 	private SQLiteDatabase _db = null;
 	private String _dbPath;
-	private Context _cont; 
+	private Context _cont;
+	private String nl = "\n"; 
 	
 	/**
 	 * Open a existing database at the given path
@@ -473,41 +474,114 @@ public class Database {
 	 * Backup current database
 	 * @return true on success
 	 */
-	public boolean backupDatabase() {
+	public boolean exportDatabase() {
 		testDB();
+		// Must be able to write to SDCard and it must be pressent
 		File path = Environment.getExternalStorageDirectory();
 		String dbName = _dbPath;
 		// strip file name
 		_dbPath = _dbPath.substring(_dbPath.lastIndexOf('/'));
-		File backupFile = new File(path.getAbsolutePath()+dbName + ".backup");
-		//backupFile.
-		if (backupFile.canWrite()) {
-			//backupFile.
-			FileWriter fstream;
-			try {
-				fstream = new FileWriter(backupFile);
-				Utils.logD("Exporting to; " + backupFile);
-	      BufferedWriter out = new BufferedWriter(fstream);
-	      Utils.logD("-- Database export made by aSQLiteManager");
-	      out.write("-- Database export made by aSQLiteManager");
-	      // export tables
-	      
-	      // export index
-	      
-	      // export constraints
-	      
-	      //Close the output stream
-	      out.close();
-	      return true;
-			} catch (IOException e) {
-				Utils.logD("Export error: " + e.getMessage());
-				e.printStackTrace();
-			}
-			
+		File backupFile = new File(path.getAbsolutePath()+dbName + ".sql");
+		FileWriter f;
+		BufferedWriter out;
+    try {
+    	// don't use /sdcard but retrieve it from the system 
+			f = new FileWriter("/sdcard/" + backupFile.getName());
+			out = new BufferedWriter(f);
+			Utils.logD("Exporting to; " + backupFile);
+      Utils.logD("-- Database export made by aSQLiteManager");
+      out.write("-- Database export made by aSQLiteManager\n");
+      // export table definitions
+      exportTableDefinitions(out);
+      // export data
+      exportData(out);
+      // export index definitions
+      exportIndexDefinitions(out);
+      // export view definitions
+      exportViews(out);
+      // export constraints -- how and i which order?
+      
+      //Close the output stream
+      out.close();
+      f.close();
+
+    } catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+
+		Utils.logD("Exportet to; " + backupFile.getAbsolutePath());
+		//backupFile.
 		return false;
 	}
 	
+	private void exportData(BufferedWriter out) {
+		String sql = "select name from sqlite_master where type = 'table'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				String tabName = res.getString(0);
+				out.write("-- Exporting data for  " + tabName+ nl);
+				// retrieve table informations
+				sql = "PRAGMA table_info (" + tabName + ")";
+				//Cursor tabInf = _db.rawQuery(sql, null);
+				// retrieve data
+				sql = "select * from " + res.getString(0);
+				Cursor data = _db.rawQuery(sql, null);
+				while (data.moveToNext()) {
+					// build value list based on result and field types
+
+					out.write("insert into " + tabName + " values (" + ");" + nl);
+				}
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void exportIndexDefinitions(BufferedWriter out) {
+		String sql = "select name, sql from sqlite_master where type = 'index'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				// for auto index SQL is null
+				if (res.getString(1) != null) {
+					out.write("-- Exporting index definitions for " + res.getString(0) + nl);
+					out.write(res.getString(1) + ";" + nl);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void exportViews(BufferedWriter out) {
+		String sql = "select name, sql from sqlite_master where type = 'view'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				out.write("-- Exporting view definitions for " + res.getString(0) + nl);
+				out.write(res.getString(1) + ";" + nl);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void exportTableDefinitions(BufferedWriter out) {
+		String sql = "select name, sql from sqlite_master where type = 'table'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				out.write("-- Exporting table definitions for " + res.getString(0)+ nl);
+				out.write(res.getString(1) + ";" + nl);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Restore current database
 	 * @return true on success
