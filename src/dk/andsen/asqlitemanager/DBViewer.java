@@ -44,6 +44,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private boolean _update = false;
 	private final int MENU_EXPORT = 0;
 	private final int MENU_RESTORE = 1;
+	private int _dialogClicked;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	 * Build / rebuild the lists with tables, views and indexes
 	 * @param type
 	 */
-  //TODO change type to private static final int DISPMODE_INDEX = 0 ...;
+  //TODO change type to private static final int DISPMODE_INDEX = 0 ...
+	// and change to case
 	private void buildList(final String type) {  
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
@@ -234,6 +236,7 @@ public class DBViewer extends Activity implements OnClickListener {
 		String title = "";
 		switch (id) {
 		case MENU_EXPORT:
+			_dialogClicked = MENU_EXPORT;
 			Utils.logD("Creating MENU_EXPORT");
 			title = getText(R.string.Export).toString();
 			Dialog export = new AlertDialog.Builder(this)
@@ -243,33 +246,42 @@ public class DBViewer extends Activity implements OnClickListener {
 					.create();
 			return export;
 		case MENU_RESTORE:
-			// Utils.showMessage("Not Implemented",
-			// "Restore of databases not implemented yet", _cont);
+			_dialogClicked = MENU_RESTORE;
+			Utils.logD("Creating MENU_RESTORE");
 			title = getText(R.string.Restore).toString() + "\nnot implemented";
 			Dialog restore = new AlertDialog.Builder(this).setTitle(title)
-					.setPositiveButton(getText(R.string.OK), null)
+					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 					.setNegativeButton(getText(R.string.Cancel), null)
-					// .setPositiveButton(getText(R.string.OK), new
-					// DialogButtonClickHandler())
 					.create();
 			return restore;
 		}
 		return null;
 	}
 
+	/**
+	 * Click handler for the Export and Restore menus  
+	 * @author Andsen
+	 */
 	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
-		public void onClick( DialogInterface dialog, int clicked )
-		{
+		
+		public void onClick(DialogInterface dialog, int clicked) {
 			Utils.logD("Dialog: " + dialog.getClass().getName());
-			switch(clicked)
-			{
+			switch (clicked) {
+			// OK button clicked
 			case DialogInterface.BUTTON_POSITIVE:
 				Utils.logD("OK pressed");
-				_db.exportDatabase();
+				// Find the menu from which the OK button was clicked
+				switch (_dialogClicked) {
+				case MENU_EXPORT:
+					_db.exportDatabase();
+					break;
+				case MENU_RESTORE:
+					_db.restoreDatabase();
+					break;
+				}
 				break;
 			}
 		}
 	}
-
 
 }

@@ -7,20 +7,22 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import dk.andsen.utils.Field;
-import dk.andsen.utils.QueryResult;
-import dk.andsen.utils.Utils;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
+import dk.andsen.utils.Field;
+import dk.andsen.utils.QueryResult;
+import dk.andsen.utils.Utils;
 
 /**
  * @author Andsen
@@ -479,17 +481,13 @@ public class Database {
 		// android_metadata and sqlite_sequence)?
 		// How to handle autoincrement fields an restore (sqlite_sequece)? 
 		testDB();
-		// Must be able to write to SDCard and it must be pressent
-		File path = Environment.getExternalStorageDirectory();
-		String dbName = _dbPath;
-		// strip file name
-		_dbPath = _dbPath.substring(_dbPath.lastIndexOf('/'));
-		File backupFile = new File(path.getAbsolutePath()+dbName + ".sql");
+		String backupName = _dbPath + ".sql";
+		File backupFile = new File(backupName);
 		FileWriter f;
 		BufferedWriter out;
     try {
     	// don't use /sdcard but retrieve it from the system 
-			f = new FileWriter("/sdcard/" + backupFile.getName());
+			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
 			Utils.logD("Exporting to; " + backupFile);
       Utils.logD("-- Database export made by aSQLiteManager");
@@ -511,7 +509,6 @@ public class Database {
       f.close();
 
     } catch (IOException e) {
-    	// TODO Auto-generated catch block
     	Utils.showException(e.getMessage(), _cont);
     	e.printStackTrace();
     	return false;
@@ -530,42 +527,45 @@ public class Database {
 		Cursor res = _db.rawQuery(sql, null);
 		try {
 			while(res.moveToNext()) {
-				String tabName = res.getString(0);
-				out.write("--\n");
-				out.write("-- Exporting data for  " + tabName+ nl);
-				out.write("--\n");
-				// retrieve table informations
-				sql = "PRAGMA table_info (" + tabName + ")";
-				Cursor tabInf = _db.rawQuery(sql, null);
-				// retrieve data
-				sql = "select * from " + res.getString(0);
-				Cursor data = _db.rawQuery(sql, null);
-				while (data.moveToNext()) {
-					// build value list based on result and field types
-					String fields = "";
-					for(int i = 0; i < data.getColumnCount(); i++) {
-						String val = data.getString(i);
-						tabInf.moveToPosition(i);
-						String type = tabInf.getString(2);
-						if (val == null){
-							fields += "null";
-							if (i != data.getColumnCount()-1)
-								fields += ", ";
-						} else if (type.equals("INTEGER") || type.equals("REAL")) {
-							fields += val;
-							if (i != data.getColumnCount()-1)
-								fields += ", ";
-						} else {  // it must be string or blob(?) so quote it
-							fields += "'" + val + "'";
-							if (i != data.getColumnCount()-1)
-								fields += ", ";
+				String tabName = res.getString(0);   //  || tabName.equals("sqlite_sequence") set sequence as it was
+				if(!(tabName.equals("sqlite_master") || tabName.equals("android_metadata")
+						|| tabName.equals("sqlite_sequence"))) {
+					out.write("--\n");
+					out.write("-- Exporting data for  " + tabName+ nl);
+					out.write("--\n");
+					// retrieve table informations
+					sql = "PRAGMA table_info (" + tabName + ")";
+					Cursor tabInf = _db.rawQuery(sql, null);
+					// retrieve data
+					sql = "select * from " + res.getString(0);
+					Cursor data = _db.rawQuery(sql, null);
+					while (data.moveToNext()) {
+						// build value list based on result and field types
+						String fields = "";
+						for(int i = 0; i < data.getColumnCount(); i++) {
+							String val = data.getString(i);
+							tabInf.moveToPosition(i);
+							String type = tabInf.getString(2);
+							if (val == null){
+								fields += "null";
+								if (i != data.getColumnCount()-1)
+									fields += ", ";
+							} else if (type.equals("INTEGER") || type.equals("REAL")) {
+								fields += val;
+								if (i != data.getColumnCount()-1)
+									fields += ", ";
+							} else {  // it must be string or blob(?) so quote it
+								fields += "\"" + val + "\"";
+								if (i != data.getColumnCount()-1)
+									fields += ", ";
+							}
 						}
+						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
 					}
-					out.write("insert into " + tabName + " values (" + fields + ");" + nl);
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logE(e.getMessage());
 		}
 	}
 
@@ -619,10 +619,14 @@ public class Database {
 		Cursor res = _db.rawQuery(sql, null);
 		try {
 			while(res.moveToNext()) {
-				out.write("--\n");
-				out.write("-- Exporting table definitions for " + res.getString(0)+ nl);
-				out.write("--\n");
-				out.write(res.getString(1) + ";" + nl);
+				String table = res.getString(0);
+				if(!(table.equals("sqlite_master") || table.equals("sqlite_sequence") || 
+						table.equals("android_metadata"))) {
+					out.write("--\n");
+					out.write("-- Exporting table definitions for " + table + nl);
+					out.write("--\n");
+					out.write(res.getString(1) + ";" + nl);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -630,14 +634,88 @@ public class Database {
 	}
 
 	/**
-	 * Restore current database
+	 * Restore current database from a file of same name but with .sql extension
 	 * @return true on success
 	 */
 	public boolean restoreDatabase() {
-		//TODO Just delete everything and then run the exported file as
+		// Just delete all user data and then run the exported file as
 		// a script
-		
-		return false;
+  	// TODO first check if SQL file is present!!! 
+		testDB();
+		String backupName = _dbPath + ".sql";
+		File backupFile = new File(backupName);
+		// drop all views
+		Utils.logD("Dropping all views");
+		dropAllViews();
+		// drop all user tables
+		Utils.logD("Dropping all tables");
+		dropAllTables();
+		return runScript(backupFile);
+	}
+
+	public boolean runScript(File backupFile) {
+		FileReader f;
+		BufferedReader in;
+		String line = "";
+    try {
+			f = new FileReader(backupFile);
+			in = new BufferedReader(f);
+			Utils.logD("Importing from; " + backupFile);
+			String nline = "";
+			while ((nline = in.readLine()) != null) {
+				line += nline;
+				// if more of statement coming append newline
+				if (!(line.endsWith(";") || line.equals("")))
+					line += nl;
+	      if(line.startsWith("--")) {
+	        // It a comment just empty line
+	      	line = "";
+	      } else if(line.endsWith(";")) {
+	        // If line ends with ; we have a statement ready to execute
+	      	line = line.substring(0, line.length() - 1);
+	      	Utils.logD("SQL: " + line);
+	      	// execute SQL
+	      	_db.execSQL(line);
+	      	line = "";
+	      }
+			}
+			in.close();
+			f.close();
+    } catch (Exception e) {
+    	return false;
+    }
+    return true;
+	}
+
+	private void dropAllTables() {
+		String sql = "select name, sql from sqlite_master where type = 'table'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				String table = res.getString(0);
+				if(!(table.equals("sqlite_master") || table.equals("sqlite_sequence") || 
+						table.equals("android_metadata"))) {
+					sql = "drop table " + table;
+					_db.execSQL(sql);
+				}
+			}
+		} catch (Exception e) {
+			Utils.logE(e.getMessage());
+		}
+	}
+
+	private void dropAllViews() {
+		String sql = "select name, sql from sqlite_master where type = 'view'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				String view = res.getString(0);
+				sql = "drop view " + view;
+				_db.execSQL(sql);
+			}
+		} catch (Exception e) {
+			Utils.logE(e.getMessage());
+		}
 	}
 
 	/**

@@ -6,13 +6,14 @@ Next version
     rolled back all updates are rolled back). aSQLiteManager ensures that SQL
     statements are stored in the database even if updates are rolled back.
     See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
-  Preliminary export of database to SQL script implemented
-  
+  Preliminary export of databases to SQL script implemented -- seems to work
+  Preliminary restore of databases from SQL script implemented -- seems to work
+  Running scripts implemented -- but no way to start them other than from restore  
   
 Working on:
   Export (as SQL script) and restore of databases
+  Executing scripts  
   Planning further development, feature request welcome, could be:
-	Running scripts
 	Sort data / query results by clicking on title
 	Data entry and editing form use editing button at each row
 
