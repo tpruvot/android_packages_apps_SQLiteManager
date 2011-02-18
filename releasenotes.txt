@@ -6,6 +6,8 @@ Next version
     rolled back all updates are rolled back). aSQLiteManager ensures that SQL
     statements are stored in the database even if updates are rolled back.
     See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
+  Preliminary export of database to SQL script implemented
+  
   
 Working on:
   Export (as SQL script) and restore of databases

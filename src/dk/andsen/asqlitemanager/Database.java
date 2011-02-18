@@ -475,6 +475,9 @@ public class Database {
 	 * @return true on success
 	 */
 	public boolean exportDatabase() {
+		// TODO should this include system tables (sqlite_master, 
+		// android_metadata and sqlite_sequence)?
+		// How to handle autoincrement fields an restore (sqlite_sequece)? 
 		testDB();
 		// Must be able to write to SDCard and it must be pressent
 		File path = Environment.getExternalStorageDirectory();
@@ -507,14 +510,14 @@ public class Database {
       out.close();
       f.close();
 
-    } catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return false;
-		}
-
+    } catch (IOException e) {
+    	// TODO Auto-generated catch block
+    	Utils.showException(e.getMessage(), _cont);
+    	e.printStackTrace();
+    	return false;
+	  }
 		Utils.logD("Exportet to; " + backupFile.getAbsolutePath());
-		//backupFile.
+		// backupFile.
 		return true;
 	}
 	
@@ -631,18 +634,26 @@ public class Database {
 	 * @return true on success
 	 */
 	public boolean restoreDatabase() {
-		//TODO Just delete everything and then run the export as a script
+		//TODO Just delete everything and then run the exported file as
+		// a script
 		
 		return false;
 	}
 
+	/**
+	 * Starts a transaction. Transaction can be nested as the SQLite savepoints
+	 * @return true if transaction started
+	 */
 	public boolean beginTransaction() {
-		// TODO Auto-generated method stub
 		testDB();
 		_db.beginTransaction();
 		return _db.inTransaction();
 	}
 	
+	/**
+	 * Commit updates back to last begin transaction / savepoint
+	 * @return true if still in transaction
+	 */
 	public boolean commit() {
 		testDB();
 		_db.setTransactionSuccessful();
@@ -650,12 +661,20 @@ public class Database {
 		return _db.inTransaction();
 	}
 	
+	/**
+	 * Roll back updates back to last transaction / savepoint 
+	 * @return true if still in transaction
+	 */
 	public boolean rollback() {
 		testDB();
 		_db.endTransaction();
 		return _db.inTransaction();
 	}
 	
+	/**
+	 * Return true i a transaction has not been commitet / rolled back
+	 * @return
+	 */
 	public boolean inTransaction() {
 		return _db.inTransaction();
 	}
