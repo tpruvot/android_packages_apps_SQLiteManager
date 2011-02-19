@@ -64,4 +64,19 @@ Her vil der i fremtiden være mere hjælp.
     <string name="DBQueryType">Query Type</string>
     <string name="OnClickedMess">Du klikkede på denne SQLite database:</string>
     <string name="OnClickedOpen">Åbn databasen med\naSQLiteManager</string>
+     <string name="RecentSQL">Nylige SQL</string>
+    <string name="Transaction">Transaktioner</string>
+    <string name="BeginTransaction">Begin transaction</string>
+    <string name="Commit">Commit</string>
+    <string name="Rollback">Rollback</string>
+    <string name="InTransaction">I transaktion</string>
+    <string name="UpdatesCommitted">Opdateringer committed</string>
+    <string name="UpdatesRolledback">Opdateringer rolled back</string>
+    <string name="NothingToRolledback">Intet at rolledback</string>
+    <string name="NothingToCommit">Intet at committe</string>
+    <string name="IsNotADatabase">er ikke en database</string>
+    <string name="Export">Exporter database</string>
+    <string name="Restore">Reetabler database</string>
+    <string name="Cancel">Fortryd</string>
+    
 </resources>

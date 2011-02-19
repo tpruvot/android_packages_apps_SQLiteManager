@@ -71,12 +71,12 @@ public class DBViewer extends Activity implements OnClickListener {
 			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
 				Utils.logD("Not a database!");
-				Utils.showException(_dbPath + getText(R.string.IsNotADatabase), _cont);
-				try {
-					finalize();
-				} catch (Throwable e) {
-					Utils.logD(e.getMessage());
-				}
+				//Utils.showException(_dbPath + getText(R.string.IsNotADatabase), _cont);
+				Dialog notADatabase = new AlertDialog.Builder(this)
+					.setTitle(_dbPath + " " + getText(R.string.IsNotADatabase))
+					.setNegativeButton(getText(R.string.OK), new DialogButtonClickHandler())
+					.create();
+				notADatabase.show();
 			} else {
 				Utils.logD("Database open");
 				tables = _db.getTables();
@@ -96,7 +96,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onPause() {
-		_db.close();
+		if (_db.isDatabase)
+			_db.close();
 		super.onPause();
 	}
 
@@ -279,6 +280,9 @@ public class DBViewer extends Activity implements OnClickListener {
 					_db.restoreDatabase();
 					break;
 				}
+				break;
+			case DialogInterface.BUTTON_NEGATIVE:
+				finish();
 				break;
 			}
 		}

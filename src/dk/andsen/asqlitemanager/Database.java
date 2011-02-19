@@ -10,6 +10,7 @@ package dk.andsen.asqlitemanager;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,15 +43,71 @@ public class Database {
 	public Database(String dbPath, Context cont) {
 		_dbPath = dbPath;
 		try {
-			_db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
-			_cont = cont;
-			isDatabase = true;
+			// Must find a way to check if it is a SQLite file!
+			if (testDBFile(dbPath)) {
+				// Here we know it is a SQLite 3 file
+				Utils.logD("Trying to open (RW): " + dbPath);
+				_db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+				_cont = cont;
+				isDatabase = true;
+			}
 		} catch (Exception e) {
-			// not a database
+			Utils.logD("Trying to open Exception: " + e.getMessage());
+			// It is not a database
 			isDatabase = false;
 		}
 	}
 	
+	/**
+	 * Test if a file is a SQLite database
+	 * @param dbPath path to the database file
+	 * @return true if it is a SQLite file
+	 */
+	private boolean testDBFile(String dbPath) {
+		// File must start with the following 16 bytes
+		// 0x53 0x51 0x4c 0x69 0x74 0x65 0x20 0x66 0x6f 0x72 0x6d 0x61 0x74 0x20 0x33 0x00
+		// to be a SQLite 3 database
+		File backupFile = new File(dbPath);
+		FileReader f = null;
+		if (backupFile.canRead()) {
+			try {
+				f = new FileReader(backupFile);
+				char buffer[] = new char[16];
+				f.read(buffer, 0, 16);
+				if (buffer[0] == 0x53 && 
+						buffer[1] == 0x51 &&
+						buffer[2] == 0x4c &&
+						buffer[3] == 0x69 &&
+						buffer[4] == 0x74 &&
+						buffer[5] == 0x65 &&
+						buffer[6] == 0x20 &&
+						buffer[7] == 0x66 &&
+						buffer[8] == 0x6f &&
+						buffer[9] == 0x72 &&
+						buffer[10] == 0x6d && 
+						buffer[11] == 0x61 &&
+						buffer[12] == 0x74 &&
+						buffer[13] == 0x20 &&
+						buffer[14] == 0x33 &&
+						buffer[15] == 0x00) {
+					f.close();
+					return true; 
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				f.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
+		return false;
+	}
+
 	/**
 	 * Close the database
 	 */
