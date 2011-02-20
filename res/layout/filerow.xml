@@ -4,4 +4,4 @@
   android:id="@+id/rowtext"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:textSize="15sp" />
+  android:textSize="18sp" />

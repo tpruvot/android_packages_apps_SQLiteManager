@@ -534,16 +534,12 @@ public class Database {
 	 * @return true on success
 	 */
 	public boolean exportDatabase() {
-		// TODO should this include system tables (sqlite_master, 
-		// android_metadata and sqlite_sequence)?
-		// How to handle autoincrement fields an restore (sqlite_sequece)? 
 		testDB();
 		String backupName = _dbPath + ".sql";
 		File backupFile = new File(backupName);
 		FileWriter f;
 		BufferedWriter out;
     try {
-    	// don't use /sdcard but retrieve it from the system 
 			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
 			Utils.logD("Exporting to; " + backupFile);
@@ -560,6 +556,8 @@ public class Database {
       // export view definitions
       exportViews(out);
       // export constraints -- how and i which order?
+
+      // export triggers, procedures, ...
       
       //Close the output stream
       out.close();
@@ -744,6 +742,9 @@ public class Database {
     return true;
 	}
 
+	/**
+	 * Drop all user tables in current database
+	 */
 	private void dropAllTables() {
 		String sql = "select name, sql from sqlite_master where type = 'table'"; 
 		Cursor res = _db.rawQuery(sql, null);
@@ -761,6 +762,9 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Drop all views in current database
+	 */
 	private void dropAllViews() {
 		String sql = "select name, sql from sqlite_master where type = 'view'"; 
 		Cursor res = _db.rawQuery(sql, null);

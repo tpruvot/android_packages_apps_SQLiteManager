@@ -7,9 +7,6 @@
  */
 package dk.andsen.asqlitemanager;
 
-import dk.andsen.utils.FilePicker;
-import dk.andsen.utils.NewFilePicker;
-import dk.andsen.utils.Utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -22,11 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.webkit.*;
+import dk.andsen.utils.NewFilePicker;
+import dk.andsen.utils.Utils;
 
 public class aSQLiteManager extends Activity implements OnClickListener {
 	
@@ -69,7 +68,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		public void onClick(View v) {
 			int key = v.getId();
 			if (key == R.id.Open) {
-				Intent i = new Intent(this, FilePicker.class);
+				Intent i = new Intent(this, NewFilePicker.class);
 				Utils.logD("Calling Filepicker");
 				//startActivityForResult(intent, requestCode)
 				// onActivityResult() 

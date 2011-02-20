@@ -69,6 +69,10 @@ public class FilePicker extends ListActivity {
 		}
 	}
 
+	/**
+	 * Updates the item and path lists
+	 * @param dirPath
+	 */
 	private void getDir(String dirPath)
 	{
 		myPath.setText(getText(R.string.Path)+ " " + dirPath);
@@ -98,7 +102,6 @@ public class FilePicker extends ListActivity {
 		setListAdapter(fileList);
 	}
 
-
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		final File file = new File(path.get(position));
@@ -119,7 +122,7 @@ public class FilePicker extends ListActivity {
 			}
 		} else {
 			new AlertDialog.Builder(this)
-			//.setIcon(R.drawable.icon)
+			.setIcon(R.drawable.sqlite_icon)
 			.setTitle(getText(R.string.Open) + "\n [" + file.getName() + "]?")
 			.setPositiveButton("OK", 
 					new DialogInterface.OnClickListener() {
