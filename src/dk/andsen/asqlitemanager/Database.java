@@ -817,4 +817,50 @@ public class Database {
 	public boolean inTransaction() {
 		return _db.inTransaction();
 	}
+
+	/**
+	 * Export the current query to a file named after the database with the 
+	 * extension .export
+	 * @param sql The SQL to query
+	 */
+	public void exportQueryResult(String sql) {
+		// TODO Save result of SQL to ascii file
+		testDB();
+		Cursor data = _db.rawQuery(sql, null);
+		String backupName = _dbPath + ".export";
+		File backupFile = new File(backupName);
+		FileWriter f;
+		BufferedWriter out;
+		try {
+			f = new FileWriter(backupFile);
+			out = new BufferedWriter(f);
+			while(data.moveToNext()) {
+				// write export
+				String fields = "";
+				for(int i = 0; i < data.getColumnCount(); i++) {
+					String val = data.getString(i);
+					//tabInf.moveToPosition(i);
+					//String type = tabInf.getString(2);
+					if (val == null){
+						fields += "null";
+						if (i != data.getColumnCount()-1)
+							fields += "; ";
+//					} else if (type.equals("INTEGER") || type.equals("REAL")) {
+//						fields += val;
+//						if (i != data.getColumnCount()-1)
+//							fields += ", ";
+					} else {  // it must be string or blob(?) so quote it
+						fields += "\"" + val + "\"";
+						if (i != data.getColumnCount()-1)
+							fields += "; ";
+					}
+				}
+				out.write(fields + nl);
+			}
+			out.close();
+			f.close();
+		} catch (Exception e) {
+			Utils.logE(e.getMessage());
+		}
+	}
 }

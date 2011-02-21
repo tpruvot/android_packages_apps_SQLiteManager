@@ -80,4 +80,5 @@ Here you will find some more help in the future.
     <string name="Restore">Restore database</string>
     <string name="Cancel">Cancel</string>
 
+    <string name="ExportData">Export</string>
 </resources>

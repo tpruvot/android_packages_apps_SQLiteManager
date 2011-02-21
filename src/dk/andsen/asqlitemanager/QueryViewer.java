@@ -40,6 +40,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private static final int MENU_QUERYTYPE = 2;
 	private static final int MENU_RESENT_SQL = 3;
 	private static final int MENU_TRANSACTION = 4;
+	private static final int MENU_EXPORT = 5;
 	private static final int TRANSACTION_BEGIN = 0;
 	private static final int TRANSACTION_ROLLBACK = 1;
 	private static final int TRANSACTION_COMMIT = 2;
@@ -254,6 +255,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		case MENU_TRANSACTION:
 			showDialog(MENU_TRANSACTION);
 			break;
+		case MENU_EXPORT:
+			// give a message about where the result is written to
+			String sql= _tvQ.getText().toString();
+			_db.exportQueryResult(sql);
+			break;
 		}
 		return false;
 	}
@@ -273,6 +279,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
 			menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 			menu.add(0, MENU_TRANSACTION, 0, R.string.Transaction);
+			menu.add(0, MENU_EXPORT, 0, R.string.ExportData);
 			_rebuildMenu = false;
 		}
 		return true;
@@ -284,6 +291,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
 		menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 		menu.add(0, MENU_TRANSACTION, 0, R.string.Transaction);
+		menu.add(0, MENU_EXPORT, 0, R.string.ExportData);
 		return true;
 	}
 	
@@ -323,8 +331,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			}
 			listOfFields = _db.getTablesFieldsNames(tables);
 			listOfFields_selected = new boolean[listOfFields.length];
-			return 
-			new AlertDialog.Builder(this)
+			return new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setMultiChoiceItems( listOfFields, listOfFields_selected, new DialogSelectionClickHandler())
 			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
@@ -332,23 +339,20 @@ public class QueryViewer extends Activity implements OnClickListener{
 		case MENU_RESENT_SQL:		
 			Utils.logD("Creating MENU_RESENT_SQL");
 			listOfSQL = _db.getListOfSQL();
-			return 
-			new AlertDialog.Builder(this)
+			return new AlertDialog.Builder(this)
 			.setTitle(title) 
 			.setSingleChoiceItems(listOfSQL, 0, new ResentSQLOnClickHandler() )
 			.create();
 		case MENU_TRANSACTION:
 			Utils.logD("Creating MENU_TRANSACTION");
-			return 
-			new AlertDialog.Builder(this)
+			return new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setSingleChoiceItems(_transaction, 0, new TransactionOnClickHandler())
 			.create();
 		default: //case MENU_QUERYTYPE:
 			Utils.logD("Creating MENU_QUERYTYPE");
 			//posts = _queryTypes; 
-			return 
-			new AlertDialog.Builder(this)
+			return new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setSingleChoiceItems(_queryTypes, 0, new QueryTypeOnClickHandler())
 			.create();
