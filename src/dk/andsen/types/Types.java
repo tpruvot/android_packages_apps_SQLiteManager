@@ -5,7 +5,7 @@
  * @author andsen
  *
  */
-package dk.andsen.utils;
+package dk.andsen.types;
 
 public class Types {
   public final static int TABLE = 0; 

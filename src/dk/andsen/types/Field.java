@@ -5,7 +5,7 @@
  * @author andsen
  *
  */
-package dk.andsen.utils;
+package dk.andsen.types;
 
 /**
  * class to describe a database field

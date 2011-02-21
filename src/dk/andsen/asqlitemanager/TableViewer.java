@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import dk.andsen.utils.Types;
+import dk.andsen.types.Types;
 import dk.andsen.utils.Utils;
 
 public class TableViewer extends Activity implements OnClickListener {

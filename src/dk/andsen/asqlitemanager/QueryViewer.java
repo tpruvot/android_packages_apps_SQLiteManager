@@ -26,7 +26,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import dk.andsen.utils.QueryResult;
+import dk.andsen.types.QueryResult;
 import dk.andsen.utils.Utils;
 
 /**

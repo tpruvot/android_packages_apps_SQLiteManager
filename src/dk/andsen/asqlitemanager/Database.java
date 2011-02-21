@@ -21,8 +21,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import dk.andsen.utils.Field;
-import dk.andsen.utils.QueryResult;
+import dk.andsen.types.Field;
+import dk.andsen.types.QueryResult;
 import dk.andsen.utils.Utils;
 
 /**

@@ -28,7 +28,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-import dk.andsen.utils.Types;
+import dk.andsen.types.Types;
 import dk.andsen.utils.Utils;
 
 public class DBViewer extends Activity implements OnClickListener {

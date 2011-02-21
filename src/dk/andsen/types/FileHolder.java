@@ -4,7 +4,7 @@
  * @author andsen
  *
  */
-package dk.andsen.utils;
+package dk.andsen.types;
 
 public class FileHolder {
   private String fileName;
