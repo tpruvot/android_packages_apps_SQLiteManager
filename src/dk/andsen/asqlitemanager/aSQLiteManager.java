@@ -99,6 +99,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
       
 		}
 		
+		/**
+		 * Create a new empty database
+		 */
 		private void newDatabase() {
 			final Dialog newDatabaseDialog = new Dialog(this);
 			newDatabaseDialog.setContentView(R.layout.new_database);

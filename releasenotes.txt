@@ -6,19 +6,19 @@ Next version
     rolled back all updates are rolled back). aSQLiteManager ensures that SQL
     statements are stored in the database even if updates are rolled back.
     See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
-  Preliminary export of databases (table structure, views and data) to SQL script
+  Export of databases (table structure, views and data) to SQL script
     implemented -- seems to work
-  Preliminary restore of databases (table structure, views and data) from SQL script
+  Restore of databases (table structure, views and data) from SQL script
     implemented -- seems to work
-  Better file picker with icons folders, .sqlite, .db and other files
+  Better file picker with icons folders, .sqlite, .db and non aSQLiteManager files
   Export of query result 
   
 Working on:
-  Running of scripts implemented -- but no way to start them other than from restore  
   Executing scripts  
   Planning for further development, feature request welcome, could be:
 	Sort data / query results by clicking on title
-	Data entry and editing form use editing button at each row
+	Data editing form use editing button at each row
+	Data entry - add post from option menu in table browser
 
 Version 1.0
   First production release of aSQLiteManager
