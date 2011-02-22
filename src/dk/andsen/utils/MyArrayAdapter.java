@@ -16,6 +16,14 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
 	private final List<String> names;
 	private final String[] filetypes;
 
+	/**
+	 * Build a list of files, directories based on the list of filenames.
+	 * Directories are marked by the ic_folder, normal files by ic_document
+	 * and file types from the list of file types with ic_app 
+	 * @param context
+	 * @param names List of files directories ending with /
+	 * @param filtetypes String[] of file types to mark with ic_app
+	 */
 	public MyArrayAdapter(Activity context, List<String> names, String[] filtetypes) {
 		super(context, R.layout.row_layout, names);
 		this.context = context;
@@ -56,7 +64,7 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
 		if (s.endsWith("/"))  {
 			holder.imageView.setImageResource(R.drawable.ic_folder);
 		} else if (fileType(s, filetypes))
-			holder.imageView.setImageResource(R.drawable.ic_sqlite);
+			holder.imageView.setImageResource(R.drawable.ic_app);
 		else
 			holder.imageView.setImageResource(R.drawable.ic_document);
 		return rowView;

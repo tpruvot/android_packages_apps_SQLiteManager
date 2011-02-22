@@ -53,7 +53,7 @@ public class NewFilePicker extends ListActivity {
 			path = Environment.getExternalStorageDirectory();
 			File programDirectory = new File(path.getAbsolutePath());
 			// have the object build the directory structure, if needed.
-			programDirectory.mkdirs();
+			//programDirectory.mkdirs();
 			getDir(programDirectory.getAbsolutePath());
 		} else {
 			// No SDCard
