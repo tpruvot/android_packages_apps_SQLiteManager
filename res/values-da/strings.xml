@@ -78,5 +78,7 @@ Her vil der i fremtiden være mere hjælp.
     <string name="Export">Exporter database</string>
     <string name="Restore">Reetabler database</string>
     <string name="Cancel">Fortryd</string>
+    <string name="ExportData">Eksport</string>
+    <string name="NoExportToRestore">Ingen elport at reetablere</string>
     
 </resources>

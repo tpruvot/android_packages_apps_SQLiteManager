@@ -264,9 +264,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 		return false;
 	}
 	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
-	 */
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (_rebuildMenu) {
 			Utils.logD("Preparing OptionMenu");
@@ -277,9 +274,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 			menu.add(0, MENU_TABLES, 0, R.string.DBTables);
 			menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 			menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
-			menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 			menu.add(0, MENU_TRANSACTION, 0, R.string.Transaction);
 			menu.add(0, MENU_EXPORT, 0, R.string.ExportData);
+			// Only create "Recent SQL menu ef history table exists
+			if (_db.historyExists())
+				menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 			_rebuildMenu = false;
 		}
 		return true;
@@ -289,9 +288,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		menu.add(0, MENU_TABLES, 0, R.string.DBTables);
 		menu.add(0, MENU_FIELDS, 0, R.string.DBFields);
 		menu.add(0, MENU_QUERYTYPE, 0, R.string.DBQueryType);
-		menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 		menu.add(0, MENU_TRANSACTION, 0, R.string.Transaction);
 		menu.add(0, MENU_EXPORT, 0, R.string.ExportData);
+		// Only create "Recent SQL menu ef history table exists
+		if (_db.historyExists())
+			menu.add(0, MENU_RESENT_SQL, 0, R.string.RecentSQL);
 		return true;
 	}
 	

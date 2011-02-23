@@ -1,4 +1,4 @@
-Next version
+Version 1.1 β
   Select SQL history from query form
   Size of icons changed to right sizes for different displays
   Begin transaction, Commit and Rollback can be selected from option menu. 
@@ -7,11 +7,11 @@ Next version
     statements are stored in the database even if updates are rolled back.
     See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
   Export of databases (table structure, views and data) to SQL script
-    implemented -- seems to work
+    named databaseFileName.sql implemented -- seems to work
   Restore of databases (table structure, views and data) from SQL script
-    implemented -- seems to work
+    named databaseFileName.sql implemented -- seems to work
   Better file picker with icons folders, .sqlite, .db and non aSQLiteManager files
-  Export of query result 
+  Export of query result to ascii file databaseFileName.export
   
 Working on:
   Executing scripts  

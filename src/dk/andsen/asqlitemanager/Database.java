@@ -513,20 +513,28 @@ public class Database {
 	 */
 	public String[] getListOfSQL() {
 		testDB();
+		// TODO problems if aSQLiteManager don't exists
 		String sql = "select * from aSQLiteManager order by _id desc";
-		Cursor res = _db.rawQuery(sql, null);
-		int cols = res.getCount();
-		String[] list = new String[cols];
-		int i = 0;
-		// getting field names
-		while(res.moveToNext()) {
-			String str = new String();
-			str = res.getString(1);
-			list[i] = str;
-			i++;
+		String[] list = null;
+		
+		try {
+			Cursor res = _db.rawQuery(sql, null);
+			int cols = res.getCount();
+			list = new String[cols];
+			int i = 0;
+			// getting field names
+			while(res.moveToNext()) {
+				String str = new String();
+				str = res.getString(1);
+				list[i] = str;
+				i++;
+			}
+			res.close();
+			return list;
+		} catch (Exception e) {
+			Utils.logD(e.toString());
+			return list;
 		}
-		res.close();
-		return list;
 	}
 	
 	/**
@@ -699,6 +707,9 @@ public class Database {
 		testDB();
 		String backupName = _dbPath + ".sql";
 		File backupFile = new File(backupName);
+		if (!backupFile.exists())
+			Utils.showMessage(_cont.getText(R.string.Restore).toString(),
+					_cont.getText(R.string.NoExportToRestore).toString(), _cont);
 		// drop all views
 		Utils.logD("Dropping all views");
 		dropAllViews();
@@ -708,14 +719,19 @@ public class Database {
 		return runScript(backupFile);
 	}
 
-	public boolean runScript(File backupFile) {
+	/**
+	 * Run a SQL script from a file
+	 * @param scriptFile
+	 * @return true upon success
+	 */
+	public boolean runScript(File scriptFile) {
 		FileReader f;
 		BufferedReader in;
 		String line = "";
     try {
-			f = new FileReader(backupFile);
+			f = new FileReader(scriptFile);
 			in = new BufferedReader(f);
-			Utils.logD("Importing from; " + backupFile);
+			Utils.logD("Importing from; " + scriptFile);
 			String nline = "";
 			while ((nline = in.readLine()) != null) {
 				line += nline;
@@ -824,7 +840,6 @@ public class Database {
 	 * @param sql The SQL to query
 	 */
 	public void exportQueryResult(String sql) {
-		// TODO Save result of SQL to ascii file
 		testDB();
 		Cursor data = _db.rawQuery(sql, null);
 		String backupName = _dbPath + ".export";
@@ -861,6 +876,21 @@ public class Database {
 			f.close();
 		} catch (Exception e) {
 			Utils.logE(e.getMessage());
+		}
+	}
+
+	/**
+	 * @return Return true if the history table aSQLiteManager exists
+	 */
+	public boolean historyExists() {
+		String sql = "select * from aSQLiteManager order by _id desc";
+		try {
+			Cursor res = _db.rawQuery(sql, null);
+			res.close();
+			return true;
+		} catch (Exception e) {
+			Utils.logD(e.toString());
+			return false;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="VersionNo">1.1</string>
+    <string name="VersionNo">1.1 β</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
@@ -79,6 +79,6 @@ Here you will find some more help in the future.
     <string name="Export">Export database</string>
     <string name="Restore">Restore database</string>
     <string name="Cancel">Cancel</string>
-
     <string name="ExportData">Export</string>
+    <string name="NoExportToRestore">No export to restore</string>
 </resources>
