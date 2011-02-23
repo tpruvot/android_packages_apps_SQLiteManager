@@ -38,7 +38,7 @@ public class NewFilePicker extends ListActivity {
 	boolean mExternalStorageAvailable = false;
 	boolean mExternalStorageWriteable = false;
 	private Context context = null;
-
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +126,14 @@ public class NewFilePicker extends ListActivity {
 			.setPositiveButton(getText(R.string.OK), 
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
+					// Open the database
+					
+					Utils.logD(file.getAbsolutePath());
+					// Use this to return to main screen in stead of file picker
+//					Intent intent = getIntent();
+//				  intent.putExtra("returnedData", file.getAbsolutePath());
+//				  setResult(RESULT_OK, intent);
+//				  finish();
 					Intent i = new Intent(context, DBViewer.class);
 					i.putExtra("db", ""+ file.getAbsolutePath());
 					startActivity(i);

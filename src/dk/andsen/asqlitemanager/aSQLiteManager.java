@@ -69,9 +69,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			int key = v.getId();
 			if (key == R.id.Open) {
 				Intent i = new Intent(this, NewFilePicker.class);
-				Utils.logD("Calling Filepicker");
-				//startActivityForResult(intent, requestCode)
-				// onActivityResult() 
+				Utils.logD("Calling NewFilepicker");
+//				Utils.logD("Calling NewFilepicker for result");
+//				startActivityForResult(i, 1);
 				startActivity(i);
 			} else if (key == R.id.About) {
 				Dialog dial = new Dialog(this);
@@ -93,11 +93,26 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				newDatabase();
 			} else if (key == R.id.Test) {
 				Intent i = new Intent(this, NewFilePicker.class);
-				Utils.logD("Calling NewFilepicker");
 				startActivity(i);
 			}
       
 		}
+		
+		protected void onActivityResult(int requestCode, int resultCode, Intent data)
+		{
+			Utils.logD("MainDriver main-activity got result from sub-activity");
+			if (resultCode == Activity.RESULT_CANCELED) {
+				Utils.logD("WidgetActivity was cancelled or encountered an error. resultcode == result_cancelled");
+				Utils.logD("WidgetActivity was cancelled - data =" + data);
+			} else
+				switch (requestCode) {
+				case 1:
+					 String msg = data.getStringExtra("returnedData");
+					 Utils.showMessage("Returned file", msg, _cont);
+					break;
+				}
+			Utils.logD("MainDriver main-activity got result from sub-activity");
+		}		
 		
 		/**
 		 * Create a new empty database
