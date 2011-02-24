@@ -1,6 +1,7 @@
-Version 1.1 β
+Version 1.1β
   Select SQL history from query form
   Size of icons changed to right sizes for different displays
+  Better detection of valid SQLite databases (based on first 16-byte sequence)
   Begin transaction, Commit and Rollback can be selected from option menu. 
     Transactions can be nested as savepoints in SQLite (is the first transaction
     rolled back all updates are rolled back). aSQLiteManager ensures that SQL
@@ -15,12 +16,12 @@ Version 1.1 β
   Export of query result to ascii file databaseFileName.export
   
 Working on:
-  Executing scripts, open scripts in "editor", saving scripts  
+  Executing scripts, open scripts in "editor / runner", saving scripts  
   Planning for further development, feature request welcome, could be:
-		Sort data / query results by clicking on title
-		Data editing form use editing button at each row
-		Data entry - add post from option menu in table browser
-		Implement some of SQLites .commands (.dump, .read fn.ft, ...)
+	Sort data / query results by clicking on title
+	Data editing form use editing button at each row
+	Data entry - add post from option menu in table browser
+	Implement some of SQLites .commands (.dump, .read fn.ft, ...)
 
 Version 1.0
   First production release of aSQLiteManager
