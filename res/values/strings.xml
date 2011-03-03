@@ -81,4 +81,5 @@ Here you will find some more help in the future.
     <string name="Cancel">Cancel</string>
     <string name="ExportData">Export</string>
     <string name="NoExportToRestore">No export to restore</string>
+    <string name="RememberDecision">Remember this decision</string>
 </resources>

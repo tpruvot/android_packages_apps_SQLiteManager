@@ -120,6 +120,7 @@ public class NewFilePicker extends ListActivity {
 				}).show();
 			}
 		} else {
+			//TODO add option to configure open with out question
 			new AlertDialog.Builder(this)
 			.setIcon(R.drawable.sqlite_icon)
 			.setTitle(getText(R.string.Open) + "\n [" + file.getName() + "]?")
@@ -142,7 +143,7 @@ public class NewFilePicker extends ListActivity {
 				public void onClick(DialogInterface dialog, int which) {
 					//dialog.dismiss();
 				}
-			}) .show();
+			}).show();
 		}
 	}
 	
