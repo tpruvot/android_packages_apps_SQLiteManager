@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,6 +36,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private final boolean testing = false;
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
+	private static final int MENU_RESET = 3;
 	private Context _cont;
     /** Called when the activity is first created. */
     @Override
@@ -160,6 +162,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		public boolean onCreateOptionsMenu(Menu menu) {
 			menu.add(0, MENU_OPT, 0, R.string.Option).setIcon(R.drawable.ic_menu_preferences);
 			menu.add(0, MENU_HLP, 0, R.string.Help).setIcon(R.drawable.ic_menu_help);
+			menu.add(0, MENU_RESET, 0, R.string.Reset).setIcon(R.drawable.ic_menu_close_clear_cancel);
 			return true;
 		}
 		
@@ -175,6 +178,19 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				Intent i = new Intent(this, Help.class);
 				startActivity(i);
 	      return true;
+	    case MENU_RESET:
+	    	// Reset all settings to default
+	    	SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putBoolean("FPJustOpen", false);
+				editor.putBoolean("JustOpen", false);
+				editor.commit();
+				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
+				editor = settings.edit();
+				editor.putString("PageSize", "20");
+				editor.putBoolean("SaveSQL", false);
+				editor.commit();
+	    	return false;
 			}
 			return false;
 		}

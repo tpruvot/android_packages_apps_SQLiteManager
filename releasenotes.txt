@@ -1,10 +1,11 @@
 Version 1.1
   Configuration of:
-    Open databases from file managers without question  
+    Open databases from file managers and aSQLiteManager without question
+    Reset configurations to default  
   
 Working on:
-  Executing scripts, open scripts in "editor / runner", saving scripts  
   Planning for further development, feature request welcome, could be:
+	Executing scripts, open scripts in "editor / runner", saving scripts  
 	Sort data / query results by clicking on title
 	Data editing form use editing button at each row
 	Data entry - add post from option menu in table browser

@@ -21,7 +21,7 @@
     android:paddingBottom="5pt"
     />
   <CheckBox
-    android:text="@string/RememberDecision"
+    android:text="@string/AlwaysJustOpen"
     android:id="@+id/RememberDecision"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>

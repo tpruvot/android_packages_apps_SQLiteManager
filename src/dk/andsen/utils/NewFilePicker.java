@@ -13,13 +13,20 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import dk.andsen.asqlitemanager.DBViewer;
@@ -120,30 +127,77 @@ public class NewFilePicker extends ListActivity {
 				}).show();
 			}
 		} else {
-			//TODO add option to configure open with out question
-			new AlertDialog.Builder(this)
-			.setIcon(R.drawable.sqlite_icon)
-			.setTitle(getText(R.string.Open) + "\n [" + file.getName() + "]?")
-			.setPositiveButton(getText(R.string.OK), 
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					// Open the database
-					
-					Utils.logD(file.getAbsolutePath());
-					// Use this to return to main screen in stead of file picker
-//					Intent intent = getIntent();
-//				  intent.putExtra("returnedData", file.getAbsolutePath());
-//				  setResult(RESULT_OK, intent);
-//				  finish();
-					Intent i = new Intent(context, DBViewer.class);
-					i.putExtra("db", ""+ file.getAbsolutePath());
-					startActivity(i);
-				}
-			}).setNegativeButton(getText(R.string.No), new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					//dialog.dismiss();
-				}
-			}).show();
+			// Open the database
+			final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+			if(!settings.getBoolean("FPJustOpen", false))
+			{
+				//TODO add option to configure open without question
+				final Dialog dial = new Dialog(this);
+				dial.setTitle(getText(R.string.OpenDatabase));
+				dial.setContentView(R.layout.dialog);
+				LinearLayout ll = (LinearLayout)dial.findViewById(R.id.dialog);
+				LinearLayout ll2 = new LinearLayout(context);
+				ll2.setPadding(0, 0, 5, 0);
+				ll2.setOrientation(LinearLayout.HORIZONTAL);
+				ImageView iv = new ImageView(context);
+				iv.setBackgroundResource(R.drawable.ic_app);
+				ll2.addView(iv);
+				TextView tv = new TextView(context);
+				tv.setText("[" + file.getName() + "]?");
+				tv.setPadding(5, 0, 0, 0);
+				ll2.addView(tv);
+				ll.addView(ll2);
+				final CheckBox cb = new CheckBox(context);
+				cb.setText(R.string.AlwaysJustOpen);
+				ll.addView(cb);
+				LinearLayout ll3 = new LinearLayout(context);
+				ll3.setOrientation(LinearLayout.HORIZONTAL);
+
+				Button btnOk = new Button(context);
+				btnOk.setText(R.string.OK);
+				btnOk.setLayoutParams(new LinearLayout.LayoutParams(
+	          LinearLayout.LayoutParams.FILL_PARENT,
+	          LinearLayout.LayoutParams.WRAP_CONTENT,
+	          1.0F
+	      ));
+				btnOk.setOnClickListener(new OnClickListener(){
+					public void onClick(View arg0) {
+						// OK pressed
+						if (cb.isChecked()) {
+							// Save preferences
+							SharedPreferences.Editor editor = settings.edit();
+							editor.putBoolean("FPJustOpen", true);
+							editor.commit();
+						}
+						// Open database
+						Utils.logD(file.getAbsolutePath());
+						Intent i = new Intent(context, DBViewer.class);
+						i.putExtra("db", ""+ file.getAbsolutePath());
+						startActivity(i);
+						dial.dismiss();
+					}
+				});
+				ll3.addView(btnOk);
+				Button btnCancel = new Button(context);
+				btnCancel.setText(R.string.Cancel);
+				btnCancel.setOnClickListener(new OnClickListener(){
+					public void onClick(View arg0) {
+						dial.dismiss();
+					}
+				});
+				btnCancel.setLayoutParams(new LinearLayout.LayoutParams(
+	          LinearLayout.LayoutParams.FILL_PARENT,
+	          LinearLayout.LayoutParams.WRAP_CONTENT,
+	          1.0F
+	      ));
+				ll3.addView(btnCancel);
+				ll.addView(ll3);
+				dial.show();
+			} else {
+				Intent i = new Intent(context, DBViewer.class);
+				i.putExtra("db", ""+ file.getAbsolutePath());
+				startActivity(i);
+			}
 		}
 	}
 	
