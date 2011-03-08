@@ -84,5 +84,6 @@ Here you will find some more help in the future.
 
     <string name="AlwaysJustOpen">Always just open</string>
     <string name="Reset">Reset</string>
+    <string name="OpenSQL">Open SQL file</string>
     
 </resources>

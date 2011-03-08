@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import dk.andsen.asqlitemanager.DBViewer;
 import dk.andsen.asqlitemanager.R;
+import dk.andsen.asqlitemanager.SQLViewer;
 
 /**
  * @author andsen
@@ -131,9 +132,12 @@ public class NewFilePicker extends ListActivity {
 			final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 			if(!settings.getBoolean("FPJustOpen", false))
 			{
-				//TODO add option to configure open without question
 				final Dialog dial = new Dialog(this);
-				dial.setTitle(getText(R.string.OpenDatabase));
+				if (file.getAbsolutePath().endsWith(".sql")) {
+					dial.setTitle(getText(R.string.OpenSQL));
+				} else {
+					dial.setTitle(getText(R.string.OpenDatabase));
+				}
 				dial.setContentView(R.layout.dialog);
 				LinearLayout ll = (LinearLayout)dial.findViewById(R.id.dialog);
 				LinearLayout ll2 = new LinearLayout(context);
@@ -169,11 +173,12 @@ public class NewFilePicker extends ListActivity {
 							editor.putBoolean("FPJustOpen", true);
 							editor.commit();
 						}
-						// Open database
-						Utils.logD(file.getAbsolutePath());
-						Intent i = new Intent(context, DBViewer.class);
-						i.putExtra("db", ""+ file.getAbsolutePath());
-						startActivity(i);
+						// Open database or SQL
+						if(file.getAbsolutePath().endsWith(".sql")) {
+							openSQL(file);
+						} else {
+							openDatabase(file);
+						}
 						dial.dismiss();
 					}
 				});
@@ -194,11 +199,29 @@ public class NewFilePicker extends ListActivity {
 				ll.addView(ll3);
 				dial.show();
 			} else {
-				Intent i = new Intent(context, DBViewer.class);
-				i.putExtra("db", ""+ file.getAbsolutePath());
-				startActivity(i);
+				//TODO if file ends with .sql open in editor / runner
+				Utils.logD("Path to SQL " + file.getAbsolutePath());
+				if(file.getAbsolutePath().endsWith(".sql")) {
+					openSQL(file);
+				} else {
+					openDatabase(file);
+				}
 			}
 		}
+	}
+	
+	private void openSQL(File file) {
+		Utils.logD("SQL file");
+		Intent iSqlViewer = new Intent(context, SQLViewer.class);
+		iSqlViewer.putExtra("db", ""+ file.getAbsolutePath());
+		startActivity(iSqlViewer);
+	}
+	
+	private void openDatabase(File file) {
+		Utils.logD("Other file file");
+		Intent iDBViewer = new Intent(context, DBViewer.class);
+		iDBViewer.putExtra("db", ""+ file.getAbsolutePath());
+		startActivity(iDBViewer);
 	}
 	
 	/**
