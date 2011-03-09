@@ -1,5 +1,5 @@
 Version 1.1
- 	β +
+  1.1β +
   Configuration of:
     Open databases from file managers and aSQLiteManager without question
     Reset configurations to default  

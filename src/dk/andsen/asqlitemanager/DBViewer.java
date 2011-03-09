@@ -44,6 +44,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private boolean _update = false;
 	private final int MENU_EXPORT = 0;
 	private final int MENU_RESTORE = 1;
+	private final int MENU_SQL = 2;
 	private int _dialogClicked;
 	
 	@Override
@@ -217,6 +218,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_EXPORT, 0, getText(R.string.Export));
 		menu.add(0, MENU_RESTORE, 0, getText(R.string.Restore));
+		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
 		return true;
 	}
 
@@ -227,6 +229,9 @@ public class DBViewer extends Activity implements OnClickListener {
 			break;
 		case MENU_RESTORE:
 			showDialog(MENU_RESTORE);
+			break;
+		case MENU_SQL:
+			showDialog(MENU_SQL);
 			break;
 		}
 		return false;
@@ -249,12 +254,21 @@ public class DBViewer extends Activity implements OnClickListener {
 		case MENU_RESTORE:
 			_dialogClicked = MENU_RESTORE;
 			Utils.logD("Creating MENU_RESTORE");
-			title = getText(R.string.Restore).toString() + "\nnot implemented";
+			title = getText(R.string.Restore).toString();
 			Dialog restore = new AlertDialog.Builder(this).setTitle(title)
 					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 					.setNegativeButton(getText(R.string.Cancel), null)
 					.create();
 			return restore;
+		case MENU_SQL:
+			_dialogClicked = MENU_SQL;
+			title = getText(R.string.OpenSQL).toString();
+			Dialog sql = new AlertDialog.Builder(this).setTitle(title)
+			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+			.setNegativeButton(getText(R.string.Cancel), null)
+			.create();
+			return sql;
+			
 		}
 		return null;
 	}
@@ -278,6 +292,11 @@ public class DBViewer extends Activity implements OnClickListener {
 					break;
 				case MENU_RESTORE:
 					_db.restoreDatabase();
+					break;
+				case MENU_SQL:
+					Utils.logD("Open SQL file");
+					//TODO call NewFIlePicker with db(?) = true
+					
 					break;
 				}
 				break;

@@ -46,11 +46,18 @@ public class NewFilePicker extends ListActivity {
 	boolean mExternalStorageAvailable = false;
 	boolean mExternalStorageWriteable = false;
 	private Context context = null;
+	private boolean _SQLtype = false;
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bundle extras = getIntent().getExtras();
+		if(extras !=null)
+		{
+			_SQLtype = extras.getBoolean("type");
+		}
 		setContentView(R.layout.filepicker);
 		myPath = (TextView)findViewById(R.id.path);
 		context = this.getBaseContext();
@@ -133,7 +140,7 @@ public class NewFilePicker extends ListActivity {
 			if(!settings.getBoolean("FPJustOpen", false))
 			{
 				final Dialog dial = new Dialog(this);
-				if (file.getAbsolutePath().endsWith(".sql")) {
+				if(_SQLtype) {
 					dial.setTitle(getText(R.string.OpenSQL));
 				} else {
 					dial.setTitle(getText(R.string.OpenDatabase));
@@ -174,7 +181,7 @@ public class NewFilePicker extends ListActivity {
 							editor.commit();
 						}
 						// Open database or SQL
-						if(file.getAbsolutePath().endsWith(".sql")) {
+						if (_SQLtype) {
 							openSQL(file);
 						} else {
 							openDatabase(file);
@@ -199,7 +206,6 @@ public class NewFilePicker extends ListActivity {
 				ll.addView(ll3);
 				dial.show();
 			} else {
-				//TODO if file ends with .sql open in editor / runner
 				Utils.logD("Path to SQL " + file.getAbsolutePath());
 				if(file.getAbsolutePath().endsWith(".sql")) {
 					openSQL(file);
