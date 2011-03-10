@@ -1,5 +1,5 @@
 /**
- * Part of one of andsens open source project (a41cv / aSQLiteManager) 
+ * Part of one of Andsen's open source project (a41cv / aSQLiteManager) 
  *
  * @author andsen
  *
@@ -14,20 +14,17 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-/**
- * Part of a41cv
- * @author andsen
- *
- */
 public class Utils {
-
+	private static boolean logging = false;
+	
 	private static String app = "aSQLMan";
 	/**
 	 * Write a debug message to the log
 	 * @param msg Message
 	 */
 	public static void logD(String msg) {
-		Log.d(app, msg);
+		if (logging)
+			Log.d(app, msg);
 	}
 	
 	/**
@@ -35,7 +32,8 @@ public class Utils {
 	 * @param msg Message
 	 */
 	public static void logE(String msg) {
-		Log.e(app, msg);
+		if (logging)
+			Log.e(app, msg);
 	}
 	
 	/**
@@ -79,6 +77,10 @@ public class Utils {
       toast.show();
 	}
 
+	/**
+	 * Test if a SDCard is available
+	 * @return true if a external SDCard is available
+	 */
 	public static boolean isSDAvailable() {
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
