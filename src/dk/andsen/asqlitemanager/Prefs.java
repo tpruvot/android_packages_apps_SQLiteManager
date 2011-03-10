@@ -2,6 +2,8 @@
  * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
  * a a SQLite Manager by andsen (http://sourceforge.net/users/andsen)
  *
+ * The preferences screen
+ *
  * @author andsen
  *
  */

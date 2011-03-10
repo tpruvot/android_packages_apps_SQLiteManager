@@ -2,6 +2,8 @@
  * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
  * a Android SQLite Manager by andsen (http://sourceforge.net/users/andsen)
  *
+ *	This class contains all all database functions
+ *
  * @author andsen
  *
  */

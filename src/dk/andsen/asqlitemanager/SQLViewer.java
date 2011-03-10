@@ -1,3 +1,13 @@
+/**
+ * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
+ * a a SQLite Manager by andsen (http://sourceforge.net/users/andsen)
+ *
+ * Open files with SQL scripts, let user execute one or all commands
+ * 
+ * @author andsen
+ *
+ */
+
 package dk.andsen.asqlitemanager;
 
 import java.io.BufferedReader;

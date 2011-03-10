@@ -1,4 +1,12 @@
-
+/**
+ * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
+ * a Android SQLite Manager by andsen (http://sourceforge.net/users/andsen)
+ *
+ *	This activity is called when clicked on a .sqlite / .db file from file managers
+ *
+ * @author andsen
+ *
+ */
 package dk.andsen.asqlitemanager;
 
 import dk.andsen.utils.Utils;

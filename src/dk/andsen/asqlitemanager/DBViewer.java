@@ -2,6 +2,8 @@
  * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
  * a a SQLite Manager by andsen (http://sourceforge.net/users/andsen)
  *
+ * Show tables, views, and index from the current database
+ * 
  * @author andsen
  *
  */
@@ -219,7 +221,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_EXPORT, 0, getText(R.string.Export));
 		menu.add(0, MENU_RESTORE, 0, getText(R.string.Restore));
-// first in 1.2β		
+// first in 1.2β
+// Open files with SQL scripts, execute one or all commands 		
 //		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
 		return true;
 	}

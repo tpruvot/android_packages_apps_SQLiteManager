@@ -80,5 +80,10 @@ Her vil der i fremtiden være mere hjælp.
     <string name="Cancel">Fortryd</string>
     <string name="ExportData">Eksport</string>
     <string name="NoExportToRestore">Ingen elport at reetablere</string>
+    <string name="AlwaysJustOpen">Bare åbn</string>
+    <string name="Reset">Nulstil</string>
+    <string name="OpenSQL">Åbn SQL fil</string>
+    <string name="Working">Arbejder</string>
+    <string name="ReadingScript">Læser script</string>
     
 </resources>

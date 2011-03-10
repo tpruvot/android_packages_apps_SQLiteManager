@@ -2,6 +2,8 @@
  * Part of aSQLiteManager (http://sourceforge.net/projects/asqlitemanager/)
  * a a SQLite Manager by andsen (http://sourceforge.net/users/andsen)
  *
+ * Query builder and result viewer
+ *
  * @author andsen
  *
  */
