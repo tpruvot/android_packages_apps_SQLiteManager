@@ -1,11 +1,11 @@
 Version 1.1
   1.1β +
   Configuration of:
-    Open databases from file managers and aSQLiteManager without question
-    Reset configurations to default  
-  
+		Open databases from file managers and aSQLiteManager without question
+		Reset configurations to default
+    
 Working on:
-  Planning for further development, feature request welcome, could be:
+  Planning for further development, feature request are welcome, could be:
 	Executing scripts, open scripts in "editor / runner", saving scripts  
 	Sort data / query results by clicking on title
 	Data editing form use editing button at each row
@@ -14,8 +14,8 @@ Working on:
 	  .read FILENAME		execute sql from file
 	  .import FILE TABLE	import data from file to table
 	  .output FILENAME		send output to file
-	  .dump ?TABLE?			dump database / table supplement to export
-	  .restore ?DB? FILE	restore database form file supplement to restore 	
+	  .dump ?TABLE?			dump database / table, a supplement to export
+	  .restore ?DB? FILE	restore database from a file, a supplement to restore 	
 
 Version 1.1β
   Select SQL history from query form

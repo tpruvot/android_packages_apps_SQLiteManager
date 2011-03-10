@@ -56,7 +56,7 @@ public class NewFilePicker extends ListActivity {
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
-			_SQLtype = extras.getBoolean("type");
+			_SQLtype = extras.getBoolean("SQLtype");
 		}
 		setContentView(R.layout.filepicker);
 		myPath = (TextView)findViewById(R.id.path);

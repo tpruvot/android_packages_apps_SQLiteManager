@@ -29,6 +29,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.types.Types;
+import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.Utils;
 
 public class DBViewer extends Activity implements OnClickListener {
@@ -218,7 +219,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_EXPORT, 0, getText(R.string.Export));
 		menu.add(0, MENU_RESTORE, 0, getText(R.string.Restore));
-		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
+// first in 1.2β		
+//		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
 		return true;
 	}
 
@@ -295,6 +297,10 @@ public class DBViewer extends Activity implements OnClickListener {
 					break;
 				case MENU_SQL:
 					Utils.logD("Open SQL file");
+					Intent i = new Intent(_cont, NewFilePicker.class);
+					i.putExtra("SQLtype", true);
+					startActivity(i);
+
 					//TODO call NewFIlePicker with db(?) = true
 					
 					break;
