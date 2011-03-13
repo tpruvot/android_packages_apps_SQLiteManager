@@ -1,8 +1,8 @@
 Version 1.1
   1.1β +
   Configuration of:
-		Open databases from file managers and aSQLiteManager without question
-		Reset configurations to default
+    Open databases from file managers and aSQLiteManager without question
+    Reset configurations to default
     
 Working on:
   Planning for further development, feature request are welcome, could be:
@@ -11,7 +11,7 @@ Working on:
 	Data editing form use editing button at each row
 	Data entry - add post from option menu in table browser
 	Implement some of SQLites .commands:
-	  .read FILENAME		execute sql from file
+	  .read FILENAME		execute SQL from file
 	  .import FILE TABLE	import data from file to table
 	  .output FILENAME		send output to file
 	  .dump ?TABLE?			dump database / table, a supplement to export

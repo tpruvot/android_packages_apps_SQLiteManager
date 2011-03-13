@@ -81,7 +81,7 @@ Here you will find some more help in the future.
     <string name="Cancel">Cancel</string>
     <string name="ExportData">Export</string>
     <string name="NoExportToRestore">No export to restore</string>
-    <string name="AlwaysJustOpen">Always just open</string>
+    <string name="AlwaysJustOpen">Always open database</string>
     <string name="Reset">Reset</string>
     <string name="OpenSQL">Open SQL file</string>
     <string name="Working">Working</string>
