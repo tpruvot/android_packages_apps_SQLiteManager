@@ -1,5 +1,19 @@
 Version 1.1
-  1.1β +
+  Select SQL history from query form
+  Size of icons changed to right sizes for different displays
+  Better detection of valid SQLite databases (based on first 16-byte sequence)
+  Begin transaction, Commit and Rollback can be selected from option menu. 
+    Transactions can be nested as savepoints in SQLite (is the first transaction
+    rolled back all updates are rolled back). aSQLiteManager ensures that SQL
+    statements are stored in the database even if updates are rolled back.
+    See http://www.sqlite.org/lang_savepoint.html for savepoint specifications.
+  Export of databases (table structure, views and data) to SQL script
+    named databaseFileName.sql implemented -- seems to work
+  Restore of databases (table structure, views and data) from SQL script
+    named databaseFileName.sql implemented -- seems to work
+  Better file picker with different icons for folders, .sqlite, .db and non
+  	aSQLiteManager files
+  Export of query result to ascii file databaseFileName.export
   Configuration of:
     Open databases from file managers and aSQLiteManager without question
     Reset configurations to default

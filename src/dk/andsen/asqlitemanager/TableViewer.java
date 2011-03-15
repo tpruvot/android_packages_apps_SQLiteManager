@@ -174,10 +174,12 @@ public class TableViewer extends Activity implements OnClickListener {
 
 			if (i%2 == 1)
 				row.setBackgroundColor(Color.DKGRAY);
+			// TODO change rows to ConvertView
 			// Adding all columns as TextView's should be changed to a ConvertView
 			// as described here:
 			// http://android-er.blogspot.com/2010/06/using-convertview-in-getview-to-make.html
 			// or in android41cv dk.andsen.utils.MyArrayAdapter
+			
 			for(int j=0; j<colSize; j++){
 				TextView c = new TextView(this);
 				c.setText(data[i][j]);
