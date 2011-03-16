@@ -47,6 +47,7 @@ public class NewFilePicker extends ListActivity {
 	boolean mExternalStorageWriteable = false;
 	private Context context = null;
 	private boolean _SQLtype = false;
+	private String _dbPath = null;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -56,7 +57,9 @@ public class NewFilePicker extends ListActivity {
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
+			//TODO need to pass path to database from caller to SQLViewer
 			_SQLtype = extras.getBoolean("SQLtype");
+			_dbPath = extras.getString("dbPath");
 		}
 		setContentView(R.layout.filepicker);
 		myPath = (TextView)findViewById(R.id.path);
@@ -219,7 +222,8 @@ public class NewFilePicker extends ListActivity {
 	private void openSQL(File file) {
 		Utils.logD("SQL file");
 		Intent iSqlViewer = new Intent(context, SQLViewer.class);
-		iSqlViewer.putExtra("db", ""+ file.getAbsolutePath());
+		iSqlViewer.putExtra("script", ""+ file.getAbsolutePath());
+		iSqlViewer.putExtra("db", _dbPath);
 		startActivity(iSqlViewer);
 	}
 	

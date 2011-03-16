@@ -221,21 +221,23 @@ public class DBViewer extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_EXPORT, 0, getText(R.string.Export));
 		menu.add(0, MENU_RESTORE, 0, getText(R.string.Restore));
-// first in 1.2β
-// Open files with SQL scripts, execute one or all commands 		
-//		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
+		// Open files with SQL scripts, execute one or all commands 		
+		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_EXPORT:
+			_dialogClicked = MENU_EXPORT; 
 			showDialog(MENU_EXPORT);
 			break;
 		case MENU_RESTORE:
+			_dialogClicked = MENU_RESTORE;
 			showDialog(MENU_RESTORE);
 			break;
 		case MENU_SQL:
+			_dialogClicked = MENU_SQL; 
 			showDialog(MENU_SQL);
 			break;
 		}
@@ -247,7 +249,6 @@ public class DBViewer extends Activity implements OnClickListener {
 		String title = "";
 		switch (id) {
 		case MENU_EXPORT:
-			_dialogClicked = MENU_EXPORT;
 			Utils.logD("Creating MENU_EXPORT");
 			title = getText(R.string.Export).toString();
 			Dialog export = new AlertDialog.Builder(this)
@@ -257,7 +258,6 @@ public class DBViewer extends Activity implements OnClickListener {
 					.create();
 			return export;
 		case MENU_RESTORE:
-			_dialogClicked = MENU_RESTORE;
 			Utils.logD("Creating MENU_RESTORE");
 			title = getText(R.string.Restore).toString();
 			Dialog restore = new AlertDialog.Builder(this).setTitle(title)
@@ -266,7 +266,6 @@ public class DBViewer extends Activity implements OnClickListener {
 					.create();
 			return restore;
 		case MENU_SQL:
-			_dialogClicked = MENU_SQL;
 			title = getText(R.string.OpenSQL).toString();
 			Dialog sql = new AlertDialog.Builder(this).setTitle(title)
 			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
@@ -302,6 +301,7 @@ public class DBViewer extends Activity implements OnClickListener {
 					Utils.logD("Open SQL file");
 					Intent i = new Intent(_cont, NewFilePicker.class);
 					i.putExtra("SQLtype", true);
+					i.putExtra("dbPath", _dbPath);
 					startActivity(i);
 
 					//TODO call NewFIlePicker with db(?) = true

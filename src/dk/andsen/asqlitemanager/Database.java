@@ -720,6 +720,21 @@ public class Database {
 		dropAllTables();
 		return runScript(backupFile);
 	}
+	
+	/**
+	 * Executing all lines of SQL from the file. Lines starting with "--"
+	 * are treated as comments
+	 * 
+	 * @param scriptPath Path to the script file
+	 */
+	public void executeScript(String scriptPath) {
+		Utils.logD("Running script!");
+
+		// TODO Auto-generated method stub
+		
+		
+		
+	}
 
 	/**
 	 * Run a SQL script from a file

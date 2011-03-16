@@ -1,3 +1,4 @@
+
 Version 1.1
   Select SQL history from query form
   Size of icons changed to right sizes for different displays
@@ -19,6 +20,8 @@ Version 1.1
     Reset configurations to default
     
 Working on:
+  Executing scripts, open scripts in "runner" execute all lines ore single lines  
+
   Planning for further development, feature request are welcome, could be:
 	Executing scripts, open scripts in "editor / runner", saving scripts  
 	Sort data / query results by clicking on title
