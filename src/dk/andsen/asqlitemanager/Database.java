@@ -518,7 +518,6 @@ public class Database {
 		// TODO problems if aSQLiteManager don't exists
 		String sql = "select * from aSQLiteManager order by _id desc";
 		String[] list = null;
-		
 		try {
 			Cursor res = _db.rawQuery(sql, null);
 			int cols = res.getCount();
@@ -705,7 +704,6 @@ public class Database {
 	public boolean restoreDatabase() {
 		// Just delete all user data and then run the exported file as
 		// a script
-  	// TODO first check if SQL file is present!!! 
 		testDB();
 		String backupName = _dbPath + ".sql";
 		File backupFile = new File(backupName);
@@ -722,18 +720,14 @@ public class Database {
 	}
 	
 	/**
-	 * Executing all lines of SQL from the file. Lines starting with "--"
-	 * are treated as comments
+	 * Execute a single line of SQL
 	 * 
-	 * @param scriptPath Path to the script file
+	 * @param sql the SQL statement to execute
 	 */
-	public void executeScript(String scriptPath) {
-		Utils.logD("Running script!");
-
-		// TODO Auto-generated method stub
-		
-		
-		
+	public void executeStatement(String sql) {
+		Utils.logD("Executing statement:" + sql);
+		testDB();
+		_db.execSQL(sql);
 	}
 
 	/**
@@ -742,6 +736,7 @@ public class Database {
 	 * @return true upon success
 	 */
 	public boolean runScript(File scriptFile) {
+		testDB();
 		FileReader f;
 		BufferedReader in;
 		String line = "";
@@ -910,4 +905,5 @@ public class Database {
 			return false;
 		}
 	}
+
 }

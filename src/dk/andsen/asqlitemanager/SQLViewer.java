@@ -11,9 +11,12 @@
 package dk.andsen.asqlitemanager;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,8 +30,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.utils.Utils;
 //extends ListActivity
 public class SQLViewer extends Activity implements OnClickListener, Runnable {
@@ -39,15 +44,20 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 	private BufferedReader _in;
 	private ListView _lv;
 	private static final int MENU_RUN = 0;
+	private static final int RUN_STATEMENT = 1;
 	private int _dialogClicked;
 	private Database _db;
 	private String _scriptPath;
+	private SQLViewer _cont;
+	protected String _sql;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sqlviewer);
 		Bundle extras = getIntent().getExtras();
+		_cont = this;
 		if(extras !=null)
 		{
 			_dbPath = extras.getString("db");
@@ -60,20 +70,36 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 					getString(R.string.ReadingScript), true, false);
 			Utils.logD("Fetching SQLListView");
 	    _lv = (ListView)findViewById(R.id.SQLListView);
-			ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
+			final ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String> map;
 	    try {
+	    	String nl = "\n";
 				_f = new FileReader(_scriptPath);
 				_in = new BufferedReader(_f);
 				Utils.logD("Importing from; " + _scriptPath);
+				String line = "";
 				String nline;
+				// put each statement in the list
 				while ((nline = _in.readLine()) != null) {
-					// combine not starting with '--' and not ending with ';' with the next 
-					// line(s) into one line of SQL
-					// to handle multiple line statements
-					map = new HashMap<String, String>();
-					map.put("Sql", nline);
-					mylist.add(map);
+					line += nline;
+					// if more of statement coming append newline
+					if (!(line.endsWith(";") || line.equals("")))
+						line += nl;
+		      if(line.startsWith("--")) {
+		        // It a comment just empty line
+						map = new HashMap<String, String>();
+						map.put("Sql", line);
+						mylist.add(map);
+		      	line = "";
+		      } else if(line.endsWith(";")) {
+		        // If line ends with ; we have a statement ready to execute
+		      	line = line.substring(0, line.length() - 1);
+		      	Utils.logD("SQL: " + line);
+						map = new HashMap<String, String>();
+						map.put("Sql", line);
+						mylist.add(map);
+		      	line = "";
+		      }
 				}
 		    _in.close();
 		    _f.close();
@@ -84,23 +110,32 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 			SimpleAdapter mSchedule = new SimpleAdapter(this, mylist,
 					R.layout.sql_line, new String[] {"Sql"},
 					new int[] { R.id.Sql});
-			// Add onClickListener to execute single lines
+			_lv.setAdapter(mSchedule);
+			_lv.setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick(AdapterView<?> parent, View v, int position,
+						long id) {
+					_dialogClicked = RUN_STATEMENT;
+					HashMap<String, String> map = mylist.get(position);
+					Collection<String> m =  map.values();
+					Iterator<String> itv = m.iterator();
+					while (itv.hasNext()) {
+						String str = (String) itv.next();
+					    Utils.logD("Element: " + str);
+					    _sql = str;
+					}
+					Dialog executeLine = new AlertDialog.Builder(_cont)
+					.setTitle(getText(R.string.ExecuteStatement))
+					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+					.setNegativeButton(getText(R.string.Cancel), null)
+					.create();
+					executeLine.show();
+				}
+			});
 			Utils.logD("Adapter finished");
-			try {
-				_lv.setAdapter(mSchedule);
-			} catch (Exception e) {
-				e.printStackTrace();
-				Utils.logE(e.toString());
-			}
 			Thread thread = new Thread(this);
 			thread.start();
 		}		
 	}
-	
-//	@Override
-//	protected void onListItemClick(ListView l, View v, int position, long id) {
-//		Utils.logD("Position clicked:" + position);
-//	}
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -110,6 +145,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 	};
 
 	public void run() {
+		
 		handler.sendEmptyMessage(0);
 	}
 	
@@ -161,8 +197,11 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 				switch (_dialogClicked) {
 				case MENU_RUN:
 					Utils.logD("Ready to run " + _scriptPath);
-					_db.executeScript(_scriptPath);
-					
+					_db.runScript(new File(_scriptPath));
+					break;
+				case RUN_STATEMENT:
+					Utils.logD("Execute statement: " + _sql);
+					_db.executeStatement(_sql);
 					break;
 				}
 				break;
