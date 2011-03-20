@@ -86,6 +86,5 @@ Here you will find some more help in the future.
     <string name="OpenSQL">Open SQL file</string>
     <string name="Working">Working</string>
     <string name="ReadingScript">Reading script</string>
-    
     <string name="ExecuteStatement">Execute statement</string>
 </resources>

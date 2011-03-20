@@ -727,7 +727,12 @@ public class Database {
 	public void executeStatement(String sql) {
 		Utils.logD("Executing statement:" + sql);
 		testDB();
-		_db.execSQL(sql);
+		try {
+			_db.execSQL(sql);
+		} catch (SQLException e) {
+			Utils.showException(e.toString(), _cont);
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -765,6 +770,7 @@ public class Database {
 			in.close();
 			f.close();
     } catch (Exception e) {
+    	Utils.showException(e.toString(), _cont);
     	return false;
     }
     return true;

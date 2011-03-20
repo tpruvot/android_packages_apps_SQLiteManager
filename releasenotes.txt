@@ -1,3 +1,20 @@
+Next version
+  Open SQL files (from database view) and executed all or single lines
+  Error messages during restore and execution of scripts and statements
+
+Working on:
+  Planning for further development, feature request are welcome, could be:
+	Executing scripts, open scripts in "editor / runner", saving scripts  
+	Sort data / query results by clicking on title
+	Data editing form use editing button at each row
+	Data entry - add post from option menu in table browser
+	Implement some of SQLites .commands:
+	  .read FILENAME		execute SQL from file
+	  .import FILE TABLE	import data from file to table
+	  .output FILENAME		send output to file
+	  .dump ?TABLE?			dump database / table, a supplement to export
+	  .restore ?DB? FILE	restore database from a file, a supplement to restore 	
+
 
 Version 1.1
   Select SQL history from query form
@@ -19,21 +36,6 @@ Version 1.1
     Open databases from file managers and aSQLiteManager without question
     Reset configurations to default
     
-Working on:
-  Executing scripts, open scripts in "runner" execute all lines ore single lines  
-
-  Planning for further development, feature request are welcome, could be:
-	Executing scripts, open scripts in "editor / runner", saving scripts  
-	Sort data / query results by clicking on title
-	Data editing form use editing button at each row
-	Data entry - add post from option menu in table browser
-	Implement some of SQLites .commands:
-	  .read FILENAME		execute SQL from file
-	  .import FILE TABLE	import data from file to table
-	  .output FILENAME		send output to file
-	  .dump ?TABLE?			dump database / table, a supplement to export
-	  .restore ?DB? FILE	restore database from a file, a supplement to restore 	
-
 Version 1.1β
   Select SQL history from query form
   Size of icons changed to right sizes for different displays

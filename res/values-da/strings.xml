@@ -85,5 +85,5 @@ Her vil der i fremtiden være mere hjælp.
     <string name="OpenSQL">Åbn SQL fil</string>
     <string name="Working">Arbejder</string>
     <string name="ReadingScript">Læser script</string>
-    
+    <string name="ExecuteStatement">Eksekver sql</string>
 </resources>

@@ -166,7 +166,6 @@ public class NewFilePicker extends ListActivity {
 				ll.addView(cb);
 				LinearLayout ll3 = new LinearLayout(context);
 				ll3.setOrientation(LinearLayout.HORIZONTAL);
-
 				Button btnOk = new Button(context);
 				btnOk.setText(R.string.OK);
 				btnOk.setLayoutParams(new LinearLayout.LayoutParams(
@@ -210,8 +209,11 @@ public class NewFilePicker extends ListActivity {
 				dial.show();
 			} else {
 				Utils.logD("Path to SQL " + file.getAbsolutePath());
-				if(file.getAbsolutePath().endsWith(".sql")) {
-					openSQL(file);
+				if(_SQLtype) {
+					// only open files ending with .sql
+					if(file.getAbsolutePath().endsWith(".sql")) {
+						openSQL(file);
+					} 					
 				} else {
 					openDatabase(file);
 				}
