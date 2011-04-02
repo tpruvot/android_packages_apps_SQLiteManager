@@ -85,7 +85,8 @@ public class TableViewer extends Activity implements OnClickListener {
 	}
 
 	protected void selectRecord(String type, int position) {
-		//TODO what?
+		//TODO edit record
+		Utils.logD("TableViewer selectRecord edit record here");
 	}
 
 	public void onClick(View v) {

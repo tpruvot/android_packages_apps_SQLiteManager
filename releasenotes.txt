@@ -4,9 +4,8 @@ Next version
 
 Working on:
   Planning for further development, feature request are welcome, could be:
-	Executing scripts, open scripts in "editor / runner", saving scripts  
-	Sort data / query results by clicking on title
 	Data editing form use editing button at each row
+	Sort data / query results by clicking on title
 	Data entry - add post from option menu in table browser
 	Implement some of SQLites .commands:
 	  .read FILENAME		execute SQL from file
@@ -14,6 +13,7 @@ Working on:
 	  .output FILENAME		send output to file
 	  .dump ?TABLE?			dump database / table, a supplement to export
 	  .restore ?DB? FILE	restore database from a file, a supplement to restore 	
+	Scripts editor?  
 
 
 Version 1.1

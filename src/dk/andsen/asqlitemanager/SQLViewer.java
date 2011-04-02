@@ -210,7 +210,8 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 	}
 
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		Utils.logD("SQLViewer onClick called!");
+		
 		
 	}
 

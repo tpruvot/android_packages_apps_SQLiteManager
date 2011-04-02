@@ -3,6 +3,7 @@
 	<name>aSQLiteManager</name>
 	<comment></comment>
 	<projects>
+		<project>RecordEditor</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
