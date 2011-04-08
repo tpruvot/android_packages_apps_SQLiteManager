@@ -35,6 +35,22 @@ public class TableViewer extends Activity implements OnClickListener {
 	Button bUp;
 	Button bDwn;
 
+	/*
+	 * What is needed to allow editing form  table viewer 
+	 * 
+	 * When displaying records
+	 * select rowid, t.* form table as t
+	 * 
+	 * to include the sqlite rowid
+	 * 
+	 * But only if a single field primary key does not exists
+	 * If there does only
+	 * select * from table
+	 * 
+	 * Then it is possible to update ... where rowid = x
+	 * 
+	 */
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,6 +116,10 @@ public class TableViewer extends Activity implements OnClickListener {
 			updateButtons(false);
 			appendRows(_aTable, data);
 		} else if (key == R.id.Data) {
+			/*
+			 * If not a query include rowid in data if no single field
+			 * primary key exists
+			 */
 			//list.
 			offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
@@ -107,11 +127,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			String [][] data = _db.getTableData(_table, offset, limit);
 			updateButtons(true);
 			appendRows(_aTable, data);
-			//buildList(_type);
-			//			Intent i = new Intent(this, DataGrid.class);
-			//			i.putExtra("db", _dbPath);
-			//			i.putExtra("Table", _table);
-			//			startActivity(i);
 		} else if (key == R.id.SQL) {
 			offset = 0;
 			String [] fieldNames = {"SQL"};
@@ -140,8 +155,8 @@ public class TableViewer extends Activity implements OnClickListener {
 			appendRows(_aTable, data);
 			Utils.logD("PgUp: " + offset);
 		}
-		
 	}
+
 	/**
 	 * If paging = true show paging buttons otherwise not
 	 * @param paging
@@ -194,7 +209,7 @@ public class TableViewer extends Activity implements OnClickListener {
 
 					public void onClick(View v) {
 				      // button 1 was clicked!
-				  	 Utils.logD("OnClick: " + v.getId());
+				  	 Utils.logD("OnClick TextView: " + v.getId());
 				  	 String text = (String)((TextView)v).getText();
 				  	 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				  	 clipboard.setText(text);

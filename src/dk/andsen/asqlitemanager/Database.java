@@ -261,6 +261,10 @@ public class Database {
 	 * @return
 	 */
 	public String[][] getTableData(String table, int offset, int limit) {
+		/*
+		 * If not a query include rowid in data if no single field
+		 * primary key exists
+		 */
 		testDB();
 		String sql = "select * from " + table + " limit " + limit + " offset " + offset;
 		Utils.logD("SQL = " + sql);
