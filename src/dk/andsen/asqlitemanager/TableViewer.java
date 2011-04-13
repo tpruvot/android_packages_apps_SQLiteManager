@@ -7,6 +7,13 @@
  * @author andsen
  *
  */
+
+/*
+ * Use SQL like this
+ * SELECT rowid as rowid, * FROM programs
+ * to get unique id for each record this might be a primary key but only
+ * if this is a single field
+ */
 package dk.andsen.asqlitemanager;
 
 import android.app.Activity;
