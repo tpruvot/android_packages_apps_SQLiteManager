@@ -23,6 +23,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.types.Field;
 import dk.andsen.types.QueryResult;
 import dk.andsen.utils.Utils;
@@ -266,7 +267,7 @@ public class Database {
 		 * primary key exists
 		 */
 		testDB();
-		String sql = "select * from " + table + " limit " + limit + " offset " + offset;
+		String sql = "select rowid as rowid, * from " + table + " limit " + limit + " offset " + offset;
 		Utils.logD("SQL = " + sql);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
@@ -914,6 +915,45 @@ public class Database {
 			Utils.logD(e.toString());
 			return false;
 		}
+	}
+
+	/**
+	 * Retrieve a record based on table name and rowid
+	 * @param tableName
+	 * @param rowId
+	 * @return
+	 */
+	public TableField[] getRecord(String tableName, int rowId) {
+		String sql = "select * from " + tableName + " where rowid = " + rowId;
+		Utils.logD(sql);
+		Cursor curs = _db.rawQuery(sql, null);
+		TableField[] tfs = new TableField[curs.getColumnCount()];
+		int i = 0;
+		while (curs.moveToNext()) {
+			int fields = curs.getColumnCount();
+			for (int j = 0; j < fields; j++) {
+				TableField tf = new TableField();
+				tf.setName(curs.getColumnName(j));
+				tf.setDisplayName(curs.getColumnName(j));
+				tf.setType(TableField.TYPE_STRING);
+				tf.setValue(curs.getString(j));
+				tf.setUpdateable(true);
+				tf.setNotNull(false);
+				tfs[i++] = tf;
+			}
+		}
+		return tfs;
+	}
+
+	/**
+	 * Update a record in tableName based on it rowId with the fields
+	 * in  
+	 * @param tableName
+	 * @param rowId
+	 */
+	public void updateField(String tableName, int rowId, TableField[] fields) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

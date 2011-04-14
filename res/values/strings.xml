@@ -87,4 +87,6 @@ Here you will find some more help in the future.
     <string name="Working">Working</string>
     <string name="ReadingScript">Reading script</string>
     <string name="ExecuteStatement">Execute statement</string>
+    <string name="MustNotBeEmpty">MustNotBeEmpty</string>
+
 </resources>
