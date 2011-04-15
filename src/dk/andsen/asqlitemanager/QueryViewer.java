@@ -692,7 +692,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	 * @return the sql statement
 	 */
 	private String buildCreateTableSQL() {
-		String sql = "Create tables TableName (feild1 f1type, feild2 f2type)";
+		String sql = "Create table TableName (feild1 f1type, feild2 f2type)";
 		return sql;
 	}
 
