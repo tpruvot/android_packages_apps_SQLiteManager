@@ -34,7 +34,7 @@ import dk.andsen.RecordEditor.RecordEditorBuilder;
 import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.types.Types;
 import dk.andsen.utils.Utils;
-
+//TODO add Add record by clicking on Edit field in caption
 public class TableViewer extends Activity implements OnClickListener {
 	private String _dbPath;
 	private Database _db = null;
@@ -211,14 +211,18 @@ public class TableViewer extends Activity implements OnClickListener {
 			for(int j=0; j<colSize; j++){
 				if (j==0 && edit) {
 					TextView c = new TextView(this);
+					// TODO use this ?  c.setTextColor(StateColorList);
+					c.setBackgroundColor(R.color.yellow);
+					c.setTextColor(R.color.black);
 					c.setText("Edit");
 					int id = new Integer(data[i][j]).intValue();
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
+					// TODO More efficient to make one OnClickListener and assign this 
+					// to all records edit field?
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
-							// TODO here editing should be implemented
 							Utils.toastMsg(_cont, "Should now edit rowid " + v.getId() + " in table " + _table);
 							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table);
 							TableField[] rec = _db.getRecord(_table, v.getId());

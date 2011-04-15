@@ -929,6 +929,7 @@ public class Database {
 		Cursor curs = _db.rawQuery(sql, null);
 		TableField[] tfs = new TableField[curs.getColumnCount()];
 		int i = 0;
+		// TODO Always only return one record so drop while??
 		while (curs.moveToNext()) {
 			int fields = curs.getColumnCount();
 			for (int j = 0; j < fields; j++) {
