@@ -44,6 +44,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private TableLayout _aTable;
 	private int offset = 0;
 	private int limit = 15;
+	private boolean _updateTable;
 	Button bUp;
 	Button bDwn;
 
@@ -168,6 +169,18 @@ public class TableViewer extends Activity implements OnClickListener {
 			Utils.logD("PgUp: " + offset);
 		}
 	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (_updateTable) {
+			String [] fieldNames = _db.getFieldsNames(_table);
+			setTitles(_aTable, fieldNames, true);
+			String [][] data = _db.getTableData(_table, offset, limit);
+			updateButtons(true);
+			appendRows(_aTable, data, true);
+		}
+	}
 
 	/**
 	 * If paging = true show paging buttons otherwise not
@@ -212,9 +225,9 @@ public class TableViewer extends Activity implements OnClickListener {
 				if (j==0 && edit) {
 					TextView c = new TextView(this);
 					// TODO use this ?  c.setTextColor(StateColorList);
-					c.setBackgroundColor(R.color.yellow);
-					c.setTextColor(R.color.black);
+					//c.setBackgroundColor(R.color.yellow);
 					c.setText("Edit");
+					//c.setTextColor(R.color.yellow);
 					int id = new Integer(data[i][j]).intValue();
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
@@ -223,12 +236,13 @@ public class TableViewer extends Activity implements OnClickListener {
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
+							final int rowid = v.getId();
 							Utils.toastMsg(_cont, "Should now edit rowid " + v.getId() + " in table " + _table);
 							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table);
-							TableField[] rec = _db.getRecord(_table, v.getId());
+							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
 							dial.setContentView(R.layout.line_editor);
-							dial.setTitle("Edit row " + v.getId());
+							dial.setTitle("Edit row " + rowid);
 							LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
 							re = new RecordEditorBuilder(rec, _cont);
 							re.setFieldNameWidth(200);
@@ -244,10 +258,11 @@ public class TableViewer extends Activity implements OnClickListener {
 									if (v == btnOK) {
 										String msg = re.checkInput(sv); 
 										if (msg == null) {
-											Utils.logD("Record edited; " + v.getId());
+											Utils.logD("Record edited; " + rowid);
 											TableField[] res = re.getEditedData(sv);
-											_db.updateField(_table, v.getId(), res);
+											_db.updateField(_table, rowid, res);
 											dial.dismiss();
+											_updateTable = true;
 //TODO								update data in the data grid!
 										}
 										else

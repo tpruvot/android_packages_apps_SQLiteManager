@@ -924,7 +924,7 @@ public class Database {
 	 * @return
 	 */
 	public TableField[] getRecord(String tableName, int rowId) {
-		String sql = "select * from " + tableName + " where rowid = " + rowId;
+		String sql = "select rowid as rowid, * from " + tableName + " where rowid = " + rowId;
 		Utils.logD(sql);
 		Cursor curs = _db.rawQuery(sql, null);
 		TableField[] tfs = new TableField[curs.getColumnCount()];
@@ -938,11 +938,15 @@ public class Database {
 				tf.setDisplayName(curs.getColumnName(j));
 				tf.setType(TableField.TYPE_STRING);
 				tf.setValue(curs.getString(j));
-				tf.setUpdateable(true);
+				if (tf.getName().equals("rowid"))
+					tf.setUpdateable(false);
+				else
+					tf.setUpdateable(true);
 				tf.setNotNull(false);
 				tfs[i++] = tf;
 			}
 		}
+		curs.close();
 		return tfs;
 	}
 
@@ -953,8 +957,31 @@ public class Database {
 	 * @param rowId
 	 */
 	public void updateField(String tableName, int rowId, TableField[] fields) {
-		// TODO Auto-generated method stub
-		
+		// TODO Implement
+		String sql = "update " + tableName + " set ";
+		for (TableField fld: fields) {
+			if (!fld.getName().equals("rowid"))
+				sql += fld.getName() + " = " + quoteStrings(fld) + ", ";
+		}
+		sql = sql.substring(0, sql.length() - 2);
+		sql += " where rowid = " + rowId;
+		Utils.logD("Update SQL = " + sql);
+		_db.execSQL(sql);
+	}
+	
+	private String quoteStrings(TableField fld) {
+		boolean quete = true;
+		switch (fld.getType()) {
+		case TableField.TYPE_BOOLEAN:
+		case TableField.TYPE_FLOAT:
+		case TableField.TYPE_INTEGER:
+			quete = false;
+			break;
+		}
+		if (quete)
+			return "\"" + fld.getValue()+"\"";
+		else
+		return fld.getValue();
 	}
 
 }
