@@ -25,6 +25,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.types.Field;
+import dk.andsen.types.FieldDescr;
 import dk.andsen.types.QueryResult;
 import dk.andsen.utils.Utils;
 
@@ -313,6 +314,7 @@ public class Database {
 		String[] ret = {"id", "name","type","notnull","dflt_value","pk"};
 		return ret;
 	}
+	
 	/**
 	 * Return table structure i two dimentional string list
 	 * @param table
@@ -335,6 +337,11 @@ public class Database {
 		return res;
 	}
 
+	public FieldDescr[] getTableStructureDef(String tableName) {
+		//TODO implement
+		return null;
+	}
+	
 	/**
 	 * Return the result of the query as a comma separated test in String list
 	 * @param sql
@@ -926,25 +933,25 @@ public class Database {
 	public TableField[] getRecord(String tableName, int rowId) {
 		String sql = "select rowid as rowid, * from " + tableName + " where rowid = " + rowId;
 		Utils.logD(sql);
+		//TODO getTableStructureDef
+		FieldDescr[] tabledef = getTableStructureDef(tableName);
 		Cursor curs = _db.rawQuery(sql, null);
 		TableField[] tfs = new TableField[curs.getColumnCount()];
-		int i = 0;
-		// TODO Always only return one record so drop while??
-		while (curs.moveToNext()) {
-			int fields = curs.getColumnCount();
-			for (int j = 0; j < fields; j++) {
-				TableField tf = new TableField();
-				tf.setName(curs.getColumnName(j));
-				tf.setDisplayName(curs.getColumnName(j));
-				tf.setType(TableField.TYPE_STRING);
-				tf.setValue(curs.getString(j));
-				if (tf.getName().equals("rowid"))
-					tf.setUpdateable(false);
-				else
-					tf.setUpdateable(true);
-				tf.setNotNull(false);
-				tfs[i++] = tf;
-			}
+		curs.moveToNext(); 
+		int fields = curs.getColumnCount();
+		for (int j = 0; j < fields; j++) {
+			TableField tf = new TableField();
+			tf.setName(curs.getColumnName(j));
+			tf.setDisplayName(curs.getColumnName(j));
+
+			tf.setType(TableField.TYPE_STRING);
+			tf.setValue(curs.getString(j));
+			if (tf.getName().equals("rowid"))
+				tf.setUpdateable(false);
+			else
+				tf.setUpdateable(true);
+			tf.setNotNull(false);
+			tfs[j++] = tf;
 		}
 		curs.close();
 		return tfs;
