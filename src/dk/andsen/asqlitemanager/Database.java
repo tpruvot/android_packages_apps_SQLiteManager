@@ -337,9 +337,74 @@ public class Database {
 		return res;
 	}
 
+	/**
+	 * Retrieve a list of FieldDescr to describe all fields of a table
+	 * @param tableName
+	 * @return
+	 */
 	public FieldDescr[] getTableStructureDef(String tableName) {
-		//TODO implement
-		return null;
+		testDB();
+		String sql = "pragma table_info ("+tableName+")";
+		Cursor cursor = _db.rawQuery(sql, null);
+		int rows = cursor.getCount();
+		FieldDescr[] flds = new FieldDescr[rows]; 
+		int i = 0;
+		while(cursor.moveToNext()) {
+			FieldDescr fld = new FieldDescr();
+			fld.setCid(cursor.getInt(0));
+			fld.setName(cursor.getString(1));
+			fld.setType(fieldType2Int(cursor.getString(2)));
+			fld.setNotNull(int2boolean(cursor.getInt(3)));
+			fld.setDefaultValue(cursor.getString(4));
+			fld.setPk(int2boolean(cursor.getInt(5)));
+			flds[i] = fld;
+			i++;
+			//Utils.logD("getTableStructureDef: " + fld.getName());
+		}
+		return flds;
+	}
+	
+	/**
+	 * Convert a field type retrieved by a pragma table_info (tableName)
+	 * to a RecordEditorBuilder editor type
+	 * @param fieldType
+	 * @return
+	 */
+	private int fieldType2Int(String fieldType) {
+		if (fieldType.equalsIgnoreCase("STRING")
+				|| fieldType.equalsIgnoreCase("TEXT"))
+			return TableField.TYPE_STRING;
+		else if (fieldType.equalsIgnoreCase("INTEGER"))
+			return TableField.TYPE_INTEGER;
+		else if (fieldType.equalsIgnoreCase("REAL") 
+				|| fieldType.equalsIgnoreCase("FLOAT")
+				|| fieldType.equalsIgnoreCase("DOUBLE"))
+			return TableField.TYPE_FLOAT;
+		else if (fieldType.equalsIgnoreCase("BOOLEAN")
+				|| fieldType.equalsIgnoreCase("BOOL"))
+			return TableField.TYPE_BOOLEAN;
+		else if (fieldType.equalsIgnoreCase("DATE"))
+			return TableField.TYPE_DATE;
+		else if (fieldType.equalsIgnoreCase("TIME"))
+			return TableField.TYPE_TIME;
+		else if (fieldType.equalsIgnoreCase("DATETIME"))
+			return TableField.TYPE_DATETIME;
+		else if (fieldType.equalsIgnoreCase("PHONENO"))
+			return TableField.TYPE_PHONENO;
+		else
+			return TableField.TYPE_STRING;
+	}
+	
+	/**
+	 * Convert the SQLite 0 / 1 boolean to Java boolean 
+	 * @param intBool
+	 * @return
+	 */
+	private boolean int2boolean(int intBool) {
+		boolean res = false;
+		if (intBool == 1)
+			res = true;
+		return res;
 	}
 	
 	/**
@@ -928,12 +993,13 @@ public class Database {
 	 * Retrieve a record based on table name and rowid
 	 * @param tableName
 	 * @param rowId
-	 * @return
+	 * @return a list of TableFields one for each field the first contains
+	 * the rowid for the record
 	 */
 	public TableField[] getRecord(String tableName, int rowId) {
 		String sql = "select rowid as rowid, * from " + tableName + " where rowid = " + rowId;
 		Utils.logD(sql);
-		//TODO getTableStructureDef
+		// retrieves field types, pk, ... from database
 		FieldDescr[] tabledef = getTableStructureDef(tableName);
 		Cursor curs = _db.rawQuery(sql, null);
 		TableField[] tfs = new TableField[curs.getColumnCount()];
@@ -943,20 +1009,40 @@ public class Database {
 			TableField tf = new TableField();
 			tf.setName(curs.getColumnName(j));
 			tf.setDisplayName(curs.getColumnName(j));
-
-			tf.setType(TableField.TYPE_STRING);
-			tf.setValue(curs.getString(j));
-			if (tf.getName().equals("rowid"))
+			// The extra field rowid
+			if (j == 0) {
+				// Don't allow updating of rowid
 				tf.setUpdateable(false);
-			else
+				tf.setType(TableField.TYPE_INTEGER);
+			} else {
+				//Utils.logD("QName " + tf.getName());
+				//Utils.logD("DName " +  tabledef[j-1].getName());
 				tf.setUpdateable(true);
-			tf.setNotNull(false);
-			tfs[j++] = tf;
+				tf.setType(tabledef[j-1].getType());
+				tf.setNotNull(tabledef[j-1].isNotNull());
+				tf.setPrimaryKey(tabledef[j-1].isPk());
+				tf.setDefaultValue(tabledef[j-1].getDefaultValue());
+			}
+			tf.setValue(curs.getString(j));
+				
+			
+			tfs[j] = tf;
 		}
 		curs.close();
 		return tfs;
 	}
 
+	/**
+	 * Retrieve a list of TableFields to match a empty record for the
+	 * database
+	 * @param tableName
+	 * @return
+	 */
+	public TableField[] getEmptyRecord(String tableName) {
+		//TODO implement
+		
+		return null;
+	}
 	/**
 	 * Update a record in tableName based on it rowId with the fields
 	 * in  

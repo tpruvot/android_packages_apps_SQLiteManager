@@ -58,6 +58,7 @@ public class RecordEditorBuilder {
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		// Add a linearLayout with name and field to edit for each of the fields
 		for (int i = 0; i < fields.length; i++) {
+			Utils.logD("Field: " + fields[i].getName());
 			if (fields[i].isUpdateable()) {
 				LinearLayout ll = new LinearLayout(cont);
 				ll.setOrientation(LinearLayout.HORIZONTAL);
