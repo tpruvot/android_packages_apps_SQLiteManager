@@ -115,7 +115,10 @@ public class TableField {
 	 * @return a String with the value
 	 */
 	public String getValue() {
-		return value;
+		if (value == null)
+			return "";
+		else
+			return value;
 	}
 	
 	/**

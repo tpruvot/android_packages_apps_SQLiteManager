@@ -86,4 +86,6 @@ Her vil der i fremtiden være mere hjælp.
     <string name="Working">Arbejder</string>
     <string name="ReadingScript">Læser script</string>
     <string name="ExecuteStatement">Eksekver sql</string>
+    <string name="MustNotBeEmpty">Må ikke være tomt</string>
+
 </resources>

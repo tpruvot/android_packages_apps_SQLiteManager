@@ -67,7 +67,6 @@ public class RecordEditorBuilder {
 						LinearLayout.LayoutParams.WRAP_CONTENT));
 				// Id added to be able to find the line in the layout
 				ll.setId(lineIdBase + i);
-				Utils.logD("ll id: " + lineIdBase + i);
 				TextView tv = new TextView(cont);
 				tv.setLayoutParams((new ViewGroup.LayoutParams(
 						ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -119,7 +118,8 @@ public class RecordEditorBuilder {
 							LayoutParams.WRAP_CONTENT)));
 					etf.setText(fields[i].getValue());
 					etf.setInputType(InputType.TYPE_CLASS_NUMBER
-							| InputType.TYPE_NUMBER_FLAG_SIGNED);
+							| InputType.TYPE_NUMBER_FLAG_SIGNED
+							| InputType.TYPE_NUMBER_FLAG_DECIMAL);
 					etf.setId(id);
 					ll.addView(etf);
 					break;
@@ -128,11 +128,13 @@ public class RecordEditorBuilder {
 					eti.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
 							LayoutParams.WRAP_CONTENT)));
 					eti.setText(fields[i].getValue());
-					eti.setInputType(InputType.TYPE_CLASS_NUMBER);
+					eti.setInputType(InputType.TYPE_CLASS_NUMBER
+							| InputType.TYPE_NUMBER_FLAG_SIGNED);
 					eti.setId(id);
 					ll.addView(eti);
 					break;
 				case (TableField.TYPE_TIME):
+					//TODO change to time picker
 					EditText ett = new EditText(cont);
 					ett.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
 							LayoutParams.WRAP_CONTENT)));
@@ -146,8 +148,7 @@ public class RecordEditorBuilder {
 					CheckBox etb = new CheckBox(cont);
 					etb.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
 							LayoutParams.WRAP_CONTENT)));
-					etb.setChecked((fields[i].getValue() == null) ? false : new Boolean(
-							fields[i].getValue()));
+					etb.setChecked((fields[i].getValue() == null) ? false : int2boolean(fields[i].getValue()));
 					etb.setId(id);
 					ll.addView(etb);
 					break;
@@ -174,7 +175,20 @@ public class RecordEditorBuilder {
 				lmain.addView(ll);
 			}
 		}
+		//TODO add OK and cancel buttons here to have them on the scroll view??
 		sv.addView(lmain);
+	}
+
+	/**
+	 * Convert a SQLite 0 / 1 to their boolean values. All but 1 are
+	 * treated as false
+	 * @param val
+	 * @return
+	 */
+	private boolean int2boolean(String val) {
+		if (val.equals("1")) 
+			return true;
+		return false;
 	}
 
 	/**
@@ -246,14 +260,14 @@ public class RecordEditorBuilder {
 				case TableField.TYPE_FLOAT:
 					TextView tvFloat = (TextView) sv.findViewById(idBase + i);
 					res = tvFloat.getEditableText().toString();
-					if (treatEmptyFieldsAsNull)
+					//if (treatEmptyFieldsAsNull)
 						if (res.equals(""))
 							res = null;
 					break;
 				case TableField.TYPE_INTEGER:
 					TextView tvInteger = (TextView) sv.findViewById(idBase + i);
 					res = tvInteger.getEditableText().toString();
-					if (treatEmptyFieldsAsNull)
+					//if (treatEmptyFieldsAsNull)
 						if (res.equals(""))
 							res = null;
 					break;

@@ -143,7 +143,7 @@ public class Database {
 		String[] tables = new String[recs + 1];
 		int i = 1;
 		tables[0] = "sqlite_master";
-		Utils.logD("Views: " + recs);
+		Utils.logD("Tables: " + recs);
 		while(res.moveToNext()) {
 			tables[i] = res.getString(0);
 			i++;
@@ -1022,10 +1022,9 @@ public class Database {
 				tf.setNotNull(tabledef[j-1].isNotNull());
 				tf.setPrimaryKey(tabledef[j-1].isPk());
 				tf.setDefaultValue(tabledef[j-1].getDefaultValue());
+				Utils.logD("Name - type: " + tf.getName() + " - " + tabledef[j-1].getType());
 			}
 			tf.setValue(curs.getString(j));
-				
-			
 			tfs[j] = tf;
 		}
 		curs.close();
@@ -1039,9 +1038,19 @@ public class Database {
 	 * @return
 	 */
 	public TableField[] getEmptyRecord(String tableName) {
-		//TODO implement
-		
-		return null;
+		FieldDescr[] fd = getTableStructureDef(tableName);
+		TableField[] tfs = new TableField[fd.length];
+		for (int i = 0; i < fd.length; i++) {
+			TableField tf = new TableField();
+			tf.setName(fd[i].getName());
+			tf.setType(fd[i].getType());
+			tf.setPrimaryKey(fd[i].isPk());
+			tf.setUpdateable(true);
+			tf.setValue(null);
+			tf.setNotNull(fd[i].isNotNull());
+			tfs[i] = tf;
+		}
+		return tfs;
 	}
 	/**
 	 * Update a record in tableName based on it rowId with the fields
@@ -1049,12 +1058,12 @@ public class Database {
 	 * @param tableName
 	 * @param rowId
 	 */
-	public void updateField(String tableName, int rowId, TableField[] fields) {
-		// TODO Implement
+	public void updateRecord(String tableName, int rowId, TableField[] fields) {
 		String sql = "update " + tableName + " set ";
 		for (TableField fld: fields) {
-			if (!fld.getName().equals("rowid"))
+			if (!fld.getName().equals("rowid")) {
 				sql += fld.getName() + " = " + quoteStrings(fld) + ", ";
+			}
 		}
 		sql = sql.substring(0, sql.length() - 2);
 		sql += " where rowid = " + rowId;
@@ -1062,8 +1071,14 @@ public class Database {
 		_db.execSQL(sql);
 	}
 	
+	/**
+	 * @param fld
+	 * @return
+	 */
 	private String quoteStrings(TableField fld) {
 		boolean quete = true;
+		if (fld.getValue() == null || fld.getValue().equals(""))
+			return "null";
 		switch (fld.getType()) {
 		case TableField.TYPE_BOOLEAN:
 		case TableField.TYPE_FLOAT:
@@ -1074,7 +1089,30 @@ public class Database {
 		if (quete)
 			return "\"" + fld.getValue()+"\"";
 		else
-		return fld.getValue();
+			if (fld.getType() == TableField.TYPE_BOOLEAN)
+				if (fld.getValue().equalsIgnoreCase("true"))
+					return "1";
+				else
+					return "0";
+			return fld.getValue();
+	}
+
+	/**
+	 * @param tableName
+	 * @param fields
+	 */
+	public void insertRecord(String tableName, TableField[] fields) {
+		String sql = "insert into " + tableName + " (";
+		for (TableField fld: fields) {
+				sql += fld.getName() + ", ";
+		}
+		sql = sql.substring(0, sql.length() - 2) + ") values (";
+		for (TableField fld: fields) {
+			sql += quoteStrings(fld) + ", ";
+		}
+		sql = sql.substring(0, sql.length() - 2) + ")";
+		Utils.logD("Insert SQL = " + sql);
+		_db.execSQL(sql);
 	}
 
 }

@@ -258,12 +258,11 @@ public class TableViewer extends Activity implements OnClickListener {
 									if (v == btnOK) {
 										String msg = re.checkInput(sv); 
 										if (msg == null) {
-											Utils.logD("Record edited; " + rowid);
+											//Utils.logD("Record edited; " + rowid);
 											TableField[] res = re.getEditedData(sv);
-											_db.updateField(_table, rowid, res);
+											_db.updateRecord(_table, rowid, res);
 											dial.dismiss();
 											_updateTable = true;
-//TODO								update data in the data grid!
 										}
 										else
 											Utils.showException(msg, sv.getContext());
@@ -327,8 +326,66 @@ public class TableViewer extends Activity implements OnClickListener {
 		row.setBackgroundColor(Color.BLUE);
 		if (edit) {
 			TextView c = new TextView(this);
-			c.setText("Edit");
+			c.setText("New");
 			c.setPadding(3, 3, 3, 3);
+			c.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					final RecordEditorBuilder re;
+					Utils.toastMsg(_cont, "Should now add new row in table " + _table);
+					TableField[] rec = _db.getEmptyRecord(_table);
+					final Dialog dial = new Dialog(_cont);
+					dial.setContentView(R.layout.line_editor);
+					dial.setTitle("Insert new row");
+					LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
+					re = new RecordEditorBuilder(rec, _cont);
+					re.setFieldNameWidth(200);
+					re.setTreatEmptyFieldsAsNull(true);
+					final ScrollView sv = re.getScrollView();
+					final Button btnOK = new Button(_cont);
+					btnOK.setText("OK");
+					btnOK.setLayoutParams(new LinearLayout.LayoutParams(
+							LinearLayout.LayoutParams.FILL_PARENT,
+							LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+					btnOK.setOnClickListener(new OnClickListener() {
+						public void onClick(View v) {
+							if (v == btnOK) {
+								String msg = re.checkInput(sv); 
+								if (msg == null) {
+									//Utils.logD("Record edited; " + rowid);
+									TableField[] res = re.getEditedData(sv);
+									_db.insertRecord(_table, res);
+									dial.dismiss();
+									_updateTable = true;
+								}
+								else
+									Utils.showException(msg, sv.getContext());
+							} 
+						}
+					});
+					final Button btnCancel = new Button(_cont);
+					btnCancel.setText("Cancel");
+					btnCancel.setLayoutParams(new LinearLayout.LayoutParams(
+							LinearLayout.LayoutParams.FILL_PARENT,
+							LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+					btnCancel.setOnClickListener(new OnClickListener() {
+						public void onClick(View v) {
+							if (v == btnCancel) {
+								dial.dismiss();
+							}
+						}
+					});
+					LinearLayout llButtons = new LinearLayout(_cont);
+					llButtons.setOrientation(LinearLayout.HORIZONTAL);
+					llButtons.setLayoutParams(new LinearLayout.LayoutParams(
+							LinearLayout.LayoutParams.FILL_PARENT,
+							LinearLayout.LayoutParams.WRAP_CONTENT));
+					llButtons.addView(btnOK);
+					llButtons.addView(btnCancel);
+					ll.addView(llButtons);
+					ll.addView(sv);
+					dial.show();
+				}
+			});
 			row.addView(c);
 		}
 		for(int i=0; i<rowSize; i++){
