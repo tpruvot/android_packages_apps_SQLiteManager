@@ -267,9 +267,8 @@ public class RecordEditorBuilder {
 				case TableField.TYPE_INTEGER:
 					TextView tvInteger = (TextView) sv.findViewById(idBase + i);
 					res = tvInteger.getEditableText().toString();
-					//if (treatEmptyFieldsAsNull)
-						if (res.equals(""))
-							res = null;
+					if (res.equals(""))
+						res = null;
 					break;
 				default: // treat is as a String
 					TextView tvString = (TextView) sv.findViewById(idBase + i);

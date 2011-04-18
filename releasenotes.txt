@@ -2,9 +2,9 @@ Next version
 Version 1.2β
   Open SQL files (from database view) and executed all or single lines
   Error messages during restore and execution of scripts and statements
-	Data editing form table viewer by using "Edit" button at each row
-	New records can be added by using the "New" button in the table heading
-	Input mode during editing and insert depends on the fields data type. SQLite
+  Data editing form table viewer by using "Edit" button at each row
+  New records can be added by using the "New" button in the table heading
+    Input mode during editing and insert depends on the fields data type. SQLite
 	uses a dynamic type system where field types can be given as any string
 	aSQLiteManager translates this string into the following types and use this
 	to set input mode (SQLite types i parenthesis). The translation is NOT
@@ -14,8 +14,7 @@ Version 1.2β
 		PHONENO (phoneno). aSQLiteManager does not handle BLOB
 
 Working on:
-	Debugging editing and data entry
-	Making ready for version 1.2β
+  Debugging editing and data entry and making ready for version 1.2β
   Planning for further development, feature request are welcome, could be:
 	Sort data / query results by clicking on title
 	Implement some of SQLites .commands:
