@@ -34,7 +34,6 @@ import dk.andsen.RecordEditor.RecordEditorBuilder;
 import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.types.Types;
 import dk.andsen.utils.Utils;
-//TODO add Add record by clicking on Edit field in caption
 public class TableViewer extends Activity implements OnClickListener {
 	private String _dbPath;
 	private Database _db = null;
@@ -113,11 +112,9 @@ public class TableViewer extends Activity implements OnClickListener {
 		super.onRestart();
 	}
 
-	protected void selectRecord(String type, int position) {
-		//TODO edit record
-		Utils.logD("TableViewer selectRecord edit record here");
-	}
-
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
 	public void onClick(View v) {
 		int key = v.getId();
 		_aTable=(TableLayout)findViewById(R.id.datagrid);
@@ -231,8 +228,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					int id = new Integer(data[i][j]).intValue();
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
-					// TODO More efficient to make one OnClickListener and assign this 
-					// to all records edit field?
+					// TODO More efficient to make one OnClickListener and assign this to all records edit field?
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
