@@ -233,7 +233,6 @@ public class TableViewer extends Activity implements OnClickListener {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
 							final int rowid = v.getId();
-							Utils.toastMsg(_cont, "Should now edit rowid " + v.getId() + " in table " + _table);
 							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table);
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
@@ -327,7 +326,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			c.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					final RecordEditorBuilder re;
-					Utils.toastMsg(_cont, "Should now add new row in table " + _table);
 					TableField[] rec = _db.getEmptyRecord(_table);
 					final Dialog dial = new Dialog(_cont);
 					dial.setContentView(R.layout.line_editor);
