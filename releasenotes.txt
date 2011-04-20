@@ -1,5 +1,8 @@
 Next version
 
+Next version
+  Correctly scaling on the Galaxy Tab
+
 Version 1.2β
   Open SQL files (from database view) and executed all or single lines
   Error messages during restore and execution of scripts and statements
