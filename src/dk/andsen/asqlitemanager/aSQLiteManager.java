@@ -78,20 +78,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 //				startActivityForResult(i, 1);
 				startActivity(i);
 			} else if (key == R.id.About) {
-				Dialog dial = new Dialog(this);
-				dial.setContentView(R.layout.about);
-				dial.setTitle(getString(R.string.AboutHeader));
-				TextView text = (TextView) dial.findViewById(R.id.text);
-				text.setText(getString(R.string.AboutText));
-				ImageView image = (ImageView) dial.findViewById(R.id.image);
-				image.setImageResource(R.drawable.and);
-				TextView mail = (TextView) dial.findViewById(R.id.mail);
-				mail.setAutoLinkMask(Linkify.ALL);
-				mail.setText(getString(R.string.MAIL));
-				TextView www = (TextView) dial.findViewById(R.id.www);
-				www.setAutoLinkMask(Linkify.ALL);
-				www.setText(getString(R.string.WWW));
-				dial.show();
+				showAboutDialog();
 			}  else if (key == R.id.NewDB) {
 				Utils.logD("Create new database");
 				newDatabase();
@@ -102,6 +89,26 @@ public class aSQLiteManager extends Activity implements OnClickListener {
       
 		}
 		
+		private void showAboutDialog() {
+			Dialog dial = new Dialog(this);
+			dial.setContentView(R.layout.about);
+			dial.setTitle(getString(R.string.AboutHeader));
+			TextView text = (TextView) dial.findViewById(R.id.text);
+			text.setText(getString(R.string.AboutText));
+			ImageView image = (ImageView) dial.findViewById(R.id.image);
+			image.setImageResource(R.drawable.and);
+			TextView mail = (TextView) dial.findViewById(R.id.mail);
+			mail.setAutoLinkMask(Linkify.ALL);
+			mail.setText(getString(R.string.MAIL));
+			TextView www = (TextView) dial.findViewById(R.id.www);
+			www.setAutoLinkMask(Linkify.ALL);
+			www.setText(getString(R.string.WWW));
+			TextView aaa = (TextView) dial.findViewById(R.id.aaa);
+			aaa.setAutoLinkMask(Linkify.ALL);
+			aaa.setText(getString(R.string.WWW));
+			dial.show();
+		}
+
 		protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		{
 			Utils.logD("MainDriver main-activity got result from sub-activity");

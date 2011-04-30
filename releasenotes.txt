@@ -1,9 +1,5 @@
-Next version
-
-Next version
-  Correctly scaling on the Galaxy Tab
-
-Version 1.2β
+Version 1.2
+  Correctly scaling on the Galaxy Tab and hopefully on other large displays
   Open SQL files (from database view) and executed all or single lines
   Error messages during restore and execution of scripts and statements
   Data editing form table viewer by using "Edit" button at each row
@@ -28,6 +24,19 @@ Working on:
 	  .restore ?DB? FILE	restore database from a file, a supplement to restore 	
 	Scripts editor?  
 
+Version 1.2β
+  Open SQL files (from database view) and executed all or single lines
+  Error messages during restore and execution of scripts and statements
+  Data editing form table viewer by using "Edit" button at each row
+  New records can be added by using the "New" button in the table heading
+    Input mode during editing and insert depends on the fields data type. SQLite
+	uses a dynamic type system where field types can be given as any string
+	aSQLiteManager translates this string into the following types and use this
+	to set input mode (SQLite types i parenthesis). The translation is NOT
+	case sensitive:
+		STRING (string, text), INTEGER (integer), FLOAT (real, float, double),
+		DATE (date), TIME (time), DATETIME (datetime), BOOLEAN (boolean, bool),
+		PHONENO (phoneno). aSQLiteManager does not handle BLOB
 
 Version 1.1
   Select SQL history from query form
