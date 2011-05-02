@@ -17,6 +17,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginRight="10dp"
+               android:background="@drawable/and"
                />
   <LinearLayout android:id="@+id/layout_root"
               android:orientation="vertical"
@@ -29,6 +30,7 @@
               android:layout_height="wrap_content"
               android:textColor="#FFF"
               android:paddingBottom="5pt"
+              android:text="@string/AboutText"
               />
   </LinearLayout>    
   </LinearLayout>    
@@ -36,15 +38,21 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textColor="#FFF"
+              android:text="@string/MAIL"
+              android:autoLink="all"
               />              
     <TextView android:id="@+id/www"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textColor="#FFF"
+              android:text="@string/WWW"
+              android:autoLink="all"
               />                      
     <TextView android:id="@+id/aaa"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textColor="#FFF"
+              android:text="@string/AAA"
+              android:autoLink="all"
               />                      
 </LinearLayout>

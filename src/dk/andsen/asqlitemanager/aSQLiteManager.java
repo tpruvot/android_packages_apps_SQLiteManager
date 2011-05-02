@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.Utils;
@@ -89,23 +87,12 @@ public class aSQLiteManager extends Activity implements OnClickListener {
       
 		}
 		
+		/**
+		 * Display the about dialog
+		 */
 		private void showAboutDialog() {
 			Dialog dial = new Dialog(this);
 			dial.setContentView(R.layout.about);
-			dial.setTitle(getString(R.string.AboutHeader));
-			TextView text = (TextView) dial.findViewById(R.id.text);
-			text.setText(getString(R.string.AboutText));
-			ImageView image = (ImageView) dial.findViewById(R.id.image);
-			image.setImageResource(R.drawable.and);
-			TextView mail = (TextView) dial.findViewById(R.id.mail);
-			mail.setAutoLinkMask(Linkify.ALL);
-			mail.setText(getString(R.string.MAIL));
-			TextView www = (TextView) dial.findViewById(R.id.www);
-			www.setAutoLinkMask(Linkify.ALL);
-			www.setText(getString(R.string.WWW));
-			TextView aaa = (TextView) dial.findViewById(R.id.aaa);
-			aaa.setAutoLinkMask(Linkify.ALL);
-			aaa.setText(getString(R.string.WWW));
 			dial.show();
 		}
 
