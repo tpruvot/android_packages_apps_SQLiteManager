@@ -1,6 +1,6 @@
 Version 1.2
   Correctly scaling on the Galaxy Tab and hopefully on other large displays
-  Open SQL files (from database view) and executed all or single lines
+  Open SQL files (from database view) and executed all or single line
   Error messages during restore and execution of scripts and statements
   Data editing form table viewer by using "Edit" button at each row
   New records can be added by using the "New" button in the table heading

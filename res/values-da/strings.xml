@@ -5,8 +5,8 @@
     <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Om aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager. Se dine Android databaser</string>
-    <string name="WWW">Tjek for opdateringer her:\nhttp://asqlitemanager.sourceforge.net/</string>
-    <string name="AAA">Læs mere om aSQLiteManager her:\nhttp://aaa.andsen.dk/aSQLiteManager.html/</string>
+    <string name="WWW">Tjek for opdateringer her:\nhttp://asqlitemanager.sourceforge.net</string>
+    <string name="AAA">Læs mere om aSQLiteManager her:\nhttp://aaa.andsen.dk/aSQLiteManager.html</string>
     <string name="MAIL">Kommentarer velkomne på:\nandroid41cv@gmail.com</string>
     <string name="OpdenDB">Åbn Database</string>
     <string name="About">Om</string>
