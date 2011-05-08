@@ -1,3 +1,5 @@
+Version 1.2.1
+  Bug with displaying data form views fixed
 Version 1.2
   Correctly scaling on the Galaxy Tab and hopefully on other large displays
   Open SQL files (from database view) and executed all or single line
