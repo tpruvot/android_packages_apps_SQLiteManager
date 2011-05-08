@@ -46,6 +46,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private boolean _updateTable;
 	Button bUp;
 	Button bDwn;
+	private int sourceType;
 
 	/*
 	 * What is needed to allow editing form  table viewer 
@@ -86,7 +87,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		if(extras !=null)
 		{
 			_cont = tvDB.getContext();
-			int sourceType = extras.getInt("type");
+			sourceType = extras.getInt("type");
 			_dbPath = extras.getString("db");
 			Utils.logD("Opening database");
 			_table = extras.getString("Table");
@@ -118,6 +119,10 @@ public class TableViewer extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int key = v.getId();
 		_aTable=(TableLayout)findViewById(R.id.datagrid);
+		boolean isView = false;
+		if (sourceType == Types.VIEW)
+			isView = true;
+
 		if (key == R.id.Fields) {
 			offset = 0;
 			String[] fieldNames = _db.getTableStructureHeadings(_table);
@@ -133,10 +138,10 @@ public class TableViewer extends Activity implements OnClickListener {
 			//list.
 			offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
-			setTitles(_aTable, fieldNames, true);
-			String [][] data = _db.getTableData(_table, offset, limit);
+			setTitles(_aTable, fieldNames, !isView);
+			String [][] data = _db.getTableData(_table, offset, limit, isView);
 			updateButtons(true);
-			appendRows(_aTable, data, true);
+			appendRows(_aTable, data, !isView);
 		} else if (key == R.id.SQL) {
 			offset = 0;
 			String [] fieldNames = {"SQL"};
@@ -151,7 +156,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				offset += limit;
 				String [] fieldNames = _db.getFieldsNames(_table);
 				setTitles(_aTable, fieldNames, true);
-				String [][] data = _db.getTableData(_table, offset, limit);
+				String [][] data = _db.getTableData(_table, offset, limit, isView);
 				appendRows(_aTable, data, true);
 			}
 			Utils.logD("PgDwn:" + offset);
@@ -161,7 +166,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames,true);
-			String [][] data = _db.getTableData(_table, offset, limit);
+			String [][] data = _db.getTableData(_table, offset, limit, isView);
 			appendRows(_aTable, data, true);
 			Utils.logD("PgUp: " + offset);
 		}
@@ -173,7 +178,11 @@ public class TableViewer extends Activity implements OnClickListener {
 		if (_updateTable) {
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames, true);
-			String [][] data = _db.getTableData(_table, offset, limit);
+			boolean isView = false;
+			if (sourceType == Types.VIEW)
+				isView = true;
+
+			String [][] data = _db.getTableData(_table, offset, limit, isView);
 			updateButtons(true);
 			appendRows(_aTable, data, true);
 		}
@@ -220,6 +229,7 @@ public class TableViewer extends Activity implements OnClickListener {
 
 			for(int j=0; j<colSize; j++){
 				if (j==0 && edit) {
+					
 					TextView c = new TextView(this);
 					// TODO use this ?  c.setTextColor(StateColorList);
 					//c.setBackgroundColor(R.color.yellow);

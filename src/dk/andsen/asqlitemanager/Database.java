@@ -262,13 +262,17 @@ public class Database {
 	 * @param table
 	 * @return
 	 */
-	public String[][] getTableData(String table, int offset, int limit) {
+	public String[][] getTableData(String table, int offset, int limit, boolean view) {
 		/*
 		 * If not a query include rowid in data if no single field
 		 * primary key exists
 		 */
 		testDB();
-		String sql = "select rowid as rowid, * from " + table + " limit " + limit + " offset " + offset;
+		String sql = "";
+		if (view)
+			sql = "select * from " + table + " limit " + limit + " offset " + offset;
+		else
+			sql = "select rowid as rowid, * from " + table + " limit " + limit + " offset " + offset;
 		Utils.logD("SQL = " + sql);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();

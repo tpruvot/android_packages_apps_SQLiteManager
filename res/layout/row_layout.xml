@@ -12,6 +12,5 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:id="@+id/label"
-      android:gravity="center_vertical"
-      android:textSize="16px" />
+      android:gravity="center_vertical" android:textSize="16sp"/>
 </LinearLayout>
