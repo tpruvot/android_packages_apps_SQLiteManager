@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import dk.andsen.utils.NewFilePicker;
@@ -61,7 +62,24 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         String mh = MimeTypeMap.getSingleton().getExtensionFromMimeType("db");
         Utils.logD("MimeType for sqlite: " + mh);
         //Utils.showMessage("Debug", "Mime Type for .sqlite: " + mh, this);
-        Utils.logD("Created");
+    		final SharedPreferences settings = getSharedPreferences("a41cv", MODE_PRIVATE);
+    		// Show welcome screen if not disabled
+    		final String WelcomeId = "ShowWelcome1.3b";
+    		if(settings.getBoolean(WelcomeId, true)) {
+    			final Dialog dial = new Dialog(this);
+    			dial.setContentView(R.layout.welcome);
+    			dial.setTitle(R.string.Welcome);
+    			Button _btOK = (Button)dial.findViewById(R.id.OK);
+    			_btOK.setOnClickListener(new OnClickListener() {
+    				public void onClick(View v) {
+    					CheckBox _remember = (CheckBox) dial.findViewById(R.id.ShowAtStartUp);
+    					android.content.SharedPreferences.Editor edt = settings.edit();
+    					edt.putBoolean(WelcomeId, _remember.isChecked()); 
+    					edt.commit();
+    					dial.hide();
+    				} });
+    			dial.show();
+    		}
     }
 
 		/* (non-Javadoc)
