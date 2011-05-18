@@ -209,14 +209,14 @@ public class TableViewer extends Activity implements OnClickListener {
 	 * @param table
 	 * @param data
 	 */
-	private void appendRows(TableLayout table, String[][] data, boolean edit) {
+	private void appendRows(TableLayout table, String[][] data, boolean allowEdit) {
 		int rowSize=data.length;
 		int colSize=(data.length>0)?data[0].length:0;
 		for(int i=0; i<rowSize; i++){
 			TableRow row = new TableRow(this);
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					// button 1 was clicked!
+					// Edit button was clicked!
 					Utils.logD("OnClick: " + v.getId());
 				}
 			});
@@ -230,7 +230,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			// or in android41cv dk.andsen.utils.MyArrayAdapter
 
 			for(int j=0; j<colSize; j++){
-				if (j==0 && edit) {
+				if (j==0 && allowEdit) {
 					
 					TextView c = new TextView(this);
 					// TODO use this ?  c.setTextColor(StateColorList);
@@ -326,12 +326,12 @@ public class TableViewer extends Activity implements OnClickListener {
 	 * @param table
 	 * @param titles
 	 */
-	private void setTitles(TableLayout table, String[] titles, boolean edit) {
+	private void setTitles(TableLayout table, String[] titles, boolean allowEdit) {
 		int rowSize=titles.length;
 		table.removeAllViews();
 		TableRow row = new TableRow(this);
 		row.setBackgroundColor(Color.BLUE);
-		if (edit) {
+		if (allowEdit) {
 			TextView c = new TextView(this);
 			c.setText("New");
 			c.setPadding(3, 3, 3, 3);
@@ -395,6 +395,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			row.addView(c);
 		}
 		for(int i=0; i<rowSize; i++){
+			//TODO add onClickListener to sort based on the column
 			TextView c = new TextView(this);
 			c.setText(titles[i]);
 			c.setPadding(3, 3, 3, 3);

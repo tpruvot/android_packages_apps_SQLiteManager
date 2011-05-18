@@ -264,9 +264,11 @@ public class Database {
 	 */
 	public String[][] getTableData(String table, int offset, int limit, boolean view) {
 		/*
-		 * If not a query include rowid in data if no single field
+		 * If not a query or view include rowid in data if no single field
 		 * primary key exists
 		 */
+		//TODO implement sorting on single column asc / des
+		// first time a coulms is clicked sort asc if it is clicked again sort des
 		testDB();
 		String sql = "";
 		if (view)
