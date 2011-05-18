@@ -90,12 +90,14 @@ Here you will find some more help in the future.
     <string name="ReadingScript">Reading script</string>
     <string name="ExecuteStatement">Execute statement</string>
     <string name="MustNotBeEmpty">Must not be empty</string>
-  	<string name="WelcomeMsg">aSQLiteManager is free open source SQLite manager / front end for Android devices.
+  	<string name="WelcomeMsg">aSQLiteManager is free open source
+  	  SQLite manager / front end for Android devices.
     	\n\nNews in this version:
-    	\nNews comes here...
+    	\nBug when paging views fixed
+    	\nThis welcome screen
     	\n\nFor a description of all features check:
     	\naaa.andsen.dk/aSQLiteManager.html
-      \nComments, bug reports and wishes for new functionality are welcome.
+      \n\nComments, bug reports and wishes for new functionality are welcome.
       just drop me a mail at:
       \nandroid41cv@gmail.com
       \n 
