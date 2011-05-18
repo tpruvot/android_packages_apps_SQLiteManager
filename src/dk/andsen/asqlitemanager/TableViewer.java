@@ -44,8 +44,8 @@ public class TableViewer extends Activity implements OnClickListener {
 	private int offset = 0;
 	private int limit = 15;
 	private boolean _updateTable;
-	Button bUp;
-	Button bDwn;
+	private Button bUp;
+	private Button bDwn;
 	private int sourceType;
 
 	/*
@@ -150,24 +150,26 @@ public class TableViewer extends Activity implements OnClickListener {
 			updateButtons(false);
 			appendRows(_aTable, data, false);
 		} else if (key == R.id.PgDwn) {
+			//TODO copy methods from .Data to solve paging problems for views
 			int childs = _aTable.getChildCount();
 			Utils.logD("Table childs: " + childs);
 			if (childs >= limit) {  //  No more data on to display - no need to PgDwn
 				offset += limit;
 				String [] fieldNames = _db.getFieldsNames(_table);
-				setTitles(_aTable, fieldNames, true);
+				setTitles(_aTable, fieldNames, !isView);
 				String [][] data = _db.getTableData(_table, offset, limit, isView);
-				appendRows(_aTable, data, true);
+				appendRows(_aTable, data, !isView);
 			}
 			Utils.logD("PgDwn:" + offset);
 		} else if (key == R.id.PgUp) {
+			//TODO copy methods from .Data to solve paging problems for views
 			offset -= limit;
 			if (offset < 0)
 				offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
-			setTitles(_aTable, fieldNames,true);
+			setTitles(_aTable, fieldNames, !isView);
 			String [][] data = _db.getTableData(_table, offset, limit, isView);
-			appendRows(_aTable, data, true);
+			appendRows(_aTable, data, !isView);
 			Utils.logD("PgUp: " + offset);
 		}
 	}
