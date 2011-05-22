@@ -1,6 +1,6 @@
-Next version
-  Bug with paging data form views fixed
+Version 1.2.2
   News screen on open
+  Bug with displaying data form views fixed
 Version 1.2.1
   Bug with displaying data form views fixed
 Version 1.2
