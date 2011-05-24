@@ -1121,8 +1121,13 @@ public class Database {
 		_db.execSQL(sql);
 	}
 
+	/**
+	 * Export a single table to a file in the same catalog as the database named
+	 * database_tablename.sql
+	 * @param tableName
+	 * @return true on success
+	 */
 	public boolean exportTable(String table) {
-		// TODO Auto-generated method stub
 		Utils.logD("Dumping table: " + table);
 		String backupName = _dbPath + ".sql";
 		File backupFile = new File(backupName);
@@ -1131,13 +1136,9 @@ public class Database {
     try {
 			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
-			/*
-			 * TODO implement the export and use the exportSingle... in
-			 * exportTableDefinitions and exportData 
-			 */
 			
-			//exportSingleTableDefinition(f);
-			//exportSingleTableData(f);
+			exportSingleTableDefinition(table, f);
+			exportSingleTableData(table, f);
 
 			out.close();
       f.close();
@@ -1147,6 +1148,34 @@ public class Database {
     	return false;
     }
 		return true;
+	}
+
+	/**
+	 * @param tableName
+	 * @param f
+	 * @return
+	 */
+	private boolean exportSingleTableData(String tableName, FileWriter f) {
+		/*
+		 * TODO implement the export and use the exportSingle... in
+		 * exportTableDefinitions and exportData. Take code from existing export
+		 */
+		
+		return false;
+	}
+
+	/**
+	 * @param tableName
+	 * @param f
+	 * @return
+	 */
+	private boolean exportSingleTableDefinition(String tableName, FileWriter f) {
+		/*
+		 * TODO implement the export and use the exportSingle... in
+		 * exportTableDefinitions and exportData. Take code from existing export 
+		 */
+		
+		return false;
 	}
 
 }
