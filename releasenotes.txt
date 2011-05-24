@@ -1,3 +1,5 @@
+Next version
+
 Version 1.2.2
   News screen on open
   Bug with displaying data form views fixed

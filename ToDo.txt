@@ -1,11 +1,12 @@
 ToDo / ideas for coming development
 	Compress SQL wines.name -> t1.name in resulting SQL not on lists
 	Sort data / query results by clicking on title
-	Data entry and editing form use editing button at each row
 	Better horizontal scrolling
 	"Tab" view / show active tab
 
 Done
+	Data entry and editing form use editing button at each row
+	Execute scripts (single line or full script)
 	Select SQL history from query form
 	More functions (and stability) in query builder
 	  Select from

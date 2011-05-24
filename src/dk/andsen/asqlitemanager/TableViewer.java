@@ -22,6 +22,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.ClipboardManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -47,6 +49,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private Button bUp;
 	private Button bDwn;
 	private int sourceType;
+	private static final int MENU_DUMP_TABLE = 0;
 
 	/*
 	 * What is needed to allow editing form  table viewer 
@@ -404,4 +407,26 @@ public class TableViewer extends Activity implements OnClickListener {
 		table.addView(row, new TableLayout.LayoutParams());
 	}
 
+	/*
+	 *  Creates the menu items
+	 */
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_DUMP_TABLE, 0, R.string.DumpTable);
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+    case MENU_DUMP_TABLE:
+    	// Dump table
+    	_db.exportTable(_table);
+    	return true;
+		}
+		return false;
+	}
+	
+	
 }

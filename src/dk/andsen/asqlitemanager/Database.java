@@ -1121,4 +1121,32 @@ public class Database {
 		_db.execSQL(sql);
 	}
 
+	public boolean exportTable(String table) {
+		// TODO Auto-generated method stub
+		Utils.logD("Dumping table: " + table);
+		String backupName = _dbPath + ".sql";
+		File backupFile = new File(backupName);
+		FileWriter f;
+		BufferedWriter out;
+    try {
+			f = new FileWriter(backupFile);
+			out = new BufferedWriter(f);
+			/*
+			 * TODO implement the export and use the exportSingle... in
+			 * exportTableDefinitions and exportData 
+			 */
+			
+			//exportSingleTableDefinition(f);
+			//exportSingleTableData(f);
+
+			out.close();
+      f.close();
+    } catch (IOException e) {
+    	Utils.showException(e.getMessage(), _cont);
+    	e.printStackTrace();
+    	return false;
+    }
+		return true;
+	}
+
 }

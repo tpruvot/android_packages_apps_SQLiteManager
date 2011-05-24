@@ -106,6 +106,7 @@ Here you will find some more help in the future.
       </string>
     <string name="ShowAtStartUp">Show welcome at startup</string>
     <string name="Welcome">Welcome to aSQLiteManager</string>
+    <string name="DumpTable">Dump table</string>
 
 
 </resources>
