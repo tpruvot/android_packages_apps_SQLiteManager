@@ -1129,16 +1129,17 @@ public class Database {
 	 */
 	public boolean exportTable(String table) {
 		Utils.logD("Dumping table: " + table);
-		String backupName = _dbPath + ".sql";
+		String backupName = _dbPath + "." + table + ".sql";
 		File backupFile = new File(backupName);
 		FileWriter f;
 		BufferedWriter out;
     try {
 			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
-			
 			exportSingleTableDefinition(table, f);
+			Utils.logD("Def exported");
 			exportSingleTableData(table, f);
+			Utils.logD("Data exported");
 
 			out.close();
       f.close();
@@ -1152,30 +1153,82 @@ public class Database {
 
 	/**
 	 * @param tableName
-	 * @param f
+	 * @param out
 	 * @return
 	 */
-	private boolean exportSingleTableData(String tableName, FileWriter f) {
-		/*
-		 * TODO implement the export and use the exportSingle... in
-		 * exportTableDefinitions and exportData. Take code from existing export
-		 */
+	private boolean exportSingleTableData(String tableName, FileWriter out) {
+		String sql = "select name from sqlite_master where type = 'table' and name = '" + tableName + "'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				String tabName = res.getString(0);   //  || tabName.equals("sqlite_sequence") set sequence as it was
+				if(!(tabName.equals("sqlite_master") || tabName.equals("android_metadata")
+						|| tabName.equals("sqlite_sequence"))) {
+					out.write("--\n");
+					out.write("-- Exporting data for  " + tabName+ nl);
+					out.write("--\n");
+					// retrieve table informations
+					sql = "PRAGMA table_info (" + tabName + ")";
+					Cursor tabInf = _db.rawQuery(sql, null);
+					// retrieve data
+					sql = "select * from " + res.getString(0);
+					Cursor data = _db.rawQuery(sql, null);
+					while (data.moveToNext()) {
+						// build value list based on result and field types
+						String fields = "";
+						for(int i = 0; i < data.getColumnCount(); i++) {
+							String val = data.getString(i);
+							tabInf.moveToPosition(i);
+							String type = tabInf.getString(2);
+							if (val == null){
+								fields += "null";
+								if (i != data.getColumnCount()-1)
+									fields += ", ";
+							} else if (type.equals("INTEGER") || type.equals("REAL")) {
+								fields += val;
+								if (i != data.getColumnCount()-1)
+									fields += ", ";
+							} else {  // it must be string or blob(?) so quote it
+								fields += "\"" + val + "\"";
+								if (i != data.getColumnCount()-1)
+									fields += ", ";
+							}
+						}
+						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
+					}
+				}
+			}
+		} catch (IOException e) {
+			Utils.logE(e.getMessage());
+		}
 		
 		return false;
 	}
 
 	/**
 	 * @param tableName
-	 * @param f
+	 * @param out
 	 * @return
 	 */
-	private boolean exportSingleTableDefinition(String tableName, FileWriter f) {
-		/*
-		 * TODO implement the export and use the exportSingle... in
-		 * exportTableDefinitions and exportData. Take code from existing export 
-		 */
-		
-		return false;
+	private boolean exportSingleTableDefinition(String tableName, FileWriter out) {
+		String sql = "select name, sql from sqlite_master where type = 'table' and name = '" + tableName +"'"; 
+		Cursor res = _db.rawQuery(sql, null);
+		try {
+			while(res.moveToNext()) {
+				String table = res.getString(0);
+				if(!(table.equals("sqlite_master") || table.equals("sqlite_sequence") || 
+						table.equals("android_metadata"))) {
+					out.write("--\n");
+					out.write("-- Exporting table definitions for " + table + nl);
+					out.write("--\n");
+					out.write(res.getString(1) + ";" + nl);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 }
