@@ -421,9 +421,13 @@ public class TableViewer extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
     case MENU_DUMP_TABLE:
-    	// Dump table
-    	_db.exportTable(_table);
-    	return true;
+    	// Dump table to .sql file
+    	if (_db.exportTable(_table)) {
+    		Utils.toastMsg(this, String.format(this.getString(R.string.TableDumpep) , _table));
+      	return true;
+    	}
+    	else
+    	  Utils.toastMsg(this, this.getString(R.string.DumpFailed));
 		}
 		return false;
 	}

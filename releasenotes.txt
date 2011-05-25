@@ -1,10 +1,14 @@
 Next version
-
+  Tables can be dumped from "Table view" to SQL file that can later be loaded 
+    by execute script 
+  
 Version 1.2.2
   News screen on open
   Bug with displaying data form views fixed
+  
 Version 1.2.1
   Bug with displaying data form views fixed
+
 Version 1.2
   Correctly scaling on the Galaxy Tab and hopefully on other large displays
   Open SQL files (from database view) and executed all or single line
@@ -24,11 +28,8 @@ Working on:
   Planning for further development, feature request are welcome, could be:
 	Sort data / query results by clicking on title
 	Implement some of SQLites .commands:
-	  .read FILENAME		execute SQL from file
 	  .import FILE TABLE	import data from file to table
 	  .output FILENAME		send output to file
-	  .dump ?TABLE?			dump database / table, a supplement to export
-	  .restore ?DB? FILE	restore database from a file, a supplement to restore 	
 	Scripts editor?  
 
 Version 1.2β

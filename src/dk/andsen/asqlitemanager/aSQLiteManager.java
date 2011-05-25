@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -59,15 +58,15 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         } else {
         	test.setOnClickListener(this);
         }
-        String mh = MimeTypeMap.getSingleton().getExtensionFromMimeType("db");
-        Utils.logD("MimeType for sqlite: " + mh);
+        //String mh = MimeTypeMap.getSingleton().getExtensionFromMimeType("db");
+        //Utils.logD("MimeType for sqlite: " + mh);
         //Utils.showMessage("Debug", "Mime Type for .sqlite: " + mh, this);
     		final SharedPreferences settings = getSharedPreferences("a41cv", MODE_PRIVATE);
     		final String WelcomeId = "ShowWelcome1.3b";
     		// uncomment to turn back on welcome screen 
-//				android.content.SharedPreferences.Editor edt = settings.edit();
-//				edt.putBoolean(WelcomeId, false); 
-//				edt.commit();
+				android.content.SharedPreferences.Editor edt = settings.edit();
+				edt.putBoolean(WelcomeId, true); 
+				edt.commit();
     		// Show welcome screen if not disabled
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);

@@ -90,7 +90,7 @@ Here you will find some more help in the future.
     <string name="ReadingScript">Reading script</string>
     <string name="ExecuteStatement">Execute statement</string>
     <string name="MustNotBeEmpty">Must not be empty</string>
-  	<string name="WelcomeMsg">aSQLiteManager is free open source
+  	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
     	\n\nNews in this version:
     	\nBug when paging views fixed
@@ -107,6 +107,8 @@ Here you will find some more help in the future.
     <string name="ShowAtStartUp">Show welcome at startup</string>
     <string name="Welcome">Welcome to aSQLiteManager</string>
     <string name="DumpTable">Dump table</string>
+    <string name="TableDumpep">Table %s dumped</string>
+    <string name="DumpFailed">Ups! dump failed</string>
 
 
 </resources>
