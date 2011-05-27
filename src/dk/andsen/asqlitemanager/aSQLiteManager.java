@@ -37,8 +37,10 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
+	final String WelcomeId = "ShowWelcome1.3b";
 	private Context _cont;
-    /** Called when the activity is first created. */
+
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +64,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         //Utils.logD("MimeType for sqlite: " + mh);
         //Utils.showMessage("Debug", "Mime Type for .sqlite: " + mh, this);
     		final SharedPreferences settings = getSharedPreferences("a41cv", MODE_PRIVATE);
-    		final String WelcomeId = "ShowWelcome1.3b";
     		// uncomment to turn back on welcome screen 
-				android.content.SharedPreferences.Editor edt = settings.edit();
-				edt.putBoolean(WelcomeId, true); 
-				edt.commit();
     		// Show welcome screen if not disabled
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
@@ -201,13 +199,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				SharedPreferences.Editor editor = settings.edit();
 				editor.putBoolean("FPJustOpen", false);
 				editor.putBoolean("JustOpen", false);
+				editor.putBoolean(WelcomeId, true);
 				editor.commit();
 				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
 				editor = settings.edit();
 				editor.putString("PageSize", "20");
 				editor.putBoolean("SaveSQL", false);
 				editor.commit();
-	    	return false;
+				return false;
 			}
 			return false;
 		}

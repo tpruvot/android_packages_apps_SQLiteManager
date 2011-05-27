@@ -260,7 +260,11 @@ public class QueryViewer extends Activity implements OnClickListener{
 		case MENU_EXPORT:
 			// give a message about where the result is written to
 			String sql= _tvQ.getText().toString();
-			_db.exportQueryResult(sql);
+			if (_tvQ == null || _tvQ.getText().toString().equals("")) {
+				Utils.showMessage("Errer", "Noting to export!", this);
+			} else {
+				_db.exportQueryResult(sql);
+			}
 			break;
 		}
 		return false;
