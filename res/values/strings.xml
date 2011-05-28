@@ -109,6 +109,7 @@ Here you will find some more help in the future.
     <string name="DumpTable">Dump table</string>
     <string name="TableDumpep">Table %s dumped</string>
     <string name="DumpFailed">Ups! dump failed</string>
+    <string name="ErrorNothingToExport">Nothing to export!</string>
 
 
 </resources>
