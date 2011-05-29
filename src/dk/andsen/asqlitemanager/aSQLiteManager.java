@@ -64,7 +64,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         //Utils.logD("MimeType for sqlite: " + mh);
         //Utils.showMessage("Debug", "Mime Type for .sqlite: " + mh, this);
     		final SharedPreferences settings = getSharedPreferences("a41cv", MODE_PRIVATE);
-    		// uncomment to turn back on welcome screen 
     		// Show welcome screen if not disabled
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);

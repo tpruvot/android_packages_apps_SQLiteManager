@@ -1,6 +1,9 @@
 Next version
   Tables can be dumped from "Table view" to SQL file that can later be loaded 
-    by execute script 
+    by execute script
+  Reset also restores the show welcome screen
+  Export (to ASCII file) now don't throw exception if missing or invalid SQL but
+    gives error  
   
 Version 1.2.2
   News screen on open
