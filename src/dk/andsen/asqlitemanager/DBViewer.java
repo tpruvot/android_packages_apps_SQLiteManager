@@ -246,28 +246,26 @@ public class DBViewer extends Activity implements OnClickListener {
 	
 	protected Dialog onCreateDialog(int id) 
 	{
-		String title = "";
 		switch (id) {
 		case MENU_EXPORT:
 			Utils.logD("Creating MENU_EXPORT");
-			title = getText(R.string.Export).toString();
 			Dialog export = new AlertDialog.Builder(this)
-					.setTitle(title)
+					.setTitle(getText(R.string.Export))
 					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 					.setNegativeButton(getText(R.string.Cancel), null)
 					.create();
 			return export;
 		case MENU_RESTORE:
 			Utils.logD("Creating MENU_RESTORE");
-			title = getText(R.string.Restore).toString();
-			Dialog restore = new AlertDialog.Builder(this).setTitle(title)
+			Dialog restore = new AlertDialog.Builder(this)
+					.setTitle(getText(R.string.Restore))
+					.setMessage(getString(R.string.Patience))
 					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 					.setNegativeButton(getText(R.string.Cancel), null)
 					.create();
 			return restore;
 		case MENU_SQL:
-			title = getText(R.string.OpenSQL).toString();
-			Dialog sql = new AlertDialog.Builder(this).setTitle(title)
+			Dialog sql = new AlertDialog.Builder(this).setTitle(getText(R.string.OpenSQL))
 			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 			.setNegativeButton(getText(R.string.Cancel), null)
 			.create();
@@ -293,9 +291,11 @@ public class DBViewer extends Activity implements OnClickListener {
 				switch (_dialogClicked) {
 				case MENU_EXPORT:
 					_db.exportDatabase();
+					Utils.toastMsg(_cont, getString(R.string.DataBaseExported));
 					break;
 				case MENU_RESTORE:
 					_db.restoreDatabase();
+					Utils.toastMsg(_cont, getString(R.string.DataBaseRestored));
 					break;
 				case MENU_SQL:
 					Utils.logD("Open SQL file");
@@ -303,7 +303,6 @@ public class DBViewer extends Activity implements OnClickListener {
 					i.putExtra("SQLtype", true);
 					i.putExtra("dbPath", _dbPath);
 					startActivity(i);
-
 					//TODO call NewFIlePicker with db(?) = true
 					
 					break;

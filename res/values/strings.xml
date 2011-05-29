@@ -110,6 +110,9 @@ Here you will find some more help in the future.
     <string name="TableDumpep">Table %s dumped</string>
     <string name="DumpFailed">Ups! dump failed</string>
     <string name="ErrorNothingToExport">Nothing to export!</string>
-
+    <string name="DataExported">Data exported</string>
+    <string name="DataBaseExported">Database exported</string>
+    <string name="DataBaseRestored">Database restored</string>
+    <string name="Patience">Patience - might take a while</string>
 
 </resources>

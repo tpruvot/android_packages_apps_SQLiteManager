@@ -264,6 +264,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 				Utils.showMessage(getString(R.string.Error), getString(R.string.ErrorNothingToExport), this);
 			} else {
 				_db.exportQueryResult(sql);
+				Utils.toastMsg(this, getString(R.string.DataExported));
 			}
 			break;
 		}

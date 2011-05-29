@@ -88,7 +88,6 @@ Her vil der i fremtiden være mere hjælp.
     <string name="ReadingScript">Læser script</string>
     <string name="ExecuteStatement">Eksekver sql</string>
     <string name="MustNotBeEmpty">Må ikke være tomt</string>
-
     <string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version:
@@ -108,5 +107,10 @@ Her vil der i fremtiden være mere hjælp.
     <string name="DumpTable">Dump tabel</string>
     <string name="TableDumpep">Tabel %s dumped</string>
     <string name="DumpFailed">Ups! dump mislykkedes</string>
+    <string name="ErrorNothingToExport">Intet at eksportere!</string>
+    <string name="DataExported">Data eksporteret</string>
+    <string name="DataBaseExported">Database exporteret</string>
+    <string name="DataBaseRestored">Database reetableret</string>
+    <string name="Patience">Tålmodighed - kan tage en rum tid</string>
 
 </resources>

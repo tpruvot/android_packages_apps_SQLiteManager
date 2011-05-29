@@ -60,10 +60,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         } else {
         	test.setOnClickListener(this);
         }
-        //String mh = MimeTypeMap.getSingleton().getExtensionFromMimeType("db");
-        //Utils.logD("MimeType for sqlite: " + mh);
-        //Utils.showMessage("Debug", "Mime Type for .sqlite: " + mh, this);
-    		final SharedPreferences settings = getSharedPreferences("a41cv", MODE_PRIVATE);
+    		final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+
     		// Show welcome screen if not disabled
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
