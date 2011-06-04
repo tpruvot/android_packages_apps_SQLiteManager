@@ -3,6 +3,9 @@ ToDo / ideas for coming development
 	Sort data / query results by clicking on title
 	Better horizontal scrolling
 	"Tab" view / show active tab
+	Recent files
+	Scripts editor?  
+	
 
 Done
 	Data entry and editing form use editing button at each row
