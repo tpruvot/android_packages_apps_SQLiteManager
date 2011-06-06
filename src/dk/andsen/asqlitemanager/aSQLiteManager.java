@@ -51,6 +51,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         about.setOnClickListener(this);
         Button newDatabase = (Button) this.findViewById(R.id.NewDB);
         newDatabase.setOnClickListener(this);
+        //TODO add button for recently opened databases
         Button test = (Button) this.findViewById(R.id.Test);
         TextView tv = (TextView) this.findViewById(R.id.Version);
         tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
