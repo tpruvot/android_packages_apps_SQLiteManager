@@ -89,7 +89,8 @@ public class DBViewer extends Activity implements OnClickListener {
 				// Store recently opened files 
 				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 				String files = settings.getString("Recently", null);
-				files = Recently.updateList(files, _dbPath, 5);
+				// TODO make number of recent files configurable
+				files = Recently.updateList(files, _dbPath, 10);
 				Editor edt = settings.edit();
 				edt.putString("Recently", files);
 				edt.commit();

@@ -270,7 +270,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		}
 		return false;
 	}
-	
+
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (_rebuildMenu) {
 			Utils.logD("Preparing OptionMenu");

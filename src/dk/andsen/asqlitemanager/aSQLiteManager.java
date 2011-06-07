@@ -10,8 +10,10 @@
 package dk.andsen.asqlitemanager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -38,6 +40,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_RESET = 3;
 	final String WelcomeId = "ShowWelcome1.3b";
 	private Context _cont;
+	private String _recentFiles;
 
 	/** Called when the activity is first created. */
     @Override
@@ -56,7 +59,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
         _cont = this;
     		final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-
     		// Show welcome screen if not disabled
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
@@ -94,15 +96,36 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			} else if (key == R.id.Recently) {
 				// Retrieve recently opened files
 				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-				String files = settings.getString("Recently", null);
-				Utils.showMessage("Recently files: ", files, _cont);
-				//TODO create a list to choose database to open from
-				
-				// When selected open file
-				
+				_recentFiles = settings.getString("Recently", null);
+				if (_recentFiles == null) {
+					Utils.showMessage("Recently files: ", _recentFiles, _cont);
+				} else {
+					String[] resently = _recentFiles.split(";");
+					Utils.logD(_recentFiles);
+					AlertDialog dial = new AlertDialog.Builder(this)
+					.setTitle(getString(R.string.Recently)) 
+					.setSingleChoiceItems(resently, 0, new ResentFileOnClickHandler() )
+					.create();
+					dial.show();
+				}
 			}
-      
 		}
+		
+		/**
+		 * Open a the database clicked on from the recently opened file menu
+		 */
+		public class ResentFileOnClickHandler implements DialogInterface.OnClickListener {
+			public void onClick(DialogInterface dialog, int which) {
+				String[] files = _recentFiles.split(";");
+				String database = files[which];
+				//Utils.toastMsg(_cont, database);
+				dialog.dismiss();
+				Intent i = new Intent(_cont, DBViewer.class);
+				i.putExtra("db", database);
+				startActivity(i);
+			}
+		}
+
 		
 		/**
 		 * Display the about dialog
