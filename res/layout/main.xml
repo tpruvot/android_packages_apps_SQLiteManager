@@ -35,14 +35,14 @@
     android:layout_height="wrap_content"
     />
   <Button
-    android:id="@+id/About"
-    android:text="@string/About"
+    android:id="@+id/Recently"
+    android:text="@string/Recently"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     />
   <Button
-    android:id="@+id/Test"
-    android:text="Testing"
+    android:id="@+id/About"
+    android:text="@string/About"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     />

@@ -33,7 +33,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	/**
 	 * True to enable functions under test
 	 */
-	private final boolean testing = false;
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
@@ -51,16 +50,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         about.setOnClickListener(this);
         Button newDatabase = (Button) this.findViewById(R.id.NewDB);
         newDatabase.setOnClickListener(this);
-        //TODO add button for recently opened databases
-        Button test = (Button) this.findViewById(R.id.Test);
+        Button recently = (Button) this.findViewById(R.id.Recently);
+        recently.setOnClickListener(this);
         TextView tv = (TextView) this.findViewById(R.id.Version);
         tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
         _cont = this;
-        if (!testing) {
-        	test.setVisibility(4);
-        } else {
-        	test.setOnClickListener(this);
-        }
     		final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 
     		// Show welcome screen if not disabled
@@ -97,9 +91,15 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			}  else if (key == R.id.NewDB) {
 				Utils.logD("Create new database");
 				newDatabase();
-			} else if (key == R.id.Test) {
-				Intent i = new Intent(this, NewFilePicker.class);
-				startActivity(i);
+			} else if (key == R.id.Recently) {
+				// Retrieve recently opened files
+				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+				String files = settings.getString("Recently", null);
+				Utils.showMessage("Recently files: ", files, _cont);
+				//TODO create a list to choose database to open from
+				
+				// When selected open file
+				
 			}
       
 		}

@@ -143,7 +143,7 @@ public class Database {
 		String[] tables = new String[recs + 1];
 		int i = 1;
 		tables[0] = "sqlite_master";
-		Utils.logD("Tables: " + recs);
+		//Utils.logD("Tables: " + recs);
 		while(res.moveToNext()) {
 			tables[i] = res.getString(0);
 			i++;
@@ -163,7 +163,7 @@ public class Database {
 		int recs = res.getCount();
 		String[] views = new String[recs];
 		int i = 0;
-		Utils.logD("Views: " + recs);
+		//Utils.logD("Views: " + recs);
 		while(res.moveToNext()) {
 			views[i] = res.getString(0);
 			i++;
@@ -183,7 +183,7 @@ public class Database {
 		int recs = res.getCount();
 		String[] index = new String[recs];
 		int i = 0;
-		Utils.logD("Index: " + recs);
+		//Utils.logD("Index: " + recs);
 		while(res.moveToNext()) {
 			index[i] = res.getString(0);
 			i++;

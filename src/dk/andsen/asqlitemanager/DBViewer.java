@@ -17,6 +17,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.view.Menu;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.types.Types;
 import dk.andsen.utils.NewFilePicker;
+import dk.andsen.utils.Recently;
 import dk.andsen.utils.Utils;
 
 public class DBViewer extends Activity implements OnClickListener {
@@ -71,7 +74,7 @@ public class DBViewer extends Activity implements OnClickListener {
 			_cont = tvDB.getContext();
 			_dbPath = extras.getString("db");
 			tvDB.setText(getText(R.string.Database) + ": " + _dbPath);
-			Utils.logD("Opening database");
+			Utils.logD("Opening database " + _dbPath);
 			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
 				Utils.logD("Not a database!");
@@ -82,7 +85,15 @@ public class DBViewer extends Activity implements OnClickListener {
 					.create();
 				notADatabase.show();
 			} else {
-				Utils.logD("Database open");
+				// database is a database and is opened  
+				// Store recently opened files 
+				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+				String files = settings.getString("Recently", null);
+				files = Recently.updateList(files, _dbPath, 5);
+				Editor edt = settings.edit();
+				edt.putString("Recently", files);
+				edt.commit();
+				
 				tables = _db.getTables();
 				views = _db.getViews();
 				indexes = _db.getIndex();
@@ -154,7 +165,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	protected void selectRecord(String type, int position) {
 		String name;
 		name = toList[position];
-		Utils.logD("Handle: " + type + " " + name);
+		//Utils.logD("Handle: " + type + " " + name);
 		if (type.equals("Index")) {
 			String indexDef = "";
 			if (indexes[position].startsWith("sqlite_autoindex_"))
@@ -165,7 +176,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	  	clipboard.setText(indexDef);
 	  	Utils.showMessage(this.getString(R.string.Message), indexDef, _cont);
 	  	Utils.toastMsg(_cont, "Index definition copied to clip board");
-			Utils.logD("IndexDef; " + indexDef);
+			//Utils.logD("IndexDef; " + indexDef);
 		}
 		else if (type.equals("Views")) {
 			Intent i = new Intent(this, TableViewer.class);
@@ -208,7 +219,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onWindowFocusChanged(boolean)
 	 */
 	public void onWindowFocusChanged(boolean hasFocus) {
-		Utils.logD("Focus changed: " + hasFocus);
+		//Utils.logD("Focus changed: " + hasFocus);
 		if(hasFocus & _update) {
 			_update = false;
 			tables = _db.getTables();
@@ -248,7 +259,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	{
 		switch (id) {
 		case MENU_EXPORT:
-			Utils.logD("Creating MENU_EXPORT");
+			//Utils.logD("Creating MENU_EXPORT");
 			Dialog export = new AlertDialog.Builder(this)
 					.setTitle(getText(R.string.Export))
 					.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
@@ -256,7 +267,7 @@ public class DBViewer extends Activity implements OnClickListener {
 					.create();
 			return export;
 		case MENU_RESTORE:
-			Utils.logD("Creating MENU_RESTORE");
+			//Utils.logD("Creating MENU_RESTORE");
 			Dialog restore = new AlertDialog.Builder(this)
 					.setTitle(getText(R.string.Restore))
 					.setMessage(getString(R.string.Patience))
@@ -282,11 +293,11 @@ public class DBViewer extends Activity implements OnClickListener {
 	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
 		
 		public void onClick(DialogInterface dialog, int clicked) {
-			Utils.logD("Dialog: " + dialog.getClass().getName());
+			//Utils.logD("Dialog: " + dialog.getClass().getName());
 			switch (clicked) {
 			// OK button clicked
 			case DialogInterface.BUTTON_POSITIVE:
-				Utils.logD("OK pressed");
+				//Utils.logD("OK pressed");
 				// Find the menu from which the OK button was clicked
 				switch (_dialogClicked) {
 				case MENU_EXPORT:
@@ -298,7 +309,7 @@ public class DBViewer extends Activity implements OnClickListener {
 					Utils.toastMsg(_cont, getString(R.string.DataBaseRestored));
 					break;
 				case MENU_SQL:
-					Utils.logD("Open SQL file");
+					//Utils.logD("Open SQL file");
 					Intent i = new Intent(_cont, NewFilePicker.class);
 					i.putExtra("SQLtype", true);
 					i.putExtra("dbPath", _dbPath);
