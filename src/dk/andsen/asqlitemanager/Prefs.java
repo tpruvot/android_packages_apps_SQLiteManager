@@ -29,6 +29,8 @@ public class Prefs extends PreferenceActivity {
    private static final String OPT_PAGESIZE_DEF = "20";
    private static final String OPT_SAVESQL = "SaveSQL";
    private static final boolean OPT_SAVESQL_DEF = false;
+   private static final String OPT_FILENO = "RecentFiles";
+   private static final String OPT_FILENO_DEF = "20";
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -55,4 +57,9 @@ public class Prefs extends PreferenceActivity {
   	return PreferenceManager.getDefaultSharedPreferences(context)
   		.getBoolean(OPT_SAVESQL, OPT_SAVESQL_DEF);
   }
+
+	public static int getNoOfFiles(Context context) {
+    return new Integer( PreferenceManager.getDefaultSharedPreferences(context)
+        .getString(OPT_FILENO, OPT_FILENO_DEF)).intValue();
+	}
 }

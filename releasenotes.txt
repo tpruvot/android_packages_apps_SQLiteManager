@@ -5,7 +5,8 @@ Next version:
   Export (to ASCII file) now don't throw exception if missing or invalid SQL
   	but gives error
   Messages after export and restore and better error handling in places
-  Recent files - easy open resently opened databases 
+  Recent files - easy open recently opened databases (cleared on reset) 
+  Number of recent files configurable
     
 Working on:
   Planning for further development, feature request are welcome, could be:

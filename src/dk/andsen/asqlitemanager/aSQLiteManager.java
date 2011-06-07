@@ -221,9 +221,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				editor.putBoolean("FPJustOpen", false);
 				editor.putBoolean("JustOpen", false);
 				editor.putBoolean(WelcomeId, true);
+				editor.putString("Recently", null);
 				editor.commit();
 				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
 				editor = settings.edit();
+				editor.putInt("RecentFiles", 5);
 				editor.putString("PageSize", "20");
 				editor.putBoolean("SaveSQL", false);
 				editor.commit();
