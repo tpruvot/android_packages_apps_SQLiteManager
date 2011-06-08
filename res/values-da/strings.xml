@@ -113,5 +113,6 @@ Her vil der i fremtiden være mere hjælp.
     <string name="DataBaseRestored">Database reetableret</string>
     <string name="Patience">Tålmodighed - kan tage en rum tid</string>
     <string name="Recently">Nyligt åbnet</string>
+    <string name="RecentlyTxt">Antal nyligt åbnet databaser der skal gemmes</string>
 
 </resources>

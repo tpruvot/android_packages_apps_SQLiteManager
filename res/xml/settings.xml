@@ -10,7 +10,7 @@
   <EditTextPreference
     android:key="RecentFiles"
     android:title="@string/Recently"
-    android:summary="@string/Recently"
+    android:summary="@string/RecentlyTxt"
     android:inputType="number"
     android:defaultValue="5"
   />

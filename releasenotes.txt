@@ -1,4 +1,4 @@
-Next version:
+Next version (2.0β):
   Tables can be dumped from "Table view" to SQL file (that can later be loaded 
     by execute script)
   Reset also restores the show welcome screen

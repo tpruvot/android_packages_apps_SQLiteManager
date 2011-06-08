@@ -38,7 +38,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
-	final String WelcomeId = "ShowWelcome1.3b";
+	final String WelcomeId = "ShowWelcome2.0b";
 	private Context _cont;
 	private String _recentFiles;
 
@@ -60,6 +60,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         _cont = this;
     		final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
     		// Show welcome screen if not disabled
+    		//TODO change how the welcome screen is displayed. Store version no in
+    		// in "VersionNo" and show welcome if versionNo has changed
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
     			dial.setContentView(R.layout.welcome);
@@ -225,6 +227,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				editor.commit();
 				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
 				editor = settings.edit();
+				//TODO have had problems using Int but RecentFiles seens to work
 				editor.putInt("RecentFiles", 5);
 				editor.putString("PageSize", "20");
 				editor.putBoolean("SaveSQL", false);
