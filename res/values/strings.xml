@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.0β</string>
+    <string name="VersionNo">2.1β</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">About aSQLiteManager</string>
-    <string name="AboutText">Andsens SQLite manager. See your Android databases</string>
+    <string name="AboutText">Andsens SQLite manager. Manage your Android databases</string>
     <string name="WWW">Check for updates at:\nhttp://asqlitemanager.sourceforge.net</string>
     <string name="AAA">Read more about aSQLiteManager at:\nhttp://aaa.andsen.dk/aSQLiteManager.html</string>
     <string name="MAIL">Comments welcome on:\nandroid41cv@gmail.com</string>

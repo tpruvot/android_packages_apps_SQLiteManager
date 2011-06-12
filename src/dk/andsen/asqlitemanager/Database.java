@@ -267,8 +267,8 @@ public class Database {
 		 * If not a query or view include rowid in data if no single field
 		 * primary key exists
 		 */
-		//TODO implement sorting on single column asc / des
-		// first time a coulms is clicked sort asc if it is clicked again sort des
+		//TODO implement sorting on single column asc / desc
+		// first time a columns is clicked sort asc if it is clicked again sort des
 		testDB();
 		String sql = "";
 		if (view)
@@ -284,7 +284,13 @@ public class Database {
 		//int j = 0;
 		while(cursor.moveToNext()) {
 			for (int k=0; k<cols; k++) {
-				res[i][k] = cursor.getString(k);
+				try {
+					res[i][k] = cursor.getString(k);
+				} catch (Exception e) {
+					// TODO (only?) BLOB files cannot be read with getString catch the here 
+					res[i][k] = "BLOB field";
+					//cursor.getBlob(k);
+				} 
 			}
 			i++;
 		}
@@ -551,7 +557,12 @@ public class Database {
 				while(cursor.moveToNext()) {
 					for (int k=0; k<cols; k++) {
 						//res[i][k] = cursor.getString(k);
-						nres.Data[i][k] = cursor.getString(k);
+						//TODO fails if it is a BLOB field
+						try {
+							nres.Data[i][k] = cursor.getString(k);
+						} catch (Exception e) {
+							nres.Data[i][k] = "BLOB field";
+						}
 					}
 					i++;
 				}
@@ -1030,7 +1041,13 @@ public class Database {
 				tf.setDefaultValue(tabledef[j-1].getDefaultValue());
 				Utils.logD("Name - type: " + tf.getName() + " - " + tabledef[j-1].getType());
 			}
-			tf.setValue(curs.getString(j));
+			//TODO Implement BLOB edit
+			//is it a BLOB field turn edit off
+			try {
+				tf.setValue(curs.getString(j));
+			} catch (Exception e) {
+				tf.setUpdateable(false);
+			}
 			tfs[j] = tf;
 		}
 		curs.close();

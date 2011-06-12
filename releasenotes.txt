@@ -1,12 +1,14 @@
-Next version (2.0β):
+Next version (2.0):
   Tables can be dumped from "Table view" to SQL file (that can later be loaded 
     by execute script)
-  Reset also restores the show welcome screen
+  Recent files - easy open recently opened databases (cleared on reset) 
+  Number of recent files configurable
+  Bug when displaying and querying tables with BLOB fields fixed
+    BLOB fields set to editable = false
+  Reset also restores the welcome screen
   Export (to ASCII file) now don't throw exception if missing or invalid SQL
   	but gives error
   Messages after export and restore and better error handling in places
-  Recent files - easy open recently opened databases (cleared on reset) 
-  Number of recent files configurable
     
 Working on:
   Planning for further development, feature request are welcome, could be:

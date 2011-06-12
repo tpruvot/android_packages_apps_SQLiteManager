@@ -244,6 +244,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
 					// TODO More efficient to make one OnClickListener and assign this to all records edit field?
+					// TODO Fail if trying to edit record with BLOB field
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
