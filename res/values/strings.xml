@@ -45,15 +45,10 @@
     <string name="Open">Open</string>
     <string name="NoResult">No result</string>
     <string name="HelpText">
-Here you will find some more help in the future.
-\n\nClick on any field in the data grid to copy its content to the clip board.
-\n\nOn the query view click on the menu button to build a select statement with: 
-\nselect [fields] from [tables]
-\n\nVisit aSQLiteMagers\'s home page at:
-\nhttp://asqlitemanager.sourceforge.net
-\n\nCheck for updates at:
-\nhttp://sourceforge.net/projects/asqlitemanager
-\n\n\nYou can also send comments to me at:
+Visit aSQLiteMagers\'s home page at:
+\nhttp://aaa.andsen.dk/aSQLiteManager.html
+\n\nHere you can find a description of all functionalities of aSQLiteManager. 
+\n\nYou can also send comments to me at:
 \nandroid41cv@gmail.com
 \n\nMartin
     </string>
