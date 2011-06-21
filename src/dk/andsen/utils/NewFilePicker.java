@@ -46,8 +46,11 @@ public class NewFilePicker extends ListActivity {
 	boolean mExternalStorageAvailable = false;
 	boolean mExternalStorageWriteable = false;
 	private Context context = null;
+	// _SQLtype is true if opening a .sql file false if opening a database
 	private boolean _SQLtype = false;
 	private String _dbPath = null;
+	// _rootMode controls whether filePicker is in roor or normal mode
+	//private boolean _rootMode = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -60,6 +63,7 @@ public class NewFilePicker extends ListActivity {
 			//TODO need to pass path to database from caller to SQLViewer
 			_SQLtype = extras.getBoolean("SQLtype");
 			_dbPath = extras.getString("dbPath");
+			//_rootMode = extras.getBoolean("RootMode");
 		}
 		setContentView(R.layout.filepicker);
 		myPath = (TextView)findViewById(R.id.path);
@@ -91,6 +95,13 @@ public class NewFilePicker extends ListActivity {
 	 * @param dirPath
 	 */
 	private void getDir(String dirPath)
+	//TODO create rootGetDir
+	/*
+	 * if (_root)
+	 *   rootGetDir(dirPath);
+	 * else
+	 *   normalGetDir(dirPatH);
+	 */
 	{
 		myPath.setText(getText(R.string.Path)+ " " + dirPath);
 		item = new ArrayList<String>();
@@ -121,6 +132,7 @@ public class NewFilePicker extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Must be devided into a root and normal mode part
 		final File file = new File(path.get(position));
 		if (file.isDirectory())
 		{
@@ -186,6 +198,7 @@ public class NewFilePicker extends ListActivity {
 						if (_SQLtype) {
 							openSQL(file);
 						} else {
+							//TODO also a root mode needed here
 							openDatabase(file);
 						}
 						dial.dismiss();
@@ -230,6 +243,11 @@ public class NewFilePicker extends ListActivity {
 	}
 	
 	private void openDatabase(File file) {
+		//TODO add root handling here
+		/*
+		 * If in root mode copy database to sdcard/aSQLiteManager and open it there
+		 * after close of database ask the user it it should replace the original
+		 */
 		Utils.logD("Other file file");
 		Intent iDBViewer = new Intent(context, DBViewer.class);
 		iDBViewer.putExtra("db", ""+ file.getAbsolutePath());
