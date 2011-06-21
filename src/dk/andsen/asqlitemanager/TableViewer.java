@@ -240,6 +240,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					//c.setBackgroundColor(R.color.yellow);
 					c.setText("Edit");
 					//c.setTextColor(R.color.yellow);
+					//Error here if id too large to be integer id can't be long so check needed
 					int id = new Integer(data[i][j]).intValue();
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
