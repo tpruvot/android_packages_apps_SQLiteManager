@@ -234,18 +234,24 @@ public class TableViewer extends Activity implements OnClickListener {
 
 			for(int j=0; j<colSize; j++){
 				if (j==0 && allowEdit) {
-					
 					TextView c = new TextView(this);
 					// TODO use this ?  c.setTextColor(StateColorList);
 					//c.setBackgroundColor(R.color.yellow);
 					c.setText("Edit");
 					//c.setTextColor(R.color.yellow);
 					//Error here if id too large to be integer id can't be long so check needed
-					int id = new Integer(data[i][j]).intValue();
+					//int id = new Integer(data[i][j]).intValue();
+					int id;
+					try {
+						id = new Integer(data[i][j]).intValue();
+					} catch (NumberFormatException e) {
+						Utils.showException(e.toString(), _cont);
+					} finally {
+						id = 0;
+					}
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
 					// TODO More efficient to make one OnClickListener and assign this to all records edit field?
-					// TODO Fail if trying to edit record with BLOB field
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;

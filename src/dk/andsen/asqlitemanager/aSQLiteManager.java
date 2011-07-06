@@ -175,12 +175,17 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 							String fileName = edNewDB.getEditableText().toString();
 							path = Environment.getExternalStorageDirectory().getAbsolutePath();
 							path += "/" + fileName;
-							if (fileName.equals("")) {
+							if (fileName.trim().equals("")) {
 								Utils.showMessage((String)getText(R.string.Error), (String)getText(R.string.NoFileName), _cont);
 							} else {
 								if (!path.endsWith(".sqlite"))
 									path += ".sqlite";
-								SQLiteDatabase.openOrCreateDatabase(path, null);
+								try {
+									SQLiteDatabase.openOrCreateDatabase(path, null);
+								} catch (Exception e) {
+									Utils.showException(R.string.Error + " " + e.toString(), _cont);
+									e.printStackTrace();
+								}
 								// Ask before??
 								Intent i = new Intent(_cont, DBViewer.class);
 								i.putExtra("db", path);
