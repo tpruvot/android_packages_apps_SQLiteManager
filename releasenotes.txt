@@ -1,4 +1,14 @@
-Next version (2.0):
+Version 2.1 
+	Bugs fixed (9 out of 12 reported. Too little information in the last three to be
+	located:
+		NumberFormatException When displaying and editing records where rowId
+		can not be stored in a Java int
+		SQLiteException when trying to create new database in nonexistent path
+		SQLiteException when trying to edit sqlite_master (can't be updated manually)
+	Minor improvements:
+		SQL in query viewer is now saved on exit and restored on load
+		
+Version (2.0):
   Tables can be dumped from "Table view" to SQL file (that can later be loaded 
     by execute script)
   Recent files - easy open recently opened databases (cleared on reset) 
@@ -11,6 +21,7 @@ Next version (2.0):
   Messages after export and restore and better error handling in places
     
 Working on:
+	Version with root support.
   Planning for further development, feature request are welcome, could be:
 	Sort data / query results by clicking on title
 	Implement some of SQLites .commands:

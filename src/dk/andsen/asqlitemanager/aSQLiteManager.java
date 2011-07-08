@@ -38,7 +38,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
-	final String WelcomeId = "ShowWelcome2.0";
+	final String WelcomeId = "ShowWelcome2.1";
 	private Context _cont;
 	private String _recentFiles;
 
@@ -169,6 +169,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			final Button btnMOK = (Button) newDatabaseDialog.findViewById(R.id.btnMOK);
 			btnMOK.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
+					boolean error = false;
 					String path;
 					if (v == btnMOK) {
 						if (Utils.isSDAvailable()) {
@@ -183,14 +184,17 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 								try {
 									SQLiteDatabase.openOrCreateDatabase(path, null);
 								} catch (Exception e) {
-									Utils.showException(R.string.Error + " " + e.toString(), _cont);
+									error = true;
+									Utils.showMessage(getString(R.string.Error), getString(R.string.CouldNotCreate) +" " + path, _cont);
 									e.printStackTrace();
 								}
 								// Ask before??
-								Intent i = new Intent(_cont, DBViewer.class);
-								i.putExtra("db", path);
-								newDatabaseDialog.dismiss();
-								startActivity(i);
+								if (!error) {
+									Intent i = new Intent(_cont, DBViewer.class);
+									i.putExtra("db", path);
+									newDatabaseDialog.dismiss();
+									startActivity(i);
+								}
 							}
 						}
 						Utils.logD("Path: " + edNewDB.getText().toString());

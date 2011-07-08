@@ -6,7 +6,7 @@
 	android:versionName="2.1β">
 	<application android:icon="@drawable/sqlite_icon"
       android:label="@string/app_name"
-      android:debuggable="true">
+      android:debuggable="false">
 		<activity android:name=".aSQLiteManager" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

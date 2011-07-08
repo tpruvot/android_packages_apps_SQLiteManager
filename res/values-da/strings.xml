@@ -88,20 +88,6 @@ Her vil der i fremtiden være mere hjælp.
     <string name="ReadingScript">Læser script</string>
     <string name="ExecuteStatement">Eksekver sql</string>
     <string name="MustNotBeEmpty">Må ikke være tomt</string>
-    <string name="WelcomeMsg">aSQLiteManager er en gratis open source
-      SQLite manager / front end til Android enheder.
-      \n\nNyt i denne version:
-      \nBug nå der bladres i views ordnet
-      \nDenne velkommen skærm
-      \n\nFor en liste med alle features på:
-      \naaa.andsen.dk/aSQLiteManager.html
-      \n\nKommentarer, bug rapporter og ønsker om ny funktionalitet velkommen.
-      send mig en mail på:
-      \nandroid41cv@gmail.com
-      \n 
-      \nHåber du kan lide app\'en!
-      \n\nMartin
-      </string>
     <string name="ShowAtStartUp">Vis velkommen ved opstart</string>
     <string name="Welcome">Velkommen til aSQLiteManager</string>
     <string name="DumpTable">Dump tabel</string>
@@ -115,4 +101,29 @@ Her vil der i fremtiden være mere hjælp.
     <string name="Recently">Nyligt åbnet</string>
     <string name="RecentlyTxt">Antal nyligt åbnet databaser der skal gemmes</string>
 
+  	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
+      SQLite manager / front end til Android enheder.
+      \n\nNyt i denne version:
+    	\n\nRettelser:
+    	\nNumberFormatException ved visning or redigering data hvor rowId ikke kan
+    	rummes i en Java int
+    	\n\nSQLiteException når der førges at oprette en dataabse i et ikke 
+    	eksisterende katalog
+			\n\nSQLiteException ved forsøg på at redigere sqlite_master (som ikke
+			kan redigeres manuelt)
+			\n\nMindre forbedringer:
+			\nSQL i søge skærmen gemmes når der afsluttes og loades ved opstart
+    	\n\nFor a description of all features check:
+    	\naaa.andsen.dk/aSQLiteManager.html
+      \n\nSe en liste over alle features på:
+      \naaa.andsen.dk/aSQLiteManager.html
+      \n\nKommentarer, bug rapporter og ønsker om ny funktionalitet velkommen.
+      send mig en mail på:
+      \nandroid41cv@gmail.com
+      \n 
+      \nHåber du kan lide app\'en!
+      \n\nMartin
+      </string>
+    <string name="ROSystemTable">sqlite_master is a read only system table</string>
+    <string name="CouldNotCreate">Could not create:</string>
 </resources>

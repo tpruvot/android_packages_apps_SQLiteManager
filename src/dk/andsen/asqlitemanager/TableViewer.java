@@ -53,7 +53,6 @@ public class TableViewer extends Activity implements OnClickListener {
 	private Button bDwn;
 	private int sourceType;
 	private static final int MENU_DUMP_TABLE = 0;
-	private ArrayList<HashMap<Long, Integer>> idTrans = new ArrayList<HashMap<Long, Integer>>(); 
 	/*
 	 * What is needed to allow editing form  table viewer 
 	 * 
@@ -144,13 +143,8 @@ public class TableViewer extends Activity implements OnClickListener {
 			offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames, !isView);
-			//TODO need to use counter in stead of PK as identifier as as PK akn be
-			//larger than a int and as View.id is int.
-			// create a List<<int><long>> to hold translation between id and PK
 			String [][] data = _db.getTableData(_table, offset, limit, isView);
 			//holds all pk and their corresponding id
-			idTrans = new ArrayList<HashMap<Long, Integer>>();
-			
 			updateButtons(true);
 			appendRows(_aTable, data, !isView);
 		} else if (key == R.id.SQL) {
@@ -224,15 +218,6 @@ public class TableViewer extends Activity implements OnClickListener {
 		int rowSize=data.length;
 		int colSize=(data.length>0)?data[0].length:0;
 		for(int i=0; i<rowSize; i++){
-			
-			Long pk = new Long(data[i][0]);
-			HashMap<Long, Integer> map;
-			map = new HashMap<Long, Integer>();
-			map.put(pk, i);
-			idTrans.add(map);
-			//TODO lav en id32id
-
-			
 			TableRow row = new TableRow(this);
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -291,9 +276,13 @@ public class TableViewer extends Activity implements OnClickListener {
 										if (msg == null) {
 											//Utils.logD("Record edited; " + rowid);
 											TableField[] res = re.getEditedData(sv);
-											_db.updateRecord(_table, rowid, res);
+											if (_table.equals("sqlite_master")) {
+												Utils.showMessage(getString(R.string.Error), getString(R.string.ROSystemTable), _cont);
+											} else {
+												_db.updateRecord(_table, rowid, res);
+												_updateTable = true;
+											}
 											dial.dismiss();
-											_updateTable = true;
 										}
 										else
 											Utils.showException(msg, sv.getContext());

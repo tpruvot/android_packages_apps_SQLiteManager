@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.1β</string>
+    <string name="VersionNo">2.1</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
@@ -85,20 +85,6 @@ Visit aSQLiteMagers\'s home page at:
     <string name="ReadingScript">Reading script</string>
     <string name="ExecuteStatement">Execute statement</string>
     <string name="MustNotBeEmpty">Must not be empty</string>
-  	<string name="WelcomeMsg">aSQLiteManager is a free open source
-  	  SQLite manager / front end for Android devices.
-    	\n\nNews in this version:
-    	\nBug when paging views fixed
-    	\nThis welcome screen
-    	\n\nFor a description of all features check:
-    	\naaa.andsen.dk/aSQLiteManager.html
-      \n\nComments, bug reports and wishes for new functionality are welcome.
-      just drop me a mail at:
-      \nandroid41cv@gmail.com
-      \n 
-    	\nHope you enjoy the app!
-    	\n\nMartin
-      </string>
     <string name="ShowAtStartUp">Show welcome at startup</string>
     <string name="Welcome">Welcome to aSQLiteManager</string>
     <string name="DumpTable">Dump table</string>
@@ -111,5 +97,28 @@ Visit aSQLiteMagers\'s home page at:
     <string name="Patience">Patience - might take a while</string>
     <string name="Recently">Recently opened</string>
     <string name="RecentlyTxt">No of recently opened databases to save</string>
+
+  	<string name="WelcomeMsg">aSQLiteManager is a free open source
+  	  SQLite manager / front end for Android devices.
+    	\n\nNews in this version:
+    	\n\nBug fixes:
+    	\nNumberFormatException When displaying and editing records where rowId
+    	can not be stored in a Java int
+    	\n\nSQLiteException when trying to create new database in a nonexistent path
+			\n\nSQLiteException when trying to edit sqlite_master (can\'t be updated
+			manually)
+			\n\nMinor improvements:
+			\nSQL in query viewer is now saved on exit and restored on load
+    	\n\nFor a description of all features check:
+    	\naaa.andsen.dk/aSQLiteManager.html
+      \n\nComments, bug reports and wishes for new functionality are welcome.
+      just drop me a mail at:
+      \nandroid41cv@gmail.com
+      \n\nIn the next version I hope to have implemented support for rooted phone.
+    	\n\nHope you enjoy the app!
+    	\n\nMartin
+      </string>
+    <string name="ROSystemTable">sqlite_master is a read only system table</string>
+    <string name="CouldNotCreate">Could not create:</string>
 
 </resources>
