@@ -113,15 +113,14 @@ Her vil der i fremtiden være mere hjælp.
 			kan redigeres manuelt)
 			\n\nMindre forbedringer:
 			\nSQL i søge skærmen gemmes når der afsluttes og loades ved opstart
-    	\n\nFor a description of all features check:
-    	\naaa.andsen.dk/aSQLiteManager.html
       \n\nSe en liste over alle features på:
       \naaa.andsen.dk/aSQLiteManager.html
       \n\nKommentarer, bug rapporter og ønsker om ny funktionalitet velkommen.
       send mig en mail på:
       \nandroid41cv@gmail.com
-      \n 
-      \nHåber du kan lide app\'en!
+      \n\nI næste version håber jeg at have implementeret support for
+      rootede telefoner.
+      \n\nHåber du kan lide app\'en!
       \n\nMartin
       </string>
     <string name="ROSystemTable">sqlite_master is a read only system table</string>
