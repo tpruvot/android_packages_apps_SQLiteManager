@@ -38,7 +38,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
-	final String WelcomeId = "ShowWelcome2.1";
+	final String WelcomeId = "ShowWelcome2.2b";
 	private Context _cont;
 	private String _recentFiles;
 

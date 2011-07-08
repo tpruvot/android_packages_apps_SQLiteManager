@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="dk.andsen.asqlitemanager"
 	android:installLocation="auto"
-	android:versionCode="2"
-	android:versionName="2.1β">
+	android:versionCode="4"
+	android:versionName="2.2b">
 	<application android:icon="@drawable/sqlite_icon"
       android:label="@string/app_name"
-      android:debuggable="false">
+      android:debuggable="true">
 		<activity android:name=".aSQLiteManager" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
