@@ -31,7 +31,7 @@ import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.Utils;
 
 public class aSQLiteManager extends Activity implements OnClickListener {
-	
+//TODO editing of system tables gives fault => disable editing of these	
 	/**
 	 * True to enable functions under test
 	 */
