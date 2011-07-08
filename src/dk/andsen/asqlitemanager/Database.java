@@ -1013,7 +1013,7 @@ public class Database {
 	 * @return a list of TableFields one for each field the first contains
 	 * the rowid for the record
 	 */
-	public TableField[] getRecord(String tableName, int rowId) {
+	public TableField[] getRecord(String tableName, long rowId) {
 		String sql = "select rowid as rowid, * from " + tableName + " where rowid = " + rowId;
 		Utils.logD(sql);
 		// retrieves field types, pk, ... from database
@@ -1081,7 +1081,7 @@ public class Database {
 	 * @param tableName
 	 * @param rowId
 	 */
-	public void updateRecord(String tableName, int rowId, TableField[] fields) {
+	public void updateRecord(String tableName, long rowId, TableField[] fields) {
 		String sql = "update " + tableName + " set ";
 		for (TableField fld: fields) {
 			if (!fld.getName().equals("rowid")) {

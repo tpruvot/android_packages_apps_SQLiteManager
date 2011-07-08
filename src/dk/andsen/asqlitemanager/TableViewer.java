@@ -16,6 +16,9 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -50,7 +53,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private Button bDwn;
 	private int sourceType;
 	private static final int MENU_DUMP_TABLE = 0;
-
+	private ArrayList<HashMap<Long, Integer>> idTrans = new ArrayList<HashMap<Long, Integer>>(); 
 	/*
 	 * What is needed to allow editing form  table viewer 
 	 * 
@@ -138,11 +141,16 @@ public class TableViewer extends Activity implements OnClickListener {
 			 * If not a query include rowid in data if no single field
 			 * primary key exists
 			 */
-			//list.
 			offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames, !isView);
+			//TODO need to use counter in stead of PK as identifier as as PK akn be
+			//larger than a int and as View.id is int.
+			// create a List<<int><long>> to hold translation between id and PK
 			String [][] data = _db.getTableData(_table, offset, limit, isView);
+			//holds all pk and their corresponding id
+			idTrans = new ArrayList<HashMap<Long, Integer>>();
+			
 			updateButtons(true);
 			appendRows(_aTable, data, !isView);
 		} else if (key == R.id.SQL) {
@@ -216,6 +224,15 @@ public class TableViewer extends Activity implements OnClickListener {
 		int rowSize=data.length;
 		int colSize=(data.length>0)?data[0].length:0;
 		for(int i=0; i<rowSize; i++){
+			
+			Long pk = new Long(data[i][0]);
+			HashMap<Long, Integer> map;
+			map = new HashMap<Long, Integer>();
+			map.put(pk, i);
+			idTrans.add(map);
+			//TODO lav en id32id
+
+			
 			TableRow row = new TableRow(this);
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -223,7 +240,6 @@ public class TableViewer extends Activity implements OnClickListener {
 					Utils.logD("OnClick: " + v.getId());
 				}
 			});
-
 			if (i%2 == 1)
 				row.setBackgroundColor(Color.DKGRAY);
 			// TODO change rows to ConvertView
@@ -231,7 +247,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			// as described here:
 			// http://android-er.blogspot.com/2010/06/using-convertview-in-getview-to-make.html
 			// or in android41cv dk.andsen.utils.MyArrayAdapter
-
 			for(int j=0; j<colSize; j++){
 				if (j==0 && allowEdit) {
 					TextView c = new TextView(this);
@@ -242,20 +257,18 @@ public class TableViewer extends Activity implements OnClickListener {
 					//Error here if id too large to be integer id can't be long so check needed
 					//int id = new Integer(data[i][j]).intValue();
 					int id;
-					try {
-						id = new Integer(data[i][j]).intValue();
-					} catch (NumberFormatException e) {
-						Utils.showException(e.toString(), _cont);
-					} finally {
-						id = 0;
-					}
+					// change to long
+					id = i;
+					//use i as id and store id as 
+					c.setHint(new Long(data[i][j]).toString());
 					c.setId(id);
 					c.setPadding(3, 3, 3, 3);
 					// TODO More efficient to make one OnClickListener and assign this to all records edit field?
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
-							final int rowid = v.getId();
+							TextView a = (TextView)v;
+							final Long rowid = new Long(a.getHint().toString());
 							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table);
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);

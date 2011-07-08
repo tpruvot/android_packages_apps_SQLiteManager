@@ -16,6 +16,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.ClipboardManager;
@@ -97,6 +99,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 		bUp.setOnClickListener(this);
 		bDwn.setOnClickListener(this);
 		Bundle extras = getIntent().getExtras();
+		SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+		_tvQ.setText(settings.getString("Query", ""));
 		if(extras !=null)
 		{
 			_cont = _tvQ.getContext();
@@ -166,9 +170,13 @@ public class QueryViewer extends Activity implements OnClickListener{
 		// Disable back key if in transaction
 		if(inTransaction) {
 			Utils.showMessage("Warning", "In transaction:\nCommit or Rollback before exiting", _cont);
-			return;
+		} else {
+			SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+			Editor ed = settings.edit();
+			ed.putString("Query", _tvQ.getText().toString());
+			ed.commit();
+			super.onBackPressed();
 		}
-		super.onBackPressed();
 	}
 
 	/**
