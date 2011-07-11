@@ -46,7 +46,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-  			Bundle extras = getIntent().getExtras();
         setContentView(R.layout.main);
         Button open = (Button) this.findViewById(R.id.Open);
         open.setOnClickListener(this);
@@ -78,6 +77,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     				} });
     			dial.show();
     		}
+  			Bundle extras = getIntent().getExtras();
   			if(extras !=null) {
   				String _dbPath = extras.getString("Database");
 					Intent i = new Intent(_cont, DBViewer.class);

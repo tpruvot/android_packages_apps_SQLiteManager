@@ -14,14 +14,14 @@
             </intent-filter>
 		</activity>
 		<activity android:name="dk.andsen.utils.FilePicker"></activity>
-        <activity android:name="dk.andsen.utils.NewFilePicker"></activity>
+    <activity android:name="dk.andsen.utils.NewFilePicker"></activity>
 		<activity android:name=".DBViewer"></activity>
-        <activity android:name=".TableViewer"></activity>
-        <activity android:name=".DataGrid"></activity>
-        <activity android:name=".Help"></activity>
-        <activity android:name=".Prefs"></activity>
-        <activity android:name=".QueryViewer"></activity>
-        <activity android:name=".SQLViewer"></activity>
+    <activity android:name=".TableViewer"></activity>
+    <activity android:name=".DataGrid"></activity>
+    <activity android:name=".Help"></activity>
+    <activity android:name=".Prefs"></activity>
+    <activity android:name=".QueryViewer"></activity>
+    <activity android:name=".SQLViewer"></activity>
         <!--
           Don't know why but by repeating the OpenOnClick intend in these two
           different ways aSQLiteManager can be opened from FileManager (Adao Team)
