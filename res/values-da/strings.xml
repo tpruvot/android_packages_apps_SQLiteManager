@@ -104,15 +104,12 @@ Her vil der i fremtiden være mere hjælp.
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version:
-    	\n\nRettelser:
-    	\nNumberFormatException ved visning or redigering data hvor rowId ikke kan
-    	rummes i en Java int
-    	\n\nSQLiteException når der førges at oprette en dataabse i et ikke 
-    	eksisterende katalog
-			\n\nSQLiteException ved forsøg på at redigere sqlite_master (som ikke
-			kan redigeres manuelt)
-			\n\nMindre forbedringer:
-			\nSQL i søge skærmen gemmes når der afsluttes og loades ved opstart
+      \n\nDenne version er ændret for at kunne arbejde sammen med min nye app aShell
+      for at tillade redigering af all databaser på rootede tilefoner.
+      For at bruge dette er det selvfølgelig nødvendigt, at du har en rootet
+      telefon og at du åbner databaserne fra fil explorer i aShell.
+      \n\nDu kan finde aShell her:
+      \nhttp://market.android.com/search?q=pub:Andsen 
       \n\nSe en liste over alle features på:
       \naaa.andsen.dk/aSQLiteManager.html
       \n\nKommentarer, bug rapporter og ønsker om ny funktionalitet velkommen.

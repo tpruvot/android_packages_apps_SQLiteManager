@@ -15,7 +15,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 public class Utils {
-	private static boolean logging = true;
+	private static boolean logging = false;
 	
 	private static String app = "aSQLMan";
 	/**
