@@ -16,9 +16,6 @@
  */
 package dk.andsen.asqlitemanager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
