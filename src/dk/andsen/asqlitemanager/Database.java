@@ -650,6 +650,7 @@ public class Database {
 			out.write("--\n");
       out.write("-- Database export made by aSQLiteManager\n");
 			out.write("--\n");
+			// progress dialog should count from 0 to 100 for table def, data, idex, views
       // export table definitions
       exportTableDefinitions(out);
       // export data

@@ -22,6 +22,7 @@
     <activity android:name=".Prefs"></activity>
     <activity android:name=".QueryViewer"></activity>
     <activity android:name=".SQLViewer"></activity>
+    <activity android:name=".ProgressBarTest"></activity>
         <!--
           Don't know why but by repeating the OpenOnClick intend in these two
           different ways aSQLiteManager can be opened from FileManager (Adao Team)
