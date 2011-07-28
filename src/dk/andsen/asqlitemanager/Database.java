@@ -19,10 +19,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.types.Field;
 import dk.andsen.types.FieldDescr;
@@ -39,7 +44,14 @@ public class Database {
 	private String _dbPath;
 	private Context _cont;
 	private String nl = "\n"; 
-	
+	private ProgressBar myProgressBar;
+	private int myProgress = 0;
+	private TextView progressTitle;
+	private TextView progressTable;
+	private String progressTitleText ="";
+	private String progressTableText ="";
+	private Dialog pd;
+	private Handler theHandle;	
 	/**
 	 * Open a existing database at the given path
 	 * @param dbPath Path to the database
@@ -640,42 +652,126 @@ public class Database {
 		testDB();
 		String backupName = _dbPath + ".sql";
 		File backupFile = new File(backupName);
-		FileWriter f;
-		BufferedWriter out;
-    try {
-			f = new FileWriter(backupFile);
-			out = new BufferedWriter(f);
-			Utils.logD("Exporting to; " + backupFile);
-      Utils.logD("-- Database export made by aSQLiteManager");
-			out.write("--\n");
-      out.write("-- Database export made by aSQLiteManager\n");
-			out.write("--\n");
-			// progress dialog should count from 0 to 100 for table def, data, idex, views
-      // export table definitions
-      exportTableDefinitions(out);
-      // export data
-      exportData(out);
-      // export index definitions
-      exportIndexDefinitions(out);
-      // export view definitions
-      exportViews(out);
-      // export constraints -- how and i which order?
-
-      // export triggers, procedures, ...
-      
-      //Close the output stream
-      out.close();
-      f.close();
-
-    } catch (IOException e) {
-    	Utils.showException(e.getMessage(), _cont);
-    	e.printStackTrace();
-    	return false;
-	  }
+//		FileWriter f;
+//		BufferedWriter out;
+		pd = new Dialog(_cont);
+		pd.setContentView(R.layout.progressbar);
+		myProgressBar = (ProgressBar) pd.findViewById(R.id.progressbar_Horizontal);
+		progressTitle = (TextView) pd.findViewById(R.id.ProgressTitle);
+		progressTable = (TextView) pd.findViewById(R.id.ProgressTable);
+		Utils.logD(progressTitle.toString());
+		Utils.logD(progressTable.toString());
+		pd.show();
+		new Thread(myThread).start();
+//    try {
+//			f = new FileWriter(backupFile);
+//			out = new BufferedWriter(f);
+//			Utils.logD("Exporting to; " + backupFile);
+//      Utils.logD("-- Database export made by aSQLiteManager");
+//			out.write("--\n");
+//      out.write("-- Database export made by aSQLiteManager\n");
+//			out.write("--\n");
+//			// progress dialog should count from 0 to 100 for table def, data, idex, views
+//      // export table definitions
+//			//myHandle.sendMessage(myHandle.obtainMessage());
+//      exportTableDefinitions(out);
+//      // export data
+//      exportData(out);
+//      // export index definitions
+//      exportIndexDefinitions(out);
+//      // export view definitions
+//      exportViews(out);
+//      // export constraints -- how and i which order?
+//
+//      // export triggers, procedures, ...
+//      
+//      //Close the output stream
+//      out.close();
+//      f.close();
+//
+//    } catch (IOException e) {
+//    	Utils.showException(e.getMessage(), _cont);
+//    	e.printStackTrace();
+//    	return false;
+//	  }
+    //dial.dismiss();
 		Utils.logD("Exportet to; " + backupFile.getAbsolutePath());
 		// backupFile.
 		return true;
 	}
+
+	private Runnable myThread = new Runnable(){
+		public void run() {
+			testDB();
+			String backupName = _dbPath + ".sql";
+			File backupFile = new File(backupName);
+			FileWriter f;
+			BufferedWriter out;
+	    try {
+				f = new FileWriter(backupFile);
+				out = new BufferedWriter(f);
+				theHandle = myHandle;
+				Utils.logD("Exporting to; " + backupFile);
+	      Utils.logD("-- Database export made by aSQLiteManager");
+				out.write("--\n");
+	      out.write("-- Database export made by aSQLiteManager\n");
+				out.write("--\n");
+				// progress dialog should count from 0 to 100 for table def, data, idex, views
+	      // export table definitions
+				progressTitleText = "exporting table definitions";
+				myProgress = 0;
+				myHandle.sendMessage(myHandle.obtainMessage());
+				//myHandle.sendMessage(myHandle.obtainMessage());
+	      exportTableDefinitions(out);
+	      // export data
+				progressTitleText = "exporting table data";
+				myProgress = 35;
+				myHandle.sendMessage(myHandle.obtainMessage());
+	      exportData(out);
+	      // export index definitions
+				progressTitleText = "exporting index definitions";
+				myProgress = 50;
+				myHandle.sendMessage(myHandle.obtainMessage());
+	      exportIndexDefinitions(out);
+	      // export view definitions
+				progressTitleText = "exporting view definitions";
+				myProgress = 75;
+				myHandle.sendMessage(myHandle.obtainMessage());
+	      exportViews(out);
+	      // export constraints -- how and i which order?
+
+	      // export triggers, procedures, ...
+	      
+	      //Close the output stream
+				myProgress = 100;
+				myHandle.sendMessage(myHandle.obtainMessage());
+	      out.close();
+	      f.close();
+	    } catch (IOException e) {
+	    	Utils.showException(e.getMessage(), _cont);
+	    	e.printStackTrace();
+	    	//return false;
+		  }
+			pd.dismiss();
+			Utils.logD("Finish!!!");
+			try {
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+//hh
+		Handler myHandle = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				myProgressBar.setProgress(myProgress);
+				progressTitle.setText("Processing: " + progressTitleText);
+				progressTable.setText("Exporting: " + progressTableText);
+			}
+		};
+	};
+
+	
+	
 	
 	/**
 	 * Export all data from current database
@@ -689,6 +785,9 @@ public class Database {
 				String tabName = res.getString(0);   //  || tabName.equals("sqlite_sequence") set sequence as it was
 				if(!(tabName.equals("sqlite_master") || tabName.equals("android_metadata")
 						|| tabName.equals("sqlite_sequence"))) {
+					progressTableText = tabName;
+					theHandle.sendMessage(theHandle.obtainMessage());
+
 					out.write("--\n");
 					out.write("-- Exporting data for  " + tabName+ nl);
 					out.write("--\n");
@@ -721,6 +820,10 @@ public class Database {
 						}
 						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
 					}
+					if (tabInf != null)
+						tabInf.close();
+					if (data != null)
+						data.close();
 				}
 			}
 		} catch (IOException e) {
@@ -790,6 +893,8 @@ public class Database {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		if (res != null)
+			res.close();
 	}
 
 	/**
@@ -1249,4 +1354,6 @@ public class Database {
 		return true;
 	}
 
+	
+	
 }

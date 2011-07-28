@@ -1,3 +1,6 @@
+Next version:
+  Progress bar during export of databases
+  
 Version 2.1 
   Bugs fixed (9 out of 12 reported. Too little information in the last three to be
     located:

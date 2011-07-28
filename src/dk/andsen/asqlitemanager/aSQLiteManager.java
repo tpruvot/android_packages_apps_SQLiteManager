@@ -142,17 +142,12 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		 * Display the about dialog
 		 */
 		private void showAboutDialog() {
-			//Dialog dial = new Dialog(this);
-			//dial.setContentView(R.layout.about);
-			//dial.show();
-			Intent i = new Intent(this, ProgressBarTest.class);
-			Utils.logD("Calling ProgressBar");
-//			Utils.logD("Calling NewFilepicker for result");
-//			startActivityForResult(i, 1);
-			startActivity(i);
-
-			//dial.setContentView(R.layout.progressbar);
-			
+			Dialog dial = new Dialog(this);
+			dial.setContentView(R.layout.about);
+			dial.show();
+			//Intent i = new Intent(this, ProgressBarTest.class);
+			//Utils.logD("Calling ProgressBar");
+			//startActivity(i);
 		}
 
 		protected void onActivityResult(int requestCode, int resultCode, Intent data)
