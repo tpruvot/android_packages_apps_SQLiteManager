@@ -663,6 +663,8 @@ public class Database {
 		Utils.logD(progressTable.toString());
 		pd.show();
 		new Thread(myThread).start();
+		//TODO Clean up needed
+		// horizontal progress bar on pass for each export type tabDef, data, index, ...
 //    try {
 //			f = new FileWriter(backupFile);
 //			out = new BufferedWriter(f);
@@ -759,7 +761,6 @@ public class Database {
 				e.printStackTrace();
 			}
 		}
-//hh
 		Handler myHandle = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
