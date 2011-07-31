@@ -249,7 +249,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
 				editor = settings.edit();
 				//TODO have had problems using Int but RecentFiles seens to work
-				editor.putInt("RecentFiles", 5);
+				editor.putString("RecentFiles", "5");
 				editor.putString("PageSize", "20");
 				editor.putBoolean("SaveSQL", false);
 				editor.commit();

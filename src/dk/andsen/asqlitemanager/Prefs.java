@@ -59,7 +59,7 @@ public class Prefs extends PreferenceActivity {
   }
 
 	public static int getNoOfFiles(Context context) {
-    return new Integer( PreferenceManager.getDefaultSharedPreferences(context)
-        .getString(OPT_FILENO, OPT_FILENO_DEF)).intValue();
+    return new Integer(PreferenceManager.getDefaultSharedPreferences(context)
+      	.getString(OPT_FILENO, OPT_FILENO_DEF)).intValue();
 	}
 }

@@ -1,5 +1,7 @@
 Next version:
   Progress bar during export of databases
+  Bug with retrieving of preferences fixed
+  No longer "force close" in Query builder if fields selected before tables 
   
 Version 2.1 
   Bugs fixed (9 out of 12 reported. Too little information in the last three to be

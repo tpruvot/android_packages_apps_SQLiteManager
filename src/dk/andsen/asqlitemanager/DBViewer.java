@@ -11,6 +11,7 @@ package dk.andsen.asqlitemanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,12 +27,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import dk.andsen.types.Types;
 import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.Recently;
@@ -100,12 +101,12 @@ public class DBViewer extends Activity implements OnClickListener {
 				tables = _db.getTables();
 				views = _db.getViews();
 				indexes = _db.getIndex();
-				for(String str: tables) {
-					Utils.logD("Table: " + str);
-				}
-				for(String str: views) {
-					Utils.logD("View: " + str);
-				}
+//				for(String str: tables) {
+//					Utils.logD("Table: " + str);
+//				}
+//				for(String str: views) {
+//					Utils.logD("View: " + str);
+//				}
 				list = (ListView) findViewById(R.id.LVList);
 				buildList("Tables");
 			}

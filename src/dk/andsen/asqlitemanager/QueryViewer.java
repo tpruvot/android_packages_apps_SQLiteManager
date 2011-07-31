@@ -333,18 +333,28 @@ public class QueryViewer extends Activity implements OnClickListener{
 			title = getText(R.string.DBFields).toString();
 			//count selected tables
 			int selTables = 0;
-			for (boolean sel: listOfTables_selected) {
-				if (sel)
-				  selTables++;
-			}
+			if (listOfTables_selected == null)
+				selTables = 0;
+			else
+				for (boolean sel: listOfTables_selected) {
+					if (sel)
+						selTables++;
+				}
 			String[] tables = new String[selTables];
 			selTables = 0;
-			for (int i = 0; i < listOfTables.length; i++) {
-				if (listOfTables_selected[i]) {
-					tables[selTables] = listOfTables[i];
-				  selTables++;
-				}
-			}
+			int noTables;
+			if (listOfTables != null)
+				noTables = listOfTables.length;
+			else
+				noTables = 0;
+			Utils.logD("MH " + noTables + " ");
+			if (noTables > 0)
+				for (int i = 0; i < noTables -1 ; i++) {
+					if (listOfTables_selected[i]) {
+						tables[selTables] = listOfTables[i];
+						selTables++;
+					}
+				}  
 			listOfFields = _db.getTablesFieldsNames(tables);
 			listOfFields_selected = new boolean[listOfFields.length];
 			return new AlertDialog.Builder(this)

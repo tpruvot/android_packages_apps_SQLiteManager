@@ -1012,6 +1012,7 @@ public class Database {
 		} catch (Exception e) {
 			Utils.logE(e.getMessage());
 		}
+		res.close();
 	}
 
 	/**
