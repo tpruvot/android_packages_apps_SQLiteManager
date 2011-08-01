@@ -113,7 +113,7 @@ public class FilePicker extends ListActivity {
 			{
 				new AlertDialog.Builder(this)
 				.setIcon(R.drawable.sqlite_icon)
-				.setTitle("[" + file.getName() + "] " + getText(R.string.ReadOnlyFolder))
+				.setTitle("[" + file.getName() + "] " + getText(R.string.SystemFolder))
 				.setPositiveButton("OK", 
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {

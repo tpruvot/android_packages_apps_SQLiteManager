@@ -44,7 +44,7 @@ public class Prefs extends PreferenceActivity {
     * @return page size
     */
   public static int getPageSize(Context context) {
-     return new Integer( PreferenceManager.getDefaultSharedPreferences(context)
+     return new Integer(PreferenceManager.getDefaultSharedPreferences(context)
            .getString(OPT_PAGESIZE, OPT_PAGESIZE_DEF)).intValue();
   }
 

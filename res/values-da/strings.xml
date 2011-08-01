@@ -27,7 +27,6 @@
     <string name="NoSDCard">Intet SDCard</string>
     <string name="OK">OK</string>
     <string name="Path">Sti:</string>
-    <string name="ReadOnlyFolder">mappen kan ikke læses!</string>
     <string name="Database">Database</string>
     <string name="DBQuery">Query</string>
     <string name="Run">Kør</string>
@@ -122,4 +121,9 @@ Her vil der i fremtiden være mere hjælp.
       </string>
     <string name="ROSystemTable">sqlite_master is a read only system table</string>
     <string name="CouldNotCreate">Could not create:</string>
+    <string name="SystemFolder">System mappe</string>
+    <string name="SystemFolderText">Hvis din telefon er rootet så kan du redigere system databaser med aSQLiteManager v.h.a. aShell</string>
+    <string name="DBInfo">DB Info</string>
+    <string name="DatabaseInfo">Database info.</string>
+
 </resources>

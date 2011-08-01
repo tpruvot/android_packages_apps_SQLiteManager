@@ -29,7 +29,6 @@
     <string name="NoSDCard">No SDCard available</string>
     <string name="OK">OK</string>
     <string name="Path">Path:</string>
-    <string name="ReadOnlyFolder">folder can\'t be read!</string>
     <string name="Database">Database</string>
     <string name="DBQuery">Query</string>
     <string name="Run">Run</string>
@@ -119,5 +118,9 @@ Visit aSQLiteMagers\'s home page at:
       </string>
     <string name="ROSystemTable">sqlite_master is a read only system table</string>
     <string name="CouldNotCreate">Could not create:</string>
+    <string name="SystemFolder">System folder</string>
+    <string name="SystemFolderText">If your phone is rootet you can edit system databases with aSQLiteManager using aShell</string>
+    <string name="DBInfo">DB Info</string>
+    <string name="DatabaseInfo">Database info.</string>
 
 </resources>

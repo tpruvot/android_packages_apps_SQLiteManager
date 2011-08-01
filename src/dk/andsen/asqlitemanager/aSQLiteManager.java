@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,6 +40,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
 	final String WelcomeId = "ShowWelcome2.2";
+	// change this to delete preferences 
+	final String vers = "2.3";
 	private Context _cont;
 	private String _recentFiles;
 
@@ -62,6 +65,15 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     		// Show welcome screen if not disabled
     		//TODO change how the welcome screen is displayed. Store version no in
     		// in "VersionNo" and show welcome if versionNo has changed
+    		SharedPreferences prefs = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
+    		if (!settings.getString(vers, "").equals(vers)) {
+    			Editor editor = prefs.edit();
+    			editor.clear();
+    			editor.commit();
+    		}
+    		Editor ed = settings.edit();
+    		ed.commit();
+    		ed.putString(vers, vers);
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
     			dial.setContentView(R.layout.welcome);
@@ -241,21 +253,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	    	// Reset all settings to default
 	    	SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 				SharedPreferences.Editor editor = settings.edit();
-				editor.putBoolean("FPJustOpen", false);
-				editor.putBoolean("JustOpen", false);
-				editor.putBoolean(WelcomeId, true);
-				editor.putString("Recently", null);
+				editor.clear();
 				editor.commit();
 				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
 				editor = settings.edit();
-				//TODO have had problems using Int but RecentFiles seens to work
-				editor.putString("RecentFiles", "5");
-				editor.putString("PageSize", "20");
-				editor.putBoolean("SaveSQL", false);
+				editor.clear();
 				editor.commit();
 				return false;
 			}
 			return false;
 		}
-
 }

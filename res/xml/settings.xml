@@ -5,7 +5,7 @@
     android:title="@string/PageSize"
     android:summary="@string/PageSizeText"
     android:inputType="number"
-    android:defaultValue="15"
+    android:defaultValue="20"
   />
   <EditTextPreference
     android:key="RecentFiles"

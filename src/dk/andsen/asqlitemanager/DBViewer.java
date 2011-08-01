@@ -41,8 +41,8 @@ import dk.andsen.utils.Utils;
 public class DBViewer extends Activity implements OnClickListener {
 	private String _dbPath;
 	private Database _db = null;
-	private String[] tables;
-	private String[] views;
+//	private String[] tables;
+//	private String[] views;
 	private String[] indexes;
 	private ListView list;
 	private LinearLayout query;
@@ -52,6 +52,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private final int MENU_EXPORT = 0;
 	private final int MENU_RESTORE = 1;
 	private final int MENU_SQL = 2;
+	private final int MENU_INFO = 3;
 	private int _dialogClicked;
 	
 	@Override
@@ -98,8 +99,8 @@ public class DBViewer extends Activity implements OnClickListener {
 				edt.putString("Recently", files);
 				edt.commit();
 				
-				tables = _db.getTables();
-				views = _db.getViews();
+//				tables = _db.getTables();
+//				views = _db.getViews();
 				indexes = _db.getIndex();
 //				for(String str: tables) {
 //					Utils.logD("Table: " + str);
@@ -226,8 +227,8 @@ public class DBViewer extends Activity implements OnClickListener {
 		//Utils.logD("Focus changed: " + hasFocus);
 		if(hasFocus & _update) {
 			_update = false;
-			tables = _db.getTables();
-			views = _db.getViews();
+//			tables = _db.getTables();
+//			views = _db.getViews();
 			indexes = _db.getIndex();
 			buildList("Tables");
 		}
@@ -238,6 +239,7 @@ public class DBViewer extends Activity implements OnClickListener {
 		menu.add(0, MENU_RESTORE, 0, getText(R.string.Restore));
 		// Open files with SQL scripts, execute one or all commands 		
 		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
+		menu.add(0, MENU_INFO, 0, getText(R.string.DBInfo));
 		return true;
 	}
 
@@ -254,6 +256,10 @@ public class DBViewer extends Activity implements OnClickListener {
 		case MENU_SQL:
 			_dialogClicked = MENU_SQL; 
 			showDialog(MENU_SQL);
+			break;
+		case MENU_INFO:
+			String versionStr = _db.getVersionInfo();
+			Utils.showMessage(getText(R.string.DatabaseInfo).toString(), versionStr, _cont);
 			break;
 		}
 		return false;

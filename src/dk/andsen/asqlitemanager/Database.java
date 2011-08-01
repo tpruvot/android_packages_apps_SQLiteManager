@@ -1356,6 +1356,62 @@ public class Database {
 		return true;
 	}
 
+	public String getVersionInfo() {
+		// pragma user_version
+		// pragma schema_version
+
+		testDB();
+		String sql = "pragma schema_version";
+		Cursor cursor = _db.rawQuery(sql, null);
+		String res = "schema_version: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+		sql = "pragma user_version";
+		cursor = _db.rawQuery(sql, null);
+		res += "\nuser_version: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+		sql = "pragma encoding";
+		cursor = _db.rawQuery(sql, null);
+		res += "\nencoding: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+		sql = "pragma page_size";
+		cursor = _db.rawQuery(sql, null);
+		res += "\npage_size: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+		sql = "pragma page_count";
+		cursor = _db.rawQuery(sql, null);
+		res += "\npage_count: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+		sql = "pragma locking_mode";
+		cursor = _db.rawQuery(sql, null);
+		res += "\nlocking_mode: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+		sql = "pragma journal_mode";
+		cursor = _db.rawQuery(sql, null);
+		res += "\njournal_mode: ";
+		while(cursor.moveToNext()) {
+			res += cursor.getString(0);
+		}
+
+		
+		// journal_mode
+		// collation_list??
+		// auto_vacuum
+		
+		return res;
+	}
+
 	
 	
 }
