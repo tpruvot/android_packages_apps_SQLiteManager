@@ -103,10 +103,10 @@ Her vil der i fremtiden være mere hjælp.
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version:
-      \n\nDenne version er ændret for at kunne arbejde sammen med min nye app aShell
-      for at tillade redigering af all databaser på rootede tilefoner.
-      For at bruge dette er det selvfølgelig nødvendigt, at du har en rootet
-      telefon og at du åbner databaserne fra fil explorer i aShell.
+      \n\nProgress bar ved eksport af databases
+  		\nNyt Database info meny punkt i Database viewer 
+  		\nFejl ved hentning af brugeropsætning løst
+  		\naSQLiteManager gå ikke lengere ned hvis der i Query buildeen vælges felter før der vælges tabeller
       \n\nDu kan finde aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen 
       \n\nSe en liste over alle features på:

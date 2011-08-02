@@ -100,19 +100,18 @@ Visit aSQLiteMagers\'s home page at:
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version:
-      \n\nThis version has been changed to work together with my new app aShell
-      to allow
-      editing of all databases on rooted phones. To be able to use the rooted
-      functionality you - of course - need to have rooted your phone. And to
-      open the databases from the file explorer in aShell.
-      \n\nYou can find aShell here:
+      \n\nProgress bar during export of databases
+  		\nNew Database info menu in Database viewer 
+  		\nRetrieving of preferences bug fixed
+  		\nNo longer "force close" in Query builder if fields selected before tables
+      \n\nBy using aShell you can edit all system databases on rootet
+      prones with aSQLiteManager. You can find aShell here:
       \nhttp://market.android.com/search?q=pub:Andsen 
     	\n\nFor a description of all features check:
     	\naaa.andsen.dk/aSQLiteManager.html
-      \n\nComments, bug reports and wishes for new functionality are welcome.
+      \n\nComments, bug reports and feature requests are welcome.
       just drop me a mail at:
       \nandroid41cv@gmail.com
-      \n\nIn the next version I hope to have implemented support for rooted phone.
     	\n\nHope you enjoy the app!
     	\n\nMartin
       </string>

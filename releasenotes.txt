@@ -1,8 +1,8 @@
 Version 2.2:
   Progress bar during export of databases
-  Bug with retrieving of preferences fixed
+  New Database info menu in Database viewer 
+  Retrieving of preferences bug fixed
   No longer "force close" in Query builder if fields selected before tables
-  New Database info from Database viewer menu 
   
 Version 2.1 
   Bugs fixed (9 out of 12 reported. Too little information in the last three to be
