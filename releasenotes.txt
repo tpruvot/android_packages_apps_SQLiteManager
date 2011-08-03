@@ -1,10 +1,15 @@
-Version 2.2:
+Download binaries here: http://market.android.com/details?pub=Andsen
+
+Version 2.3:
   Progress bar during export of databases
   New Database info menu in Database viewer 
   Retrieving of preferences bug fixed
   No longer "force close" in Query builder if fields selected before tables
+
+Version 2.2: 
+  Minor change to work with aShell
   
-Version 2.1 
+Version 2.1:
   Bugs fixed (9 out of 12 reported. Too little information in the last three to be
     located:
     NumberFormatException When displaying and editing records where rowId
