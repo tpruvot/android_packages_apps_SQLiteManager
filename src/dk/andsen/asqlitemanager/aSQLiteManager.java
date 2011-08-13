@@ -9,6 +9,8 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -206,10 +208,20 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 								if (!path.endsWith(".sqlite"))
 									path += ".sqlite";
 								try {
-									SQLiteDatabase.openOrCreateDatabase(path, null);
+									//TODO check to see if it exists
+									File f = new File(path);
+									if (f.exists()) {
+										error = true;
+										Utils.showMessage(getString(R.string.Error), path + " "
+												+ getString(R.string.DatabaseExists), _cont);
+									} else {
+										SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(path, null);
+										db.close();
+									}
 								} catch (Exception e) {
 									error = true;
-									Utils.showMessage(getString(R.string.Error), getString(R.string.CouldNotCreate) +" " + path, _cont);
+									Utils.showMessage(getString(R.string.Error),
+											getString(R.string.CouldNotCreate) +" " + path, _cont);
 									e.printStackTrace();
 								}
 								// Ask before??

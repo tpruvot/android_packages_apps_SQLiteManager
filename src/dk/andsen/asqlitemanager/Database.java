@@ -213,8 +213,8 @@ public class Database {
 		// Get field type
 		// SELECT typeof(sql) FROM sqlite_master where typeof(sql) <> "null" limit 1
 		testDB();
-		String sql = "select * from " + table + " limit 1";
-		sql = "pragma table_info(" + table + ")";
+		String sql = "select * from '" + table + "' limit 1";
+		sql = "pragma table_info('" + table + "')";
 		Cursor res = _db.rawQuery(sql, null);
 		int cols = res.getCount();
 		Field[] fields = new Field[cols];
@@ -241,7 +241,7 @@ public class Database {
 	 */
 	public String[] getFieldsNames(String table) {
 		testDB();
-		String sql = "pragma table_info(" + table + ")";
+		String sql = "pragma table_info('" + table + "')";
 		Cursor res = _db.rawQuery(sql, null);
 		int cols = res.getCount();
 		String[] fields = new String[cols];
@@ -284,9 +284,9 @@ public class Database {
 		testDB();
 		String sql = "";
 		if (view)
-			sql = "select * from " + table + " limit " + limit + " offset " + offset;
+			sql = "select * from '" + table + "' limit " + limit + " offset " + offset;
 		else
-			sql = "select rowid as rowid, * from " + table + " limit " + limit + " offset " + offset;
+			sql = "select rowid as rowid, * from '" + table + "' limit " + limit + " offset " + offset;
 		Utils.logD("SQL = " + sql);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
@@ -346,8 +346,8 @@ public class Database {
 	 */
 	public String[][] getTableStructure(String table) {
 		testDB();
-		String sql = "pragma table_info ("+table+")";
-		Cursor cursor = _db.rawQuery(sql, null);
+		String sql = "pragma table_info ('"+table+"')";
+		Cursor cursor = _db.rawQuery(sql, null);	
 		int cols = cursor.getColumnCount();
 		int rows = cursor.getCount();
 		String[][] res = new String[rows][cols];
@@ -368,7 +368,7 @@ public class Database {
 	 */
 	public FieldDescr[] getTableStructureDef(String tableName) {
 		testDB();
-		String sql = "pragma table_info ("+tableName+")";
+		String sql = "pragma table_info ('"+tableName+"')";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int rows = cursor.getCount();
 		FieldDescr[] flds = new FieldDescr[rows]; 
@@ -750,8 +750,10 @@ public class Database {
 	      out.close();
 	      f.close();
 	    } catch (IOException e) {
-	    	Utils.showException(e.getMessage(), _cont);
-	    	e.printStackTrace();
+	    	//TODO can't show exception dialog here
+	    	//TODO save the error and show it later
+	    	//Utils.showException(e.getMessage(), _cont);
+	    	//e.printStackTrace();
 	    	//return false;
 		  }
 			pd.dismiss();

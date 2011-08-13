@@ -99,6 +99,13 @@ Her vil der i fremtiden være mere hjælp.
     <string name="Patience">Tålmodighed - kan tage en rum tid</string>
     <string name="Recently">Nyligt åbnet</string>
     <string name="RecentlyTxt">Antal nyligt åbnet databaser der skal gemmes</string>
+    <string name="ROSystemTable">sqlite_master is a read only system table</string>
+    <string name="CouldNotCreate">Could not create:</string>
+    <string name="SystemFolder">System mappe</string>
+    <string name="SystemFolderText">Hvis din telefon er rootet så kan du redigere system databaser med aSQLiteManager v.h.a. aShell</string>
+    <string name="DBInfo">DB Info</string>
+    <string name="DatabaseInfo">Database info.</string>
+    <string name="DatabaseExists">findes allerede!</string>
 
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
@@ -119,11 +126,5 @@ Her vil der i fremtiden være mere hjælp.
       \n\nHåber du kan lide app\'en!
       \n\nMartin
       </string>
-    <string name="ROSystemTable">sqlite_master is a read only system table</string>
-    <string name="CouldNotCreate">Could not create:</string>
-    <string name="SystemFolder">System mappe</string>
-    <string name="SystemFolderText">Hvis din telefon er rootet så kan du redigere system databaser med aSQLiteManager v.h.a. aShell</string>
-    <string name="DBInfo">DB Info</string>
-    <string name="DatabaseInfo">Database info.</string>
 
 </resources>

@@ -186,6 +186,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	 */
 	private void setTitles(TableLayout table, String[] titles) {
 		int rowSize=titles.length;
+		if (table == null)
+			return;
 		table.removeAllViews();
 		TableRow row = new TableRow(this);
 		row.setBackgroundColor(Color.BLUE);

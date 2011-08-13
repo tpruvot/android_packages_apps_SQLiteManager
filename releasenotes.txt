@@ -1,5 +1,8 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
+Next version
+  Now support table names with spaces
+  
 Version 2.3:
   Progress bar during export of databases
   New Database info menu in Database viewer 

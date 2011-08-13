@@ -101,7 +101,7 @@ public class DBViewer extends Activity implements OnClickListener {
 				
 //				tables = _db.getTables();
 //				views = _db.getViews();
-				indexes = _db.getIndex();
+//				indexes = _db.getIndex();
 //				for(String str: tables) {
 //					Utils.logD("Table: " + str);
 //				}

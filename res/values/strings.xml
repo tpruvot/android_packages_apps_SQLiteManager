@@ -96,6 +96,13 @@ Visit aSQLiteMagers\'s home page at:
     <string name="Patience">Patience - might take a while</string>
     <string name="Recently">Recently opened</string>
     <string name="RecentlyTxt">No of recently opened databases to save</string>
+    <string name="ROSystemTable">sqlite_master is a read only system table</string>
+    <string name="CouldNotCreate">Could not create:</string>
+    <string name="SystemFolder">System folder</string>
+    <string name="SystemFolderText">If your phone is rootet you can edit system databases with aSQLiteManager using aShell</string>
+    <string name="DBInfo">DB Info</string>
+    <string name="DatabaseInfo">Database info.</string>
+    <string name="DatabaseExists">already exists!</string>
 
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
@@ -115,11 +122,4 @@ Visit aSQLiteMagers\'s home page at:
     	\n\nHope you enjoy the app!
     	\n\nMartin
       </string>
-    <string name="ROSystemTable">sqlite_master is a read only system table</string>
-    <string name="CouldNotCreate">Could not create:</string>
-    <string name="SystemFolder">System folder</string>
-    <string name="SystemFolderText">If your phone is rootet you can edit system databases with aSQLiteManager using aShell</string>
-    <string name="DBInfo">DB Info</string>
-    <string name="DatabaseInfo">Database info.</string>
-
 </resources>
