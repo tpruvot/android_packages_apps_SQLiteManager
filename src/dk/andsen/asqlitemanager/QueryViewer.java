@@ -628,7 +628,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		if (listOfTables != null && listOfTables.length > 0) {
 			for (i = 0; i < listOfTables.length; i++) {
 				if (listOfTables_selected[i]) {
-					sql += listOfTables[i] + ", ";
+					sql += "'" + listOfTables[i] + "', ";
 				}
 			}
 			sql = sql.substring(0, sql.length() - 2);

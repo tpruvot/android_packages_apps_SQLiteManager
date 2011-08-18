@@ -1,7 +1,10 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
 Next version
-  Now support table names with spaces
+  Now support table and field names with spaces
+  Tables with BLOB fields can be exported (but not imported)
+  Bug fixes:
+  	Catch errors on updates and tell what went wrong
   
 Version 2.3:
   Progress bar during export of databases

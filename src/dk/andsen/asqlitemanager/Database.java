@@ -33,7 +33,13 @@ import dk.andsen.types.Field;
 import dk.andsen.types.FieldDescr;
 import dk.andsen.types.QueryResult;
 import dk.andsen.utils.Utils;
-
+//TODO Need to find out how to write the export of Blobs and how to recognize this
+//     at restore
+//TODO use some of the SQLite core functions http://www.sqlite.org/lang_corefunc.html
+//     to handle BLOBs better:
+//		 typeof() -> "null", "integer", "real", "text", or "blob"
+//     quote() quote fields thats need quoting
+//		 hex() transform a blot to hexadecimals for export
 /**
  * @author Andsen
  *
@@ -128,7 +134,12 @@ public class Database {
 	 * Close the database
 	 */
 	public void close() {
-		_db.close();
+		//This sometimes throws SQLiteException: unable to close due to unfinalised statements
+		try {
+			_db.close();
+		} catch (Exception e) {
+			
+		}
 	}
 
 	/**
@@ -299,8 +310,8 @@ public class Database {
 				try {
 					res[i][k] = cursor.getString(k);
 				} catch (Exception e) {
-					// TODO (only?) BLOB files cannot be read with getString catch the here 
-					res[i][k] = "BLOB field";
+					// BLOB fields cannot be read with getString catch them here 
+					res[i][k] = "BLOB (size " + cursor.getBlob(k).length + ")";
 					//cursor.getBlob(k);
 				} 
 			}
@@ -358,6 +369,7 @@ public class Database {
 			}
 			i++;
 		}
+		cursor.close();
 		return res;
 	}
 
@@ -472,13 +484,13 @@ public class Database {
 		List<String> tList = new ArrayList<String>();
 		int i = 0;
 		for (int j = 0; j < tables.length; j++) {
-			String sql = "pragma table_info(" + tables[j] + ")";
+			String sql = "pragma table_info('" + tables[j] + "')";
 			Utils.logD("getTablesFieldsNames: " + sql);
 			res = _db.rawQuery(sql, null);
 			i = 0;
 			// getting field names
 			while(res.moveToNext()) {
-				tList.add(tables[j] + "." + res.getString(1));
+				tList.add("'" + tables[j] + "'.'" + res.getString(1) + "'");
 				//fields[i] = res.getString(1);
 				i++;
 			}
@@ -804,9 +816,15 @@ public class Database {
 						// build value list based on result and field types
 						String fields = "";
 						for(int i = 0; i < data.getColumnCount(); i++) {
-							String val = data.getString(i);
 							tabInf.moveToPosition(i);
 							String type = tabInf.getString(2);
+							String val = "";
+							if (type.equals("BLOB")) {
+								byte[] bytes = data.getBlob(i);
+								val = byteArrayToHexString(bytes); 
+							} else {
+								val = data.getString(i);
+							}
 							if (val == null){
 								fields += "null";
 								if (i != data.getColumnCount()-1)
@@ -1124,7 +1142,7 @@ public class Database {
 	 * the rowid for the record
 	 */
 	public TableField[] getRecord(String tableName, long rowId) {
-		String sql = "select rowid as rowid, * from " + tableName + " where rowid = " + rowId;
+		String sql = "select rowid as rowid, * from '" + tableName + "' where rowid = " + rowId;
 		Utils.logD(sql);
 		// retrieves field types, pk, ... from database
 		FieldDescr[] tabledef = getTableStructureDef(tableName);
@@ -1192,16 +1210,20 @@ public class Database {
 	 * @param rowId
 	 */
 	public void updateRecord(String tableName, long rowId, TableField[] fields) {
-		String sql = "update " + tableName + " set ";
+		String sql = "update '" + tableName + "' set ";
 		for (TableField fld: fields) {
 			if (!fld.getName().equals("rowid")) {
-				sql += fld.getName() + " = " + quoteStrings(fld) + ", ";
+				sql += "'" + fld.getName() + "' = " + quoteStrings(fld) + ", ";
 			}
 		}
 		sql = sql.substring(0, sql.length() - 2);
 		sql += " where rowid = " + rowId;
 		Utils.logD("Update SQL = " + sql);
-		_db.execSQL(sql);
+		try {
+			_db.execSQL(sql);
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+		}
 	}
 	
 	/**
@@ -1235,9 +1257,9 @@ public class Database {
 	 * @param fields
 	 */
 	public void insertRecord(String tableName, TableField[] fields) {
-		String sql = "insert into " + tableName + " (";
+		String sql = "insert into '" + tableName + "' (";
 		for (TableField fld: fields) {
-				sql += fld.getName() + ", ";
+				sql += "'" + fld.getName() + "', ";
 		}
 		sql = sql.substring(0, sql.length() - 2) + ") values (";
 		for (TableField fld: fields) {
@@ -1304,9 +1326,15 @@ public class Database {
 						// build value list based on result and field types
 						String fields = "";
 						for(int i = 0; i < data.getColumnCount(); i++) {
-							String val = data.getString(i);
 							tabInf.moveToPosition(i);
 							String type = tabInf.getString(2);
+							String val = "";
+							if (type.equals("BLOB")) {
+								byte[] bytes = data.getBlob(i);
+								val = byteArrayToHexString(bytes); 
+							} else {
+								val = data.getString(i);
+							}
 							if (val == null){
 								fields += "null";
 								if (i != data.getColumnCount()-1)
@@ -1315,7 +1343,7 @@ public class Database {
 								fields += val;
 								if (i != data.getColumnCount()-1)
 									fields += ", ";
-							} else {  // it must be string or blob(?) so quote it
+							} else {  // it must be string or blob so quote it
 								fields += "\"" + val + "\"";
 								if (i != data.getColumnCount()-1)
 									fields += ", ";
@@ -1328,10 +1356,29 @@ public class Database {
 		} catch (IOException e) {
 			Utils.logE(e.getMessage());
 		}
-		
 		return false;
 	}
 
+	private String byteArrayToHexString(byte[] b) {
+	  String result = "";
+	  for (int i=0; i < b.length; i++) {
+	    result +=
+	          Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+	  }
+	  return result;
+	}
+	
+	private static byte[] hexStringToByteArray(String s) {
+    int len = s.length();
+    byte[] data = new byte[len / 2];
+    for (int i = 0; i < len; i += 2) {
+        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                             + Character.digit(s.charAt(i+1), 16));
+    }
+    return data;
+}
+
+	
 	/**
 	 * @param tableName
 	 * @param out
