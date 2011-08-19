@@ -1,8 +1,11 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
+Known but unsolved problems:
+  Can't restore tables with blob fields
+
 Next version
   Now support table and field names with spaces
-  Tables with BLOB fields can be exported (but not imported)
+  Tables with BLOB fields can be exported (but not restored)
   Bug fixes:
   	Catch errors on updates and tell what went wrong
   
