@@ -41,9 +41,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
-	final String WelcomeId = "ShowWelcome2.2";
+	final String WelcomeId = "ShowWelcome2.4";
 	// change this to delete preferences 
-	final String vers = "2.3";
+	final String vers = "2.4";
 	private Context _cont;
 	private String _recentFiles;
 
@@ -74,8 +74,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     			editor.commit();
     		}
     		Editor ed = settings.edit();
-    		ed.commit();
     		ed.putString(vers, vers);
+    		ed.commit();
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
     			dial.setContentView(R.layout.welcome);

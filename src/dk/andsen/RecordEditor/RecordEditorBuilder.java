@@ -94,7 +94,7 @@ public class RecordEditorBuilder {
 					//dp.set
 					//dp.setTag(fields[i].getValue());
 					EditText etd = new EditText(cont);
-					etd.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
+					etd.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT)));
 					etd.setText(fields[i].getValue());
 					etd.setId(id);
@@ -104,7 +104,7 @@ public class RecordEditorBuilder {
 					break;
 				case (TableField.TYPE_DATETIME):
 					EditText etdt = new EditText(cont);
-					etdt.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
+					etdt.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT)));
 					etdt.setText(fields[i].getValue());
 					etdt.setInputType(InputType.TYPE_CLASS_DATETIME
@@ -114,7 +114,7 @@ public class RecordEditorBuilder {
 					break;
 				case (TableField.TYPE_FLOAT):
 					EditText etf = new EditText(cont);
-					etf.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
+					etf.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT)));
 					etf.setText(fields[i].getValue());
 					etf.setInputType(InputType.TYPE_CLASS_NUMBER
@@ -125,7 +125,7 @@ public class RecordEditorBuilder {
 					break;
 				case (TableField.TYPE_INTEGER):
 					EditText eti = new EditText(cont);
-					eti.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
+					eti.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT)));
 					eti.setText(fields[i].getValue());
 					eti.setInputType(InputType.TYPE_CLASS_NUMBER
@@ -136,7 +136,7 @@ public class RecordEditorBuilder {
 				case (TableField.TYPE_TIME):
 					//TODO change to time picker
 					EditText ett = new EditText(cont);
-					ett.setLayoutParams((new LayoutParams(LayoutParams.FILL_PARENT,
+					ett.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT)));
 					ett.setText(fields[i].getValue());
 					ett.setInputType(InputType.TYPE_CLASS_DATETIME

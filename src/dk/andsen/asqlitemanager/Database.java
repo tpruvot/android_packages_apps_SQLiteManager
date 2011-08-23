@@ -29,9 +29,12 @@ import android.os.Message;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import dk.andsen.RecordEditor.types.TableField;
+import dk.andsen.types.AField;
+import dk.andsen.types.AField.FieldType;
 import dk.andsen.types.Field;
 import dk.andsen.types.FieldDescr;
 import dk.andsen.types.QueryResult;
+import dk.andsen.types.Record;
 import dk.andsen.utils.Utils;
 //TODO Need to find out how to write the export of Blobs and how to recognize this
 //     at restore
@@ -40,6 +43,7 @@ import dk.andsen.utils.Utils;
 //		 typeof() -> "null", "integer", "real", "text", or "blob"
 //     quote() quote fields thats need quoting
 //		 hex() transform a blot to hexadecimals for export
+//TODO surround every table and field name with [] to allow spaces in both
 /**
  * @author Andsen
  *
@@ -224,8 +228,8 @@ public class Database {
 		// Get field type
 		// SELECT typeof(sql) FROM sqlite_master where typeof(sql) <> "null" limit 1
 		testDB();
-		String sql = "select * from '" + table + "' limit 1";
-		sql = "pragma table_info('" + table + "')";
+		String sql = "select * from [" + table + "] limit 1";
+		sql = "pragma table_info([" + table + "])";
 		Cursor res = _db.rawQuery(sql, null);
 		int cols = res.getCount();
 		Field[] fields = new Field[cols];
@@ -252,7 +256,7 @@ public class Database {
 	 */
 	public String[] getFieldsNames(String table) {
 		testDB();
-		String sql = "pragma table_info('" + table + "')";
+		String sql = "pragma table_info([" + table + "])";
 		Cursor res = _db.rawQuery(sql, null);
 		int cols = res.getCount();
 		String[] fields = new String[cols];
@@ -273,7 +277,7 @@ public class Database {
 	 */
 	public int getNumCols(String table) {
 		testDB();
-		String sql = "select * from " + table + " limit 1";
+		String sql = "select * from [" + table + "] limit 1";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
 		cursor.close();
@@ -281,11 +285,88 @@ public class Database {
 	}
 
 	/**
-	 * Retrieve all data form the tables and return it as two dimentional string list
+	 * This should replace getTableData and return both data and type
+	 * @param table
+	 * @param offset
+	 * @param limit
+	 * @param view
+	 * @return
+	 */
+	public Record[] getTableData(String table, int offset, int limit, boolean view) {
+		//TODO change to something like select typeof(1), 1, typeof(2), 2, typeof(3), 3
+		String sql = "";
+		if (view)
+			sql = "select ";
+		else
+			sql = "select typeof(rowid), rowid as rowid, ";
+		String[] fieldNames = getFieldsNames(table);
+		for (int i = 0; i < fieldNames.length; i++) {
+			//TODO don't know how to handle field names with spaces here
+			sql += "typeof([" + fieldNames[i] +"]), [" + fieldNames[i] + "]";
+			if (i < fieldNames.length - 1)
+				sql += ", ";
+		}
+		sql += " from [" + table + "] limit " + limit + " offset " + offset;
+		Utils.logD(sql);
+		Cursor cursor = _db.rawQuery(sql, null);
+		int columns = cursor.getColumnCount() / 2;
+		Utils.logD("Columns: " + columns);
+		int rows = cursor.getCount();
+		Utils.logD("Rows = " + rows);
+		Record[] recs = new Record[rows];
+		int i = 0;
+		while(cursor.moveToNext()) {
+			recs[i] = new Record();
+			AField[] fields = new AField[columns];
+			for(int j = 0; j < columns; j++) {
+				AField fld = new AField();
+				String fldType = cursor.getString(j*2);
+				fld.setFieldType(getFieldType(fldType));
+				//Utils.logD("Type: " + fld.getFieldType());
+				//TODO
+				if (fld.getFieldType() == AField.FieldType.NULL) {
+					fld.setFieldData("");
+				} else if (fld.getFieldType() == AField.FieldType.BLOB) {
+					//Utils.logD("BLOB size(" + cursor.getBlob(j*2 + 1).length + ")");
+					fld.setFieldData("BLOB size(" + cursor.getBlob(j*2 + 1).length + ")");
+				} else {
+					//Utils.logD(cursor.getString(j*2 + 1));
+					fld.setFieldData(cursor.getString(j*2 + 1));
+				}
+				//Utils.logD(fld.toString());
+				fields[j] = fld;
+			}
+			recs[i++].setFields(fields);
+		}
+		cursor.close();
+		return recs;
+	}
+	
+	/**
+	 * Translate a field type in text format to the field type as "enum"
+	 * @param fldType
+	 * @return
+	 */
+	private FieldType getFieldType(String fldType) {
+		if (fldType.equalsIgnoreCase("TEXT"))
+			return AField.FieldType.TEXT;
+		else if (fldType.equalsIgnoreCase("INTEGER"))
+			return AField.FieldType.INTEGER;
+		else if (fldType.equalsIgnoreCase("REAL"))
+			return AField.FieldType.REAL;
+		else if (fldType.equalsIgnoreCase("BLOB"))
+			return AField.FieldType.BLOB;
+		else if (fldType.equalsIgnoreCase("NULL"))
+			return AField.FieldType.NULL;
+		return null;
+	}
+
+	/**
+	 * Retrieve all data form the tables and return it as two dimensional string list
 	 * @param table
 	 * @return
 	 */
-	public String[][] getTableData(String table, int offset, int limit, boolean view) {
+	public String[][] oldgetTableData(String table, int offset, int limit, boolean view) {
 		/*
 		 * If not a query or view include rowid in data if no single field
 		 * primary key exists
@@ -294,10 +375,11 @@ public class Database {
 		// first time a columns is clicked sort asc if it is clicked again sort des
 		testDB();
 		String sql = "";
+		//TODO change to something like select typeof(1), 1, typeof(2), 2, typeof(3), 3  
 		if (view)
-			sql = "select * from '" + table + "' limit " + limit + " offset " + offset;
+			sql = "select * from [" + table + "] limit " + limit + " offset " + offset;
 		else
-			sql = "select rowid as rowid, * from '" + table + "' limit " + limit + " offset " + offset;
+			sql = "select rowid as rowid, * from [" + table + "] limit " + limit + " offset " + offset;
 		Utils.logD("SQL = " + sql);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
@@ -308,10 +390,11 @@ public class Database {
 		while(cursor.moveToNext()) {
 			for (int k=0; k<cols; k++) {
 				try {
+					//cursor.
 					res[i][k] = cursor.getString(k);
 				} catch (Exception e) {
 					// BLOB fields cannot be read with getString catch them here 
-					res[i][k] = "BLOB (size " + cursor.getBlob(k).length + ")";
+					res[i][k] = "BLOB (size: " + cursor.getBlob(k).length + ")";
 					//cursor.getBlob(k);
 				} 
 			}
@@ -327,7 +410,7 @@ public class Database {
 	 */
 	public String[][] getSQL(String table) {
 		testDB();
-		String sql = "select sql from sqlite_master where tbl_name = '" + table +"'";
+		String sql = "select sql from sqlite_master where tbl_name = '" + table +"'	";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int i = 0;
 		String[][] res = new String[cursor.getCount()][1];
@@ -357,7 +440,7 @@ public class Database {
 	 */
 	public String[][] getTableStructure(String table) {
 		testDB();
-		String sql = "pragma table_info ('"+table+"')";
+		String sql = "pragma table_info (["+table+"])";
 		Cursor cursor = _db.rawQuery(sql, null);	
 		int cols = cursor.getColumnCount();
 		int rows = cursor.getCount();
@@ -380,7 +463,7 @@ public class Database {
 	 */
 	public FieldDescr[] getTableStructureDef(String tableName) {
 		testDB();
-		String sql = "pragma table_info ('"+tableName+"')";
+		String sql = "pragma table_info (["+tableName+"])";
 		Cursor cursor = _db.rawQuery(sql, null);
 		int rows = cursor.getCount();
 		FieldDescr[] flds = new FieldDescr[rows]; 
@@ -484,13 +567,13 @@ public class Database {
 		List<String> tList = new ArrayList<String>();
 		int i = 0;
 		for (int j = 0; j < tables.length; j++) {
-			String sql = "pragma table_info('" + tables[j] + "')";
+			String sql = "pragma table_info([" + tables[j] + "])";
 			Utils.logD("getTablesFieldsNames: " + sql);
 			res = _db.rawQuery(sql, null);
 			i = 0;
 			// getting field names
 			while(res.moveToNext()) {
-				tList.add("'" + tables[j] + "'.'" + res.getString(1) + "'");
+				tList.add("[" + tables[j] + "].[" + res.getString(1) + "]");
 				//fields[i] = res.getString(1);
 				i++;
 			}
@@ -585,7 +668,7 @@ public class Database {
 						try {
 							nres.Data[i][k] = cursor.getString(k);
 						} catch (Exception e) {
-							nres.Data[i][k] = "BLOB field";
+							nres.Data[i][k] = "BLOB (size: " + cursor.getBlob(k).length +")";
 						}
 					}
 					i++;
@@ -1210,10 +1293,10 @@ public class Database {
 	 * @param rowId
 	 */
 	public void updateRecord(String tableName, long rowId, TableField[] fields) {
-		String sql = "update '" + tableName + "' set ";
+		String sql = "update [" + tableName + "] set ";
 		for (TableField fld: fields) {
 			if (!fld.getName().equals("rowid")) {
-				sql += "'" + fld.getName() + "' = " + quoteStrings(fld) + ", ";
+				sql += "[" + fld.getName() + "] = " + quoteStrings(fld) + ", ";
 			}
 		}
 		sql = sql.substring(0, sql.length() - 2);
@@ -1267,7 +1350,11 @@ public class Database {
 		}
 		sql = sql.substring(0, sql.length() - 2) + ")";
 		Utils.logD("Insert SQL = " + sql);
-		_db.execSQL(sql);
+		try {
+			_db.execSQL(sql);
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+		}
 	}
 
 	/**
@@ -1331,7 +1418,7 @@ public class Database {
 							String val = "";
 							if (type.equals("BLOB")) {
 								byte[] bytes = data.getBlob(i);
-								val = byteArrayToHexString(bytes); 
+								val = "X'" + byteArrayToHexString(bytes) + "'"; 
 							} else {
 								val = data.getString(i);
 							}
@@ -1368,6 +1455,7 @@ public class Database {
 	  return result;
 	}
 	
+	@SuppressWarnings("unused")
 	private static byte[] hexStringToByteArray(String s) {
     int len = s.length();
     byte[] data = new byte[len / 2];

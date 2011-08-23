@@ -110,14 +110,16 @@ Her vil der i fremtiden være mere hjælp.
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version:
-      \n\nProgress bar ved eksport af databases
-  		\nNyt Database info meny punkt i Database viewer 
-  		\nFejl ved hentning af brugeropsætning løst
-  		\naSQLiteManager gå ikke lengere ned hvis der i Query buildeen vælges felter før der vælges tabeller
-      \n\nDu kan finde aShell her:
+      \n\nUd over fejlrettelser supporterer denne version:
+      \nTabel- og feltnavne med mellemrun.
+  		\nFarver i tabel vieweren der viser felternes type
+  		\nTabeller med BLOB felter kan nu exporteres (men ikke importeres)
+      \n\nVed hjælp af aShell (beta) kan du redigere alle system databaser på rootet
+      telefoner med aSQLiteManager. Du kan finde aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen 
       \n\nSe en liste over alle features på:
       \naaa.andsen.dk/aSQLiteManager.html
+      \nTak til dem af jer der fortæller mig om bug i stedet for bare at brokke sig ;-) 
       \n\nKommentarer, bug rapporter og ønsker om ny funktionalitet velkommen.
       send mig en mail på:
       \nandroid41cv@gmail.com

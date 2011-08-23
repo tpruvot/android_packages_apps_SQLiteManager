@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import dk.andsen.types.AField;
+import dk.andsen.types.Record;
 import dk.andsen.utils.Utils;
 
 public class DataGrid extends Activity  {
@@ -41,7 +43,8 @@ public class DataGrid extends Activity  {
 			Utils.logD("Database open");
 			String [] fieldNames = _db.getFieldsNames(_table);
 			appendTitles(aTable, fieldNames);
-			String [][] data = _db.getTableData(_table, 0, 20, false);
+			//String [][] data = _db.getTableData(_table, 0, 20, false);
+			Record[] data = _db.getTableData(_table, 0, 20, false);
 			appendRows(aTable, data);
 		}		
 	}
@@ -57,8 +60,29 @@ public class DataGrid extends Activity  {
 		_db = new Database(_dbPath, _cont);
 		super.onRestart();
 	}
+
+	private void appendRows(TableLayout table, Record[] data) {
+		if (data == null)
+			return;
+		int rowSize=data.length;
+		int colSize = data[0].getFields().length;
+		for(int i=0; i<rowSize; i++){
+			TableRow row = new TableRow(this);
+			if (i%2 == 1)
+				row.setBackgroundColor(Color.DKGRAY);
+			for(int j=0; j<colSize; j++){
+				TextView c = new TextView(this);
+				AField fld = data[i].getFields()[j];
+				c.setText(fld.getFieldData());
+				c.setPadding(3, 3, 3, 3);
+				row.addView(c);
+			}
+			table.addView(row, new TableLayout.LayoutParams());
+		}
+	}
+
 	
-	private void appendRows(TableLayout table, String[][] data) {
+	private void oldappendRows(TableLayout table, String[][] data) {
 		int rowSize=data.length;
 		int colSize=(data.length>0)?data[0].length:0;
 		for(int i=0; i<rowSize; i++){

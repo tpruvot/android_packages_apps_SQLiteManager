@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.3</string>
+    <string name="VersionNo">2.4</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager!</string>
     <string name="app_name">aSQLiteManager</string>
@@ -107,15 +107,16 @@ Visit aSQLiteMagers\'s home page at:
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version:
-      \n\nProgress bar during export of databases
-  		\nNew Database info menu in Database viewer 
-  		\nRetrieving of preferences bug fixed
-  		\nNo longer "force close" in Query builder if fields selected before tables
-      \n\nBy using aShell you can edit all system databases on rootet
-      prones with aSQLiteManager. You can find aShell here:
+      \n\nBesides bug fixes this version support:
+      \nTable- and field names with spaces
+  		\nColours in table viewers data grid showing the type of the fields
+  		\nTables with BLOB fields can be exported (but not imported)
+      \n\nBy using aShell (beta) you can edit all system databases on rooted
+      phones with aSQLiteManager. You can find aShell here:
       \nhttp://market.android.com/search?q=pub:Andsen 
     	\n\nFor a description of all features check:
     	\naaa.andsen.dk/aSQLiteManager.html
+      \nAnd thanks to those of you who report bugs instead of complaining ;-) 
       \n\nComments, bug reports and feature requests are welcome.
       just drop me a mail at:
       \nandroid41cv@gmail.com

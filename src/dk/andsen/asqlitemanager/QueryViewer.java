@@ -582,14 +582,14 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (listOfTables.length > 0)
 				for (int i= 0; i < listOfTables.length; i++) {
 					if (listOfTables_selected[i]) {
-						sql += listOfTables[i] + " (";
+						sql += "[" + listOfTables[i] + "] (";
 						break;
 					}
 				}
 		if(listOfFields != null)
 			if (listOfFields.length > 0)
 				for (int i= 0; i < listOfFields.length; i++) {
-						sql += listOfFields[i].substring(listOfFields[i].indexOf(".") + 1) + ", ";
+						sql += "[" + listOfFields[i].substring(listOfFields[i].indexOf(".") + 1) + "], ";
 					}
 		sql = sql.substring(0, sql.length()-2) + ")\nvalues (";
 		if(listOfFields != null)
@@ -628,7 +628,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		if (listOfTables != null && listOfTables.length > 0) {
 			for (i = 0; i < listOfTables.length; i++) {
 				if (listOfTables_selected[i]) {
-					sql += "'" + listOfTables[i] + "', ";
+					sql += "[" + listOfTables[i] + "], ";
 				}
 			}
 			sql = sql.substring(0, sql.length() - 2);
@@ -661,7 +661,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (listOfTables.length > 0)
 				for (int i= 0; i < listOfTables.length; i++) {
 					if (listOfTables_selected[i]) {
-						sql += listOfTables[i];
+						sql += "[" + listOfTables[i] + "]";
 						break;
 					}
 				}
@@ -673,7 +673,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	 * @return the sql statement
 	 */
 	private String buildDropViewSQL() {
-		String sql = "Drop view viewName";
+		String sql = "Drop view [viewName]";
 		return sql;
 	}
 
@@ -687,7 +687,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (listOfTables.length > 0)
 				for (int i= 0; i < listOfTables.length; i++) {
 					if (listOfTables_selected[i]) {
-						sql += listOfTables[i] + " where ";
+						sql += "[" + listOfTables[i] + "] where ";
 						break;
 					}
 				}
@@ -695,7 +695,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			if (listOfFields.length > 0)
 				for (int i= 0; i < listOfFields.length; i++) {
 					if (listOfFields_selected[i]) {
-						sql += listOfFields[i]+ " = 'xxx'";
+						sql += "[" + listOfFields[i]+ "] = 'xxx'";
 						break;
 					}
 				}
@@ -707,7 +707,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	 * @return the sql statement
 	 */
 	private String buildCreateViewSQL() {
-		String sql = "Create view ViewName as \n";
+		String sql = "Create view [ViewName] as \n";
 		sql += buildSelectSQL();
 		return sql;
 	}
@@ -717,7 +717,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	 * @return the sql statement
 	 */
 	private String buildCreateTableSQL() {
-		String sql = "Create table TableName (feild1 f1type, feild2 f2type)";
+		String sql = "Create table [TableName] ([feild1] f1type, [feild2] f2type)";
 		return sql;
 	}
 
