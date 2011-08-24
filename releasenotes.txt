@@ -7,8 +7,8 @@ Version 2.4:
   Now support table and field names with spaces
   Colours in table viewers data grid showing the type of the fields
   Tables with BLOB fields can be exported (but not imported)
-  Bug fixes:
-  	Catch errors on updates and inserts and tell what went wrong
+  Quite a few bug fixes
+  Catch errors on updates and inserts and tell what went wrong
   
 Version 2.3:
   Progress bar during export of databases
