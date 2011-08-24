@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class AppRater {
 	private static String APP_TITLE;
-	private static String APP_PNAME = "dk.andsen.aslitemanager.aQLIteManager";
+	private static String APP_PNAME = "dk.andsen.asqlitemanager";
 
 	private final static int DAYS_UNTIL_PROMPT = 7;
 	private final static int LAUNCHES_UNTIL_PROMPT = 10;

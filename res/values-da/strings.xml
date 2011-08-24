@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Version">Version</string>
-    <string name="hello">aSQLiteManager!</string>
+    <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Om aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager. Håndter alle dine Android databaser</string>
@@ -42,17 +42,12 @@
     <string name="Open">Åbn</string>
     <string name="NoResult">Intet resultat</string>
     <string name="HelpText">
-Her vil der i fremtiden være mere hjælp.
-\n\nKlik på et felt i data gridtet for at kopiere indholdet til clip boarded.
-\n\nI SQL mode tryk på menu for at bygge en select forespørgsel: 
-\nselect [fields] from [tables]
-\n\nBesøg aSQLiteMagers\'s hjemmeside på:
-\nhttp://asqlitemanager.sourceforge.net
-\n\nTjek for opdateringer på:
-\nhttp://sourceforge.net/projects/asqlitemanager
-\n\n\nDu kan også sende en kommentar til mig på:
-\nandroid41cv@gmail.com
-\n\nMartin
+      Besøg aSQLiteMagers\'s hjemmeside på:
+      \nhttp://aaa.andsen.dk/aSQLiteManager.html
+      \n\nHer kan du se hvilke funktioner der er implementeret i aSQLiteManager.
+      \n\nDu kan også sende en kommentar til mig på:
+      \nandroid41cv@gmail.com
+      \n\nMartin
     </string>
     <string name="NewDB">Ny database</string>
     <string name="NewDBSDCard">Ny database på SDCard</string>

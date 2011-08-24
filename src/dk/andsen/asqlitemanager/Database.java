@@ -328,7 +328,7 @@ public class Database {
 					fld.setFieldData("");
 				} else if (fld.getFieldType() == AField.FieldType.BLOB) {
 					//Utils.logD("BLOB size(" + cursor.getBlob(j*2 + 1).length + ")");
-					fld.setFieldData("BLOB size(" + cursor.getBlob(j*2 + 1).length + ")");
+					fld.setFieldData("BLOB (size: " + cursor.getBlob(j*2 + 1).length + ")");
 				} else {
 					//Utils.logD(cursor.getString(j*2 + 1));
 					fld.setFieldData(cursor.getString(j*2 + 1));

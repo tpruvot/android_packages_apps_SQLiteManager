@@ -44,12 +44,12 @@
     <string name="Open">Open</string>
     <string name="NoResult">No result</string>
     <string name="HelpText">
-Visit aSQLiteMagers\'s home page at:
-\nhttp://aaa.andsen.dk/aSQLiteManager.html
-\n\nHere you can find a description of all functionalities of aSQLiteManager. 
-\n\nYou can also send comments to me at:
-\nandroid41cv@gmail.com
-\n\nMartin
+      Visit aSQLiteMagers\'s home page at:
+      \nhttp://aaa.andsen.dk/aSQLiteManager.html
+      \n\nHere you can find a description of all functionalities of aSQLiteManager. 
+      \n\nYou can also send comments to me at:
+      \nandroid41cv@gmail.com
+      \n\nMartin
     </string>
     <string name="NewDB">New database</string>
     <string name="NewDBSDCard">New database on SDCard</string>

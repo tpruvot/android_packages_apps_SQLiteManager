@@ -46,7 +46,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	final String vers = "2.4";
 	private Context _cont;
 	private String _recentFiles;
-	private boolean testing = true;
+	private boolean testing = false;
 
 	/** Called when the activity is first created. */
     @Override
@@ -160,6 +160,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		 */
 		private void showAboutDialog() {
 			Dialog dial = new Dialog(this);
+			dial.setTitle(getText(R.string.About) + " " + getText(R.string.hello));
 			dial.setContentView(R.layout.about);
 			dial.show();
 			//Intent i = new Intent(this, ProgressBarTest.class);
