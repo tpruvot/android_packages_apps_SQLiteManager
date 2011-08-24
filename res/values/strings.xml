@@ -3,7 +3,7 @@
     <!--β-->
     <string name="VersionNo">2.4</string>
     <string name="Version">Version</string>
-    <string name="hello">aSQLiteManager!</string>
+    <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">About aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager. Manage your Android databases</string>
@@ -103,7 +103,14 @@ Visit aSQLiteMagers\'s home page at:
     <string name="DBInfo">DB Info</string>
     <string name="DatabaseInfo">Database info.</string>
     <string name="DatabaseExists">already exists!</string>
-
+		<string name="RateMsg">
+			You have now used aSQLiteManager in more than a week and at least 10 times.
+			\nIf you like using it, please support it by a good rating.
+			\nThanks for your support!</string>
+		<string name="Rate">Rate</string>
+		<string name="Later">I\'ll do it next time</string>
+		<string name="NoThanks">I have done it</string>
+				
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version:
@@ -116,10 +123,10 @@ Visit aSQLiteMagers\'s home page at:
       \nhttp://market.android.com/search?q=pub:Andsen 
     	\n\nFor a description of all features check:
     	\naaa.andsen.dk/aSQLiteManager.html
-      \nAnd thanks to those of you who report bugs instead of complaining ;-) 
       \n\nComments, bug reports and feature requests are welcome.
       just drop me a mail at:
       \nandroid41cv@gmail.com
+      \n\nAnd thanks to those of you who report bugs instead of complaining ;-) 
     	\n\nHope you enjoy the app!
     	\n\nMartin
       </string>

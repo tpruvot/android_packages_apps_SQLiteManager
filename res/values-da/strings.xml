@@ -106,6 +106,14 @@ Her vil der i fremtiden være mere hjælp.
     <string name="DBInfo">DB Info</string>
     <string name="DatabaseInfo">Database info.</string>
     <string name="DatabaseExists">findes allerede!</string>
+		<string name="RateMsg">
+			Du har nu brugt aSQLiteManager i over en uge og mindst 10 gange.
+			\nHvis du kan lide at bruge programmet, så støt det med en god bedømmelse.
+			\nTak!</string>
+		<string name="Rate">Rate</string>
+		<string name="Later">Jeg gør det næste gang</string>
+		<string name="NoThanks">Har gjort det</string>
+
 
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
@@ -119,14 +127,13 @@ Her vil der i fremtiden være mere hjælp.
       \nhttp://market.android.com/search?q=pub:Andsen 
       \n\nSe en liste over alle features på:
       \naaa.andsen.dk/aSQLiteManager.html
-      \nTak til dem af jer der fortæller mig om bug i stedet for bare at brokke sig ;-) 
       \n\nKommentarer, bug rapporter og ønsker om ny funktionalitet velkommen.
       send mig en mail på:
       \nandroid41cv@gmail.com
+      \n\nTak til dem af jer der fortæller mig om bug i stedet for bare at brokke sig ;-) 
       \n\nI næste version håber jeg at have implementeret support for
       rootede telefoner.
       \n\nHåber du kan lide app\'en!
       \n\nMartin
       </string>
-
 </resources>

@@ -46,6 +46,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	final String vers = "2.4";
 	private Context _cont;
 	private String _recentFiles;
+	private boolean testing = true;
 
 	/** Called when the activity is first created. */
     @Override
@@ -91,6 +92,9 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     				} });
     			dial.show();
     		}
+    		AppRater.app_launched(_cont);
+    		if (testing )
+    			AppRater.showRateDialog(_cont, null);
   			Bundle extras = getIntent().getExtras();
   			if(extras !=null) {
   				String _dbPath = extras.getString("Database");
@@ -99,7 +103,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					startActivity(i);
   			} else {
   			}
-    		
     }
 
 		/* (non-Javadoc)
