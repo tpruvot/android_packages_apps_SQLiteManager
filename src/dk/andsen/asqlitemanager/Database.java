@@ -320,20 +320,23 @@ public class Database {
 			AField[] fields = new AField[columns];
 			for(int j = 0; j < columns; j++) {
 				AField fld = new AField();
-				String fldType = cursor.getString(j*2);
-				fld.setFieldType(getFieldType(fldType));
-				//Utils.logD("Type: " + fld.getFieldType());
-				//TODO
+				//Get the field type due to SQLites flexible handling of field types the type from 
+				//the table definition can't be used
+				try {
+					String fldType = cursor.getString(j*2);   //TODO still problems here with BLOB fields!?!?!?!
+					fld.setFieldType(getFieldType(fldType));
+				} catch(Exception e) {
+					fld.setFieldType(AField.FieldType.UNRESOLVED);
+				}
 				if (fld.getFieldType() == AField.FieldType.NULL) {
 					fld.setFieldData("");
 				} else if (fld.getFieldType() == AField.FieldType.BLOB) {
-					//Utils.logD("BLOB size(" + cursor.getBlob(j*2 + 1).length + ")");
 					fld.setFieldData("BLOB (size: " + cursor.getBlob(j*2 + 1).length + ")");
+				} else if (fld.getFieldType() == AField.FieldType.UNRESOLVED) {
+					fld.setFieldData("Unknown field");
 				} else {
-					//Utils.logD(cursor.getString(j*2 + 1));
 					fld.setFieldData(cursor.getString(j*2 + 1));
 				}
-				//Utils.logD(fld.toString());
 				fields[j] = fld;
 			}
 			recs[i++].setFields(fields);
@@ -358,7 +361,7 @@ public class Database {
 			return AField.FieldType.BLOB;
 		else if (fldType.equalsIgnoreCase("NULL"))
 			return AField.FieldType.NULL;
-		return null;
+		return AField.FieldType.UNRESOLVED;
 	}
 
 	/**
@@ -1549,6 +1552,14 @@ public class Database {
 		return res;
 	}
 
-	
+	public void deleteRecord(String tableName, Long rowId) {
+		String sql = "delete from [" + tableName + "] where rowid = " + rowId;
+		Utils.logD("Delete SQL = " + sql);
+		try {
+			_db.execSQL(sql);
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+		}
+	}
 	
 }

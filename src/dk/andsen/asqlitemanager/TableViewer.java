@@ -241,12 +241,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			for(int j=0; j<colSize; j++){
 				if (j==0 && allowEdit) {
 					TextView c = new TextView(this);
-					// TODO use this ?  c.setTextColor(StateColorList);
-					//c.setBackgroundColor(R.color.yellow);
 					c.setText("Edit");
-					//c.setTextColor(R.color.yellow);
-					//Error here if id too large to be integer id can't be long so check needed
-					//int id = new Integer(data[i][j]).intValue();
 					int id;
 					// change to long
 					id = i;
@@ -257,6 +252,8 @@ public class TableViewer extends Activity implements OnClickListener {
 					c.setPadding(3, 3, 3, 3);
 					// TODO More efficient to make one OnClickListener and assign this to all records edit field?
 					c.setOnClickListener(new OnClickListener() {
+						//TODO Should first ask the user if (s)he wants to edit / delete
+						//TODO the record
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
 							TextView a = (TextView)v;
@@ -265,7 +262,7 @@ public class TableViewer extends Activity implements OnClickListener {
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
 							dial.setContentView(R.layout.line_editor);
-							dial.setTitle("Edit row " + rowid);
+							dial.setTitle("Edit or delete this row # " + rowid);
 							LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
 							re = new RecordEditorBuilder(rec, _cont);
 							re.setFieldNameWidth(200);
@@ -278,6 +275,7 @@ public class TableViewer extends Activity implements OnClickListener {
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 							btnOK.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {
+									Utils.logD("Edit record");
 									if (v == btnOK) {
 										String msg = re.checkInput(sv); 
 										if (msg == null) {
@@ -303,11 +301,29 @@ public class TableViewer extends Activity implements OnClickListener {
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 							btnCancel.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {
+									Utils.logD("Cancel edit");
 									if (v == btnCancel) {
 										dial.dismiss();
 									}
 								}
 							});
+							final Button btnDelete = new Button(_cont);
+							btnDelete.setText("Delete");
+							btnDelete.setLayoutParams(new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+							btnDelete.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) {
+									Utils.logD("Delete record");
+									if (v == btnDelete) {
+										_db.deleteRecord(_table, rowid);
+										_updateTable = true;
+										//TODO refresh list!!!
+										dial.dismiss();
+									}
+								}
+							});
+
 							LinearLayout llButtons = new LinearLayout(_cont);
 							llButtons.setOrientation(LinearLayout.HORIZONTAL);
 							llButtons.setLayoutParams(new LinearLayout.LayoutParams(
@@ -315,6 +331,7 @@ public class TableViewer extends Activity implements OnClickListener {
 									LinearLayout.LayoutParams.WRAP_CONTENT));
 							llButtons.addView(btnOK);
 							llButtons.addView(btnCancel);
+							llButtons.addView(btnDelete);
 							ll.addView(llButtons);
 							ll.addView(sv);
 							dial.show();

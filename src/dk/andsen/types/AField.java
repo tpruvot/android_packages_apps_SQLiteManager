@@ -9,7 +9,8 @@ public class AField {
     INTEGER,
     REAL,
     TEXT,
-    BLOB
+    BLOB,
+    UNRESOLVED
   }
 	
   public String toString() {
