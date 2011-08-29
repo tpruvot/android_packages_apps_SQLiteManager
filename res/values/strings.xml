@@ -110,6 +110,13 @@
 		<string name="Rate">Rate</string>
 		<string name="Later">I\'ll do it next time</string>
 		<string name="NoThanks">I have done it</string>
+		<string name="EditDeleteRow">Edit or delete this row #</string>
+		<string name="Delete">Delete</string>
+		<string name="CopiedToClipboard">Text copied to clip board</string>
+		<string name="InsertNewRow">Insert new row</string>
+		<string name="EditRow">Edit row</string>
+		<string name="Edit">Edit</string>
+		<string name="New">New</string>
 				
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
@@ -129,5 +136,5 @@
       \n\nAnd thanks to those of you who report bugs instead of complaining ;-) 
     	\n\nHope you enjoy the app!
     	\n\nMartin
-      </string>
+    </string>
 </resources>

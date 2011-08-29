@@ -241,7 +241,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			for(int j=0; j<colSize; j++){
 				if (j==0 && allowEdit) {
 					TextView c = new TextView(this);
-					c.setText("Edit");
+					c.setText(getText(R.string.Edit));
 					int id;
 					// change to long
 					id = i;
@@ -262,14 +262,14 @@ public class TableViewer extends Activity implements OnClickListener {
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
 							dial.setContentView(R.layout.line_editor);
-							dial.setTitle("Edit or delete this row # " + rowid);
+							dial.setTitle(getText(R.string.EditDeleteRow) + " " + rowid);
 							LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
 							re = new RecordEditorBuilder(rec, _cont);
 							re.setFieldNameWidth(200);
 							re.setTreatEmptyFieldsAsNull(true);
 							final ScrollView sv = re.getScrollView();
 							final Button btnOK = new Button(_cont);
-							btnOK.setText("OK");
+							btnOK.setText(getText(R.string.OK));
 							btnOK.setLayoutParams(new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -295,7 +295,7 @@ public class TableViewer extends Activity implements OnClickListener {
 								}
 							});
 							final Button btnCancel = new Button(_cont);
-							btnCancel.setText("Cancel");
+							btnCancel.setText(getText(R.string.Cancel));
 							btnCancel.setLayoutParams(new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -308,7 +308,7 @@ public class TableViewer extends Activity implements OnClickListener {
 								}
 							});
 							final Button btnDelete = new Button(_cont);
-							btnDelete.setText("Delete");
+							btnDelete.setText(getText(R.string.Delete));
 							btnDelete.setLayoutParams(new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -349,7 +349,7 @@ public class TableViewer extends Activity implements OnClickListener {
 							String text = (String)((TextView)v).getText();
 							ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 							clipboard.setText(text);
-							Utils.toastMsg(_cont, "Text copied to clip board");
+							Utils.toastMsg(_cont, getText(R.string.CopiedToClipboard).toString());
 						}
 					});
 					row.addView(c);
@@ -421,7 +421,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					TextView c = new TextView(this);
 					// TODO use this ?  c.setTextColor(StateColorList);
 					//c.setBackgroundColor(R.color.yellow);
-					c.setText("Edit");
+					c.setText(getText(R.string.Edit));
 					//c.setTextColor(R.color.yellow);
 					//Error here if id too large to be integer id can't be long so check needed
 					//int id = new Integer(data[i][j]).intValue();
@@ -442,14 +442,14 @@ public class TableViewer extends Activity implements OnClickListener {
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
 							dial.setContentView(R.layout.line_editor);
-							dial.setTitle("Edit row " + rowid);
+							dial.setTitle(getText(R.string.EditRow) + " " + rowid);
 							LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
 							re = new RecordEditorBuilder(rec, _cont);
 							re.setFieldNameWidth(200);
 							re.setTreatEmptyFieldsAsNull(true);
 							final ScrollView sv = re.getScrollView();
 							final Button btnOK = new Button(_cont);
-							btnOK.setText("OK");
+							btnOK.setText(getText(R.string.OK));
 							btnOK.setLayoutParams(new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -474,7 +474,7 @@ public class TableViewer extends Activity implements OnClickListener {
 								}
 							});
 							final Button btnCancel = new Button(_cont);
-							btnCancel.setText("Cancel");
+							btnCancel.setText(getText(R.string.Cancel));
 							btnCancel.setLayoutParams(new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -530,7 +530,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		row.setBackgroundColor(Color.BLUE);
 		if (allowEdit) {
 			TextView c = new TextView(this);
-			c.setText("New");
+			c.setText(getText(R.string.New));
 			c.setPadding(3, 3, 3, 3);
 			c.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -538,14 +538,14 @@ public class TableViewer extends Activity implements OnClickListener {
 					TableField[] rec = _db.getEmptyRecord(_table);
 					final Dialog dial = new Dialog(_cont);
 					dial.setContentView(R.layout.line_editor);
-					dial.setTitle("Insert new row");
+					dial.setTitle(getText(R.string.InsertNewRow));
 					LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
 					re = new RecordEditorBuilder(rec, _cont);
 					re.setFieldNameWidth(200);
 					re.setTreatEmptyFieldsAsNull(true);
 					final ScrollView sv = re.getScrollView();
 					final Button btnOK = new Button(_cont);
-					btnOK.setText("OK");
+					btnOK.setText(getText(R.string.OK));
 					btnOK.setLayoutParams(new LinearLayout.LayoutParams(
 							LinearLayout.LayoutParams.FILL_PARENT,
 							LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -566,7 +566,7 @@ public class TableViewer extends Activity implements OnClickListener {
 						}
 					});
 					final Button btnCancel = new Button(_cont);
-					btnCancel.setText("Cancel");
+					btnCancel.setText(getText(R.string.Cancel));
 					btnCancel.setLayoutParams(new LinearLayout.LayoutParams(
 							LinearLayout.LayoutParams.FILL_PARENT,
 							LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -625,6 +625,4 @@ public class TableViewer extends Activity implements OnClickListener {
 		}
 		return false;
 	}
-	
-	
 }

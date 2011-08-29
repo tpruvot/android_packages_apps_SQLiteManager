@@ -108,7 +108,13 @@
 		<string name="Rate">Rate</string>
 		<string name="Later">Jeg gør det næste gang</string>
 		<string name="NoThanks">Har gjort det</string>
-
+		<string name="EditDeleteRow">Rediger eller slet posten #</string>
+		<string name="Delete">Slet</string>
+		<string name="CopiedToClipboard">Tekst kopieret til clip board</string>
+		<string name="InsertNewRow">Indsæt ny post</string>
+		<string name="EditRow">Rediger post</string>
+		<string name="Edit">Rediger</string>
+		<string name="New">Ny</string>
 
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
