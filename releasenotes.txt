@@ -1,11 +1,11 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
-Known but unsolved problems:
-  Can't restore tables with blob fields
-  
-Next version
+Version 2.5:
   Bug fixes
-  Now records can be deleted from table viewer
+  Hope the BLOB problem that some users gets is solved
+  Now records can be deleted by pressing edit in the table viewer
+  Can export and restore tables with BLOB fields
+  Most of the functions are listed at the Help screen
 
 Version 2.4:
   Now support table and field names with spaces

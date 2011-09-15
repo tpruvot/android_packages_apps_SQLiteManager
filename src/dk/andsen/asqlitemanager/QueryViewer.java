@@ -566,7 +566,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private String buildInsertIntoSQL() {
 		int noOfSelectedTables = 0;
 		if (!(listOfTables != null))
-			return "Insert Into TableName (field1, field2)\nValues ('Value1', 'Value2')";
+			return "Insert Into [TableName] ([field1], [field2])\nValues ('Value1', 'Value2')";
 		for (int i= 0; i < listOfTables.length; i++) 
 			if (listOfTables_selected[i])
 				noOfSelectedTables++;
@@ -589,7 +589,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		if(listOfFields != null)
 			if (listOfFields.length > 0)
 				for (int i= 0; i < listOfFields.length; i++) {
-						sql += "[" + listOfFields[i].substring(listOfFields[i].indexOf(".") + 1) + "], ";
+						sql += listOfFields[i].substring(listOfFields[i].indexOf(".") + 1) + ", ";
 					}
 		sql = sql.substring(0, sql.length()-2) + ")\nvalues (";
 		if(listOfFields != null)

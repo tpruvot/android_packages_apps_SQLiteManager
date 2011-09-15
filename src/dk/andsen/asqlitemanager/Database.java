@@ -38,11 +38,6 @@ import dk.andsen.types.Record;
 import dk.andsen.utils.Utils;
 //TODO Need to find out how to write the export of Blobs and how to recognize this
 //     at restore
-//TODO use some of the SQLite core functions http://www.sqlite.org/lang_corefunc.html
-//     to handle BLOBs better:
-//		 typeof() -> "null", "integer", "real", "text", or "blob"
-//     quote() quote fields thats need quoting
-//		 hex() transform a blot to hexadecimals for export
 //TODO surround every table and field name with [] to allow spaces in both
 /**
  * @author Andsen
@@ -879,6 +874,11 @@ public class Database {
 	 * @param out
 	 */
 	private void exportData(BufferedWriter out) {
+		//TODO can't use the field type from sqlite_master as blobs can be
+		//in any type of fields
+		//  insert into [programs] ([_id], [name])
+		//  values (9, X'1234567890ABCDEF')
+		//The length of the hex must a multiple of 2 
 		String sql = "select name from sqlite_master where type = 'table'"; 
 		Cursor res = _db.rawQuery(sql, null);
 		try {
@@ -888,52 +888,60 @@ public class Database {
 						|| tabName.equals("sqlite_sequence"))) {
 					progressTableText = tabName;
 					theHandle.sendMessage(theHandle.obtainMessage());
+					exportSingleTableData(tabName, out);
 
-					out.write("--\n");
-					out.write("-- Exporting data for  " + tabName+ nl);
-					out.write("--\n");
-					// retrieve table informations
-					sql = "PRAGMA table_info (" + tabName + ")";
-					Cursor tabInf = _db.rawQuery(sql, null);
-					// retrieve data
-					sql = "select * from " + res.getString(0);
-					Cursor data = _db.rawQuery(sql, null);
-					while (data.moveToNext()) {
-						// build value list based on result and field types
-						String fields = "";
-						for(int i = 0; i < data.getColumnCount(); i++) {
-							tabInf.moveToPosition(i);
-							String type = tabInf.getString(2);
-							String val = "";
-							if (type.equals("BLOB")) {
-								byte[] bytes = data.getBlob(i);
-								val = byteArrayToHexString(bytes); 
-							} else {
-								val = data.getString(i);
-							}
-							if (val == null){
-								fields += "null";
-								if (i != data.getColumnCount()-1)
-									fields += ", ";
-							} else if (type.equals("INTEGER") || type.equals("REAL")) {
-								fields += val;
-								if (i != data.getColumnCount()-1)
-									fields += ", ";
-							} else {  // it must be string or blob(?) so quote it
-								fields += "\"" + val + "\"";
-								if (i != data.getColumnCount()-1)
-									fields += ", ";
-							}
-						}
-						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
-					}
-					if (tabInf != null)
-						tabInf.close();
-					if (data != null)
-						data.close();
+					
+//					out.write("--\n");
+//					out.write("-- Exporting data for  " + tabName+ nl);
+//					out.write("--\n");
+//					// retrieve table informations
+//					sql = "PRAGMA table_info (" + tabName + ")";
+//					Cursor tabInf = _db.rawQuery(sql, null);
+//					// retrieve data
+//					//TODO Use exportSingleTableData()
+//					sql = "select * from " + res.getString(0);
+//					Cursor data = _db.rawQuery(sql, null);
+//					while (data.moveToNext()) {
+//						// build value list based on result and field types
+//						String fields = "";
+//						for(int i = 0; i < data.getColumnCount(); i++) {
+//							tabInf.moveToPosition(i);
+//							String type = tabInf.getString(2);
+//							String val = "";
+//							if (type.equals("BLOB")) {
+//								// Fails if not containing a BLOB as the other types of fields
+//								// fails if they contains BLOB
+//								byte[] bytes = data.getBlob(i);
+//								val = byteArrayToHexString(bytes); 
+//							} else {
+//								val = data.getString(i);
+//							}
+//							if (val == null){
+//								fields += "null";
+//								if (i != data.getColumnCount()-1)
+//									fields += ", ";
+//							} else if (type.equals("INTEGER") || type.equals("REAL")) {
+//								fields += val;
+//								if (i != data.getColumnCount()-1)
+//									fields += ", ";
+//							} else {  // it must be string or blob(?) so quote it
+//								fields += "\"" + val + "\"";
+//								if (i != data.getColumnCount()-1)
+//									fields += ", ";
+//							}
+//						}
+//						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
+//					}
+//					
+//					
+//					if (tabInf != null)
+//						tabInf.close();
+//					if (data != null)
+//						data.close();
 				}
 			}
-		} catch (IOException e) {
+			res.close();
+		} catch (Exception e) {
 			Utils.logE(e.getMessage());
 		}
 	}
@@ -1375,9 +1383,9 @@ public class Database {
     try {
 			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
-			exportSingleTableDefinition(table, f);
+			exportSingleTableDefinition(table, out);
 			Utils.logD("Def exported");
-			exportSingleTableData(table, f);
+			exportSingleTableData(table, out);
 			Utils.logD("Data exported");
 
 			out.close();
@@ -1391,62 +1399,93 @@ public class Database {
 	}
 
 	/**
+	 * Export data form any table as a SQL script
 	 * @param tableName
 	 * @param out
 	 * @return
 	 */
-	private boolean exportSingleTableData(String tableName, FileWriter out) {
-		String sql = "select name from sqlite_master where type = 'table' and name = '" + tableName + "'"; 
-		Cursor res = _db.rawQuery(sql, null);
+	private boolean exportSingleTableData(String tableName, BufferedWriter out) {
+		//TODO use some of the SQLite core functions http://www.sqlite.org/lang_corefunc.html
+		//  to handle BLOBs better:
+		//  typeof() -> "null", "integer", "real", "text", or "blob"
+		//  quote() quote fields thats need quoting
+		//	hex() transform a blot to hexadecimals for export
 		try {
-			while(res.moveToNext()) {
-				String tabName = res.getString(0);   //  || tabName.equals("sqlite_sequence") set sequence as it was
-				if(!(tabName.equals("sqlite_master") || tabName.equals("android_metadata")
-						|| tabName.equals("sqlite_sequence"))) {
-					out.write("--\n");
-					out.write("-- Exporting data for  " + tabName+ nl);
-					out.write("--\n");
-					// retrieve table informations
-					sql = "PRAGMA table_info (" + tabName + ")";
-					Cursor tabInf = _db.rawQuery(sql, null);
-					// retrieve data
-					sql = "select * from " + res.getString(0);
-					Cursor data = _db.rawQuery(sql, null);
-					while (data.moveToNext()) {
-						// build value list based on result and field types
-						String fields = "";
-						for(int i = 0; i < data.getColumnCount(); i++) {
-							tabInf.moveToPosition(i);
-							String type = tabInf.getString(2);
-							String val = "";
-							if (type.equals("BLOB")) {
-								byte[] bytes = data.getBlob(i);
-								val = "X'" + byteArrayToHexString(bytes) + "'"; 
-							} else {
-								val = data.getString(i);
-							}
-							if (val == null){
-								fields += "null";
-								if (i != data.getColumnCount()-1)
-									fields += ", ";
-							} else if (type.equals("INTEGER") || type.equals("REAL")) {
-								fields += val;
-								if (i != data.getColumnCount()-1)
-									fields += ", ";
-							} else {  // it must be string or blob so quote it
-								fields += "\"" + val + "\"";
-								if (i != data.getColumnCount()-1)
-									fields += ", ";
-							}
+			String sql = "";
+				out.write("--\n");
+				out.write("-- Exporting data for  " + tableName+ nl);
+				out.write("--\n");
+//				sql = "PRAGMA table_info (" + tableName + ")";
+//				Cursor tabInf = _db.rawQuery(sql, null);
+				// retrieve data
+				//TODO change this to [field1], typeof([field1]), ....
+				sql = selectWithTypes(tableName);
+				Utils.logD(sql);
+				Cursor data = _db.rawQuery(sql, null);
+				int columns = data.getColumnCount() / 2;
+				while (data.moveToNext()) {
+					String fields = "";
+					for(int i = 0; i < columns; i++) {
+						FieldType fldt;
+						String field = "";
+						try {
+							String fldType = data.getString(i*2);
+							fldt = getFieldType(fldType);
+						} catch(Exception e) {
+							fldt = AField.FieldType.UNRESOLVED;
 						}
-						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
+						if (fldt == AField.FieldType.NULL) {
+							field = "null";
+						} else if (fldt == AField.FieldType.BLOB) {
+							field = "X'" + byteArrayToHexString(data.getBlob(i*2 + 1)) +"'";
+						} else if (fldt == AField.FieldType.INTEGER) {
+							field = data.getString(i*2 + 1);
+						} else if (fldt == AField.FieldType.REAL) {
+							field = data.getString(i*2 + 1);
+						} else if (fldt == AField.FieldType.TEXT) {
+							field = "'" + data.getString(i*2 + 1) + "'";
+						} else if (fldt == AField.FieldType.UNRESOLVED) {
+							Utils.showMessage("Problem", "Encountered unresolved field type, not correct exported.\n" +
+									"Please report problem!", _cont);
+						} else {
+							Utils.showMessage("Problem", "Encountered unknown field type, not correct exported\n" +
+									"Please report problem!", _cont);
+						}
+						if (i > 0)
+							fields += ", " + field;
+						else
+							fields = field;
 					}
+					out.write("insert into " + tableName + " values (" + fields + ");" + nl);
+					Utils.logD("insert into " + tableName + " values (" + fields + ");" + nl);
 				}
-			}
-		} catch (IOException e) {
+				data.close();
+		} catch (Exception e) {
 			Utils.logE(e.getMessage());
 		}
 		return false;
+	}
+
+	/**
+	 * Generate a sql to select all fields together with their field types
+	 * @param tableName
+	 * @return a select statement like:
+	 * select typeof([field1]), [field1],
+	 *   typeof([field2]), [field2], ...,
+	 *   typeof([fieldn]), [fieldn]
+	 * from [tableName]
+	 */
+	private String selectWithTypes(String tableName) {
+		String sql = "select ";
+		String[] fieldNames = getFieldsNames(tableName);
+		for (int i = 0; i < fieldNames.length; i++) {
+			sql += "typeof([" + fieldNames[i] +"]), [" + fieldNames[i] + "]";
+			if (i < fieldNames.length - 1)
+				sql += ", ";
+		}
+		sql += " from [" + tableName + "]";
+		Utils.logD(sql);
+		return sql;
 	}
 
 	private String byteArrayToHexString(byte[] b) {
@@ -1467,7 +1506,7 @@ public class Database {
                              + Character.digit(s.charAt(i+1), 16));
     }
     return data;
-}
+	}
 
 	
 	/**
@@ -1475,7 +1514,7 @@ public class Database {
 	 * @param out
 	 * @return
 	 */
-	private boolean exportSingleTableDefinition(String tableName, FileWriter out) {
+	private boolean exportSingleTableDefinition(String tableName, BufferedWriter out) {
 		String sql = "select name, sql from sqlite_master where type = 'table' and name = '" + tableName +"'"; 
 		Cursor res = _db.rawQuery(sql, null);
 		try {
