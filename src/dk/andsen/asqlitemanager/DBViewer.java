@@ -152,7 +152,7 @@ public class DBViewer extends Activity implements OnClickListener {
 		}
 		SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.row,
 				new String[] {"name"}, new int[] {R.id.rowtext});
-		list.setAdapter(mSchedule);
+		list.setAdapter(mSchedule);  //TODO 2.5 null pointer exception here
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
@@ -173,7 +173,7 @@ public class DBViewer extends Activity implements OnClickListener {
 		//Utils.logD("Handle: " + type + " " + name);
 		if (type.equals("Index")) {
 			String indexDef = "";
-			if (indexes[position].startsWith("sqlite_autoindex_"))
+			if (indexes[position].startsWith("sqlite_autoindex_"))  //TODO 2.5 null pointer ex. here
 				indexDef = (String) this.getText(R.string.AutoIndex);
 			else
 			  indexDef = _db.getIndexDef(indexes[position]);

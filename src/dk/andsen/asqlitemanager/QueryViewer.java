@@ -243,7 +243,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 				  });
 				row.addView(c);
 			}
-			table.addView(row, new TableLayout.LayoutParams());
+			table.addView(row, new TableLayout.LayoutParams()); //TODO 2.5 null pointer ex here
 		}
 	}
 
