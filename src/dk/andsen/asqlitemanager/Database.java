@@ -36,9 +36,6 @@ import dk.andsen.types.FieldDescr;
 import dk.andsen.types.QueryResult;
 import dk.andsen.types.Record;
 import dk.andsen.utils.Utils;
-//TODO Need to find out how to write the export of Blobs and how to recognize this
-//     at restore
-//TODO surround every table and field name with [] to allow spaces in both
 /**
  * @author Andsen
  *
@@ -146,7 +143,7 @@ public class Database {
 	 */
 	private void testDB() {
 		if (_db == null) {
-			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.5 path??
 		}
 		if (!_db.isOpen()) {
 			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
@@ -1175,12 +1172,12 @@ public class Database {
 	 */
 	public void exportQueryResult(String sql) {
 		testDB();
-		Cursor data = _db.rawQuery(sql, null);
-		String backupName = _dbPath + ".export";
-		File backupFile = new File(backupName);
-		FileWriter f;
-		BufferedWriter out;
 		try {
+			Cursor data = _db.rawQuery(sql, null);  
+			String backupName = _dbPath + ".export";
+			File backupFile = new File(backupName);
+			FileWriter f;
+			BufferedWriter out;
 			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
 			while(data.moveToNext()) {
@@ -1210,6 +1207,7 @@ public class Database {
 			f.close();
 		} catch (Exception e) {
 			Utils.logE(e.getMessage());
+			Utils.showException(e.getMessage(), _cont);
 		}
 	}
 

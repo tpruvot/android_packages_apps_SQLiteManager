@@ -1,5 +1,9 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
+Next version
+  Main screen now always in portrait
+  
+
 Version 2.5:
   Bug fixes
   Hope the BLOB problem that some users gets is solved

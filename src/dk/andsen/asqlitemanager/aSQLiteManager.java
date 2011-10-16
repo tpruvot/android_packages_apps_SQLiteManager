@@ -35,6 +35,7 @@ import dk.andsen.utils.Utils;
 
 public class aSQLiteManager extends Activity implements OnClickListener {
 //TODO editing of system tables gives fault => disable editing of these	
+//TODO Always in portrait mode on main screen
 	/**
 	 * True to enable functions under test
 	 */
