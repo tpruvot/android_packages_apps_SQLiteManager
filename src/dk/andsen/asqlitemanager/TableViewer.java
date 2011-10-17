@@ -19,6 +19,7 @@ package dk.andsen.asqlitemanager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.ClipboardManager;
@@ -26,7 +27,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -52,7 +56,12 @@ public class TableViewer extends Activity implements OnClickListener {
 	private Button bUp;
 	private Button bDwn;
 	private int sourceType;
+	protected String _where = "";
 	private static final int MENU_DUMP_TABLE = 0;
+	private static final int MENU_FIRST_REC = 1;
+	private static final int MENU_LAST_REC = 2;
+	private static final int MENU_FILETR = 3;
+	
 	/*
 	 * What is needed to allow editing form  table viewer 
 	 * 
@@ -605,7 +614,10 @@ public class TableViewer extends Activity implements OnClickListener {
 	 *  Creates the menu items
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_DUMP_TABLE, 0, R.string.DumpTable);
+		menu.add(0, MENU_FIRST_REC, 0, "First");
+		menu.add(0, MENU_LAST_REC, 1, "Last");
+		menu.add(0, MENU_FILETR, 2, "Filter");
+		menu.add(0, MENU_DUMP_TABLE, 3, R.string.DumpTable);
 		return true;
 	}
 
@@ -622,7 +634,84 @@ public class TableViewer extends Activity implements OnClickListener {
     	}
     	else
     	  Utils.toastMsg(this, this.getString(R.string.DumpFailed));
+    	return true;
+    case MENU_FIRST_REC:
+    	offset = 0;
+    	fillDataTableWithWhere(_table, _where);
+    	return true;
+    case MENU_LAST_REC:
+			int childs = _db.noOfRecords(_table); //_aTable.getChildCount();
+			Utils.logD("Records = " + childs);
+			offset = childs - limit;
+			fillDataTableWithWhere(_table, _where);
+    	return true;
+    case MENU_FILETR:
+    	buildFilerMenu(_table);
+    	return true;
 		}
 		return false;
 	}
+	
+	private void buildFilerMenu(String _table2) {
+		final Dialog dial = new Dialog(_cont);
+		dial.setTitle("Filter");
+		ScrollView sv = new ScrollView(_cont);
+		sv.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+		sv.setPadding(5, 5, 5, 5);
+		LinearLayout lmain = new LinearLayout(_cont);
+		lmain.setOrientation(LinearLayout.VERTICAL);
+		lmain.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT));
+		TextView tv = new TextView(_cont);
+		tv.setText("Enter where clause (no where)");
+		lmain.addView(tv);
+		final EditText et = new EditText(_cont);
+		lmain.addView(et);
+		Button btn = new Button(_cont);
+		btn.setText(R.string.OK);
+		btn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				String where = et.getText().toString();
+				dial.dismiss();
+				offset = 0;
+				Utils.showMessage("Debug", "Where clause:\n" + where, _cont);
+				if (where.trim().equals("")) {
+					_where = "";
+				} else {
+					_where = " where " + where;
+				}
+				fillDataTableWithWhere(_table, _where);
+			}});
+		lmain.addView(btn);
+		dial.setContentView(lmain);
+		//.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
+		dial.show();
+	}
+
+	private void fillDataTableWithWhere(String tableName, String where) {
+		boolean isView = false;
+		if (sourceType == Types.VIEW)
+			isView = true;
+		Record[] data = _db.getTableDataWithWhere(tableName, where, offset, limit, isView);
+		setTitles(_aTable, _db.getFieldsNames(_table), !isView);
+		appendRows(_aTable, data, !isView);
+		Utils.logD("where = " + where);
+	}
+
+	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
+		public void onClick( DialogInterface dialog, int clicked )
+		{
+			Utils.logD("Dialog: " + dialog.getClass().getName());
+			switch(clicked)
+			{
+			case DialogInterface.BUTTON_POSITIVE:
+
+				Utils.showMessage("Debug", "Filter", _cont);
+				break;
+			}
+		}
+	}
+
 }

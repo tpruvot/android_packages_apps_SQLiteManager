@@ -336,6 +336,61 @@ public class Database {
 		cursor.close();
 		return recs;
 	}
+
+	public Record[] getTableDataWithWhere(String table, String where, int offset, int limit, boolean view) {
+		//TODO change to something like select typeof(1), 1, typeof(2), 2, typeof(3), 3
+		String sql = "";
+		if (view)
+			sql = "select ";
+		else
+			sql = "select typeof(rowid), rowid as rowid, ";
+		String[] fieldNames = getFieldsNames(table);
+		for (int i = 0; i < fieldNames.length; i++) {
+			//TODO don't know how to handle field names with spaces here
+			sql += "typeof([" + fieldNames[i] +"]), [" + fieldNames[i] + "]";
+			if (i < fieldNames.length - 1)
+				sql += ", ";
+		}
+		sql += " from [" + table + "] " + where + " limit " + limit + " offset " + offset;
+		Utils.logD(sql);
+		Cursor cursor = _db.rawQuery(sql, null);
+		int columns = cursor.getColumnCount() / 2;
+		Utils.logD("Columns: " + columns);
+		int rows = cursor.getCount();
+		Utils.logD("Rows = " + rows);
+		Record[] recs = new Record[rows];
+		int i = 0;
+		while(cursor.moveToNext()) {
+			recs[i] = new Record();
+			AField[] fields = new AField[columns];
+			for(int j = 0; j < columns; j++) {
+				AField fld = new AField();
+				//Get the field type due to SQLites flexible handling of field types the type from 
+				//the table definition can't be used
+				try {
+					String fldType = cursor.getString(j*2);   //TODO still problems here with BLOB fields!?!?!?!
+					fld.setFieldType(getFieldType(fldType));
+				} catch(Exception e) {
+					fld.setFieldType(AField.FieldType.UNRESOLVED);
+				}
+				if (fld.getFieldType() == AField.FieldType.NULL) {
+					fld.setFieldData("");
+				} else if (fld.getFieldType() == AField.FieldType.BLOB) {
+					fld.setFieldData("BLOB (size: " + cursor.getBlob(j*2 + 1).length + ")");
+				} else if (fld.getFieldType() == AField.FieldType.UNRESOLVED) {
+					fld.setFieldData("Unknown field");
+				} else {
+					fld.setFieldData(cursor.getString(j*2 + 1));
+				}
+				fields[j] = fld;
+			}
+			recs[i++].setFields(fields);
+		}
+		cursor.close();
+		return recs;
+	}
+
+	
 	
 	/**
 	 * Translate a field type in text format to the field type as "enum"
@@ -1597,6 +1652,21 @@ public class Database {
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
 		}
+	}
+	
+	public int noOfRecords(String tableName) {
+		int recs = 0;
+		String sql = "select count(*) from [" + tableName + "]";
+		Utils.logD("Delete SQL = " + sql);
+		try {
+			Cursor cursor = _db.rawQuery(sql, null);
+			while(cursor.moveToNext()) {
+				recs += cursor.getInt(0);
+			}
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+		}
+		return recs;
 	}
 	
 }
