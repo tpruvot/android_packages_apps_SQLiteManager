@@ -171,8 +171,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				offset += limit;
 				String [] fieldNames = _db.getFieldsNames(_table);
 				setTitles(_aTable, fieldNames, !isView);
-				//String [][] data = _db.oldgetTableData(_table, offset, limit, isView);
-				Record[] data = _db.getTableData(_table, offset, limit, isView);
+				Record[] data = _db.getTableDataWithWhere(_table, _where, offset, limit, isView);
 				appendRows(_aTable, data, !isView);
 			}
 			Utils.logD("PgDwn:" + offset);
@@ -183,8 +182,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				offset = 0;
 			String [] fieldNames = _db.getFieldsNames(_table);
 			setTitles(_aTable, fieldNames, !isView);
-			//String [][] data = _db.oldgetTableData(_table, offset, limit, isView);
-			Record[] data = _db.getTableData(_table, offset, limit, isView);
+			Record[] data = _db.getTableDataWithWhere(_table, _where, offset, limit, isView);
 			appendRows(_aTable, data, !isView);
 			Utils.logD("PgUp: " + offset);
 		}
@@ -614,9 +612,9 @@ public class TableViewer extends Activity implements OnClickListener {
 	 *  Creates the menu items
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_FIRST_REC, 0, "First");
-		menu.add(0, MENU_LAST_REC, 1, "Last");
-		menu.add(0, MENU_FILETR, 2, "Filter");
+		menu.add(0, MENU_FIRST_REC, 0, R.string.First);
+		menu.add(0, MENU_LAST_REC, 1, R.string.Last);
+		menu.add(0, MENU_FILETR, 2, R.string.Filter);
 		menu.add(0, MENU_DUMP_TABLE, 3, R.string.DumpTable);
 		return true;
 	}
@@ -640,7 +638,7 @@ public class TableViewer extends Activity implements OnClickListener {
     	fillDataTableWithWhere(_table, _where);
     	return true;
     case MENU_LAST_REC:
-			int childs = _db.noOfRecords(_table); //_aTable.getChildCount();
+			int childs = _db.getNoOfRecords(_table, _where); 
 			Utils.logD("Records = " + childs);
 			offset = childs - limit;
 			fillDataTableWithWhere(_table, _where);
@@ -654,7 +652,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	
 	private void buildFilerMenu(String _table2) {
 		final Dialog dial = new Dialog(_cont);
-		dial.setTitle("Filter");
+		dial.setTitle(R.string.Filter);
 		ScrollView sv = new ScrollView(_cont);
 		sv.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -665,9 +663,11 @@ public class TableViewer extends Activity implements OnClickListener {
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		TextView tv = new TextView(_cont);
-		tv.setText("Enter where clause (no where)");
+		tv.setText(R.string.EnterWhere);
+		tv.setPadding(5, 5, 5, 5);
 		lmain.addView(tv);
 		final EditText et = new EditText(_cont);
+		et.setText(_where);
 		lmain.addView(et);
 		Button btn = new Button(_cont);
 		btn.setText(R.string.OK);
@@ -676,11 +676,10 @@ public class TableViewer extends Activity implements OnClickListener {
 				String where = et.getText().toString();
 				dial.dismiss();
 				offset = 0;
-				Utils.showMessage("Debug", "Where clause:\n" + where, _cont);
 				if (where.trim().equals("")) {
 					_where = "";
 				} else {
-					_where = " where " + where;
+					_where = where;
 				}
 				fillDataTableWithWhere(_table, _where);
 			}});

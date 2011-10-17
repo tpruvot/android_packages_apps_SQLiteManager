@@ -3,10 +3,10 @@
 	package="dk.andsen.asqlitemanager"
 	android:installLocation="auto"
 	android:versionCode="7"
-	android:versionName="2.5">
+	android:versionName="2.6">
 	<application android:icon="@drawable/sqlite_icon"
       android:label="@string/app_name"
-      android:debuggable="true">
+      android:debuggable="false">
 		<activity android:name=".aSQLiteManager"
 			android:screenOrientation="portrait"
 			android:label="@string/app_name">

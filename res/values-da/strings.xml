@@ -136,14 +136,19 @@
 		<string name="EditRow">Rediger post</string>
 		<string name="Edit">Rediger</string>
 		<string name="New">Ny</string>
+		<string name="First">Første</string>
+		<string name="Last">Sidste</string>
+		<string name="Filter">Filter</string>
+		<string name="EnterWhere">Indtast where clause (uden where)</string>
+		<string name="StrangeErr">Hvis du kan reproducere denne fejl så send mig databasen og en forklaring på hvoda du kan fremprovokere den ;-)</string>
 
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version:
-      \n\nBedre support for BLOB fields (nu også i kolonner der ikke er deklareret som BLOB):
-      \nNu kan records slettes ved at trykke på "Edit" i tabel vieweren
-      \nKan eksportere og importere tabller med BLOB fleter
-      \nHjælp skærmen viser nu de fleste muligheder
+      \n\nBug fixes
+      \nGoto første / sidste side i tabel vieweren
+      \nSimpel filter option i tabel vieweren
+      \nHoved skærm nu altid i portræt mode 
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen

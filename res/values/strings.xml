@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.5</string>
+    <string name="VersionNo">2.6</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
@@ -137,14 +137,19 @@
 		<string name="EditRow">Edit row</string>
 		<string name="Edit">Edit</string>
 		<string name="New">New</string>
+		<string name="First">First</string>
+		<string name="Last">Last</string>
+		<string name="Filter">Filter</string>
+		<string name="EnterWhere">Enter where clause (no where)</string>
+		<string name="StrangeErr">If you can reproduce this error please mail me the database and tell me how to provoke it ;-)</string>
 				
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version:
-      \n\nBetter support for BLOB fields (now also in columns not declared as BLOB):
-      \nNow records can be deleted by pressing edit in the table viewer
-      \nCan export and restore tables with BLOB fields
-      \nMost of the functions are listed at the Help screen
+      \n\nBug fixes
+      \nGoto first / last page in the table viewer
+      \nSimple filter option in the table viewer
+      \nMain screen now always in portrait mode 
       \n\nBy using aShell (beta) you can edit all system databases on rooted
       phones with aSQLiteManager. You can find aShell here:
       \nhttp://market.android.com/search?q=pub:Andsen

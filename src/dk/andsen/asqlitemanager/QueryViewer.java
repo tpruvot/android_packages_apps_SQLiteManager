@@ -225,13 +225,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 				TextView c = new TextView(this);
 				c.setText(data[i][j]);
 				c.setPadding(3, 3, 3, 3);
-				//				if (j%2 == 1)
-				//					if (i%2 == 1)
-				//						c.setBackgroundColor(Color.BLUE);
-				//					else
-				//						c.setBackgroundColor(Color.BLUE & Color.GRAY);
 				c.setOnClickListener(new OnClickListener() {
-
 					public void onClick(View v) {
 				      // button 1 was clicked!
 				  	 Utils.logD("OnClick: " + v.getId());
@@ -243,7 +237,12 @@ public class QueryViewer extends Activity implements OnClickListener{
 				  });
 				row.addView(c);
 			}
-			table.addView(row, new TableLayout.LayoutParams()); //TODO 2.5 null pointer ex here
+			if (table != null) {
+				table.addView(row, new TableLayout.LayoutParams()); //2.5 null pointer ex here
+			} else {
+				Utils.showMessage(_cont.getText(R.string.Error).toString(),
+						_cont.getText(R.string.StrangeErr).toString(), _cont);
+			}
 		}
 	}
 
