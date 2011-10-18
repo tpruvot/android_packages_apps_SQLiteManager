@@ -65,7 +65,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
         _cont = this;
     		final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
     		// Show welcome screen if not disabled
-    		//TODO change how the welcome screen is displayed. Store version no in
+    		// Perhaps change how the welcome screen is displayed. Store version no in
     		// in "VersionNo" and show welcome if versionNo has changed
     		SharedPreferences prefs = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
     		if (!settings.getString(vers, "").equals(vers)) {
@@ -78,7 +78,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     		ed.commit();
     		if(settings.getBoolean(WelcomeId, true)) {
     			final Dialog dial = new Dialog(this);
-    			dial.setContentView(R.layout.welcome);
+    			dial.setContentView(R.layout.new_welcome);
     			dial.setTitle(R.string.Welcome);
     			Button _btOK = (Button)dial.findViewById(R.id.OK);
     			_btOK.setOnClickListener(new OnClickListener() {

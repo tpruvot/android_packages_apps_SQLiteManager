@@ -2,25 +2,37 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent" android:weightSum="1">
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  >
 	<ScrollView 
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-		android:layout_weight="2" >
+    android:layout_height="fill_parent"
+		android:layout_weight="2"
+		android:scrollbars="vertical"
+		android:scrollbarAlwaysDrawVerticalTrack="true"
+		android:scrollbarFadeDuration="1000000"
+		>
     <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       android:orientation="vertical"
     >
-        <TextView android:layout_width="wrap_content" android:paddingRight="5pt" android:text="@string/WelcomeMsg" android:id="@+id/TextView01" android:autoLink="all" android:layout_height="wrap_content" android:paddingLeft="5pt"></TextView>
+      <TextView
+        android:layout_width="wrap_content"
+        android:paddingRight="5pt"
+        android:text="@string/WelcomeMsg"
+        android:id="@+id/TextView01"
+        android:autoLink="all"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5pt" />
 		</LinearLayout>
 	</ScrollView>
       <CheckBox
         android:text="@string/ShowAtStartUp"
         android:id="@+id/ShowAtStartUp"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:checked="true" />
       <Button
