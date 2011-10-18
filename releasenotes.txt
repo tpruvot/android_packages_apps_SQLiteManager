@@ -3,6 +3,7 @@ Download binaries here: http://market.android.com/details?pub=Andsen
 Version 2.6:
   Main screen now always in portrait
   First / last page in table viewer
+  Simple filter option tin table viewer
   Quite a few bug fixes
 
 Version 2.5:

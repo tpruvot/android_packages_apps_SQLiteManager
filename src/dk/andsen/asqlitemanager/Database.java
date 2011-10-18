@@ -143,7 +143,11 @@ public class Database {
 	 */
 	private void testDB() {
 		if (_db == null) {
-			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.5 path??
+			if (_dbPath != null)
+				_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.5 path??
+			else
+				Utils.showMessage(_cont.getText(R.string.Error).toString(),
+						_cont.getText(R.string.StrangeErr).toString(), _cont);
 		}
 		if (!_db.isOpen()) {
 			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
@@ -285,7 +289,6 @@ public class Database {
 	 * @return
 	 */
 	public Record[] getTableData(String table, int offset, int limit, boolean view) {
-		//TODO change to something like select typeof(1), 1, typeof(2), 2, typeof(3), 3
 		String sql = "";
 		if (view)
 			sql = "select ";
@@ -293,7 +296,6 @@ public class Database {
 			sql = "select typeof(rowid), rowid as rowid, ";
 		String[] fieldNames = getFieldsNames(table);
 		for (int i = 0; i < fieldNames.length; i++) {
-			//TODO don't know how to handle field names with spaces here
 			sql += "typeof([" + fieldNames[i] +"]), [" + fieldNames[i] + "]";
 			if (i < fieldNames.length - 1)
 				sql += ", ";
@@ -350,7 +352,6 @@ public class Database {
 			where = " where " + where + " ";
 		String[] fieldNames = getFieldsNames(table);
 		for (int i = 0; i < fieldNames.length; i++) {
-			//TODO don't know how to handle field names with spaces here
 			sql += "typeof([" + fieldNames[i] +"]), [" + fieldNames[i] + "]";
 			if (i < fieldNames.length - 1)
 				sql += ", ";
@@ -432,7 +433,6 @@ public class Database {
 		// first time a columns is clicked sort asc if it is clicked again sort des
 		testDB();
 		String sql = "";
-		//TODO change to something like select typeof(1), 1, typeof(2), 2, typeof(3), 3  
 		if (view)
 			sql = "select * from [" + table + "] limit " + limit + " offset " + offset;
 		else
@@ -720,8 +720,7 @@ public class Database {
 				int i = 0;
 				while(cursor.moveToNext()) {
 					for (int k=0; k<cols; k++) {
-						//res[i][k] = cursor.getString(k);
-						//TODO fails if it is a BLOB field
+						//Fails if it is a BLOB field
 						try {
 							nres.Data[i][k] = cursor.getString(k);
 						} catch (Exception e) {
@@ -773,7 +772,6 @@ public class Database {
 	 */
 	public String[] getListOfSQL() {
 		testDB();
-		// TODO problems if aSQLiteManager don't exists
 		String sql = "select * from aSQLiteManager order by _id desc";
 		String[] list = null;
 		try {
@@ -804,8 +802,6 @@ public class Database {
 		testDB();
 		String backupName = _dbPath + ".sql";
 		File backupFile = new File(backupName);
-//		FileWriter f;
-//		BufferedWriter out;
 		pd = new Dialog(_cont);
 		pd.setContentView(R.layout.progressbar);
 		myProgressBar = (ProgressBar) pd.findViewById(R.id.progressbar_Horizontal);
@@ -815,42 +811,7 @@ public class Database {
 		Utils.logD(progressTable.toString());
 		pd.show();
 		new Thread(myThread).start();
-		//TODO Clean up needed
-		// horizontal progress bar on pass for each export type tabDef, data, index, ...
-//    try {
-//			f = new FileWriter(backupFile);
-//			out = new BufferedWriter(f);
-//			Utils.logD("Exporting to; " + backupFile);
-//      Utils.logD("-- Database export made by aSQLiteManager");
-//			out.write("--\n");
-//      out.write("-- Database export made by aSQLiteManager\n");
-//			out.write("--\n");
-//			// progress dialog should count from 0 to 100 for table def, data, idex, views
-//      // export table definitions
-//			//myHandle.sendMessage(myHandle.obtainMessage());
-//      exportTableDefinitions(out);
-//      // export data
-//      exportData(out);
-//      // export index definitions
-//      exportIndexDefinitions(out);
-//      // export view definitions
-//      exportViews(out);
-//      // export constraints -- how and i which order?
-//
-//      // export triggers, procedures, ...
-//      
-//      //Close the output stream
-//      out.close();
-//      f.close();
-//
-//    } catch (IOException e) {
-//    	Utils.showException(e.getMessage(), _cont);
-//    	e.printStackTrace();
-//    	return false;
-//	  }
-    //dial.dismiss();
 		Utils.logD("Exportet to; " + backupFile.getAbsolutePath());
-		// backupFile.
 		return true;
 	}
 
@@ -924,19 +885,16 @@ public class Database {
 			}
 		};
 	};
-
-	
-	
 	
 	/**
 	 * Export all data from current database
 	 * @param out
 	 */
 	private void exportData(BufferedWriter out) {
-		//TODO can't use the field type from sqlite_master as blobs can be
-		//in any type of fields
-		//  insert into [programs] ([_id], [name])
-		//  values (9, X'1234567890ABCDEF')
+		// can't use the field type from sqlite_master as blobs can be
+		// in any type of fields
+		// insert into [programs] ([_id], [name])
+		// values (9, X'1234567890ABCDEF')
 		//The length of the hex must a multiple of 2 
 		String sql = "select name from sqlite_master where type = 'table'"; 
 		Cursor res = _db.rawQuery(sql, null);
@@ -948,55 +906,6 @@ public class Database {
 					progressTableText = tabName;
 					theHandle.sendMessage(theHandle.obtainMessage());
 					exportSingleTableData(tabName, out);
-
-					
-//					out.write("--\n");
-//					out.write("-- Exporting data for  " + tabName+ nl);
-//					out.write("--\n");
-//					// retrieve table informations
-//					sql = "PRAGMA table_info (" + tabName + ")";
-//					Cursor tabInf = _db.rawQuery(sql, null);
-//					// retrieve data
-//					//TODO Use exportSingleTableData()
-//					sql = "select * from " + res.getString(0);
-//					Cursor data = _db.rawQuery(sql, null);
-//					while (data.moveToNext()) {
-//						// build value list based on result and field types
-//						String fields = "";
-//						for(int i = 0; i < data.getColumnCount(); i++) {
-//							tabInf.moveToPosition(i);
-//							String type = tabInf.getString(2);
-//							String val = "";
-//							if (type.equals("BLOB")) {
-//								// Fails if not containing a BLOB as the other types of fields
-//								// fails if they contains BLOB
-//								byte[] bytes = data.getBlob(i);
-//								val = byteArrayToHexString(bytes); 
-//							} else {
-//								val = data.getString(i);
-//							}
-//							if (val == null){
-//								fields += "null";
-//								if (i != data.getColumnCount()-1)
-//									fields += ", ";
-//							} else if (type.equals("INTEGER") || type.equals("REAL")) {
-//								fields += val;
-//								if (i != data.getColumnCount()-1)
-//									fields += ", ";
-//							} else {  // it must be string or blob(?) so quote it
-//								fields += "\"" + val + "\"";
-//								if (i != data.getColumnCount()-1)
-//									fields += ", ";
-//							}
-//						}
-//						out.write("insert into " + tabName + " values (" + fields + ");" + nl);
-//					}
-//					
-//					
-//					if (tabInf != null)
-//						tabInf.close();
-//					if (data != null)
-//						data.close();
 				}
 			}
 			res.close();
@@ -1357,6 +1266,7 @@ public class Database {
 		}
 		return tfs;
 	}
+	
 	/**
 	 * Update a record in tableName based on it rowId with the fields
 	 * in  
@@ -1567,7 +1477,6 @@ public class Database {
     }
     return data;
 	}
-
 	
 	/**
 	 * @param tableName

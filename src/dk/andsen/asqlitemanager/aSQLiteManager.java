@@ -34,17 +34,15 @@ import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.Utils;
 
 public class aSQLiteManager extends Activity implements OnClickListener {
-//TODO editing of system tables gives fault => disable editing of these	
-//TODO Always in portrait mode on main screen
 	/**
 	 * True to enable functions under test
 	 */
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
-	final String WelcomeId = "ShowWelcome2.5";
+	final String WelcomeId = "ShowWelcome2.6";
 	// change this to delete preferences 
-	final String vers = "2.5";
+	final String vers = "2.6";
 	private Context _cont;
 	private String _recentFiles;
 	private boolean testing = false;
@@ -213,7 +211,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 								if (!path.endsWith(".sqlite"))
 									path += ".sqlite";
 								try {
-									//TODO check to see if it exists
+									//check to see if it exists
 									File f = new File(path);
 									if (f.exists()) {
 										error = true;
