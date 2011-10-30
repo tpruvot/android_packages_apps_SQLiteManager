@@ -129,7 +129,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		if (key == R.id.Run) {
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			if (_save) {
-				// If in transaction store SQL is List for later writing to table
+				// If in transaction store SQL in List for later writing to table
 				if(_db.inTransaction()) {
 					saveSQL.add(new String(_tvQ.getText().toString()));
 					// Also write to database for use during transaction

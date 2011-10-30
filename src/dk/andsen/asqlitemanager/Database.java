@@ -143,9 +143,15 @@ public class Database {
 	 */
 	private void testDB() {
 		if (_db == null) {
-			if (_dbPath != null)
-				_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.5 path??
-			else
+			if (_dbPath != null) {
+				try {
+					_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.6 path??
+				} catch (Exception e) {
+					Utils.showMessage(_cont.getText(R.string.Error).toString(),
+							e.getLocalizedMessage().toString() + "\n" +
+							_cont.getText(R.string.StrangeErr).toString(), _cont);
+				}
+			} else
 				Utils.showMessage(_cont.getText(R.string.Error).toString(),
 						_cont.getText(R.string.StrangeErr).toString(), _cont);
 		}

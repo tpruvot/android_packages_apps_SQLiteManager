@@ -1,5 +1,8 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
+Next version:
+  Extra error handling around annoying bug
+
 Version 2.6:
   Main screen now always in portrait
   First / last page in table viewer
