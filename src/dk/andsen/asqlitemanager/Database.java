@@ -1215,14 +1215,14 @@ public class Database {
 		Utils.logD(sql);
 		// retrieves field types, pk, ... from database
 		FieldDescr[] tabledef = getTableStructureDef(tableName);
-		Cursor curs = _db.rawQuery(sql, null);
-		TableField[] tfs = new TableField[curs.getColumnCount()];
-		curs.moveToNext(); 
-		int fields = curs.getColumnCount();
+		Cursor cursor = _db.rawQuery(sql, null);
+		TableField[] tfs = new TableField[cursor.getColumnCount()];
+		cursor.moveToNext(); 
+		int fields = cursor.getColumnCount();
 		for (int j = 0; j < fields; j++) {
 			TableField tf = new TableField();
-			tf.setName(curs.getColumnName(j));
-			tf.setDisplayName(curs.getColumnName(j));
+			tf.setName(cursor.getColumnName(j));
+			tf.setDisplayName(cursor.getColumnName(j));
 			// The extra field rowid
 			if (j == 0) {
 				// Don't allow updating of rowid
@@ -1236,18 +1236,34 @@ public class Database {
 				tf.setNotNull(tabledef[j-1].isNotNull());
 				tf.setPrimaryKey(tabledef[j-1].isPk());
 				tf.setDefaultValue(tabledef[j-1].getDefaultValue());
+				//TODO need to retrieve the foreign key
 				Utils.logD("Name - type: " + tf.getName() + " - " + tabledef[j-1].getType());
 			}
 			//TODO Implement BLOB edit
 			//is it a BLOB field turn edit off
 			try {
-				tf.setValue(curs.getString(j));
+				tf.setValue(cursor.getString(j));
 			} catch (Exception e) {
 				tf.setUpdateable(false);
 			}
 			tfs[j] = tf;
 		}
-		curs.close();
+		// Get foreign keys
+		sql = "PRAGMA foreign_key_list(["+tableName+"])";
+		cursor = _db.rawQuery(sql, null);
+		while(cursor.moveToNext()) {
+			//Go through all fields to see if the fields has FK
+			for(int i = 0; i < fields; i++) {
+				String fkName = cursor.getString(3);
+				//Utils.logD("NameMH: " + tfs[i].getName());
+				if (tfs[i].getName().equals(fkName)) {
+					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4));
+					tfs[i].setForeignKey("select [" + cursor.getString(4) + "] from [" + cursor.getString(2)+ "]");
+					break;
+				} 
+			}
+		}
+		cursor.close();
 		return tfs;
 	}
 
@@ -1270,6 +1286,23 @@ public class Database {
 			tf.setNotNull(fd[i].isNotNull());
 			tfs[i] = tf;
 		}
+		//Get the FK's
+		// Get foreign keys
+		String sql = "PRAGMA foreign_key_list(["+tableName+"])";
+		Cursor cursor = _db.rawQuery(sql, null);
+		while(cursor.moveToNext()) {
+			//Go through all fields to see if the fields has FK
+			for(int i = 0; i < fd.length; i++) {
+				String fkName = cursor.getString(3);
+				//Utils.logD("NameMH: " + tfs[i].getName());
+				if (tfs[i].getName().equals(fkName)) {
+					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4));
+					tfs[i].setForeignKey("select [" + cursor.getString(4) + "] from [" + cursor.getString(2)+ "]");
+					break;
+				} 
+			}
+		}
+		cursor.close();
 		return tfs;
 	}
 	
@@ -1593,6 +1626,21 @@ public class Database {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
 		}
 		return recs;
+	}
+
+	public String[] getFKList(String foreignKey) {
+		String[] fk = null;
+		try {
+			Cursor cursor = _db.rawQuery(foreignKey, null);
+			fk = new String[cursor.getCount()];
+			int i = 0;
+			while(cursor.moveToNext()) {
+				fk[i++] = cursor.getString(0);
+			}
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+		}
+		return fk;
 	}
 	
 }

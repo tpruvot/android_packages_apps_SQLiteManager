@@ -1,8 +1,9 @@
 package dk.andsen.RecordEditor.types;
 
+
 /**
  * Holds informations about a single field of a table
- * @author os
+ * @author Andsen
  *
  */
 public class TableField {
@@ -20,7 +21,7 @@ public class TableField {
   private Boolean notNull;
   private Boolean primaryKey;
   private String defaultValue;
-  private String foreignKey;   // on the form tableName(fielInTable)
+  private String foreignKey;   // on the form tableName(fieldInTable)
   private Boolean updateable = true;
   private String hint = null;
   private String displayName = null;;
@@ -187,9 +188,12 @@ public class TableField {
 	
 	/**
 	 * Define the foreign key for the field
+	 * Currently stores the sql needed to select the keys / codes
+	 * Not quite sure if this is the right way to do it 
 	 * @param foreignKey
 	 */
 	public void setForeignKey(String foreignKey) {
 		this.foreignKey = foreignKey;
+		//Utils.logD("FK set to: " + foreignKey);
 	}
 }

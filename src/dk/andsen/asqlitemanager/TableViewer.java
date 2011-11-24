@@ -259,8 +259,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					c.setPadding(3, 3, 3, 3);
 					// TODO More efficient to make one OnClickListener and assign this to all records edit field?
 					c.setOnClickListener(new OnClickListener() {
-						//TODO Should first ask the user if (s)he wants to edit / delete
-						//TODO the record
+						//Edit or delete the selected record
 						public void onClick(View v) {
 							final RecordEditorBuilder re;
 							TextView a = (TextView)v;
@@ -271,7 +270,7 @@ public class TableViewer extends Activity implements OnClickListener {
 							dial.setContentView(R.layout.line_editor);
 							dial.setTitle(getText(R.string.EditDeleteRow) + " " + rowid);
 							LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
-							re = new RecordEditorBuilder(rec, _cont);
+							re = new RecordEditorBuilder(rec, _cont, _db);
 							re.setFieldNameWidth(200);
 							re.setTreatEmptyFieldsAsNull(true);
 							final ScrollView sv = re.getScrollView();
@@ -451,7 +450,7 @@ public class TableViewer extends Activity implements OnClickListener {
 							dial.setContentView(R.layout.line_editor);
 							dial.setTitle(getText(R.string.EditRow) + " " + rowid);
 							LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
-							re = new RecordEditorBuilder(rec, _cont);
+							re = new RecordEditorBuilder(rec, _cont, _db);
 							re.setFieldNameWidth(200);
 							re.setTreatEmptyFieldsAsNull(true);
 							final ScrollView sv = re.getScrollView();
@@ -547,7 +546,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					dial.setContentView(R.layout.line_editor);
 					dial.setTitle(getText(R.string.InsertNewRow));
 					LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
-					re = new RecordEditorBuilder(rec, _cont);
+					re = new RecordEditorBuilder(rec, _cont, _db);
 					re.setFieldNameWidth(200);
 					re.setTreatEmptyFieldsAsNull(true);
 					final ScrollView sv = re.getScrollView();
