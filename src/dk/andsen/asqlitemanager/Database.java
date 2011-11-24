@@ -543,6 +543,7 @@ public class Database {
 			i++;
 			//Utils.logD("getTableStructureDef: " + fld.getName());
 		}
+		cursor.close();
 		return flds;
 	}
 	
@@ -1246,6 +1247,7 @@ public class Database {
 			} catch (Exception e) {
 				tf.setUpdateable(false);
 			}
+			cursor.close();
 			tfs[j] = tf;
 		}
 		// Get foreign keys
@@ -1637,6 +1639,7 @@ public class Database {
 			while(cursor.moveToNext()) {
 				fk[i++] = cursor.getString(0);
 			}
+			cursor.close();
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
 		}

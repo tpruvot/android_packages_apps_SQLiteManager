@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.asqlitemanager.Database;
+import dk.andsen.asqlitemanager.Prefs;
 import dk.andsen.asqlitemanager.R;
 import dk.andsen.utils.Utils;
 
@@ -53,6 +54,7 @@ public class RecordEditorBuilder {
 	 * @param cont
 	 */
 	public RecordEditorBuilder(TableField[] fields, Context cont, Database db) {
+		useSelectLists = Prefs.getFKList(cont);
 		_db = db;
 		_cont = cont;
 		_fields = fields;
@@ -72,7 +74,8 @@ public class RecordEditorBuilder {
 			if (fields[i].isUpdateable()) {
 				ll = new LinearLayout(cont);
 				// Use selection list for this field
-				//TODO can't do this for all types of fields
+				int fieldType = fields[i].getType();
+				//TODO don't do this for all types of fields
 				if (fields[i].getForeignKey() != null && useSelectLists) {
 					Utils.logD("Uses list of FK for " + fields[i].getName());
 					// how to handle this in validation and when reading data?
@@ -226,7 +229,7 @@ public class RecordEditorBuilder {
 	 */
 	private LinearLayout buildFKList(TableField field,int llId, int id) {
 		LinearLayout ll = new LinearLayout(_cont);
-		ll.setOrientation(LinearLayout.VERTICAL);
+		ll.setOrientation(LinearLayout.HORIZONTAL);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -234,9 +237,31 @@ public class RecordEditorBuilder {
 		final String[] fk = _db.getFKList(field.getForeignKey());
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(_cont,
 		    android.R.layout.simple_spinner_dropdown_item, fk);
+		TextView tv = new TextView(_cont);
+		tv.setLayoutParams((new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT)));
+		if (field.getDisplayName() == null)
+			tv.setText(field.getName());
+		else
+			tv.setText(field.getDisplayName());
+		tv.setWidth(fieldNameWidth);
+		tv.setPadding(5, 0, 5, 0);
+		ll.addView(tv);
+
+		//TODO should store selected value in invisible TextView
+		final EditText ets = new EditText(_cont);
+		ets.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT)));
+		ets.setText(field.getValue());
+		ets.setHint(field.getHint());
+		ets.setVisibility(View.GONE);
+		ets.setId(id);
+		ll.addView(ets);
+
+		
 		final Button btn = new Button(_cont);
 		btn.setText("Select from list");
-		//TODO should store selected value in invisible TextView
 		btn.setId(id);
 		btn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -248,7 +273,8 @@ public class RecordEditorBuilder {
 			    	String val = fk[which];
 			    	Utils.logD("Value selected:" + val);
 			    	btn.setText(val);
-			      dialog.dismiss();
+			    	ets.setText(val);
+			    	dialog.dismiss();
 			    }
 			  }).create().show();			}
 		});

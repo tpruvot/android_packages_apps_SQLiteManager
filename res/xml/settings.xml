@@ -20,4 +20,10 @@
     android:summary="Save SQL in database"
     android:defaultValue="false"
   />
+  <CheckBoxPreference
+    android:key="FKList"
+    android:title="FK lists"
+    android:summary="Use lists when editing FK fields"
+    android:defaultValue="false"
+  />
 </PreferenceScreen>
