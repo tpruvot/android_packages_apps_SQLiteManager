@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.6</string>
+    <string name="VersionNo">2.7 β</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>

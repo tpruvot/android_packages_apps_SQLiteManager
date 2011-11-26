@@ -1218,8 +1218,8 @@ public class Database {
 		FieldDescr[] tabledef = getTableStructureDef(tableName);
 		Cursor cursor = _db.rawQuery(sql, null);
 		TableField[] tfs = new TableField[cursor.getColumnCount()];
-		cursor.moveToNext(); 
 		int fields = cursor.getColumnCount();
+		cursor.moveToNext(); 
 		for (int j = 0; j < fields; j++) {
 			TableField tf = new TableField();
 			tf.setName(cursor.getColumnName(j));
@@ -1247,9 +1247,9 @@ public class Database {
 			} catch (Exception e) {
 				tf.setUpdateable(false);
 			}
-			cursor.close();
 			tfs[j] = tf;
 		}
+		cursor.close();
 		// Get foreign keys
 		sql = "PRAGMA foreign_key_list(["+tableName+"])";
 		cursor = _db.rawQuery(sql, null);

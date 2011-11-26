@@ -70,8 +70,10 @@ public class RecordEditorBuilder {
 		// Add a linearLayout to hold the label and field to edit
 		for (int i = 0; i < fields.length; i++) {
 			Utils.logD("Field: " + fields[i].getName() + " fk: " + fields[i].getForeignKey());
+			Utils.logD("Updatable: " + fields[i].getName() + " " + fields[i].isUpdateable());
 			LinearLayout ll;
 			if (fields[i].isUpdateable()) {
+				Utils.logD("Updatable: " + fields[i].getName());
 				ll = new LinearLayout(cont);
 				// Use selection list for this field
 				int fieldType = fields[i].getType();
@@ -82,6 +84,7 @@ public class RecordEditorBuilder {
 					ll = buildFKList(fields[i], lineIdBase +i, idBase + i);
 				} else {
 					// Normal input field based on type of field 
+					Utils.logD("Normal edit for " + fields[i].getName());
 					ll = buildEditField(fields[i], lineIdBase + i, idBase + i);
 				}
 				lmain.addView(ll);
@@ -92,6 +95,7 @@ public class RecordEditorBuilder {
 	}
 
 	private LinearLayout buildEditField(TableField field,int llId, int id) {
+		Utils.logD("Creating normal edit field");
 		LinearLayout ll = new LinearLayout(_cont);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(
@@ -202,11 +206,6 @@ public class RecordEditorBuilder {
 			ll.addView(etp);
 			break;
 		default: // treat the rest as Strings
-			if (field.getForeignKey() != null) {
-				Utils.logD("Should user list of FK");
-			} else {
-				Utils.logD("NO FK");
-			}
 			EditText ets = new EditText(_cont);
 			ets.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.WRAP_CONTENT)));
@@ -228,6 +227,7 @@ public class RecordEditorBuilder {
 	 * @return
 	 */
 	private LinearLayout buildFKList(TableField field,int llId, int id) {
+		Utils.logD("Creating fk edit list");
 		LinearLayout ll = new LinearLayout(_cont);
 		ll.setOrientation(LinearLayout.HORIZONTAL);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(
