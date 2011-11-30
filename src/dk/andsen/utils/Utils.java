@@ -22,7 +22,7 @@ public class Utils {
 	 * Write a debug message to the log
 	 * @param msg Message
 	 */
-	public static void logD(String msg) {
+	public static void logD(String msg, boolean logging) {
 		if (logging)
 			Log.d(app, msg);
 	}
@@ -31,7 +31,7 @@ public class Utils {
 	 * Write an error message to the log
 	 * @param msg Message
 	 */
-	public static void logE(String msg) {
+	public static void logE(String msg, boolean logging) {
 		if (logging)
 			Log.e(app, msg);
 	}

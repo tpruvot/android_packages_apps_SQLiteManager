@@ -33,6 +33,8 @@ public class Prefs extends PreferenceActivity {
    private static final String OPT_FILENO_DEF = "5";
    private static final String OPT_FK2LIST = "FKList";
    private static final boolean OPT_FK2LIST_DEF = false;
+   private static final String OPT_LOGGING = "Logging";
+   private static final boolean OPT_LOGGING_DEF = false;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +71,10 @@ public class Prefs extends PreferenceActivity {
   	return PreferenceManager.getDefaultSharedPreferences(context)
   		.getBoolean(OPT_FK2LIST, OPT_FK2LIST_DEF);
   }
-	
+
+  public static boolean getLogging(Context context) {
+  	return PreferenceManager.getDefaultSharedPreferences(context)
+  		.getBoolean(OPT_LOGGING, OPT_LOGGING_DEF);
+  }
+
 }

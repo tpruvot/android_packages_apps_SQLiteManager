@@ -54,11 +54,13 @@ public class DBViewer extends Activity implements OnClickListener {
 	private final int MENU_SQL = 2;
 	private final int MENU_INFO = 3;
 	private int _dialogClicked;
+	private boolean logging = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dbviewer);
+		logging = Prefs.getLogging(this);
 		TextView tvDB = (TextView)this.findViewById(R.id.DatabaseToView);
 		Button bTab = (Button) this.findViewById(R.id.Tables);
 		Button bVie = (Button) this.findViewById(R.id.Views);
@@ -76,10 +78,10 @@ public class DBViewer extends Activity implements OnClickListener {
 			_cont = tvDB.getContext();
 			_dbPath = extras.getString("db");
 			tvDB.setText(getText(R.string.Database) + ": " + _dbPath);
-			Utils.logD("Opening database " + _dbPath);
+			Utils.logD("Opening database " + _dbPath, logging);
 			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
-				Utils.logD("Not a database!");
+				Utils.logD("Not a database!", logging);
 				//Utils.showException(_dbPath + getText(R.string.IsNotADatabase), _cont);
 				Dialog notADatabase = new AlertDialog.Builder(this)
 					.setTitle(_dbPath + " " + getText(R.string.IsNotADatabase))

@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import dk.andsen.asqlitemanager.DBViewer;
+import dk.andsen.asqlitemanager.Prefs;
 import dk.andsen.asqlitemanager.R;
 import dk.andsen.asqlitemanager.SQLViewer;
 
@@ -49,6 +50,7 @@ public class NewFilePicker extends ListActivity {
 	// _SQLtype is true if opening a .sql file false if opening a database
 	private boolean _SQLtype = false;
 	private String _dbPath = null;
+	private boolean logging = false;
 	// _rootMode controls whether filePicker is in roor or normal mode
 	//private boolean _rootMode = false;
 	
@@ -57,6 +59,7 @@ public class NewFilePicker extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		logging = Prefs.getLogging(context);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
@@ -222,7 +225,7 @@ public class NewFilePicker extends ListActivity {
 				ll.addView(ll3);
 				dial.show();
 			} else {
-				Utils.logD("Path to SQL " + file.getAbsolutePath());
+				Utils.logD("Path to SQL " + file.getAbsolutePath(), logging);
 				if(_SQLtype) {
 					// only open files ending with .sql
 					if(file.getAbsolutePath().endsWith(".sql")) {
@@ -236,7 +239,7 @@ public class NewFilePicker extends ListActivity {
 	}
 	
 	private void openSQL(File file) {
-		Utils.logD("SQL file");
+		Utils.logD("SQL file", logging);
 		Intent iSqlViewer = new Intent(context, SQLViewer.class);
 		iSqlViewer.putExtra("script", ""+ file.getAbsolutePath());
 		iSqlViewer.putExtra("db", _dbPath);
@@ -249,7 +252,7 @@ public class NewFilePicker extends ListActivity {
 		 * If in root mode copy database to sdcard/aSQLiteManager and open it there
 		 * after close of database ask the user it it should replace the original
 		 */
-		Utils.logD("Other file file");
+		Utils.logD("Other file file", logging);
 		Intent iDBViewer = new Intent(context, DBViewer.class);
 		iDBViewer.putExtra("db", ""+ file.getAbsolutePath());
 		startActivity(iDBViewer);

@@ -82,6 +82,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	private int _queryType = 0;
 	boolean _rebuildMenu = false;
 	private String _tableDialogString;
+	private boolean logging;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		_btR = (Button) this.findViewById(R.id.Run);
 		_btR.setOnClickListener(this);
 		_cont = _tvQ.getContext();
+		logging = Prefs.getLogging(_cont);
 		_save = Prefs.getSaveSQL(_cont);
 		_limit = Prefs.getPageSize(_cont);
 		bUp = (Button) this.findViewById(R.id.PgUp);
@@ -105,14 +107,14 @@ public class QueryViewer extends Activity implements OnClickListener{
 		{
 			_cont = _tvQ.getContext();
 			_dbPath = extras.getString("db");
-			Utils.logD("Opening database");
+			Utils.logD("Opening database", logging);
 			_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
-				Utils.logD("Not a database!");
+				Utils.logD("Not a database!", logging);
 				Utils.showException(_dbPath + " is not a database!", _cont);
 				finish();
 			} else {
-				Utils.logD("Database open");
+				Utils.logD("Database open", logging);
 			}
 		}
 	}
@@ -123,8 +125,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		int key = v.getId();
 		String sql = _tvQ.getText().toString();
-		Utils.logD("Offset: " + _offset);
-		Utils.logD("Limit: " + _limit);
+		Utils.logD("Offset: " + _offset, logging);
+		Utils.logD("Limit: " + _limit, logging);
 		if (!sql.equals(""))
 		if (key == R.id.Run) {
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
@@ -144,7 +146,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			appendRows(_aTable, result.getData());			
 		}  else if (key == R.id.PgDwn) {
 			int childs = _aTable.getChildCount();
-			Utils.logD("Table childs: " + childs);
+			Utils.logD("Table childs: " + childs, logging);
 			if (childs >= _limit) {  //  No more data on to display - no need to PgDwn
 				_offset += _limit;
 				String [] nn = {};
@@ -153,7 +155,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 				setTitles(_aTable, result.getColumnNames());
 				appendRows(_aTable, result.getData());
 			}
-			Utils.logD("PgDwn:" + _offset);
+			Utils.logD("PgDwn:" + _offset, logging);
 		} else if (key == R.id.PgUp) {
 			_offset -= _limit;
 			if (_offset < 0)
@@ -161,7 +163,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 			setTitles(_aTable, result.getColumnNames());
 			appendRows(_aTable, result.getData());
-			Utils.logD("PgUp: " + _offset);
+			Utils.logD("PgUp: " + _offset, logging);
 		}
 	}
 
@@ -215,7 +217,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			row.setOnClickListener(new OnClickListener() {
 			   public void onClick(View v) {
 			      // button 1 was clicked!
-			  	 Utils.logD("OnClick: " + v.getId());
+			  	 Utils.logD("OnClick: " + v.getId(), logging);
 			   }
 			  });
 
@@ -228,7 +230,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 				c.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 				      // button 1 was clicked!
-				  	 Utils.logD("OnClick: " + v.getId());
+				  	 Utils.logD("OnClick: " + v.getId(), logging);
 				  	 String text = (String)((TextView)v).getText();
 				  	 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				  	 clipboard.setText(text);
@@ -282,7 +284,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (_rebuildMenu) {
-			Utils.logD("Preparing OptionMenu");
+			Utils.logD("Preparing OptionMenu", logging);
 			menu.clear();
 			//removeDialog(MENU_TABLES);
 			removeDialog(MENU_FIELDS);
@@ -318,7 +320,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 		String title = "";
 		switch (id) {
 		case MENU_TABLES:
-			Utils.logD("Creating MENU_TABLES");
+			Utils.logD("Creating MENU_TABLES", logging);
 			title = getText(R.string.DBTables).toString();
 			listOfTables = _db.getTables();
 			listOfTables_selected = new boolean[listOfTables.length];
@@ -330,7 +332,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 			_tableDialogString = test.toString();
 			return test;
 		case MENU_FIELDS:
-			Utils.logD("Creating MENU_FIELDS");
+			Utils.logD("Creating MENU_FIELDS", logging);
 			title = getText(R.string.DBFields).toString();
 			//count selected tables
 			int selTables = 0;
@@ -348,7 +350,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 				noTables = listOfTables.length;
 			else
 				noTables = 0;
-			Utils.logD("MH " + noTables + " ");
+			Utils.logD("MH " + noTables, logging);
 			if (noTables > 0)
 				for (int i = 0; i < noTables -1 ; i++) {
 					if (listOfTables_selected[i]) {
@@ -364,20 +366,20 @@ public class QueryViewer extends Activity implements OnClickListener{
 			.setPositiveButton(getText(R.string.OK), new DialogButtonClickHandler())
 			.create();
 		case MENU_RESENT_SQL:		
-			Utils.logD("Creating MENU_RESENT_SQL");
+			Utils.logD("Creating MENU_RESENT_SQL", logging);
 			listOfSQL = _db.getListOfSQL();
 			return new AlertDialog.Builder(this)
 			.setTitle(title) 
 			.setSingleChoiceItems(listOfSQL, 0, new ResentSQLOnClickHandler() )
 			.create();
 		case MENU_TRANSACTION:
-			Utils.logD("Creating MENU_TRANSACTION");
+			Utils.logD("Creating MENU_TRANSACTION", logging);
 			return new AlertDialog.Builder(this)
 			.setTitle(title)
 			.setSingleChoiceItems(_transaction, 0, new TransactionOnClickHandler())
 			.create();
 		default: //case MENU_QUERYTYPE:
-			Utils.logD("Creating MENU_QUERYTYPE");
+			Utils.logD("Creating MENU_QUERYTYPE", logging);
 			//posts = _queryTypes; 
 			return new AlertDialog.Builder(this)
 			.setTitle(title)
@@ -393,7 +395,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public class DialogSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener {
 		public void onClick( DialogInterface dialog, int clicked, boolean selected )
 		{
-			Utils.logD("Dialog: " + dialog.getClass().getSimpleName());
+			Utils.logD("Dialog: " + dialog.getClass().getSimpleName(), logging);
 			// Clear selected fields to remove them from the sql
 			// but only if it a change in Tables dialog 
 			if (dialog.toString().equals(_tableDialogString)) {
@@ -413,7 +415,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
 		public void onClick( DialogInterface dialog, int clicked )
 		{
-			Utils.logD("Dialog: " + dialog.getClass().getName());
+			Utils.logD("Dialog: " + dialog.getClass().getName(), logging);
 			switch(clicked)
 			{
 			case DialogInterface.BUTTON_POSITIVE:
@@ -448,7 +450,7 @@ public class QueryViewer extends Activity implements OnClickListener{
 	public class TransactionOnClickHandler implements DialogInterface.OnClickListener {
 		public void onClick(DialogInterface dialog, int id) {
 			// Handle transactions
-			Utils.logD("Transaction menu clicked");
+			Utils.logD("Transaction menu clicked", logging);
 			switch(id) {
 			case TRANSACTION_BEGIN:
 				_transactionLevel++;
@@ -612,10 +614,10 @@ public class QueryViewer extends Activity implements OnClickListener{
 			sql = "select * \nfrom ";
 		else {
 			sql = "select ";
-			Utils.logD("List of fields: " + listOfFields.length);
+			Utils.logD("List of fields: " + listOfFields.length, logging);
 			for (i= 0; i < listOfFields.length; i++) {
 				if (listOfFields_selected[i]) {
-					Utils.logD("Selected field: " + listOfFields[i]);
+					Utils.logD("Selected field: " + listOfFields[i], logging);
 					sql += listOfFields[i]+ ", ";
 					del2chars = true;
 				}

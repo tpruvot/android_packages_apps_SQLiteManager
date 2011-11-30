@@ -2,6 +2,7 @@ Download binaries here: http://market.android.com/details?pub=Andsen
 
 Next version:
   Extra error handling around annoying bug
+  Editing foreign key fields using selection list based on foreign key values 
 
 Version 2.6:
   Main screen now always in portrait

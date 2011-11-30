@@ -24,15 +24,17 @@ public class OpenOnClick2 extends Activity implements OnClickListener {
 	Button _btOK;
 	CheckBox _remember;
 	private String _file;
+	private boolean logging;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logging = Prefs.getLogging(this);
 		SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 		_file = getIntent().getData().toString();
 		if (_file.startsWith("file:///"))
 			_file = _file.substring(7);
-		Utils.logD("File clicked: " + _file);
+		Utils.logD("File clicked: " + _file, logging);
 		if(!settings.getBoolean("JustOpen", false))
 		{
 			setContentView(R.layout.onclickopen);

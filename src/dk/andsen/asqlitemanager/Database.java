@@ -54,23 +54,25 @@ public class Database {
 	private String progressTableText ="";
 	private Dialog pd;
 	private Handler theHandle;	
+	private boolean logging = false;
 	/**
 	 * Open a existing database at the given path
 	 * @param dbPath Path to the database
 	 */
 	public Database(String dbPath, Context cont) {
 		_dbPath = dbPath;
+		logging = Prefs.getLogging(cont);
 		try {
 			// Must find a way to check if it is a SQLite file!
 			if (testDBFile(dbPath)) {
 				// Here we know it is a SQLite 3 file
-				Utils.logD("Trying to open (RW): " + dbPath);
+				Utils.logD("Trying to open (RW): " + dbPath, logging);
 				_db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 				_cont = cont;
 				isDatabase = true;
 			}
 		} catch (Exception e) {
-			Utils.logD("Trying to open Exception: " + e.getMessage());
+			Utils.logD("Trying to open Exception: " + e.getMessage(), logging);
 			// It is not a database
 			isDatabase = false;
 		}
@@ -307,12 +309,12 @@ public class Database {
 				sql += ", ";
 		}
 		sql += " from [" + table + "] limit " + limit + " offset " + offset;
-		Utils.logD(sql);
+		Utils.logD(sql, logging);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int columns = cursor.getColumnCount() / 2;
-		Utils.logD("Columns: " + columns);
+		Utils.logD("Columns: " + columns, logging);
 		int rows = cursor.getCount();
-		Utils.logD("Rows = " + rows);
+		Utils.logD("Rows = " + rows, logging);
 		Record[] recs = new Record[rows];
 		int i = 0;
 		while(cursor.moveToNext()) {
@@ -364,13 +366,13 @@ public class Database {
 		}
 		sql += " from [" + table + "] " + where + " limit " + limit + " offset " + offset;
 		Record[] recs = null;
-		Utils.logD(sql);
+		Utils.logD(sql, logging);
 		try {
 			Cursor cursor = _db.rawQuery(sql, null);
 			int columns = cursor.getColumnCount() / 2;
-			Utils.logD("Columns: " + columns);
+			Utils.logD("Columns: " + columns, logging);
 			int rows = cursor.getCount();
-			Utils.logD("Rows = " + rows);
+			Utils.logD("Rows = " + rows, logging);
 			recs = new Record[rows];
 			int i = 0;
 			while(cursor.moveToNext()) {
@@ -443,7 +445,7 @@ public class Database {
 			sql = "select * from [" + table + "] limit " + limit + " offset " + offset;
 		else
 			sql = "select rowid as rowid, * from [" + table + "] limit " + limit + " offset " + offset;
-		Utils.logD("SQL = " + sql);
+		Utils.logD("SQL = " + sql, logging);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int cols = cursor.getColumnCount();
 		int rows = cursor.getCount();
@@ -603,7 +605,7 @@ public class Database {
 			int recs = res.getCount();
 			tables = new String[recs];
 			int i = 0;
-			Utils.logD("Views: " + recs);
+			Utils.logD("Views: " + recs, logging);
 			while(res.moveToNext()) {
 				for(int j = 0; j < res.getColumnCount(); j++) {
 					if (j == 0)
@@ -632,7 +634,7 @@ public class Database {
 		int i = 0;
 		for (int j = 0; j < tables.length; j++) {
 			String sql = "pragma table_info([" + tables[j] + "])";
-			Utils.logD("getTablesFieldsNames: " + sql);
+			Utils.logD("getTablesFieldsNames: " + sql, logging);
 			res = _db.rawQuery(sql, null);
 			i = 0;
 			// getting field names
@@ -662,10 +664,10 @@ public class Database {
 		String sql = "insert into aSQLiteManager (sql) values (\"" + saveSql +"\")";
 		try {
 			_db.execSQL(sql);
-			Utils.logD("SQL save");
+			Utils.logD("SQL save", logging);
 		} catch (SQLException e) {
 			// All duplicate SQL ends here
-			Utils.logD(e.toString());
+			Utils.logD(e.toString(), logging);
 		}
 	}
 
@@ -684,7 +686,7 @@ public class Database {
 			// create the aSQLiteManager table
 			String sql = "create table aSQLiteManager (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, sql TEXT NOT NULL UNIQUE)";
 			_db.execSQL(sql);
-			Utils.logD("aSQLiteManager table created");
+			Utils.logD("aSQLiteManager table created", logging);
 			saveSQL("delete from aSQLiteManager where 1=1");
 			saveSQL("drop table aSQLiteManager");
 		}
@@ -705,7 +707,7 @@ public class Database {
 		else 
 			sql = sqlStatement;
 		//String[][] res;
-		Utils.logD("SQL = " + sql);
+		Utils.logD("SQL = " + sql, logging);
 		Cursor cursor = null;
 		QueryResult nres = new QueryResult();
 		try {
@@ -739,6 +741,7 @@ public class Database {
 			}
 			return nres;
 		} catch (Exception e) {
+			Utils.logD(e.toString(), logging);
 			nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
 			nres.Data = new String[1][1];
 			nres.Data[0][0] = e.toString();			
@@ -760,7 +763,7 @@ public class Database {
 		String res = "";
 		String sql;
 		sql = "select sql from sqlite_master where type = \"index\" and name = \"" + indexName + "\"";
-		Utils.logD("get indexef: "+ sql);
+		Utils.logD("get indexef: "+ sql, logging);
 		Cursor cursor = _db.rawQuery(sql, null);
 		int rows = cursor.getCount();
 		if (rows > 0) {
@@ -796,7 +799,7 @@ public class Database {
 			res.close();
 			return list;
 		} catch (Exception e) {
-			Utils.logD(e.toString());
+			Utils.logD(e.toString(), logging);
 			return list;
 		}
 	}
@@ -814,11 +817,11 @@ public class Database {
 		myProgressBar = (ProgressBar) pd.findViewById(R.id.progressbar_Horizontal);
 		progressTitle = (TextView) pd.findViewById(R.id.ProgressTitle);
 		progressTable = (TextView) pd.findViewById(R.id.ProgressTable);
-		Utils.logD(progressTitle.toString());
-		Utils.logD(progressTable.toString());
+		Utils.logD(progressTitle.toString(), logging);
+		Utils.logD(progressTable.toString(), logging);
 		pd.show();
 		new Thread(myThread).start();
-		Utils.logD("Exportet to; " + backupFile.getAbsolutePath());
+		Utils.logD("Exportet to; " + backupFile.getAbsolutePath(), logging);
 		return true;
 	}
 
@@ -833,8 +836,8 @@ public class Database {
 				f = new FileWriter(backupFile);
 				out = new BufferedWriter(f);
 				theHandle = myHandle;
-				Utils.logD("Exporting to; " + backupFile);
-	      Utils.logD("-- Database export made by aSQLiteManager");
+				Utils.logD("Exporting to; " + backupFile, logging);
+	      Utils.logD("-- Database export made by aSQLiteManager", logging);
 				out.write("--\n");
 	      out.write("-- Database export made by aSQLiteManager\n");
 				out.write("--\n");
@@ -877,7 +880,7 @@ public class Database {
 	    	//return false;
 		  }
 			pd.dismiss();
-			Utils.logD("Finish!!!");
+			Utils.logD("Finish!!!", logging);
 			try {
 			} catch (Throwable e) {
 				e.printStackTrace();
@@ -917,7 +920,7 @@ public class Database {
 			}
 			res.close();
 		} catch (Exception e) {
-			Utils.logE(e.getMessage());
+			Utils.logE(e.getMessage(), logging);
 		}
 	}
 
@@ -1001,10 +1004,10 @@ public class Database {
 			Utils.showMessage(_cont.getText(R.string.Restore).toString(),
 					_cont.getText(R.string.NoExportToRestore).toString(), _cont);
 		// drop all views
-		Utils.logD("Dropping all views");
+		Utils.logD("Dropping all views", logging);
 		dropAllViews();
 		// drop all user tables
-		Utils.logD("Dropping all tables");
+		Utils.logD("Dropping all tables", logging);
 		dropAllTables();
 		return runScript(backupFile);
 	}
@@ -1015,7 +1018,7 @@ public class Database {
 	 * @param sql the SQL statement to execute
 	 */
 	public void executeStatement(String sql) {
-		Utils.logD("Executing statement:" + sql);
+		Utils.logD("Executing statement:" + sql, logging);
 		testDB();
 		try {
 			_db.execSQL(sql);
@@ -1038,7 +1041,7 @@ public class Database {
     try {
 			f = new FileReader(scriptFile);
 			in = new BufferedReader(f);
-			Utils.logD("Importing from; " + scriptFile);
+			Utils.logD("Importing from; " + scriptFile, logging);
 			String nline = "";
 			while ((nline = in.readLine()) != null) {
 				line += nline;
@@ -1051,7 +1054,7 @@ public class Database {
 	      } else if(line.endsWith(";")) {
 	        // If line ends with ; we have a statement ready to execute
 	      	line = line.substring(0, line.length() - 1);
-	      	Utils.logD("SQL: " + line);
+	      	Utils.logD("SQL: " + line, logging);
 	      	// execute SQL
 	      	_db.execSQL(line);
 	      	line = "";
@@ -1082,7 +1085,7 @@ public class Database {
 				}
 			}
 		} catch (Exception e) {
-			Utils.logE(e.getMessage());
+			Utils.logE(e.getMessage(), logging);
 		}
 	}
 
@@ -1099,7 +1102,7 @@ public class Database {
 				_db.execSQL(sql);
 			}
 		} catch (Exception e) {
-			Utils.logE(e.getMessage());
+			Utils.logE(e.getMessage(), logging);
 		}
 		res.close();
 	}
@@ -1184,7 +1187,7 @@ public class Database {
 			out.close();
 			f.close();
 		} catch (Exception e) {
-			Utils.logE(e.getMessage());
+			Utils.logE(e.getMessage(), logging);
 			Utils.showException(e.getMessage(), _cont);
 		}
 	}
@@ -1199,7 +1202,7 @@ public class Database {
 			res.close();
 			return true;
 		} catch (Exception e) {
-			Utils.logD(e.toString());
+			Utils.logD(e.toString(), logging);
 			return false;
 		}
 	}
@@ -1213,7 +1216,7 @@ public class Database {
 	 */
 	public TableField[] getRecord(String tableName, long rowId) {
 		String sql = "select rowid as rowid, * from '" + tableName + "' where rowid = " + rowId;
-		Utils.logD(sql);
+		Utils.logD(sql, logging);
 		// retrieves field types, pk, ... from database
 		FieldDescr[] tabledef = getTableStructureDef(tableName);
 		Cursor cursor = _db.rawQuery(sql, null);
@@ -1238,7 +1241,7 @@ public class Database {
 				tf.setPrimaryKey(tabledef[j-1].isPk());
 				tf.setDefaultValue(tabledef[j-1].getDefaultValue());
 				//TODO need to retrieve the foreign key
-				Utils.logD("Name - type: " + tf.getName() + " - " + tabledef[j-1].getType());
+				Utils.logD("Name - type: " + tf.getName() + " - " + tabledef[j-1].getType(), logging);
 			}
 			//TODO Implement BLOB edit
 			//is it a BLOB field turn edit off
@@ -1259,7 +1262,7 @@ public class Database {
 				String fkName = cursor.getString(3);
 				//Utils.logD("NameMH: " + tfs[i].getName());
 				if (tfs[i].getName().equals(fkName)) {
-					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4));
+					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4), logging);
 					tfs[i].setForeignKey("select [" + cursor.getString(4) + "] from [" + cursor.getString(2)+ "]");
 					break;
 				} 
@@ -1298,7 +1301,7 @@ public class Database {
 				String fkName = cursor.getString(3);
 				//Utils.logD("NameMH: " + tfs[i].getName());
 				if (tfs[i].getName().equals(fkName)) {
-					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4));
+					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4), logging);
 					tfs[i].setForeignKey("select [" + cursor.getString(4) + "] from [" + cursor.getString(2)+ "]");
 					break;
 				} 
@@ -1323,7 +1326,7 @@ public class Database {
 		}
 		sql = sql.substring(0, sql.length() - 2);
 		sql += " where rowid = " + rowId;
-		Utils.logD("Update SQL = " + sql);
+		Utils.logD("Update SQL = " + sql, logging);
 		try {
 			_db.execSQL(sql);
 		} catch (Exception e) {
@@ -1371,7 +1374,7 @@ public class Database {
 			sql += quoteStrings(fld) + ", ";
 		}
 		sql = sql.substring(0, sql.length() - 2) + ")";
-		Utils.logD("Insert SQL = " + sql);
+		Utils.logD("Insert SQL = " + sql, logging);
 		try {
 			_db.execSQL(sql);
 		} catch (Exception e) {
@@ -1386,7 +1389,7 @@ public class Database {
 	 * @return true on success
 	 */
 	public boolean exportTable(String table) {
-		Utils.logD("Dumping table: " + table);
+		Utils.logD("Dumping table: " + table, logging);
 		String backupName = _dbPath + "." + table + ".sql";
 		File backupFile = new File(backupName);
 		FileWriter f;
@@ -1395,9 +1398,9 @@ public class Database {
 			f = new FileWriter(backupFile);
 			out = new BufferedWriter(f);
 			exportSingleTableDefinition(table, out);
-			Utils.logD("Def exported");
+			Utils.logD("Def exported", logging);
 			exportSingleTableData(table, out);
-			Utils.logD("Data exported");
+			Utils.logD("Data exported", logging);
 
 			out.close();
       f.close();
@@ -1431,7 +1434,7 @@ public class Database {
 				// retrieve data
 				//TODO change this to [field1], typeof([field1]), ....
 				sql = selectWithTypes(tableName);
-				Utils.logD(sql);
+				Utils.logD(sql, logging);
 				Cursor data = _db.rawQuery(sql, null);
 				int columns = data.getColumnCount() / 2;
 				while (data.moveToNext()) {
@@ -1468,11 +1471,11 @@ public class Database {
 							fields = field;
 					}
 					out.write("insert into " + tableName + " values (" + fields + ");" + nl);
-					Utils.logD("insert into " + tableName + " values (" + fields + ");" + nl);
+					Utils.logD("insert into " + tableName + " values (" + fields + ");" + nl, logging);
 				}
 				data.close();
 		} catch (Exception e) {
-			Utils.logE(e.getMessage());
+			Utils.logE(e.getMessage(), logging);
 		}
 		return false;
 	}
@@ -1495,7 +1498,7 @@ public class Database {
 				sql += ", ";
 		}
 		sql += " from [" + tableName + "]";
-		Utils.logD(sql);
+		Utils.logD(sql, logging);
 		return sql;
 	}
 
@@ -1603,7 +1606,7 @@ public class Database {
 
 	public void deleteRecord(String tableName, Long rowId) {
 		String sql = "delete from [" + tableName + "] where rowid = " + rowId;
-		Utils.logD("Delete SQL = " + sql);
+		Utils.logD("Delete SQL = " + sql, logging);
 		try {
 			_db.execSQL(sql);
 		} catch (Exception e) {

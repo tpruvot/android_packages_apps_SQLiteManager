@@ -61,6 +61,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private static final int MENU_FIRST_REC = 1;
 	private static final int MENU_LAST_REC = 2;
 	private static final int MENU_FILETR = 3;
+	private boolean logging;
 	
 	/*
 	 * What is needed to allow editing form  table viewer 
@@ -81,6 +82,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logging = Prefs.getLogging(this);
 		setContentView(R.layout.table_viewer);
 		TextView tvDB = (TextView)this.findViewById(R.id.TableToView);
 		Button bTab = (Button) this.findViewById(R.id.Fields);
@@ -103,14 +105,14 @@ public class TableViewer extends Activity implements OnClickListener {
 			_cont = tvDB.getContext();
 			sourceType = extras.getInt("type");
 			_dbPath = extras.getString("db");
-			Utils.logD("Opening database");
+			Utils.logD("Opening database", logging);
 			_table = extras.getString("Table");
 			if (sourceType == Types.TABLE)
 				tvDB.setText(getString(R.string.DBTable) + " " + _table);
 			else if (sourceType == Types.VIEW)
 				tvDB.setText(getString(R.string.DBView) + " " + _table);
 			_db = new Database(_dbPath, _cont);
-			Utils.logD("Database open");
+			Utils.logD("Database open", logging);
 			onClick(bTab);
 		}
 	}
@@ -166,7 +168,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		} else if (key == R.id.PgDwn) {
 			//TODO copy methods from .Data to solve paging problems for views
 			int childs = _aTable.getChildCount();
-			Utils.logD("Table childs: " + childs);
+			Utils.logD("Table childs: " + childs, logging);
 			if (childs >= limit) {  //  No more data on to display - no need to PgDwn
 				offset += limit;
 				String [] fieldNames = _db.getFieldsNames(_table);
@@ -174,7 +176,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				Record[] data = _db.getTableDataWithWhere(_table, _where, offset, limit, isView);
 				appendRows(_aTable, data, !isView);
 			}
-			Utils.logD("PgDwn:" + offset);
+			Utils.logD("PgDwn:" + offset, logging);
 		} else if (key == R.id.PgUp) {
 			//TODO copy methods from .Data to solve paging problems for views
 			offset -= limit;
@@ -184,7 +186,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			setTitles(_aTable, fieldNames, !isView);
 			Record[] data = _db.getTableDataWithWhere(_table, _where, offset, limit, isView);
 			appendRows(_aTable, data, !isView);
-			Utils.logD("PgUp: " + offset);
+			Utils.logD("PgUp: " + offset, logging);
 		}
 	}
 	
@@ -225,7 +227,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		if (data == null)
 			return;
 		int rowSize = data.length;
-		Utils.logD("data.length " + data.length);
+		Utils.logD("data.length " + data.length, logging);
 		if (data.length == 0)
 			return;
 		int colSize = data[0].getFields().length; 
@@ -235,7 +237,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					// Edit button was clicked!
-					Utils.logD("OnClick: " + v.getId());
+					Utils.logD("OnClick: " + v.getId(), logging);
 				}
 			});
 			if (i%2 == 1)
@@ -264,7 +266,7 @@ public class TableViewer extends Activity implements OnClickListener {
 							final RecordEditorBuilder re;
 							TextView a = (TextView)v;
 							final Long rowid = new Long(a.getHint().toString());
-							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table);
+							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table, logging);
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
 							dial.setContentView(R.layout.line_editor);
@@ -281,7 +283,7 @@ public class TableViewer extends Activity implements OnClickListener {
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 							btnOK.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {
-									Utils.logD("Edit record");
+									Utils.logD("Edit record", logging);
 									if (v == btnOK) {
 										String msg = re.checkInput(sv); 
 										if (msg == null) {
@@ -307,7 +309,7 @@ public class TableViewer extends Activity implements OnClickListener {
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 							btnCancel.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {
-									Utils.logD("Cancel edit");
+									Utils.logD("Cancel edit", logging);
 									if (v == btnCancel) {
 										dial.dismiss();
 									}
@@ -320,7 +322,7 @@ public class TableViewer extends Activity implements OnClickListener {
 									LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 							btnDelete.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {
-									Utils.logD("Delete record");
+									Utils.logD("Delete record", logging);
 									if (v == btnDelete) {
 										_db.deleteRecord(_table, rowid);
 										_updateTable = true;
@@ -412,7 +414,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			row.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					// Edit button was clicked!
-					Utils.logD("OnClick: " + v.getId());
+					Utils.logD("OnClick: " + v.getId(),logging);
 				}
 			});
 			if (i%2 == 1)
@@ -444,7 +446,7 @@ public class TableViewer extends Activity implements OnClickListener {
 							final RecordEditorBuilder re;
 							TextView a = (TextView)v;
 							final Long rowid = new Long(a.getHint().toString());
-							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table);
+							Utils.logD("Ready to edit rowid " +v.getId() + " in table " + _table,logging);
 							TableField[] rec = _db.getRecord(_table, rowid);
 							final Dialog dial = new Dialog(_cont);
 							dial.setContentView(R.layout.line_editor);
@@ -638,7 +640,7 @@ public class TableViewer extends Activity implements OnClickListener {
     	return true;
     case MENU_LAST_REC:
 			int childs = _db.getNoOfRecords(_table, _where); 
-			Utils.logD("Records = " + childs);
+			Utils.logD("Records = " + childs, logging);
 			offset = childs - limit;
 			fillDataTableWithWhere(_table, _where);
     	return true;
@@ -695,13 +697,13 @@ public class TableViewer extends Activity implements OnClickListener {
 		Record[] data = _db.getTableDataWithWhere(tableName, where, offset, limit, isView);
 		setTitles(_aTable, _db.getFieldsNames(_table), !isView);
 		appendRows(_aTable, data, !isView);
-		Utils.logD("where = " + where);
+		Utils.logD("where = " + where, logging);
 	}
 
 	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
 		public void onClick( DialogInterface dialog, int clicked )
 		{
-			Utils.logD("Dialog: " + dialog.getClass().getName());
+			Utils.logD("Dialog: " + dialog.getClass().getName(), logging);
 			switch(clicked)
 			{
 			case DialogInterface.BUTTON_POSITIVE:

@@ -46,11 +46,13 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private Context _cont;
 	private String _recentFiles;
 	private boolean testing = false;
+	private boolean logging = false;
 
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        logging = Prefs.getLogging(this);
         setContentView(R.layout.main);
         Button open = (Button) this.findViewById(R.id.Open);
         open.setOnClickListener(this);
@@ -111,14 +113,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			int key = v.getId();
 			if (key == R.id.Open) {
 				Intent i = new Intent(this, NewFilePicker.class);
-				Utils.logD("Calling NewFilepicker");
+				Utils.logD("Calling NewFilepicker", logging);
 //				Utils.logD("Calling NewFilepicker for result");
 //				startActivityForResult(i, 1);
 				startActivity(i);
 			} else if (key == R.id.About) {
 				showAboutDialog();
 			}  else if (key == R.id.NewDB) {
-				Utils.logD("Create new database");
+				Utils.logD("Create new database", logging);
 				newDatabase();
 			} else if (key == R.id.Recently) {
 				// Retrieve recently opened files
@@ -128,7 +130,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					Utils.showMessage("Recently files: ", _recentFiles, _cont);
 				} else {
 					String[] resently = _recentFiles.split(";");
-					Utils.logD(_recentFiles);
+					Utils.logD(_recentFiles, logging);
 					AlertDialog dial = new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.Recently)) 
 					.setSingleChoiceItems(resently, 0, new ResentFileOnClickHandler() )
@@ -169,10 +171,10 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 
 		protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		{
-			Utils.logD("MainDriver main-activity got result from sub-activity");
+			Utils.logD("Main-activity got result from sub-activity", logging);
 			if (resultCode == Activity.RESULT_CANCELED) {
-				Utils.logD("WidgetActivity was cancelled or encountered an error. resultcode == result_cancelled");
-				Utils.logD("WidgetActivity was cancelled - data =" + data);
+				Utils.logD("WidgetActivity was cancelled or encountered an error. resultcode == result_cancelled", logging);
+				Utils.logD("WidgetActivity was cancelled - data =" + data, logging);
 			} else
 				switch (requestCode) {
 				case 1:
@@ -180,7 +182,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					 Utils.showMessage("Returned file", msg, _cont);
 					break;
 				}
-			Utils.logD("MainDriver main-activity got result from sub-activity");
+			Utils.logD("Main-activity got result from sub-activity", logging);
 		}		
 		
 		/**
@@ -236,7 +238,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 								}
 							}
 						}
-						Utils.logD("Path: " + edNewDB.getText().toString());
+						Utils.logD("Path: " + edNewDB.getText().toString(), logging);
 					}
 				}
 			});

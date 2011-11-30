@@ -48,12 +48,14 @@ public class RecordEditorBuilder {
 	private int fieldNameWidth = 100;
 	Database _db;
 	private boolean useSelectLists = false;
+	private boolean logging = false;
 	/**
 	 * 
 	 * @param fields
 	 * @param cont
 	 */
 	public RecordEditorBuilder(TableField[] fields, Context cont, Database db) {
+		logging = Prefs.getLogging(cont);
 		useSelectLists = Prefs.getFKList(cont);
 		_db = db;
 		_cont = cont;
@@ -69,33 +71,36 @@ public class RecordEditorBuilder {
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		// Add a linearLayout to hold the label and field to edit
 		for (int i = 0; i < fields.length; i++) {
-			Utils.logD("Field: " + fields[i].getName() + " fk: " + fields[i].getForeignKey());
-			Utils.logD("Updatable: " + fields[i].getName() + " " + fields[i].isUpdateable());
 			LinearLayout ll;
 			if (fields[i].isUpdateable()) {
-				Utils.logD("Updatable: " + fields[i].getName());
+				Utils.logD("Updatable: " + fields[i].getName(),logging);
 				ll = new LinearLayout(cont);
-				// Use selection list for this field
 				int fieldType = fields[i].getType();
-				//TODO don't do this for all types of fields
-				if (fields[i].getForeignKey() != null && useSelectLists) {
-					Utils.logD("Uses list of FK for " + fields[i].getName());
-					// how to handle this in validation and when reading data?
+				boolean useList = true;
+				// Don't use selection list for these type of fields
+				// How to handle BLOB??
+				switch (fieldType) {
+				case TableField.TYPE_BOOLEAN:
+					useList = false;
+					break;
+				}
+				if (fields[i].getForeignKey() != null && useSelectLists && useList) {
+					// Editing using selection list
+					Utils.logD("Uses list of FK for " + fields[i].getName(), logging);
 					ll = buildFKList(fields[i], lineIdBase +i, idBase + i);
 				} else {
 					// Normal input field based on type of field 
-					Utils.logD("Normal edit for " + fields[i].getName());
+					Utils.logD("Normal edit for " + fields[i].getName(), logging);
 					ll = buildEditField(fields[i], lineIdBase + i, idBase + i);
 				}
 				lmain.addView(ll);
 			}
 		}
-		//TODO add OK and cancel buttons here to have them on the scroll view??
 		sv.addView(lmain);
 	}
 
 	private LinearLayout buildEditField(TableField field,int llId, int id) {
-		Utils.logD("Creating normal edit field");
+		Utils.logD("Creating normal edit field", logging);
 		LinearLayout ll = new LinearLayout(_cont);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(
@@ -227,7 +232,7 @@ public class RecordEditorBuilder {
 	 * @return
 	 */
 	private LinearLayout buildFKList(TableField field,int llId, int id) {
-		Utils.logD("Creating fk edit list");
+		Utils.logD("Creating fk edit list", logging);
 		LinearLayout ll = new LinearLayout(_cont);
 		ll.setOrientation(LinearLayout.HORIZONTAL);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(
@@ -249,7 +254,7 @@ public class RecordEditorBuilder {
 		tv.setPadding(5, 0, 5, 0);
 		ll.addView(tv);
 
-		//TODO should store selected value in invisible TextView
+		//TODO set current value of field as selected!!!
 		final EditText ets = new EditText(_cont);
 		ets.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT)));
@@ -269,9 +274,9 @@ public class RecordEditorBuilder {
 			  .setTitle("Select value")
 			  .setAdapter(adapter, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int which) {
-			    	Utils.logD("Item pressed:" + which);
+			    	Utils.logD("Item pressed:" + which, logging);
 			    	String val = fk[which];
-			    	Utils.logD("Value selected:" + val);
+			    	Utils.logD("Value selected:" + val, logging);
 			    	btn.setText(val);
 			    	ets.setText(val);
 			    	dialog.dismiss();

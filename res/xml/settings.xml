@@ -26,4 +26,11 @@
     android:summary="Use lists when editing FK fields"
     android:defaultValue="false"
   />
+  <CheckBoxPreference
+    android:key="Logging"
+    android:title="Logging"
+    android:summary="Enable logging"
+    android:defaultValue="false"
+  />
+
 </PreferenceScreen>

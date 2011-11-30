@@ -50,25 +50,27 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 	private String _scriptPath;
 	private SQLViewer _cont;
 	protected String _sql;
+	private boolean logging;
 	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logging = Prefs.getLogging(this);
 		setContentView(R.layout.sqlviewer);
 		Bundle extras = getIntent().getExtras();
 		_cont = this;
 		if(extras !=null)
 		{
 			_dbPath = extras.getString("db");
-			Utils.logD("Path to database: " + _dbPath);
+			Utils.logD("Path to database: " + _dbPath, logging);
 			_scriptPath = extras.getString("script");
-			Utils.logD("Path to script: " + _scriptPath);
+			Utils.logD("Path to script: " + _scriptPath, logging);
 			_db = new Database(_dbPath, this);
-			Utils.logD("Opening SQL file " + _scriptPath);
+			Utils.logD("Opening SQL file " + _scriptPath, logging);
 			_pd = ProgressDialog.show(this, getString(R.string.Working),
 					getString(R.string.ReadingScript), true, false);
-			Utils.logD("Fetching SQLListView");
+			Utils.logD("Fetching SQLListView", logging);
 	    _lv = (ListView)findViewById(R.id.SQLListView);
 			final ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String> map;
@@ -76,7 +78,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 	    	String nl = "\n";
 				_f = new FileReader(_scriptPath);
 				_in = new BufferedReader(_f);
-				Utils.logD("Importing from; " + _scriptPath);
+				Utils.logD("Importing from; " + _scriptPath, logging);
 				String line = "";
 				String nline;
 				// put each statement in the list
@@ -94,7 +96,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 		      } else if(line.endsWith(";")) {
 		        // If line ends with ; we have a statement ready to execute
 		      	line = line.substring(0, line.length() - 1);
-		      	Utils.logD("SQL: " + line);
+		      	Utils.logD("SQL: " + line, logging);
 						map = new HashMap<String, String>();
 						map.put("Sql", line);
 						mylist.add(map);
@@ -104,9 +106,9 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 		    _in.close();
 		    _f.close();
 	    }  catch (Exception e) {
-	    	Utils.logD("Exception!");
+	    	Utils.logD("Exception!", logging);
 	    }
-			Utils.logD("All lines read");
+			Utils.logD("All lines read", logging);
 			SimpleAdapter mSchedule = new SimpleAdapter(this, mylist,
 					R.layout.sql_line, new String[] {"Sql"},
 					new int[] { R.id.Sql});
@@ -120,7 +122,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 					Iterator<String> itv = m.iterator();
 					while (itv.hasNext()) {
 						String str = (String) itv.next();
-					    Utils.logD("Element: " + str);
+					    Utils.logD("Element: " + str, logging);
 					    _sql = str;
 					}
 					Dialog executeLine = new AlertDialog.Builder(_cont)
@@ -131,7 +133,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 					executeLine.show();
 				}
 			});
-			Utils.logD("Adapter finished");
+			Utils.logD("Adapter finished", logging);
 			Thread thread = new Thread(this);
 			thread.start();
 		}		
@@ -162,7 +164,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 		switch (id) {
 		case MENU_RUN:
 			title = "Execute SQL script";
-			Utils.logD("Creating MENU_RUN");
+			Utils.logD("Creating MENU_RUN", logging);
 			title = getText(R.string.Run).toString();
 			test = new AlertDialog.Builder(this)
 			.setTitle(title)
@@ -190,17 +192,17 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 
 		public void onClick( DialogInterface dialog, int clicked )
 		{
-			Utils.logD("Dialog: " + dialog.getClass().getName());
+			Utils.logD("Dialog: " + dialog.getClass().getName(), logging);
 			switch(clicked)
 			{
 			case DialogInterface.BUTTON_POSITIVE:
 				switch (_dialogClicked) {
 				case MENU_RUN:
-					Utils.logD("Ready to run " + _scriptPath);
+					Utils.logD("Ready to run " + _scriptPath, logging);
 					_db.runScript(new File(_scriptPath));
 					break;
 				case RUN_STATEMENT:
-					Utils.logD("Execute statement: " + _sql);
+					Utils.logD("Execute statement: " + _sql, logging);
 					_db.executeStatement(_sql);
 					break;
 				}
@@ -210,7 +212,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 	}
 
 	public void onClick(View v) {
-		Utils.logD("SQLViewer onClick called!");
+		Utils.logD("SQLViewer onClick called!", logging);
 		
 		
 	}
