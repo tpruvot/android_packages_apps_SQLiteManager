@@ -721,6 +721,7 @@ public class Database {
 				//res[0][0] = "No result";
 				nres.setColumnNames(new String[] {""});
 				nres.Data[0][0] = _cont.getText(R.string.NoResult).toString();
+				cursor.close();
 				return nres;
 			} else {
 				//TOD get column names
