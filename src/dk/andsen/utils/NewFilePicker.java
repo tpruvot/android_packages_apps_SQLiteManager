@@ -58,7 +58,7 @@ public class NewFilePicker extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		context = this.getBaseContext();
 		logging = Prefs.getLogging(context);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
@@ -70,7 +70,6 @@ public class NewFilePicker extends ListActivity {
 		}
 		setContentView(R.layout.filepicker);
 		myPath = (TextView)findViewById(R.id.path);
-		context = this.getBaseContext();
 		File path = null;
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
