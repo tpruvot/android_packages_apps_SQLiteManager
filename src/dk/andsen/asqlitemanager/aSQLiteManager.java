@@ -89,7 +89,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     					android.content.SharedPreferences.Editor edt = settings.edit();
     					edt.putBoolean(WelcomeId, _remember.isChecked()); 
     					edt.commit();
-    					dial.hide();
+    					dial.dismiss();
     				} });
     			dial.show();
     		}
