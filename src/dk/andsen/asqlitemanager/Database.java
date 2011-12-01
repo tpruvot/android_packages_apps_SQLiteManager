@@ -739,6 +739,7 @@ public class Database {
 					i++;
 				}
 			}
+			cursor.close();
 			return nres;
 		} catch (Exception e) {
 			Utils.logD(e.toString(), logging);
