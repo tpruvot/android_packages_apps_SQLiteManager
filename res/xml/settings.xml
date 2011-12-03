@@ -32,5 +32,11 @@
     android:summary="Enable logging"
     android:defaultValue="false"
   />
+  <CheckBoxPreference
+    android:key="MainVertical"
+    android:title="Main screen in portrait"
+    android:summary="Always keep main screen in portrait (after restart)"
+    android:defaultValue="false"
+  />
 
 </PreferenceScreen>

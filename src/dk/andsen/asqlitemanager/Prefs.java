@@ -35,6 +35,8 @@ public class Prefs extends PreferenceActivity {
    private static final boolean OPT_FK2LIST_DEF = false;
    private static final String OPT_LOGGING = "Logging";
    private static final boolean OPT_LOGGING_DEF = false;
+   private static final String OPT_VERTICAL = "MainVertical";
+   private static final boolean OPT_VERTICAL_DEF = false;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -77,4 +79,9 @@ public class Prefs extends PreferenceActivity {
   		.getBoolean(OPT_LOGGING, OPT_LOGGING_DEF);
   }
 
+  public static boolean getMainVertical(Context context) {
+  	return PreferenceManager.getDefaultSharedPreferences(context)
+  		.getBoolean(OPT_VERTICAL, OPT_VERTICAL_DEF);
+  }
+  
 }

@@ -19,9 +19,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +55,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         logging = Prefs.getLogging(this);
+        if (Prefs.getMainVertical(this))
+        	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.main);
         Button open = (Button) this.findViewById(R.id.Open);
         open.setOnClickListener(this);
@@ -193,6 +197,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			newDatabaseDialog.setContentView(R.layout.new_database);
 			newDatabaseDialog.setTitle(getText(R.string.NewDBSDCard));
 			final EditText edNewDB = (EditText)newDatabaseDialog.findViewById(R.id.newCode);
+			edNewDB.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
 			edNewDB.setHint(getText(R.string.NewDBPath));
 			TextView tvMessage = (TextView) newDatabaseDialog.findViewById(R.id.newMessage);
 			tvMessage.setText(getText(R.string.Database));

@@ -706,27 +706,33 @@ public class Database {
 			sql = sqlStatement + " limit " + limit + " offset " + offset;
 		else 
 			sql = sqlStatement;
-		//String[][] res;
 		Utils.logD("SQL = " + sql, logging);
 		Cursor cursor = null;
-		QueryResult nres = new QueryResult();
-		try {
-			cursor = _db.rawQuery(sql, null);
-			int cols = cursor.getColumnCount();
-			int rows = cursor.getCount();
-			nres.columnNames = cursor.getColumnNames();
-			if (rows == 0) {
+		QueryResult nres = null;
+		if (!sql.trim().toLowerCase().startsWith("select")) {
+			try {
+				_db.execSQL(sql);
+				nres = new QueryResult();
 				nres.Data = new String[1][1];
-				//res = new String[1][1];
-				//res[0][0] = "No result";
 				nres.setColumnNames(new String[] {""});
-				nres.Data[0][0] = _cont.getText(R.string.NoResult).toString();
-				cursor.close();
-				return nres;
-			} else {
+				nres.Data[0][0] = _cont.getText(R.string.NotAnArror).toString();
+			} catch (Exception e) {
+				Utils.logD(e.toString(), logging);
+				nres = new QueryResult();
+				nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
+				nres.Data = new String[1][1];
+				nres.Data[0][0] = e.toString();			
+				Utils.logD(e.toString(), logging);
+			}
+		} else {
+			try {
+				nres = new QueryResult();
+				cursor = _db.rawQuery(sql, null);
 				//TOD get column names
+				nres.columnNames = cursor.getColumnNames();
+				int rows = cursor.getCount();
+				int cols = cursor.getColumnCount();
 				nres.Data = new String[rows][cols];
-				//res = new String[rows][cols];
 				int i = 0;
 				while(cursor.moveToNext()) {
 					for (int k=0; k<cols; k++) {
@@ -739,20 +745,18 @@ public class Database {
 					}
 					i++;
 				}
-			}
-			cursor.close();
-			return nres;
-		} catch (Exception e) {
-			Utils.logD(e.toString(), logging);
-			nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
-			nres.Data = new String[1][1];
-			nres.Data[0][0] = e.toString();			
-			//res = new String[1][1];
-			//res[0][0] = "Error:\n" + e.toString();
-			if (cursor != null)
 				cursor.close();
-			return nres;
+			} catch (Exception e) {
+				Utils.logD(e.toString(), logging);
+				nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
+				nres.Data = new String[1][1];
+				nres.Data[0][0] = e.toString();			
+				if (cursor != null)
+					cursor.close();
+				Utils.logD(e.toString(), logging);
+			}
 		}
+		return nres;
 	}
 
 	/**

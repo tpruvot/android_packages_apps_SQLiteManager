@@ -141,14 +141,24 @@
 		<string name="Filter">Filter</string>
 		<string name="EnterWhere">Indtast where clause (uden where)</string>
 		<string name="StrangeErr">Hvis du kan reproducere denne fejl så send mig databasen og en forklaring på hvoda du kan fremprovokere den ;-)</string>
-
+		<string name="NotAnArror">Ikke en fejl</string>
+		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version:
+
       \n\nBug fixes
+			\nProblemer med at oprette tabeller og eksekvere andre statements end
+			select på Android 3 løst
+			\nDatabasenavn kan nu angives med både store og små bogstaver på Android 3
+  		\nRedigering af foreign key felter kan ske via liste af foriegn key værdier
+  		(eksprimental og skal slås til under konfiguration)
+  		\nNu kan det konfigureres om hovedskærmen skal forblive i portræt mode
+      
       \nGoto første / sidste side i tabel vieweren
       \nSimpel filter option i tabel vieweren
-      \nHoved skærm nu altid i portræt mode 
+      \nHoved skærm nu altid i portræt mode
+       
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen

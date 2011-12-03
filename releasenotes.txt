@@ -1,8 +1,13 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
-Next version:
+Version 2.7:
+	Problems with creating tables and executing other than select statements on 
+	  Android 3 solved
+	Now name of databases can be in mixed case on Android 3
   Extra error handling around annoying bug
-  Editing foreign key fields using selection list based on foreign key values 
+  Editing foreign key fields using selection list based on foreign key values
+    (experimental and must be turned on in configuration)
+  Now keeping main screen in portrait mode must be configured
 
 Version 2.6:
   Main screen now always in portrait

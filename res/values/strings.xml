@@ -142,14 +142,20 @@
 		<string name="Filter">Filter</string>
 		<string name="EnterWhere">Enter where clause (no where)</string>
 		<string name="StrangeErr">If you can reproduce this error please mail me the database and tell me how to provoke it ;-)</string>
+		<string name="NotAnArror">Not an error</string>
 				
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
-      \n\nNews in this version:
+      \n\nNews in this version (2.7):
+
       \n\nBug fixes
-      \nGoto first / last page in the table viewer
-      \nSimple filter option in the table viewer
-      \nMain screen now always in portrait mode 
+			\nProblems with creating tables and executing other statements than select
+			statements on Android 3 solved
+			\nNow name of databases can be in mixed case on Android 3
+  		\nEditing foreign key fields using selection list based on foreign key values
+    	(experimental and must be turned on in configuration)
+  		\nNow keeping main screen in portrait mode must be configured
+       
       \n\nBy using aShell (beta) you can edit all system databases on rooted
       phones with aSQLiteManager. You can find aShell here:
       \nhttp://market.android.com/search?q=pub:Andsen
