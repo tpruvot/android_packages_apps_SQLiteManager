@@ -158,6 +158,8 @@
       \nGoto første / sidste side i tabel vieweren
       \nSimpel filter option i tabel vieweren
       \nHoved skærm nu altid i portræt mode
+  		\nLogging kan slås til for at indsamle oplysninger om bugs (brug
+  		  aLogViewer og filter for aSQLMan)
        
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.7 β</string>
+    <string name="VersionNo">2.7</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
@@ -155,6 +155,8 @@
   		\nEditing foreign key fields using selection list based on foreign key values
     	(experimental and must be turned on in configuration)
   		\nNow keeping main screen in portrait mode must be configured
+  		\nLogging can be turned on to collect informations about bugs (use
+  		  aLogViewer and filter for aSQLMan)
        
       \n\nBy using aShell (beta) you can edit all system databases on rooted
       phones with aSQLiteManager. You can find aShell here:
