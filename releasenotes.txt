@@ -7,8 +7,9 @@ Version 2.7:
   Editing foreign key fields using selection list based on foreign key values
     (experimental and must be turned on in configuration)
   Now keeping main screen in portrait mode must be configured
-	Logging can be turned on to collect informations about bugs (use
-    aLogViewer and filter for aSQLMan)  Bug fixes
+		Logging can be turned on to collect informations about bugs (use
+	    aLogViewer and filter for aSQLMan)
+	Bug fixes
 
 Version 2.6:
   Main screen now always in portrait

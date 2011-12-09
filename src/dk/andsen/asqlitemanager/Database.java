@@ -63,7 +63,6 @@ public class Database {
 		_dbPath = dbPath;
 		logging = Prefs.getLogging(cont);
 		try {
-			// Must find a way to check if it is a SQLite file!
 			if (testDBFile(dbPath)) {
 				// Here we know it is a SQLite 3 file
 				Utils.logD("Trying to open (RW): " + dbPath, logging);
@@ -72,7 +71,8 @@ public class Database {
 				isDatabase = true;
 			}
 		} catch (Exception e) {
-			Utils.logD("Trying to open Exception: " + e.getMessage(), logging);
+			Utils.logE("Trying to open Exception: " + e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 			// It is not a database
 			isDatabase = false;
 		}
@@ -114,14 +114,18 @@ public class Database {
 					return true; 
 				}
 			} catch (FileNotFoundException e) {
+				Utils.logE("File not found", logging);
+				Utils.printStackTrace(e, logging);
 				e.printStackTrace();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Utils.logE("IO error", logging);
+				Utils.printStackTrace(e, logging);
 			}
 			try {
 				f.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Utils.logE("Close error", logging);
+				Utils.printStackTrace(e, logging);
 			}
 			return false;
 		}
@@ -136,7 +140,8 @@ public class Database {
 		try {
 			_db.close();
 		} catch (Exception e) {
-			
+			Utils.logE("onClose", logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -149,16 +154,31 @@ public class Database {
 				try {
 					_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.6 path??
 				} catch (Exception e) {
+					Utils.logE("testDB " + e.getLocalizedMessage().toString(), logging);
+					Utils.printStackTrace(e, logging);
 					Utils.showMessage(_cont.getText(R.string.Error).toString(),
 							e.getLocalizedMessage().toString() + "\n" +
 							_cont.getText(R.string.StrangeErr).toString(), _cont);
 				}
-			} else
+			} else {
 				Utils.showMessage(_cont.getText(R.string.Error).toString(),
 						_cont.getText(R.string.StrangeErr).toString(), _cont);
-		}
-		if (!_db.isOpen()) {
-			_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+			}
+		} else if (!_db.isOpen()) {
+			if (_dbPath != null) {
+				Utils.showMessage(_cont.getText(R.string.Error).toString(),
+						_cont.getText(R.string.StrangeErr).toString() + " dbPath = null", _cont);
+			} else {
+				try {
+					_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+				} catch (Exception e) {
+					Utils.logE("testDB " + e.getLocalizedMessage().toString(), logging);
+					Utils.printStackTrace(e, logging);
+					Utils.showMessage(_cont.getText(R.string.Error).toString(),
+							e.getLocalizedMessage().toString() + "\n" +
+							_cont.getText(R.string.StrangeErr).toString(), _cont);
+				}
+			}
 		}
 	}
 	
@@ -404,6 +424,8 @@ public class Database {
 			cursor.close();
 		} catch (Exception e) {
 			Utils.showMessage(_cont.getText(R.string.Error).toString(), e.getLocalizedMessage(), _cont);
+			Utils.logE("getTableDataWithWhere", logging);
+			Utils.printStackTrace(e, logging);
 		}
 		return recs;
 	}
@@ -618,6 +640,8 @@ public class Database {
 			res.close();
 		} catch (Exception e) {
 			tables = new String [] {"Error: " + e.toString()};
+			Utils.logE("getSQLQuery", logging);
+			Utils.printStackTrace(e, logging);
 		}
 		return tables;
 	}
@@ -667,7 +691,8 @@ public class Database {
 			Utils.logD("SQL save", logging);
 		} catch (SQLException e) {
 			// All duplicate SQL ends here
-			Utils.logD(e.toString(), logging);
+			Utils.logE("saveSQL", logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -717,12 +742,13 @@ public class Database {
 				nres.setColumnNames(new String[] {""});
 				nres.Data[0][0] = _cont.getText(R.string.NotAnArror).toString();
 			} catch (Exception e) {
-				Utils.logD(e.toString(), logging);
+				Utils.logE(e.toString(), logging);
+				Utils.printStackTrace(e, logging);
 				nres = new QueryResult();
 				nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
 				nres.Data = new String[1][1];
 				nres.Data[0][0] = e.toString();			
-				Utils.logD(e.toString(), logging);
+				Utils.logE(e.toString(), logging);
 			}
 		} else {
 			try {
@@ -747,13 +773,14 @@ public class Database {
 				}
 				cursor.close();
 			} catch (Exception e) {
-				Utils.logD(e.toString(), logging);
+				Utils.logE(e.toString(), logging);
+				Utils.printStackTrace(e, logging);
 				nres.setColumnNames(new String[] {_cont.getText(R.string.Error).toString()});
 				nres.Data = new String[1][1];
 				nres.Data[0][0] = e.toString();			
 				if (cursor != null)
 					cursor.close();
-				Utils.logD(e.toString(), logging);
+				Utils.logE(e.toString(), logging);
 			}
 		}
 		return nres;
@@ -805,7 +832,8 @@ public class Database {
 			res.close();
 			return list;
 		} catch (Exception e) {
-			Utils.logD(e.toString(), logging);
+			Utils.logE(e.toString(), logging);
+			Utils.printStackTrace(e, logging);
 			return list;
 		}
 	}
@@ -882,14 +910,16 @@ public class Database {
 	    	//TODO can't show exception dialog here
 	    	//TODO save the error and show it later
 	    	//Utils.showException(e.getMessage(), _cont);
-	    	//e.printStackTrace();
+				Utils.logE("Runnable", logging);
+				Utils.printStackTrace(e, logging);
 	    	//return false;
 		  }
 			pd.dismiss();
 			Utils.logD("Finish!!!", logging);
 			try {
 			} catch (Throwable e) {
-				e.printStackTrace();
+				Utils.logE("getSQLQuery", logging);
+				Utils.printStackTrace((Exception) e, logging);
 			}
 		}
 		Handler myHandle = new Handler(){
@@ -927,6 +957,7 @@ public class Database {
 			res.close();
 		} catch (Exception e) {
 			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -948,7 +979,8 @@ public class Database {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logE("exportIndexDefinition", logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -967,7 +999,8 @@ public class Database {
 				out.write(res.getString(1) + ";" + nl);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logE("exportViews", logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -990,7 +1023,8 @@ public class Database {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 		if (res != null)
 			res.close();
@@ -1030,7 +1064,8 @@ public class Database {
 			_db.execSQL(sql);
 		} catch (SQLException e) {
 			Utils.showException(e.toString(), _cont);
-			e.printStackTrace();
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -1070,6 +1105,8 @@ public class Database {
 			f.close();
     } catch (Exception e) {
     	Utils.showException(e.toString(), _cont);
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
     	return false;
     }
     return true;
@@ -1092,6 +1129,7 @@ public class Database {
 			}
 		} catch (Exception e) {
 			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -1109,6 +1147,7 @@ public class Database {
 			}
 		} catch (Exception e) {
 			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 		res.close();
 	}
@@ -1193,8 +1232,9 @@ public class Database {
 			out.close();
 			f.close();
 		} catch (Exception e) {
-			Utils.logE(e.getMessage(), logging);
 			Utils.showException(e.getMessage(), _cont);
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -1208,7 +1248,8 @@ public class Database {
 			res.close();
 			return true;
 		} catch (Exception e) {
-			Utils.logD(e.toString(), logging);
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 			return false;
 		}
 	}
@@ -1255,6 +1296,8 @@ public class Database {
 				tf.setValue(cursor.getString(j));
 			} catch (Exception e) {
 				tf.setUpdateable(false);
+				Utils.logE(e.getMessage(), logging);
+				Utils.printStackTrace(e, logging);
 			}
 			tfs[j] = tf;
 		}
@@ -1337,6 +1380,8 @@ public class Database {
 			_db.execSQL(sql);
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 	
@@ -1385,6 +1430,8 @@ public class Database {
 			_db.execSQL(sql);
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -1412,7 +1459,8 @@ public class Database {
       f.close();
     } catch (IOException e) {
     	Utils.showException(e.getMessage(), _cont);
-    	e.printStackTrace();
+			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
     	return false;
     }
 		return true;
@@ -1482,6 +1530,7 @@ public class Database {
 				data.close();
 		} catch (Exception e) {
 			Utils.logE(e.getMessage(), logging);
+			Utils.printStackTrace(e, logging);
 		}
 		return false;
 	}
@@ -1548,11 +1597,13 @@ public class Database {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Utils.logE("exportSingleTableDefinition", logging);
+			Utils.printStackTrace(e, logging);
 			return false;
 		}
 		return true;
 	}
+
 
 	public String getVersionInfo() {
 		// pragma user_version
@@ -1601,7 +1652,6 @@ public class Database {
 		while(cursor.moveToNext()) {
 			res += cursor.getString(0);
 		}
-
 		
 		// journal_mode
 		// collation_list??
@@ -1617,6 +1667,8 @@ public class Database {
 			_db.execSQL(sql);
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE("deleteRecord", logging);
+			Utils.printStackTrace(e, logging);
 		}
 	}
 	
@@ -1635,6 +1687,8 @@ public class Database {
 			}
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE("getNoOfRecords", logging);
+			Utils.printStackTrace(e, logging);
 		}
 		return recs;
 	}
@@ -1651,6 +1705,8 @@ public class Database {
 			cursor.close();
 		} catch (Exception e) {
 			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE("getFKList", logging);
+			Utils.printStackTrace(e, logging);
 		}
 		return fk;
 	}

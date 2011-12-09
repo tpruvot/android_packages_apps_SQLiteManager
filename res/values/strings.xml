@@ -141,7 +141,10 @@
 		<string name="Last">Last</string>
 		<string name="Filter">Filter</string>
 		<string name="EnterWhere">Enter where clause (no where)</string>
-		<string name="StrangeErr">If you can reproduce this error please mail me the database and tell me how to provoke it ;-)</string>
+		<string name="StrangeErr">If you can reproduce this error please tell me
+		    by mail how to provoke it ;-)
+		    \nYou can also also use aLogViewer to extract extra informations
+		    form the system log to help me find out what is wrong.</string>
 		<string name="NotAnArror">Not an error</string>
 				
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
