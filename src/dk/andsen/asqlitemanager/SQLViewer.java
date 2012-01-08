@@ -203,7 +203,7 @@ public class SQLViewer extends Activity implements OnClickListener, Runnable {
 					break;
 				case RUN_STATEMENT:
 					Utils.logD("Execute statement: " + _sql, logging);
-					_db.executeStatement(_sql);
+					_db.executeStatement(_sql, _cont);
 					break;
 				}
 				break;

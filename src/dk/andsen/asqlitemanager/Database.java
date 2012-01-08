@@ -42,7 +42,7 @@ import dk.andsen.utils.Utils;
  */
 public class Database {
 	public boolean isDatabase = false;
-	private SQLiteDatabase _db = null;
+	private static SQLiteDatabase _db = null;
 	private String _dbPath;
 	private Context _cont;
 	private String nl = "\n"; 
@@ -66,6 +66,7 @@ public class Database {
 			if (testDBFile(dbPath)) {
 				// Here we know it is a SQLite 3 file
 				Utils.logD("Trying to open (RW): " + dbPath, logging);
+				//_db = DBViewer._db;
 				_db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 				_cont = cont;
 				isDatabase = true;
@@ -138,6 +139,7 @@ public class Database {
 	public void close() {
 		//This sometimes throws SQLiteException: unable to close due to unfinalised statements
 		try {
+			Utils.logD("Closing database", logging);
 			_db.close();
 		} catch (Exception e) {
 			Utils.logE("onClose", logging);
@@ -150,9 +152,10 @@ public class Database {
 	 */
 	private void testDB() {
 		if (_db == null) {
+			Utils.logD("TestDB database is null", logging);
 			if (_dbPath != null) {
 				try {
-					_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); //TODO null pointer exception here 2.6 path??
+					_db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE); 
 				} catch (Exception e) {
 					Utils.logE("testDB " + e.getLocalizedMessage().toString(), logging);
 					Utils.printStackTrace(e, logging);
@@ -165,6 +168,8 @@ public class Database {
 						_cont.getText(R.string.StrangeErr).toString(), _cont);
 			}
 		} else if (!_db.isOpen()) {
+			Utils.logD("TestDB database not open", logging);
+
 			if (_dbPath != null) {
 				Utils.showMessage(_cont.getText(R.string.Error).toString(),
 						_cont.getText(R.string.StrangeErr).toString() + " dbPath = null", _cont);
@@ -179,6 +184,8 @@ public class Database {
 							_cont.getText(R.string.StrangeErr).toString(), _cont);
 				}
 			}
+		} else {
+
 		}
 	}
 	
@@ -687,12 +694,12 @@ public class Database {
 		testHistoryTable();
 		String sql = "insert into aSQLiteManager (sql) values (\"" + saveSql +"\")";
 		try {
-			_db.execSQL(sql);
 			Utils.logD("SQL save", logging);
+			_db.execSQL(sql);
 		} catch (SQLException e) {
 			// All duplicate SQL ends here
-			Utils.logE("saveSQL", logging);
-			Utils.printStackTrace(e, logging);
+			Utils.logD("saveSQL dublicate SQL not saved", logging);
+			//Utils.printStackTrace(e, logging);
 		}
 	}
 
@@ -727,15 +734,24 @@ public class Database {
 	public QueryResult getSQLQueryPage(String sqlStatement, int offset, int limit) {
 		testDB();
 		String sql;
-		if (sqlStatement.startsWith("select"))
+		//  || sqlStatement.toLowerCase().startsWith("pragma")
+		if (sqlStatement.toLowerCase().startsWith("select"))
 			sql = sqlStatement + " limit " + limit + " offset " + offset;
 		else 
 			sql = sqlStatement;
-		Utils.logD("SQL = " + sql, logging);
 		Cursor cursor = null;
 		QueryResult nres = null;
-		if (!sql.trim().toLowerCase().startsWith("select")) {
+		boolean rawType = true;
+		//Find out which for of query to use
+		if (sql.trim().toLowerCase().startsWith("select"))
+			rawType  = false;
+		else if (sql.trim().toLowerCase().startsWith("pragma"))
+			rawType = false;
+		Utils.logD("Use rawType: " + rawType, logging);
+		// Use execSQL where no result is expected
+		if (rawType) {
 			try {
+				Utils.logD("execSQL: " + sql, rawType);
 				_db.execSQL(sql);
 				nres = new QueryResult();
 				nres.Data = new String[1][1];
@@ -753,6 +769,7 @@ public class Database {
 		} else {
 			try {
 				nres = new QueryResult();
+				Utils.logD("rawQuery: " + sql, logging);
 				cursor = _db.rawQuery(sql, null);
 				//TOD get column names
 				nres.columnNames = cursor.getColumnNames();
@@ -760,7 +777,9 @@ public class Database {
 				int cols = cursor.getColumnCount();
 				nres.Data = new String[rows][cols];
 				int i = 0;
+				boolean result = false; 
 				while(cursor.moveToNext()) {
+					result = true;
 					for (int k=0; k<cols; k++) {
 						//Fails if it is a BLOB field
 						try {
@@ -770,6 +789,12 @@ public class Database {
 						}
 					}
 					i++;
+				}
+				if (!result) {
+					nres = new QueryResult();
+					nres.Data = new String[1][1];
+					nres.setColumnNames(new String[] {""});
+					nres.Data[0][0] = _cont.getText(R.string.NoResult).toString();
 				}
 				cursor.close();
 			} catch (Exception e) {
@@ -978,6 +1003,7 @@ public class Database {
 					out.write(res.getString(1) + ";" + nl);
 				}
 			}
+			res.close();
 		} catch (IOException e) {
 			Utils.logE("exportIndexDefinition", logging);
 			Utils.printStackTrace(e, logging);
@@ -998,6 +1024,7 @@ public class Database {
 				out.write("--\n");
 				out.write(res.getString(1) + ";" + nl);
 			}
+			res.close();
 		} catch (IOException e) {
 			Utils.logE("exportViews", logging);
 			Utils.printStackTrace(e, logging);
@@ -1022,6 +1049,7 @@ public class Database {
 					out.write(res.getString(1) + ";" + nl);
 				}
 			}
+			res.close();
 		} catch (IOException e) {
 			Utils.logE(e.getMessage(), logging);
 			Utils.printStackTrace(e, logging);
@@ -1053,17 +1081,26 @@ public class Database {
 	}
 	
 	/**
+	 * 
+	 * 
+	 * @param sql 
+	 */
+	/**
 	 * Execute a single line of SQL
 	 * 
 	 * @param sql the SQL statement to execute
+	 * @param cont the content on which to show exception
 	 */
-	public void executeStatement(String sql) {
+	public void executeStatement(String sql, Context cont) {
 		Utils.logD("Executing statement:" + sql, logging);
 		testDB();
 		try {
 			_db.execSQL(sql);
 		} catch (SQLException e) {
-			Utils.showException(e.toString(), _cont);
+			//TODO tis msg is sometime shown on the wrong screen
+			// _db has DBViewer's content so when called from table viewer
+			// add content to arg
+			Utils.showException(e.toString(), cont);
 			Utils.logE(e.getMessage(), logging);
 			Utils.printStackTrace(e, logging);
 		}
@@ -1229,6 +1266,7 @@ public class Database {
 				}
 				out.write(fields + nl);
 			}
+			data.close();
 			out.close();
 			f.close();
 		} catch (Exception e) {
@@ -1365,8 +1403,10 @@ public class Database {
 	 * in  
 	 * @param tableName
 	 * @param rowId
+	 * @param fields
+	 * @param cont on which to show errors
 	 */
-	public void updateRecord(String tableName, long rowId, TableField[] fields) {
+	public void updateRecord(String tableName, long rowId, TableField[] fields, Context cont) {
 		String sql = "update [" + tableName + "] set ";
 		for (TableField fld: fields) {
 			if (!fld.getName().equals("rowid")) {
@@ -1379,7 +1419,7 @@ public class Database {
 		try {
 			_db.execSQL(sql);
 		} catch (Exception e) {
-			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.showMessage("Error", e.getLocalizedMessage(), cont);
 			Utils.logE(e.getMessage(), logging);
 			Utils.printStackTrace(e, logging);
 		}
@@ -1414,22 +1454,34 @@ public class Database {
 	/**
 	 * @param tableName
 	 * @param fields
+	 * @param cont on which to display errors
 	 */
-	public void insertRecord(String tableName, TableField[] fields) {
+	public void insertRecord(String tableName, TableField[] fields, Context cont) {
+		// TODO Test insert with default values
 		String sql = "insert into '" + tableName + "' (";
+		String strFields = " ";
+		String strValues = " ";
 		for (TableField fld: fields) {
-				sql += "'" + fld.getName() + "', ";
+			if (!fld.getValue().equals("")) {
+				strFields += "'" + fld.getName() + "', ";
+				strValues += quoteStrings(fld) + ", ";
+			}
+				//sql += "'" + fld.getName() + "', ";
 		}
-		sql = sql.substring(0, sql.length() - 2) + ") values (";
-		for (TableField fld: fields) {
-			sql += quoteStrings(fld) + ", ";
-		}
-		sql = sql.substring(0, sql.length() - 2) + ")";
+		strFields = strFields.substring(0, strFields.length() - 2);
+		strValues = strValues.substring(0, strValues.length() - 2);
+		// remove last ,
+		//sql = sql.substring(0, sql.length() - 2) + ") values (";
+//		for (TableField fld: fields) {
+//			sql += quoteStrings(fld) + ", ";
+//		}
+//		sql = sql.substring(0, sql.length() - 2) + ")";
+		sql += strFields + ") values (" + strValues + ")";
 		Utils.logD("Insert SQL = " + sql, logging);
 		try {
 			_db.execSQL(sql);
 		} catch (Exception e) {
-			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.showMessage("Error", e.getLocalizedMessage(), cont);
 			Utils.logE(e.getMessage(), logging);
 			Utils.printStackTrace(e, logging);
 		}
@@ -1596,6 +1648,7 @@ public class Database {
 					out.write(res.getString(1) + ";" + nl);
 				}
 			}
+			res.close();
 		} catch (IOException e) {
 			Utils.logE("exportSingleTableDefinition", logging);
 			Utils.printStackTrace(e, logging);
@@ -1709,6 +1762,30 @@ public class Database {
 			Utils.printStackTrace(e, logging);
 		}
 		return fk;
+	}
+
+	/**
+	 * Enable foreign keys checking
+	 */
+	public void FKOn() {
+		int res = 0;
+		Utils.logD("Torning on foreign keys checkin", logging);
+		_db.execSQL("PRAGMA foreign_keys = on");
+		try {
+			Cursor curs = _db.rawQuery("Pragma foreign_keys", null);
+			while(curs.moveToNext()) {
+				res = curs.getInt(0);
+			}
+			curs.close();
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE("FKOn", logging);
+			Utils.printStackTrace(e, logging);
+		}
+		Utils.logD("Foreign key on? " + res, logging);
+		if (res == 0) {
+			Utils.showMessage("Error", "Could not turn on foreign keys - too old Android?", _cont);
+		}
 	}
 	
 }

@@ -11,9 +11,12 @@ package dk.andsen.asqlitemanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,10 +31,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import dk.andsen.types.Types;
 import dk.andsen.utils.NewFilePicker;
@@ -40,7 +50,7 @@ import dk.andsen.utils.Utils;
 
 public class DBViewer extends Activity implements OnClickListener {
 	private String _dbPath;
-	private Database _db = null;
+	public static Database database = null;
 //	private String[] tables;
 //	private String[] views;
 	private String[] indexes;
@@ -53,12 +63,15 @@ public class DBViewer extends Activity implements OnClickListener {
 	private final int MENU_RESTORE = 1;
 	private final int MENU_SQL = 2;
 	private final int MENU_INFO = 3;
+	private final int MENU_CREATETABLE = 4;
 	private int _dialogClicked;
 	private boolean logging = false;
+	private boolean newFeatures = true;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Utils.logD("DBViewer onCreate", logging);
 		setContentView(R.layout.dbviewer);
 		logging = Prefs.getLogging(this);
 		TextView tvDB = (TextView)this.findViewById(R.id.DatabaseToView);
@@ -79,30 +92,28 @@ public class DBViewer extends Activity implements OnClickListener {
 			_dbPath = extras.getString("db");
 			tvDB.setText(getText(R.string.Database) + ": " + _dbPath);
 			Utils.logD("Opening database " + _dbPath, logging);
-			_db = new Database(_dbPath, _cont);
-			if (!_db.isDatabase) {
+			database = new Database(_dbPath, _cont);
+			//_SQLiteDb = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+			if (!database.isDatabase) {
 				Utils.logD("Not a database!", logging);
-				//Utils.showException(_dbPath + getText(R.string.IsNotADatabase), _cont);
-				Dialog notADatabase = new AlertDialog.Builder(this)
-					.setTitle(_dbPath + " " + getText(R.string.IsNotADatabase))
-					.setNegativeButton(getText(R.string.OK), new DialogButtonClickHandler())
-					.create();
-				notADatabase.show();
+				Utils.showMessage(getText(R.string.Error).toString(),
+						getText(R.string.IsNotADatabase).toString(), _cont);
 			} else {
 				// database is a database and is opened  
-				// Store recently opened files 
+				// Store recently opened files
+				if (Prefs.getEnableFK(_cont)) {
+					database.FKOn();
+				}
 				int noOfFiles = Prefs.getNoOfFiles(_cont);
-
 				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 				String files = settings.getString("Recently", null);
 				files = Recently.updateList(files, _dbPath, noOfFiles);
 				Editor edt = settings.edit();
 				edt.putString("Recently", files);
 				edt.commit();
-				
 //				tables = _db.getTables();
 //				views = _db.getViews();
-				indexes = _db.getIndex();
+				indexes = database.getIndex();
 //				for(String str: tables) {
 //					Utils.logD("Table: " + str);
 //				}
@@ -116,15 +127,23 @@ public class DBViewer extends Activity implements OnClickListener {
 	}
 	
 	@Override
+	protected void onDestroy() {
+		Utils.logD("DBViewer onDestroy", logging);
+		database.close();
+		super.onDestroy();
+	}
+
+	@Override
 	protected void onPause() {
-		if (_db.isDatabase)
-			_db.close();
+		Utils.logD("DBViewer onPause", logging);
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		_db = new Database(_dbPath, _cont);
+		Utils.logD("DBViewer onRestart", logging);
+		if (database == null)
+			database = new Database(_dbPath, _cont);
 		super.onRestart();
 	}
 
@@ -140,11 +159,11 @@ public class DBViewer extends Activity implements OnClickListener {
 		if (type.equals("Clear"))
 			toList = new String [] {};
 		else if (type.equals("Index"))
-			toList = _db.getIndex();
+			toList = database.getIndex();
 		else if (type.equals("Views")) 
-			toList = _db.getViews();
+			toList = database.getViews();
 		else 
-			toList = _db.getTables();
+			toList = database.getTables();
 		int recs = toList.length;
 		for (int i = 0; i < recs; i++) {
 			map = new HashMap<String, String>();
@@ -162,9 +181,75 @@ public class DBViewer extends Activity implements OnClickListener {
 					selectRecord(type, position);
 				}
 			});
+			list.setOnItemLongClickListener(new OnItemLongClickListener() {
+				public boolean onItemLongClick(AdapterView<?> parent, View v,
+						int position, long arg3) {
+					Utils.logD("Long click on list", logging);
+					dropSelected(type, position);
+					return false;
+				}
+			});
 		} else {
 			Utils.showMessage(_cont.getText(R.string.Error).toString(),
 					_cont.getText(R.string.StrangeErr).toString(), _cont);
+		}
+	}
+
+	private void dropSelected(final String type, int position) {
+		String name;
+		final String sql;
+		String msg = "";
+		name = toList[position];
+		//Utils.logD("Handle: " + type + " " + name);
+		if (type.equals("Index")) {
+			if (indexes[position].startsWith("sqlite_autoindex_")) {
+				sql = "";
+				msg = getText(R.string.CannotDeleteAutoIndex) + " " + name;
+			}
+			else {
+				sql = "drop index " + name;
+				msg = getText(R.string.DeleteIndex) + " " + name +"?";
+			}
+		}
+		else if (type.equals("Views")) {
+			sql = "drop view " + name;
+			msg = getText(R.string.DeleteView) + " "  + name +"?";
+		}
+		else if (type.equals("Tables")){
+			if (name.equalsIgnoreCase("sqlite_master")
+					|| name.equalsIgnoreCase("sqlite_sequence")
+					|| name.equalsIgnoreCase("android_metadata")) {
+				sql = "";
+				msg = getText(R.string.CannotDeleteSysTable) + name;
+			} else {
+				sql = "drop table " + name;
+				msg = getText(R.string.DeleteTable) + " "  + name +"?";
+			}
+		}
+		else {
+			sql = "";
+			msg = "This is not happening ;-)";
+		}
+		Utils.logD(msg, logging);
+		if (sql.equals("")) {
+			Utils.showMessage(getText(R.string.Error).toString(), msg, _cont);
+		} else {
+			final Builder yesNoDialog = new AlertDialog.Builder(_cont);
+			yesNoDialog.setTitle(getText(R.string.DropItem));
+			yesNoDialog.setMessage(msg);
+			yesNoDialog.setNegativeButton(getText(R.string.No),
+					new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {
+					// Do nothing
+				}});
+			yesNoDialog.setPositiveButton(getText(R.string.Yes),
+					new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {
+					// Delete it
+					database.executeStatement(sql, _cont);
+					buildList(type);
+				}});
+			yesNoDialog.show();
 		}
 	}
 
@@ -182,26 +267,37 @@ public class DBViewer extends Activity implements OnClickListener {
 			if (indexes[position].startsWith("sqlite_autoindex_"))  //2.5 null pointer ex. here
 				indexDef = (String) this.getText(R.string.AutoIndex);
 			else
-				indexDef = _db.getIndexDef(indexes[position]);
+				indexDef = database.getIndexDef(indexes[position]);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			clipboard.setText(indexDef);
 			Utils.showMessage(this.getString(R.string.Message), indexDef, _cont);
-			Utils.toastMsg(_cont, "Index definition copied to clip board");
-			//Utils.logD("IndexDef; " + indexDef);
+			Utils.toastMsg(_cont, this.getString(R.string.IndexDefCopied));
 		}
 		else if (type.equals("Views")) {
 			Intent i = new Intent(this, TableViewer.class);
 			i.putExtra("db", _dbPath);
 			i.putExtra("Table", name);
 			i.putExtra("type", Types.VIEW);
-			startActivity(i);
+			try {
+				startActivity(i);
+			} catch (Exception e) {
+				Utils.logE("Error in TableViewer showing a view)", logging);
+				e.printStackTrace();
+				Utils.showException("Plase report this error with descriptions of hov to generate it", _cont);
+			}
 		}
 		else if (type.equals("Tables")){
 			Intent i = new Intent(this, TableViewer.class);
 			i.putExtra("db", _dbPath);
 			i.putExtra("Table", name);
 			i.putExtra("type", Types.TABLE);
-			startActivity(i);
+			try {
+				startActivity(i);
+			} catch (Exception e) {
+				Utils.logE("Error in TableViewer showing a table)", logging);
+				e.printStackTrace();
+				Utils.showException("Plase report this error with descriptions of hov to generate it", _cont);
+			}
 		}
 	}
 
@@ -220,7 +316,13 @@ public class DBViewer extends Activity implements OnClickListener {
 			_update = true;
 			Intent i = new Intent(this, QueryViewer.class);
 			i.putExtra("db", _dbPath);
-			startActivity(i);
+			try {
+				startActivity(i);
+			} catch (Exception e) {
+				Utils.logE("Error in QueryViewer", logging);
+				e.printStackTrace();
+				Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
+			}
 		} 
 	}
 	
@@ -235,7 +337,7 @@ public class DBViewer extends Activity implements OnClickListener {
 			_update = false;
 //			tables = _db.getTables();
 //			views = _db.getViews();
-			indexes = _db.getIndex();
+			indexes = database.getIndex();
 			buildList("Tables");
 		}
 	}
@@ -246,6 +348,8 @@ public class DBViewer extends Activity implements OnClickListener {
 		// Open files with SQL scripts, execute one or all commands 		
 		menu.add(0, MENU_SQL, 0, getText(R.string.OpenSQL));
 		menu.add(0, MENU_INFO, 0, getText(R.string.DBInfo));
+		if (newFeatures )
+			menu.add(0, MENU_CREATETABLE, 0, getText(R.string.CreateTable));
 		return true;
 	}
 
@@ -264,13 +368,229 @@ public class DBViewer extends Activity implements OnClickListener {
 			showDialog(MENU_SQL);
 			break;
 		case MENU_INFO:
-			String versionStr = _db.getVersionInfo();
+			String versionStr = database.getVersionInfo();
 			Utils.showMessage(getText(R.string.DatabaseInfo).toString(), versionStr, _cont);
+			break;
+		case MENU_CREATETABLE:
+			createTableDialog();
 			break;
 		}
 		return false;
 	}
 	
+	/**
+	 * Open a create table dialog where the user can define the table
+	 * by adding fields
+	 */
+	private void createTableDialog() {
+		Button newTabNewField;
+		Button newTabCancel;
+		Button newTabOk;
+		final EditText newTabTabName;
+		final List<String> fldList = new ArrayList<String>();
+		final List<String> fkList = new ArrayList<String>();
+		final LinearLayout newTabSV;
+		final Dialog createTab = new Dialog(_cont);
+		createTab.setContentView(R.layout.create_table);
+		createTab.setTitle(getText(R.string.CreateTable));
+		newTabNewField = (Button) createTab.findViewById(R.id.newTabAddField);
+		newTabCancel = (Button) createTab.findViewById(R.id.newTabCancel);
+		newTabOk = (Button) createTab.findViewById(R.id.newTabOK);
+		newTabSV = (LinearLayout) createTab.findViewById(R.id.newTabSV);
+		newTabTabName = (EditText) createTab.findViewById(R.id.newTabTabName);
+		createTab.setTitle(getText(R.string.CreateTable));
+		newTabNewField.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				newField();
+			}
+			private void newField() {
+				Button newFieldCancel;
+				Button newFieldOk;
+				final EditText fName;
+				final EditText fDef;
+				final CheckBox fNotNull;
+				final CheckBox fPK;
+				final CheckBox fUnique;
+				final CheckBox fAutoInc;
+				final EditText fFKTab;
+				final EditText fFKFie;
+				final Spinner fSPType;
+				final Dialog createField = new Dialog(_cont);
+				final String[] type = { 
+						"INTEGER",
+						"REAL",
+						"TEXT",
+						"BLOB",
+						"DATE",
+						"TIMESTAMP",
+						"TIME",
+						"INTEGER (strict)",
+						"REAL (strict)",
+						"TEXT (strict)"
+						};
+				ArrayAdapter<String> adapterType = new ArrayAdapter<String>(_cont,
+						android.R.layout.simple_spinner_item, type);
+				createField.setContentView(R.layout.create_field);
+				createField.setTitle(getText(R.string.CreateField));
+				newFieldCancel = (Button) createField.findViewById(R.id.newFieldCancel);
+				newFieldOk = (Button) createField.findViewById(R.id.newFieldOK);
+				fName = (EditText) createField.findViewById(R.id.newFldName);
+				fNotNull = (CheckBox) createField.findViewById(R.id.newFldNull);
+				fPK = (CheckBox) createField.findViewById(R.id.newFldPK);
+				fUnique = (CheckBox) createField.findViewById(R.id.newFldUnique);
+				fAutoInc = (CheckBox) createField.findViewById(R.id.newFldAutoInc);
+				fDef = (EditText) createField.findViewById(R.id.newFldDef);
+				fFKTab = (EditText) createField.findViewById(R.id.newFldFKTab);
+				fFKFie = (EditText) createField.findViewById(R.id.newFldFKFie);
+				fSPType = (Spinner) createField.findViewById(R.id.newFldSpType);
+				adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				fSPType.setAdapter(adapterType);
+				newFieldCancel.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						createField.dismiss();
+					}
+				});
+				fPK.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						Utils.logD("Turning autoinc on / off", logging);
+						if (isChecked) {
+							fAutoInc.setEnabled(true);
+						} else {
+							fAutoInc.setEnabled(false);
+						}
+					}
+				});
+				newFieldOk.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						int iType = fSPType.getSelectedItemPosition();
+						String stype = type[iType];
+						Utils.logD("Field type = " + stype, logging);
+						//Check for name and type not null
+						if (!fName.getEditableText().toString().trim().equals("")) {
+							boolean forceType = false;
+							// Build the sql for the field
+							String fld = "[";
+							String fk = "";
+							fld += fName.getEditableText().toString();
+							// shod it use forced types?
+							if (stype.endsWith("(strict)")) {
+								forceType = true;
+								fld += "] " + stype.substring(0, stype.indexOf(" "));
+							} else {
+								fld += "] " + stype;
+							}
+							if (fPK.isChecked()) {
+								fld += " PRIMARY KEY";
+								// Add order here ASC / DESC
+								if (fAutoInc.isChecked()) {
+									fld += " AUTOINCREMENT";
+								}
+							}
+							if (fNotNull.isChecked()) 
+								fld += " NOT NULL";
+							if (fUnique.isChecked()) 
+								fld += " UNIQUE";
+							// Handle forced type for INTEGER, REAL and TEXT fields
+							if (forceType) {
+								if (stype.startsWith("INTEGER")) {
+									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'integer')";
+								} else if (stype.startsWith("REAL")) {
+									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'real')";
+								} else if (stype.startsWith("TEXT")) {
+									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'text')";
+								} else {
+									//Ups
+								}
+							}
+							if (!fDef.getEditableText().toString().equals("")) {
+								fld += " DEFAULT " + fDef.getEditableText().toString();
+							}
+							if (!fFKFie.getEditableText().toString().trim().equals("") &&
+									!fFKTab.getEditableText().toString().trim().equals("")) {
+								//Foreign key constraints
+								fk += " FOREIGN KEY(["
+									+ fName.getEditableText().toString() + "]) REFERENCES ["
+									+ fFKTab.getEditableText().toString() + "]([" 
+									+ fFKFie.getEditableText().toString() + "])";
+								Utils.logD("FK " + fk , logging);
+							}
+							LinearLayout ll = new LinearLayout(_cont);
+							ll.setOrientation(LinearLayout.HORIZONTAL);
+							TextView tw = new TextView(_cont);
+							tw.setText(fld);
+							ll.addView(tw);
+							ll.setPadding(5, 5, 5, 5);
+							newTabSV.addView(ll);
+							fldList.add(fld);
+							if (!fk.trim().equals("")) {
+								LinearLayout llfk = new LinearLayout(_cont);
+								llfk.setOrientation(LinearLayout.HORIZONTAL);
+								TextView twfk = new TextView(_cont);
+								twfk.setText(fk);
+								llfk.addView(twfk);
+								llfk.setPadding(5, 5, 5, 5);
+								newTabSV.addView(llfk);
+							}
+							if (!fk.trim().equals(""))
+								fkList.add(fk);
+							createField.dismiss();
+						} else {
+							Utils.showMessage(getText(R.string.Error).toString(),
+									getText(R.string.MustEnterFieldNameAndType).toString(), _cont);
+						}
+					}
+				});
+				createField.show();
+			}
+		});
+		newTabCancel.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				createTab.dismiss();
+			}
+		});
+		newTabOk.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// build create table SQL if enough informations
+				if (!(newTabTabName.getEditableText().toString().equals(""))
+						&& (fldList.size() > 0)) {
+					String sql = "create table ["
+						+ newTabTabName.getEditableText().toString()
+						+ "] (";
+					Iterator<String> it = fldList.iterator();
+					while (it.hasNext()) {
+						sql += it.next();
+						if (it.hasNext())
+							 sql += ", ";
+					}
+					if (fkList.size() > 0) {
+						sql += " ,";
+						it = fkList.iterator();
+						while (it.hasNext()) {
+							sql += it.next();
+							if (it.hasNext())
+								 sql += ", ";
+							else
+								sql += ")";
+						}
+					} else
+						sql += ")";
+					//Utils.showMessage("SQL", sql, _cont);
+					//Execute sql
+					Utils.logD("Executing " + sql, logging);
+					database.executeStatement(sql, _cont);
+					createTab.dismiss();
+					//Refresh list of tables
+					buildList("Tables");   
+				} else {
+					// not enough inf.
+					Utils.showMessage(getText(R.string.Error).toString(),
+							getText(R.string.MustEnterTableNameAndOneField).toString(), _cont);
+				}
+			}
+		}); 
+		createTab.show();
+	}
+
 	protected Dialog onCreateDialog(int id) 
 	{
 		switch (id) {
@@ -317,11 +637,11 @@ public class DBViewer extends Activity implements OnClickListener {
 				// Find the menu from which the OK button was clicked
 				switch (_dialogClicked) {
 				case MENU_EXPORT:
-					_db.exportDatabase();
+					database.exportDatabase();
 					Utils.toastMsg(_cont, getString(R.string.DataBaseExported));
 					break;
 				case MENU_RESTORE:
-					_db.restoreDatabase();
+					database.restoreDatabase();
 					Utils.toastMsg(_cont, getString(R.string.DataBaseRestored));
 					break;
 				case MENU_SQL:
@@ -329,7 +649,13 @@ public class DBViewer extends Activity implements OnClickListener {
 					Intent i = new Intent(_cont, NewFilePicker.class);
 					i.putExtra("SQLtype", true);
 					i.putExtra("dbPath", _dbPath);
-					startActivity(i);
+					try {
+						startActivity(i);
+					} catch (Exception e) {
+						Utils.logE("Error in NewFilePicker", logging);
+						e.printStackTrace();
+						Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
+					}
 					//TODO call NewFIlePicker with db(?) = true
 					
 					break;
@@ -341,5 +667,4 @@ public class DBViewer extends Activity implements OnClickListener {
 			}
 		}
 	}
-
 }

@@ -136,12 +136,10 @@ public class NewFilePicker extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Must be devided into a root and normal mode part
 		final File file = new File(path.get(position));
-		if (file.isDirectory())
-		{
-			if(file.canRead())
+		if (file.isDirectory()) {
+			if(file.canRead()) {
 				getDir(path.get(position));
-			else
-			{
+			} else {
 				new AlertDialog.Builder(this)
 				.setIcon(R.drawable.sqlite_icon)
 				.setTitle(getText(R.string.SystemFolder))
@@ -155,8 +153,7 @@ public class NewFilePicker extends ListActivity {
 		} else {
 			// Open the database
 			final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-			if(!settings.getBoolean("FPJustOpen", false))
-			{
+			if(!settings.getBoolean("FPJustOpen", false)) {
 				final Dialog dial = new Dialog(this);
 				if(_SQLtype) {
 					dial.setTitle(getText(R.string.OpenSQL));
@@ -251,7 +248,7 @@ public class NewFilePicker extends ListActivity {
 		 * If in root mode copy database to sdcard/aSQLiteManager and open it there
 		 * after close of database ask the user it it should replace the original
 		 */
-		Utils.logD("Other file file", logging);
+		Utils.logD("Other file " + file, logging);
 		Intent iDBViewer = new Intent(context, DBViewer.class);
 		iDBViewer.putExtra("db", ""+ file.getAbsolutePath());
 		startActivity(iDBViewer);

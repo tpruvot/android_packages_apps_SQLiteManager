@@ -1,5 +1,19 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
+Working on
+	Build in root access to system databases (from aShell and experimental)
+		must be turned on in configuration
+	Change in orientation must be taken care of
+
+Version 3.0:
+	A tool to create new databases with PK, AUTOINCREMENT, not null, unique, default values and
+		foreign keys and check for field type.
+	Easy deletion of tables, views and indexes from lists in database viewer by
+	  "long clicking" the table / view / index
+	Foreign key constraint checking can be turned on (default off)
+	Better database handling hopefully giving fewer errors / force closes
+	Bug fixes
+
 Version 2.7:
 	The following Android 3 has been problems solved:
 		Problems with creating tables and executing other than select statements

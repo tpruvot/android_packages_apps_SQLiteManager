@@ -44,10 +44,9 @@ import dk.andsen.types.Record;
 import dk.andsen.types.Types;
 import dk.andsen.utils.Utils;
 public class TableViewer extends Activity implements OnClickListener {
-	private String _dbPath;
 	private Database _db = null;
 	private String _table;
-	Context _cont;
+	private Context _cont;
 	//private String _type = "Fields";
 	private TableLayout _aTable;
 	private int offset = 0;
@@ -82,6 +81,8 @@ public class TableViewer extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Utils.logD("TableViewer onCreate", logging);
 		logging = Prefs.getLogging(this);
 		setContentView(R.layout.table_viewer);
 		TextView tvDB = (TextView)this.findViewById(R.id.TableToView);
@@ -104,28 +105,63 @@ public class TableViewer extends Activity implements OnClickListener {
 		{
 			_cont = tvDB.getContext();
 			sourceType = extras.getInt("type");
-			_dbPath = extras.getString("db");
 			Utils.logD("Opening database", logging);
 			_table = extras.getString("Table");
 			if (sourceType == Types.TABLE)
 				tvDB.setText(getString(R.string.DBTable) + " " + _table);
 			else if (sourceType == Types.VIEW)
 				tvDB.setText(getString(R.string.DBView) + " " + _table);
-			_db = new Database(_dbPath, _cont);
+			_db = DBViewer.database;
 			Utils.logD("Database open", logging);
 			onClick(bTab);
 		}
 	}
+	
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	  // Save UI state changes to the savedInstanceState.
+	  // This bundle will be passed to onCreate if the process is
+	  // killed and restarted.
+	  savedInstanceState.putBoolean("MyBoolean", true);
+	  savedInstanceState.putDouble("myDouble", 1.9);
+	  savedInstanceState.putInt("MyInt", 1);
+	  savedInstanceState.putString("MyString", "Welcome back to Android");
+	  // etc.
+	  super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	  super.onRestoreInstanceState(savedInstanceState);
+	  // Restore UI state from the savedInstanceState.
+	  // This bundle has also been passed to onCreate.
+//	  boolean myBoolean = savedInstanceState.getBoolean("MyBoolean");
+//	  double myDouble = savedInstanceState.getDouble("myDouble");
+//	  int myInt = savedInstanceState.getInt("MyInt");
+	  String myString = savedInstanceState.getString("MyString");
+	  Utils.logD("Restore myString " + myString, logging);
+	}
+
 
 	@Override
 	protected void onPause() {
-		_db.close();
+		Utils.logD("TableViewer onPause", logging);
 		super.onPause();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		//_db.close();
+		Utils.logD("TableViewer onDestroy", logging);
+		super.onDestroy();
 	}
 
 	@Override
 	protected void onRestart() {
-		_db = new Database(_dbPath, _cont);
+		Utils.logD("TableViewer onRestart", logging);
+		_db = DBViewer.database;
+		//_db = new Database(_dbPath, _cont);
 		super.onRestart();
 	}
 
@@ -140,24 +176,36 @@ public class TableViewer extends Activity implements OnClickListener {
 			isView = true;
 		if (key == R.id.Fields) {
 			offset = 0;
-			String[] fieldNames = _db.getTableStructureHeadings(_table);
-			setTitles(_aTable, fieldNames, false);
-			String [][] data = _db.getTableStructure(_table);
-			updateButtons(false);
-			oldappendRows(_aTable, data, false);
+			String[][] data;
+			try {
+				String[] fieldNames = _db.getTableStructureHeadings(_table);
+				setTitles(_aTable, fieldNames, false);
+				data = _db.getTableStructure(_table);
+				updateButtons(false);
+				oldappendRows(_aTable, data, false);
+			} catch (Exception e) {
+				Utils.showException(e.getLocalizedMessage(), _cont);
+				e.printStackTrace();
+			}
+			
 		} else if (key == R.id.Data) {
 			/*
 			 * If not a query include rowid in data if no single field
 			 * primary key exists
 			 */
 			offset = 0;
-			String [] fieldNames = _db.getFieldsNames(_table);
-			setTitles(_aTable, fieldNames, !isView);
-			//String [][] data = _db.oldgetTableData(_table, offset, limit, isView);
-			Record[] data = _db.getTableData(_table, offset, limit, isView);
-			//holds all pk and their corresponding id
-			updateButtons(true);
-			appendRows(_aTable, data, !isView);
+			try {
+				String [] fieldNames = _db.getFieldsNames(_table);
+				setTitles(_aTable, fieldNames, !isView);
+				//String [][] data = _db.oldgetTableData(_table, offset, limit, isView);
+				Record[] data = _db.getTableData(_table, offset, limit, isView);
+				//holds all pk and their corresponding id
+				updateButtons(true);
+				appendRows(_aTable, data, !isView);
+			} catch (Exception e) {
+				Utils.logE(e.getLocalizedMessage(), logging);
+				e.printStackTrace();
+			}
 		} else if (key == R.id.SQL) {
 			offset = 0;
 			String [] fieldNames = {"SQL"};
@@ -166,7 +214,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			updateButtons(false);
 			oldappendRows(_aTable, data, false);
 		} else if (key == R.id.PgDwn) {
-			//TODO copy methods from .Data to solve paging problems for views
 			int childs = _aTable.getChildCount();
 			Utils.logD("Table childs: " + childs, logging);
 			if (childs >= limit) {  //  No more data on to display - no need to PgDwn
@@ -178,7 +225,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			}
 			Utils.logD("PgDwn:" + offset, logging);
 		} else if (key == R.id.PgUp) {
-			//TODO copy methods from .Data to solve paging problems for views
 			offset -= limit;
 			if (offset < 0)
 				offset = 0;
@@ -292,7 +338,7 @@ public class TableViewer extends Activity implements OnClickListener {
 											if (_table.equals("sqlite_master")) {
 												Utils.showMessage(getString(R.string.Error), getString(R.string.ROSystemTable), _cont);
 											} else {
-												_db.updateRecord(_table, rowid, res);
+												_db.updateRecord(_table, rowid, res, _cont);
 												_updateTable = true;
 											}
 											dial.dismiss();
@@ -471,7 +517,7 @@ public class TableViewer extends Activity implements OnClickListener {
 											if (_table.equals("sqlite_master")) {
 												Utils.showMessage(getString(R.string.Error), getString(R.string.ROSystemTable), _cont);
 											} else {
-												_db.updateRecord(_table, rowid, res);
+												_db.updateRecord(_table, rowid, res, _cont);
 												_updateTable = true;
 											}
 											dial.dismiss();
@@ -564,7 +610,7 @@ public class TableViewer extends Activity implements OnClickListener {
 								if (msg == null) {
 									//Utils.logD("Record edited; " + rowid);
 									TableField[] res = re.getEditedData(sv);
-									_db.insertRecord(_table, res);
+									_db.insertRecord(_table, res, _cont);
 									dial.dismiss();
 									_updateTable = true;
 								}

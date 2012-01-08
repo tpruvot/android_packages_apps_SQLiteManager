@@ -16,7 +16,7 @@
       android:orientation="vertical"
     >
       <TextView
-        android:text="@string/WelcomeMsg"
+        android:text="@string/RootUseWarning"
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,11 +24,11 @@
         android:paddingLeft="5pt"
         android:paddingRight="5pt" />
       <CheckBox
-        android:text="@string/ShowAtStartUp"
+        android:text="@string/ShowRootWarning"
         android:id="@+id/ShowAtStartUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true" />
+        android:checked="false" />
       <Button
         android:text="@string/OK"
         android:id="@+id/OK"

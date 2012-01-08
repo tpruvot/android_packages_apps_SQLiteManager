@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">2.7</string>
+    <string name="VersionNo">3.0</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
@@ -126,6 +126,8 @@
 		<string name="RateMsg">
 			You have now used aSQLiteManager in more than a week and at least 10 times.
 			\nIf you like using it, please support it by a good rating.
+			\nYou can also donate a small amount of money (from the home
+			page). It will be used to improve the program.
 			\nThanks for your support!</string>
 		<string name="Rate">Rate</string>
 		<string name="Later">I\'ll do it next time</string>
@@ -146,27 +148,67 @@
 		    \nYou can also also use aLogViewer to extract extra informations
 		    form the system log to help me find out what is wrong.</string>
 		<string name="NotAnArror">Not an error</string>
-				
+
+		<string name="Normal">Normal</string>
+		<string name="Root">Root</string>
+    <string name="RootNeeded">Root mode needed to access</string>
+    <string name="RootWarning">No Root access</string>
+    <string name="EnterRoot">Entering a root catalog be careful:</string>
+    <string name="LeavingRoot">Leaving root catalog:</string>
+    <string name="RootEdit1">Do you want to open a copy of</string>
+    <string name="RootEdit2">system file?</string>
+    <string name="Warning">Warning</string>
+    <string name="CommitChanges">Commit changes?</string>
+    <string name="CommitChangesTo">Commit changes to:</string>
+    <string name="OneMoreToExit">Press once more to exit!</string>
+    <string name="FilterHint">Enter filter</string>
+    <string name="Clear">Clear</string>
+    <string name="EnterFilter">Enter filter</string>
+    <string name="SuShell">Location of su executable</string>
+    <string name="SuShellText">The su executable can be located in different places inside or outside of your path</string>
+    <string name="PauseTitle">Pause in msec</string>
+    <string name="PauseText">Time to wait after starting to copy database before opening it</string>
+    <string name="RootNotFound">Root shell binary not found in standard location
+        (or phone not rooted). You can define root shell location in configuration.</string>
+    <string name="RootFilePickerTxt">Use root file picker</string>
+    <string name="RootFilePickerMsg">Use aShell root file picker to access system databases on rooted phones</string>
+    <string name="BasicConfiguration">Basic configuration</string>
+    <string name="SuperUserPreferences">Super user preferences - Experimental</string>
+    <string name="DebugPreferences">Debugging preferences</string>
+    <string name="LoggingTitle">Logging</string>
+    <string name="LoggingText">Enable logging to retrieve debugging informations</string>
+    <string name="RootUseWarning">Editing system databases is experimental and potential
+        dangerous - you might destroy data.
+        \n\nDo not alter system databases unless you know what you are doing!
+        \n\nTake care!\n</string>
+    <string name="ShowRootWarning">Got it - stop telling me</string>
+    <string name="CreateTable">New Table</string>
+    <string name="AddField">Add Field</string>
+    <string name="CreateField">Create field</string>
+    <string name="MustEnterFieldNameAndType">You must enter both field name and file type!</string>
+    <string name="MustEnterTableNameAndOneField">You must enter a table name and at least one field!</string>
+    <string name="SQLPreferences">SQLPreferences</string>
+    <string name="CannotDeleteAutoIndex">Cannot delete auto generated index</string>
+    <string name="DeleteIndex">Delete index</string>
+    <string name="DeleteView">Delete view</string>
+    <string name="DeleteTable">Delete table</string>
+    <string name="CannotDeleteSysTable">Cannot delete system table</string>
+    <string name="DropItem">Drop item?</string>
+    <string name="IndexDefCopied">Index definition copied to clip board</string>
+        
+
   	<string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
-      \n\nNews in this version (2.7):
+      \n\nNews in this version (3.0β):
 
-      \n\nBug fixes
-			\nProblems with creating tables and executing other statements than select
-			statements on Android 3 solved
-			\nNow name of databases can be in mixed case on Android 3
-  		\nEditing foreign key fields using selection list based on foreign key values
-    	(experimental and must be turned on in configuration)
-  		\nNow keeping main screen in portrait mode must be configured
-  		\nLogging can be turned on to collect informations about bugs (use
-  		  aLogViewer and filter for aSQLMan)
+			\n\nA tool to create new databases with PK, AUTOINCREMENT, not null, unique, default values and
+				foreign keys and check for field type.
+			\nEasy deletion of tables, views and indexes from lists in database viewer by
+	  		"long clicking" the table / view / index
+			\nForeign key constraint checking can be turned on (default off)
+			\nBetter database handling hopefully giving fewer errors / force closes
+			\nBug fixes
        
-      \n\nBy using aShell (beta) you can edit all system databases on rooted
-      phones with aSQLiteManager. You can find aShell here:
-      \nhttp://market.android.com/search?q=pub:Andsen
-      \nIf you have problems with aShell please let me know. I only have access to a
-      few devices so it is not possible for met to test the root functionality
-      properly. 
       \n\nFor a description of all features check:
       \naaa.andsen.dk/aSQLiteManager.html
       \n\nComments, bug reports and feature requests are welcome.

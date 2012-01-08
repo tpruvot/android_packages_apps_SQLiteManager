@@ -46,7 +46,13 @@ public class OpenOnClick extends Activity implements OnClickListener {
 		} else {
 			Intent i = new Intent(this, DBViewer.class);
 			i.putExtra("db", _file);
-			startActivity(i);
+			try {
+				startActivity(i);
+			} catch (Exception e) {
+				Utils.logE("Error in DBViewer", logging);
+				e.printStackTrace();
+				Utils.showException("Plase report this error with descriptions of how to generate it", this);
+			}
 			finish();
 		}
 	}
@@ -62,7 +68,13 @@ public class OpenOnClick extends Activity implements OnClickListener {
 			}
 			Intent i = new Intent(this, DBViewer.class);
 			i.putExtra("db", _file);
-			startActivity(i);
+			try {
+				startActivity(i);
+			} catch (Exception e) {
+				Utils.logE("Error in DBViewer", logging);
+				e.printStackTrace();
+				Utils.showException("Plase report this error with descriptions of how to generate it", this);
+			}
 			finish();
 		}
 	}

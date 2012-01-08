@@ -1,42 +1,81 @@
 <PreferenceScreen
    xmlns:android="http://schemas.android.com/apk/res/android">
-  <EditTextPreference
-    android:key="PageSize"
-    android:title="@string/PageSize"
-    android:summary="@string/PageSizeText"
-    android:inputType="number"
-    android:defaultValue="20"
-  />
-  <EditTextPreference
-    android:key="RecentFiles"
-    android:title="@string/Recently"
-    android:summary="@string/RecentlyTxt"
-    android:inputType="number"
-    android:defaultValue="5"
-  />
-  <CheckBoxPreference
-    android:key="SaveSQL"
-    android:title="Save SQL"
-    android:summary="Save SQL in database"
-    android:defaultValue="false"
-  />
-  <CheckBoxPreference
-    android:key="FKList"
-    android:title="FK lists"
-    android:summary="Use lists when editing FK fields"
-    android:defaultValue="false"
-  />
-  <CheckBoxPreference
-    android:key="Logging"
-    android:title="Logging"
-    android:summary="Enable logging"
-    android:defaultValue="false"
-  />
-  <CheckBoxPreference
-    android:key="MainVertical"
-    android:title="Main screen in portrait"
-    android:summary="Always keep main screen in portrait (after restart)"
-    android:defaultValue="false"
-  />
-
+  <PreferenceCategory
+  	android:title="@string/BasicConfiguration"
+  	>
+	  <EditTextPreference
+	    android:key="PageSize"
+	    android:title="@string/PageSize"
+	    android:summary="@string/PageSizeText"
+	    android:inputType="number"
+	    android:defaultValue="20"
+		/>
+	  <EditTextPreference
+	    android:key="RecentFiles"
+	    android:title="@string/Recently"
+	    android:summary="@string/RecentlyTxt"
+	    android:inputType="number"
+	    android:defaultValue="5"
+	  />
+	  <CheckBoxPreference
+	    android:key="MainVertical"
+	    android:title="Main screen in portrait"
+	    android:summary="Always keep main screen in portrait (after restart)"
+	    android:defaultValue="false"
+	  />
+  </PreferenceCategory>
+  <PreferenceCategory
+ 		android:title="@string/SQLPreferences">
+  </PreferenceCategory>
+	  <CheckBoxPreference
+	    android:key="FKList"
+	    android:title="FK lists"
+	    android:summary="Use lists when editing FK fields"
+	    android:defaultValue="false"
+	  />
+	  <CheckBoxPreference
+	    android:key="SaveSQL"
+	    android:title="Save SQL"
+	    android:summary="Save SQL in database"
+	    android:defaultValue="false"
+	  />
+	  <CheckBoxPreference
+	    android:key="EnableForeignKeys"
+	    android:title="Enable foreign keys"
+	    android:summary="Turn on foreign key constraints"
+	    android:defaultValue="false"
+	  />
+      
+  <PreferenceCategory
+ 		android:title="@string/DebugPreferences">
+    <CheckBoxPreference
+	    android:key="Logging"
+	    android:title="@string/LoggingTitle"
+	    android:summary="@string/LoggingText"
+	    android:defaultValue="false"
+	  />
+	</PreferenceCategory>
+<!--   <PreferenceCategory -->
+<!--   	android:title="@string/SuperUserPreferences"> -->
+<!-- 	  <CheckBoxPreference -->
+<!-- 	    android:key="TestRoot" -->
+<!-- 	    android:title="@string/RootFilePickerTxt" -->
+<!-- 	    android:summary="@string/RootFilePickerMsg" -->
+<!-- 	    android:defaultValue="false" -->
+<!-- 	  /> -->
+<!-- 	  <EditTextPreference -->
+<!-- 	  	android:key="SuShell" -->
+<!-- 	    android:title="@string/SuShell" -->
+<!-- 	    android:summary="@string/SuShellText" -->
+<!-- 	    android:inputType="text" -->
+<!-- 	    android:defaultValue="" -->
+<!-- 	  /> -->
+<!-- 	  <EditTextPreference -->
+<!-- 	  	android:key="Pause" -->
+<!-- 	    android:title="@string/PauseTitle" -->
+<!-- 	    android:summary="@string/PauseText" -->
+<!-- 	    android:inputType="number" -->
+<!-- 	    android:defaultValue="500" -->
+<!-- 	  /> -->
+<!-- 	</PreferenceCategory> -->
 </PreferenceScreen>

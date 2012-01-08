@@ -11,6 +11,7 @@ package dk.andsen.asqlitemanager;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -87,6 +88,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Utils.logD("QueryViewer onCreate", logging);
 		setContentView(R.layout.query_viewer);
 		_tvQ = (EditText) this.findViewById(R.id.SQLStm);
 		_tvTransaction = (TextView)this.findViewById(R.id.Transaction);
@@ -108,7 +111,9 @@ public class QueryViewer extends Activity implements OnClickListener{
 			_cont = _tvQ.getContext();
 			_dbPath = extras.getString("db");
 			Utils.logD("Opening database", logging);
-			_db = new Database(_dbPath, _cont);
+
+			_db = DBViewer.database;
+			//_db = new Database(_dbPath, _cont);
 			if (!_db.isDatabase) {
 				Utils.logD("Not a database!", logging);
 				Utils.showException(_dbPath + " is not a database!", _cont);
@@ -117,6 +122,13 @@ public class QueryViewer extends Activity implements OnClickListener{
 				Utils.logD("Database open", logging);
 			}
 		}
+	}
+	
+	@Override
+	protected void onRestart() {
+		Utils.logD("QueryViewer onRestart", logging);
+		_db = DBViewer.database;
+		super.onRestart();
 	}
 	
 	/* (non-Javadoc)
@@ -220,7 +232,6 @@ public class QueryViewer extends Activity implements OnClickListener{
 			  	 Utils.logD("OnClick: " + v.getId(), logging);
 			   }
 			  });
-
 			if (i%2 == 1)
 				row.setBackgroundColor(Color.DKGRAY);
 			for(int j=0; j<colSize; j++){

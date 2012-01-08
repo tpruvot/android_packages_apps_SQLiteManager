@@ -1,7 +1,8 @@
 ToDo / ideas for coming development
+	Done Create Table wizards
+	Create View wizards
 	Compress SQL wines.name -> t1.name in resulting SQL not on lists
 	Sort data / query results by clicking on title
-	Go to first record / previous next / page / last record << < > >>
 	Better horizontal scrolling
 	"Tab" view / show active tab
 	Scripts editor?  

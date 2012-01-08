@@ -125,6 +125,8 @@
 		<string name="RateMsg">
 			Du har nu brugt aSQLiteManager i over en uge og mindst 10 gange.
 			\nHvis du kan lide at bruge programmet, så støt det med en god bedømmelse.
+			\nDu kan også donere et mindre beløb (fra hjemmesiden). De vil 
+			blive brugt til at forbedre programmet.
 			\nTak!</string>
 		<string name="Rate">Rate</string>
 		<string name="Later">Jeg gør det næste gang</string>
@@ -142,24 +144,65 @@
 		<string name="EnterWhere">Indtast where clause (uden where)</string>
 		<string name="StrangeErr">Hvis du kan reproducere denne fejl så send mig databasen og en forklaring på hvoda du kan fremprovokere den ;-)</string>
 		<string name="NotAnArror">Ikke en fejl</string>
+		<string name="Normal">Normal</string>
+		<string name="Root">Root</string>
+    <string name="RootNeeded">Root mode krævet for adgang til</string>
+    <string name="RootWarning">Ingen Root mode</string>
+    <string name="EnterRoot">Root catalog vær forsigtig:</string>
+    <string name="LeavingRoot">Forlader root katalog:</string>
+    <string name="RootEdit1">Vil du åbne en kopi af</string>
+    <string name="RootEdit2">system fil?</string>
+    <string name="Warning">Advarsel</string>
+    <string name="CommitChanges">Gem ændringer?</string>
+    <string name="CommitChangesTo">Gem ændringer til:</string>
+    <string name="OneMoreToExit">Tryk igen for at afslutte!</string>
+    <string name="FilterHint">Indtast filter</string>
+    <string name="Clear">Slet</string>
+    <string name="EnterFilter">Indtast filter</string>
+    <string name="SuShell">Plasering af su binær</string>
+    <string name="SuShellText">su kan være placeret forskellige steder i eller udenfor path\'en</string>
+    <string name="PauseTitle">Pause i msec</string>
+    <string name="PauseText">Tid der skal ventes fra kopieringen af databasen startes til databasen åbnes</string>
+    <string name="RootNotFound">Root binær ble ikke fundet på en standard placering
+        (eller telefonen er ikke rooted). I konfigurationen kan du angive hvor su programmet er.
+        </string>
+    <string name="RootFilePickerTxt">Brug root fil picker</string>
+    <string name="RootFilePickerMsg">Brug aShell root fil picker til at tilgå system databaser på rooted telefoner</string>
+    <string name="BasicConfiguration">Basal opsætning</string>
+    <string name="SuperUserPreferences">Super user opsætningg - Eksperimentel</string>
+    <string name="DebugPreferences">Debugging opsætning</string>
+    <string name="LoggingTitle">Logging</string>
+    <string name="LoggingText">Slå logging til for at kunne skaffe debugging informationer</string>
+    <string name="RootUseWarning">Det kan være farligt, at redigere system databaser -
+         du kan ødelægge vigtige informationer.
+        \n\nDu skal ikke ændre i system database med mindre du ved hvad du gør!
+        \n\nPas på!\n</string>
+    <string name="ShowRootWarning">Jeg har fattet det!</string>
+    <string name="CreateTable">Ny Tabel</string>
+    <string name="AddField">Nyt felt</string>
+    <string name="CreateField">Nyt felt</string>
+    <string name="MustEnterFieldNameAndType">Du skal angive både feltnavn og type!</string>
+    <string name="MustEnterTableNameAndOneField">Du skal angive tabelnavn og mindst et felt!</string>
+    <string name="CannotDeleteAutoIndex">Kan ikke slette auto generatede index</string>
+    <string name="DeleteIndex">Slet index</string>
+    <string name="DeleteView">Slet view</string>
+    <string name="DeleteTable">Slet table</string>
+    <string name="CannotDeleteSysTable">Can ikke slette system tabeller</string>
+    <string name="DropItem">Slet valgte?</string>
+    <string name="IndexDefCopied">Index definition kopieret til clip board</string>
 		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
-      \n\nNyt i denne version:
+      \n\nNyt i denne version (3.0):
 
-      \n\nBug fixes
-			\nProblemer med at oprette tabeller og eksekvere andre statements end
-			select på Android 3 løst
-			\nDatabasenavn kan nu angives med både store og små bogstaver på Android 3
-  		\nRedigering af foreign key felter kan ske via liste af foriegn key værdier
-  		(eksprimental og skal slås til under konfiguration)
-  		\nNu kan det konfigureres om hovedskærmen skal forblive i portræt mode
-      
-      \nGoto første / sidste side i tabel vieweren
-      \nSimpel filter option i tabel vieweren
-      \nHoved skærm nu altid i portræt mode
-  		\nLogging kan slås til for at indsamle oplysninger om bugs (brug
-  		  aLogViewer og filter for aSQLMan)
+			\n\nA tool to create new databases with PK, AUTOINCREMENT, not null, unique, default values and
+				foreign keys and check for field type.
+			\nEasy deletion of tables, views and indexes from lists in database viewer by
+	  		"long clicking" the table / view / index
+			\nForeign key constraint checking can be turned on (default off)
+			\nBedre håndtering af databaser der forhåbentligt vil give færre fejl og
+			færre force close.
+      \nFejlrettelser
        
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:

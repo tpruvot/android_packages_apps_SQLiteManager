@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,6 +34,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import dk.andsen.utils.NewFilePicker;
+import dk.andsen.utils.RootFilePicker;
 import dk.andsen.utils.Utils;
 
 public class aSQLiteManager extends Activity implements OnClickListener {
@@ -42,19 +44,22 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private static final int MENU_OPT = 1;
 	private static final int MENU_HLP = 2;
 	private static final int MENU_RESET = 3;
-	final String WelcomeId = "ShowWelcome2.7";
+	final String WelcomeId = "ShowWelcome3.0β";
 	// change this to delete preferences 
-	final String vers = "2.6";
+	final String vers = "3.0β";
 	private Context _cont;
 	private String _recentFiles;
-	private boolean testing = false;
+	private boolean testRoot = false;
 	private boolean logging = false;
+	private boolean loadSettings = false;
 
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+  			Utils.logD("onCreate", logging);
         logging = Prefs.getLogging(this);
+        testRoot = Prefs.getTestRoot(this);
         if (Prefs.getMainVertical(this))
         	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.main);
@@ -75,6 +80,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     		// in "VersionNo" and show welcome if versionNo has changed
     		SharedPreferences prefs = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
     		if (!settings.getString(vers, "").equals(vers)) {
+    			//Clear to many preferences???
     			Editor editor = prefs.edit();
     			editor.clear();
     			editor.commit();
@@ -98,8 +104,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
     			dial.show();
     		}
     		AppRater.app_launched(_cont);
-    		if (testing )
-    			AppRater.showRateDialog(_cont, null);
   			Bundle extras = getIntent().getExtras();
   			if(extras !=null) {
   				String _dbPath = extras.getString("Database");
@@ -107,7 +111,16 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					i.putExtra("db", _dbPath);
 					startActivity(i);
   			} else {
+  				
   			}
+    }
+    
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    	super.onConfigurationChanged(newConfig);
+    	Utils.logD("onConfigurationChanged", logging);
+    	//TODO handle change of orientations here?
+    	
     }
 
 		/* (non-Javadoc)
@@ -116,11 +129,23 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		public void onClick(View v) {
 			int key = v.getId();
 			if (key == R.id.Open) {
-				Intent i = new Intent(this, NewFilePicker.class);
-				Utils.logD("Calling NewFilepicker", logging);
+				Intent i = null;
+				if (testRoot) {
+					Utils.logD("Calling RootFilepicker", logging);
+					i = new Intent(this, RootFilePicker.class);
+				} else {
+					Utils.logD("Calling NewFilepicker", logging);
+					i = new Intent(this, NewFilePicker.class);
+				}
 //				Utils.logD("Calling NewFilepicker for result");
 //				startActivityForResult(i, 1);
-				startActivity(i);
+				try {
+					startActivity(i);
+				} catch (Exception e) {
+					Utils.logE("Error in file picker (root " + testRoot + ")", logging);
+					e.printStackTrace();
+					Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
+				}
 			} else if (key == R.id.About) {
 				showAboutDialog();
 			}  else if (key == R.id.NewDB) {
@@ -144,6 +169,37 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			}
 		}
 		
+		@Override
+		protected void onPause() {
+		Utils.logD("aSQLiteManager onPause", logging);
+			super.onPause();
+		}
+
+		@Override
+		protected void onStop() {
+			Utils.logD("aSQLiteManager onStop", logging);
+			super.onStop();
+		}
+
+		
+		protected void onResume() {
+			super.onResume();
+			Utils.logD("aSQLiteManager onResume", logging);
+		}
+		
+		public void onWindowFocusChanged(boolean hasFocus) {
+			// Works only need to refresh the screen
+			Utils.logD("Focus changed: " + hasFocus, logging);
+			if(hasFocus) {
+				if (loadSettings  ) {
+	        logging = Prefs.getLogging(this);
+	        testRoot = Prefs.getTestRoot(this);
+					
+				}
+			}
+		}
+
+		
 		/**
 		 * Open a the database clicked on from the recently opened file menu
 		 */
@@ -155,11 +211,16 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				dialog.dismiss();
 				Intent i = new Intent(_cont, DBViewer.class);
 				i.putExtra("db", database);
-				startActivity(i);
+				try {
+					startActivity(i);
+				} catch (Exception e) {
+					Utils.logE("Error in DBViewer", logging);
+					e.printStackTrace();
+					Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
+				}
 			}
 		}
 
-		
 		/**
 		 * Display the about dialog
 		 */
@@ -239,7 +300,13 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 									Intent i = new Intent(_cont, DBViewer.class);
 									i.putExtra("db", path);
 									newDatabaseDialog.dismiss();
-									startActivity(i);
+									try {
+										startActivity(i);
+									} catch (Exception e) {
+										Utils.logE("Error in DBViewer", logging);
+										e.printStackTrace();
+										Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
+									}
 								}
 							}
 						}
@@ -265,6 +332,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		public boolean onOptionsItemSelected(MenuItem item) {
 			switch (item.getItemId()) {
 	    case MENU_OPT:
+	    	loadSettings = true;
 	      startActivity(new Intent(this, Prefs.class));
 	      return true;
 	    case MENU_HLP:
@@ -273,16 +341,20 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	      return true;
 	    case MENU_RESET:
 	    	// Reset all settings to default
-	    	SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.clear();
-				editor.commit();
-				settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
-				editor = settings.edit();
-				editor.clear();
-				editor.commit();
+	    	resetAllPreferences();
 				return false;
 			}
 			return false;
+		}
+
+		private void resetAllPreferences() {
+    	SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+			SharedPreferences.Editor editor = settings.edit();
+			editor.clear();
+			editor.commit();
+			settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
+			editor = settings.edit();
+			editor.clear();
+			editor.commit();
 		}
 }
