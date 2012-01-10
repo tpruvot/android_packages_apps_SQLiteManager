@@ -370,7 +370,7 @@ public class TableViewer extends Activity implements OnClickListener {
 								public void onClick(View v) {
 									Utils.logD("Delete record", logging);
 									if (v == btnDelete) {
-										_db.deleteRecord(_table, rowid);
+										_db.deleteRecord(_table, rowid, _cont);
 										_updateTable = true;
 										//TODO refresh list!!!
 										dial.dismiss();

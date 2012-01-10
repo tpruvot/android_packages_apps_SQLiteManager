@@ -1713,7 +1713,7 @@ public class Database {
 		return res;
 	}
 
-	public void deleteRecord(String tableName, Long rowId) {
+	public void deleteRecord(String tableName, Long rowId, Context cont) {
 		String sql = "delete from [" + tableName + "] where rowid = " + rowId;
 		Utils.logD("Delete SQL = " + sql, logging);
 		try {
