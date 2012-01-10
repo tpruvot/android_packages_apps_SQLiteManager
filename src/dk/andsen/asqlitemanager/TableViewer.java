@@ -377,7 +377,6 @@ public class TableViewer extends Activity implements OnClickListener {
 									}
 								}
 							});
-
 							LinearLayout llButtons = new LinearLayout(_cont);
 							llButtons.setOrientation(LinearLayout.HORIZONTAL);
 							llButtons.setLayoutParams(new LinearLayout.LayoutParams(

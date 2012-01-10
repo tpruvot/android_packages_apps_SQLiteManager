@@ -1719,7 +1719,7 @@ public class Database {
 		try {
 			_db.execSQL(sql);
 		} catch (Exception e) {
-			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.showMessage("Error", e.getLocalizedMessage(), cont);
 			Utils.logE("deleteRecord", logging);
 			Utils.printStackTrace(e, logging);
 		}

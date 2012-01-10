@@ -47,8 +47,11 @@
       \nFor at få en total liste over de funktioner som aSQLiteManager understytter.
       \n\nSend gerne bug reporter, kommentarer og ønsker til ny funktionalitet til:
       \nandroid41cv@gmail.com
-
-      \n\nåbn databaser fra aSQLiteManager og fil managers
+      \nTool til let at oprette nye tabller 
+      \nLet sletning af tabeller, views og indexes
+      \nForeign key kan slås til
+      \nEditering af foreign key felter ved valg lister
+      \nåbn databaser fra aSQLiteManager og fil managers
       \nList tables, views and indexes
       \nDatabase info
       \nVis data fra tables og views
@@ -197,17 +200,17 @@
 
 			\n\nA tool to create new databases with PK, AUTOINCREMENT, not null, unique, default values and
 				foreign keys and check for field type.
-			\nEasy deletion of tables, views and indexes from lists in database viewer by
+			\n\nEasy deletion of tables, views and indexes from lists in database viewer by
 	  		"long clicking" the table / view / index
-			\nForeign key constraint checking can be turned on (default off)
-			\nBedre håndtering af databaser der forhåbentligt vil give færre fejl og
+			\n\nForeign key constraint checking can be turned on (Android default er off)
+			\n\nBedre håndtering af databaser der forhåbentligt vil give færre fejl og
 			færre force close.
-      \nFejlrettelser
+      \n\nFejlrettelser
        
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen
-      \nHar du problemer med aShell, så fortæl mig om dem. Jeg har kun adgang til
+      \n\nHar du problemer med aShell, så fortæl mig om dem. Jeg har kun adgang til
       få Android telefoner og har derfor svært ved at test ordentligt.
       \n\nSe en liste over alle features på:
       \naaa.andsen.dk/aSQLiteManager.html

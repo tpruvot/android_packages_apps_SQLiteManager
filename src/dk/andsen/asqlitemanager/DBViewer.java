@@ -207,12 +207,12 @@ public class DBViewer extends Activity implements OnClickListener {
 				msg = getText(R.string.CannotDeleteAutoIndex) + " " + name;
 			}
 			else {
-				sql = "drop index " + name;
+				sql = "drop index [" + name + "]";
 				msg = getText(R.string.DeleteIndex) + " " + name +"?";
 			}
 		}
 		else if (type.equals("Views")) {
-			sql = "drop view " + name;
+			sql = "drop view [" + name + "]";
 			msg = getText(R.string.DeleteView) + " "  + name +"?";
 		}
 		else if (type.equals("Tables")){
@@ -222,7 +222,7 @@ public class DBViewer extends Activity implements OnClickListener {
 				sql = "";
 				msg = getText(R.string.CannotDeleteSysTable) + name;
 			} else {
-				sql = "drop table " + name;
+				sql = "drop table [" + name + "]";
 				msg = getText(R.string.DeleteTable) + " "  + name +"?";
 			}
 		}
@@ -412,10 +412,12 @@ public class DBViewer extends Activity implements OnClickListener {
 				final CheckBox fPK;
 				final CheckBox fUnique;
 				final CheckBox fAutoInc;
+				final CheckBox fDesc;
 				final EditText fFKTab;
 				final EditText fFKFie;
 				final Spinner fSPType;
 				final Dialog createField = new Dialog(_cont);
+				// data types to be selectable from create field
 				final String[] type = { 
 						"INTEGER",
 						"REAL",
@@ -439,6 +441,7 @@ public class DBViewer extends Activity implements OnClickListener {
 				fPK = (CheckBox) createField.findViewById(R.id.newFldPK);
 				fUnique = (CheckBox) createField.findViewById(R.id.newFldUnique);
 				fAutoInc = (CheckBox) createField.findViewById(R.id.newFldAutoInc);
+				fDesc = (CheckBox) createField.findViewById(R.id.newFldDesc);
 				fDef = (EditText) createField.findViewById(R.id.newFldDef);
 				fFKTab = (EditText) createField.findViewById(R.id.newFldFKTab);
 				fFKFie = (EditText) createField.findViewById(R.id.newFldFKFie);
@@ -455,18 +458,22 @@ public class DBViewer extends Activity implements OnClickListener {
 						Utils.logD("Turning autoinc on / off", logging);
 						if (isChecked) {
 							fAutoInc.setEnabled(true);
+							fDesc.setEnabled(true);
 						} else {
 							fAutoInc.setEnabled(false);
+							fDesc.setEnabled(false);
 						}
 					}
 				});
+				// OK clicked on new field
 				newFieldOk.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						int iType = fSPType.getSelectedItemPosition();
 						String stype = type[iType];
 						Utils.logD("Field type = " + stype, logging);
 						//Check for name and type not null
-						if (!fName.getEditableText().toString().trim().equals("")) {
+						if (!fName.getEditableText().toString().trim().equals("") 
+								&& (!(fAutoInc.isChecked() && fDesc.isChecked()))) {
 							boolean forceType = false;
 							// Build the sql for the field
 							String fld = "[";
@@ -481,6 +488,12 @@ public class DBViewer extends Activity implements OnClickListener {
 							}
 							if (fPK.isChecked()) {
 								fld += " PRIMARY KEY";
+								// Sort descending?
+								if (fDesc.isChecked()) {
+									fld += " DESC";
+								} else {
+									fld += " ASC";
+								}
 								// Add order here ASC / DESC
 								if (fAutoInc.isChecked()) {
 									fld += " AUTOINCREMENT";
@@ -495,9 +508,10 @@ public class DBViewer extends Activity implements OnClickListener {
 								if (stype.startsWith("INTEGER")) {
 									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'integer')";
 								} else if (stype.startsWith("REAL")) {
-									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'real')";
+									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'real' " +
+											"or typeof(" + fName.getEditableText().toString() +") = 'integer')";
 								} else if (stype.startsWith("TEXT")) {
-									fld += " check(typeof(" + fName.getEditableText().toString() +") = 'text')";
+									fld += " typeof(" + fName.getEditableText().toString() +") = 'text')";
 								} else {
 									//Ups
 								}
@@ -535,8 +549,18 @@ public class DBViewer extends Activity implements OnClickListener {
 								fkList.add(fk);
 							createField.dismiss();
 						} else {
+							String msg = "";
+							if (fName.getEditableText().toString().trim().equals("")) {
+								Utils.logD("No field name", logging);
+								msg = getText(R.string.MustEnterFieldName).toString();
+							}
+							if ((fAutoInc.isChecked() && fDesc.isChecked())) {
+								Utils.logD("DESC & AutoInc", logging);
+								getText(R.string.DescAutoIncError).toString();
+								msg += "\n" + getText(R.string.DescAutoIncError).toString();
+							}
 							Utils.showMessage(getText(R.string.Error).toString(),
-									getText(R.string.MustEnterFieldNameAndType).toString(), _cont);
+									msg, _cont);
 						}
 					}
 				});

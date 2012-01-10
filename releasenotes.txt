@@ -6,11 +6,11 @@ Working on
 	Change in orientation must be taken care of
 
 Version 3.0:
-	A tool to create new databases with PK, AUTOINCREMENT, not null, unique, default values and
-		foreign keys and check for field type.
+	A tool to create new databases with PK, ASC / DESC, AUTOINCREMENT,
+	  not null, unique, default values, foreign keys and check for field type.
 	Easy deletion of tables, views and indexes from lists in database viewer by
 	  "long clicking" the table / view / index
-	Foreign key constraint checking can be turned on (default off)
+	Foreign key constraint checking can be turned on (Android default is off)
 	Better database handling hopefully giving fewer errors / force closes
 	Bug fixes
 
