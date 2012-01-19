@@ -201,7 +201,6 @@
     <string name="CannotDeleteSysTable">Cannot delete system table</string>
     <string name="DropItem">Drop item?</string>
     <string name="IndexDefCopied">Index definition copied to clip board</string>
-
     <string name="DescAutoIncError">DESC and AutoInc must not both be checked although the manual says otherwise</string>
         
   	<string name="WelcomeMsg">aSQLiteManager is a free open source

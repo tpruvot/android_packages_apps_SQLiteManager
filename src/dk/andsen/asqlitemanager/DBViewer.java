@@ -99,29 +99,35 @@ public class DBViewer extends Activity implements OnClickListener {
 				Utils.showMessage(getText(R.string.Error).toString(),
 						getText(R.string.IsNotADatabase).toString(), _cont);
 			} else {
-				// database is a database and is opened  
-				// Store recently opened files
-				if (Prefs.getEnableFK(_cont)) {
-					database.FKOn();
+				// database is a database and is opened
+				// Test if database is working and not corrupt
+				try {
+					database.getTables();
+					// Store recently opened files
+					if (Prefs.getEnableFK(_cont)) {
+						database.FKOn();
+					}
+					int noOfFiles = Prefs.getNoOfFiles(_cont);
+					SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+					String files = settings.getString("Recently", null);
+					files = Recently.updateList(files, _dbPath, noOfFiles);
+					Editor edt = settings.edit();
+					edt.putString("Recently", files);
+					edt.commit();
+//					tables = _db.getTables();
+//					views = _db.getViews();
+					indexes = database.getIndex();
+//					for(String str: tables) {
+//						Utils.logD("Table: " + str);
+//					}
+//					for(String str: views) {
+//						Utils.logD("View: " + str);
+//					}
+					list = (ListView) findViewById(R.id.LVList);
+					buildList("Tables");
+				} catch (Exception e) {
+					Utils.showException(e.getLocalizedMessage(), _cont);
 				}
-				int noOfFiles = Prefs.getNoOfFiles(_cont);
-				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-				String files = settings.getString("Recently", null);
-				files = Recently.updateList(files, _dbPath, noOfFiles);
-				Editor edt = settings.edit();
-				edt.putString("Recently", files);
-				edt.commit();
-//				tables = _db.getTables();
-//				views = _db.getViews();
-				indexes = database.getIndex();
-//				for(String str: tables) {
-//					Utils.logD("Table: " + str);
-//				}
-//				for(String str: views) {
-//					Utils.logD("View: " + str);
-//				}
-				list = (ListView) findViewById(R.id.LVList);
-				buildList("Tables");
 			}
 		}
 	}
@@ -305,6 +311,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	public void onClick(View v) {
+		Utils.logD("DBViewer OnCLick", logging);
 		int key = v.getId();
 		if (key == R.id.Tables) {
 			buildList("Tables");
@@ -332,7 +339,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onWindowFocusChanged(boolean)
 	 */
 	public void onWindowFocusChanged(boolean hasFocus) {
-		//Utils.logD("Focus changed: " + hasFocus);
+		Utils.logD("DBViewer onWindowFocusChanged: " + hasFocus, logging);
 		if(hasFocus & _update) {
 			_update = false;
 //			tables = _db.getTables();
@@ -457,7 +464,11 @@ public class DBViewer extends Activity implements OnClickListener {
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 						Utils.logD("Turning autoinc on / off", logging);
 						if (isChecked) {
-							fAutoInc.setEnabled(true);
+							//Only turn AutoInc if field is INTEGER
+							int iType = fSPType.getSelectedItemPosition();
+							String stype = type[iType];
+							if (stype.startsWith("INTEGER"))
+								fAutoInc.setEnabled(true);
 							fDesc.setEnabled(true);
 						} else {
 							fAutoInc.setEnabled(false);

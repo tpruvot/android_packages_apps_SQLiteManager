@@ -157,25 +157,29 @@ public class QueryViewer extends Activity implements OnClickListener{
 			setTitles(_aTable, result.getColumnNames());
 			appendRows(_aTable, result.getData());			
 		}  else if (key == R.id.PgDwn) {
-			int childs = _aTable.getChildCount();
-			Utils.logD("Table childs: " + childs, logging);
-			if (childs >= _limit) {  //  No more data on to display - no need to PgDwn
-				_offset += _limit;
-				String [] nn = {};
-				setTitles(_aTable, nn);
+			if (_aTable != null) {
+				Utils.logD("PgDwn:" + _offset, logging);
+				int childs = _aTable.getChildCount();
+				Utils.logD("Table childs: " + childs, logging);
+				if (childs >= _limit) {  //  No more data on to display - no need to PgDwn
+					_offset += _limit;
+					String [] nn = {};
+					setTitles(_aTable, nn);
+					QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
+					setTitles(_aTable, result.getColumnNames());
+					appendRows(_aTable, result.getData());
+				}
+			}
+		} else if (key == R.id.PgUp) {
+			if (_aTable != null) {
+				Utils.logD("PgUp: " + _offset, logging);
+				_offset -= _limit;
+				if (_offset < 0)
+					_offset = 0;
 				QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
 				setTitles(_aTable, result.getColumnNames());
 				appendRows(_aTable, result.getData());
 			}
-			Utils.logD("PgDwn:" + _offset, logging);
-		} else if (key == R.id.PgUp) {
-			_offset -= _limit;
-			if (_offset < 0)
-				_offset = 0;
-			QueryResult result = _db.getSQLQueryPage(sql, _offset, _limit);
-			setTitles(_aTable, result.getColumnNames());
-			appendRows(_aTable, result.getData());
-			Utils.logD("PgUp: " + _offset, logging);
 		}
 	}
 

@@ -193,16 +193,17 @@
     <string name="CannotDeleteSysTable">Can ikke slette system tabeller</string>
     <string name="DropItem">Slet valgte?</string>
     <string name="IndexDefCopied">Index definition kopieret til clip board</string>
-		    
+    <string name="DescAutoIncError">DESC og AutoInc må ikke begge vælges (selv om SQLite vejledningen siger andet)</string>
+        		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
       \n\nNyt i denne version (3.0):
 
-			\n\nA tool to create new databases with PK, AUTOINCREMENT, not null, unique, default values and
-				foreign keys and check for field type.
-			\n\nEasy deletion of tables, views and indexes from lists in database viewer by
-	  		"long clicking" the table / view / index
-			\n\nForeign key constraint checking can be turned on (Android default er off)
+			\n\nEt nyt værktøj til at generere nye databaser med PK, AUTOINCREMENT, not null, unique, default værdier,
+				foreign keys og tvungne felttyper.
+			\n\nLet sletning af tabeller, views og indexes fra listen i database vieweren ved
+	  		at "long clicke" på tabllen / viewet / indexet
+			\n\nAktivering af foreign key constraint (Android default er fra)
 			\n\nBedre håndtering af databaser der forhåbentligt vil give færre fejl og
 			færre force close.
       \n\nFejlrettelser

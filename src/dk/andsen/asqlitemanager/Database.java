@@ -741,15 +741,15 @@ public class Database {
 			sql = sqlStatement;
 		Cursor cursor = null;
 		QueryResult nres = null;
-		boolean rawType = true;
+		boolean rawType = false;
 		//Find out which for of query to use
 		if (sql.trim().toLowerCase().startsWith("select"))
-			rawType  = false;
+			rawType  = true;
 		else if (sql.trim().toLowerCase().startsWith("pragma"))
-			rawType = false;
+			rawType = true;
 		Utils.logD("Use rawType: " + rawType, logging);
 		// Use execSQL where no result is expected
-		if (rawType) {
+		if (!rawType) {
 			try {
 				Utils.logD("execSQL: " + sql, rawType);
 				_db.execSQL(sql);

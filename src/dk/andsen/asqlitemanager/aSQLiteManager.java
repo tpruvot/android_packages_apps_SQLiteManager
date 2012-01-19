@@ -169,23 +169,23 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			}
 		}
 		
-		@Override
-		protected void onPause() {
-		Utils.logD("aSQLiteManager onPause", logging);
-			super.onPause();
-		}
-
-		@Override
-		protected void onStop() {
-			Utils.logD("aSQLiteManager onStop", logging);
-			super.onStop();
-		}
-
-		
-		protected void onResume() {
-			super.onResume();
-			Utils.logD("aSQLiteManager onResume", logging);
-		}
+//		@Override
+//		protected void onPause() {
+//		Utils.logD("aSQLiteManager onPause", logging);
+//			super.onPause();
+//		}
+//
+//		@Override
+//		protected void onStop() {
+//			Utils.logD("aSQLiteManager onStop", logging);
+//			super.onStop();
+//		}
+//
+//		
+//		protected void onResume() {
+//			super.onResume();
+//			Utils.logD("aSQLiteManager onResume", logging);
+//		}
 		
 		public void onWindowFocusChanged(boolean hasFocus) {
 			// Works only need to refresh the screen

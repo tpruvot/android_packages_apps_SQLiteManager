@@ -2,7 +2,7 @@ Download binaries here: http://market.android.com/details?pub=Andsen
 
 Working on
 	Build in root access to system databases (from aShell and experimental)
-		must be turned on in configuration
+		next version??
 	Change in orientation must be taken care of
 
 Version 3.0:
