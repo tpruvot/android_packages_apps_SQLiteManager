@@ -5,13 +5,14 @@ Working on
 		next version??
 	Change in orientation must be taken care of
 
-Version 3.0:
+Next version (3.0):
 	A tool to create new databases with PK, ASC / DESC, AUTOINCREMENT,
 	  not null, unique, default values, foreign keys and check for field type.
 	Easy deletion of tables, views and indexes from lists in database viewer by
 	  "long clicking" the table / view / index
 	Foreign key constraint checking can be turned on (Android default is off)
 	Better database handling hopefully giving fewer errors / force closes
+	Now works in landscape mode
 	Bug fixes
 
 Version 2.7:
@@ -23,7 +24,7 @@ Version 2.7:
   Now keeping main screen in portrait mode must be configured
 		Logging can be turned on to collect informations about bugs (use
 	    aLogViewer and filter for aSQLMan)
-	Bug fixes
+  Bug fixes
 
 Version 2.6:
   Main screen now always in portrait
