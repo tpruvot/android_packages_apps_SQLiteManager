@@ -2,10 +2,10 @@ Download binaries here: http://market.android.com/details?pub=Andsen
 
 Working on
 	Build in root access to system databases (from aShell and experimental)
-		next version??
-	Change in orientation must be taken care of
+		from next version??
+	Change in orientation with open dialogues must be taken care of
 
-Next version (3.0):
+Version (3.0):
 	A tool to create new databases with PK, ASC / DESC, AUTOINCREMENT,
 	  not null, unique, default values, foreign keys and check for field type.
 	Easy deletion of tables, views and indexes from lists in database viewer by
@@ -13,6 +13,7 @@ Next version (3.0):
 	Foreign key constraint checking can be turned on (Android default is off)
 	Better database handling hopefully giving fewer errors / force closes
 	Now works in landscape mode
+	Better testing of databases on opening
 	Bug fixes
 
 Version 2.7:
