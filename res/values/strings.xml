@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">3.0</string>
+    <string name="VersionNo">3.1β</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
@@ -202,8 +202,13 @@
     <string name="DropItem">Drop item?</string>
     <string name="IndexDefCopied">Index definition copied to clip board</string>
     <string name="DescAutoIncError">DESC and AutoInc must not both be checked although the manual says otherwise</string>
+    <string name="NoRecentFiles">No recent files ;-(</string>
         
-  	<string name="WelcomeMsg">aSQLiteManager is a free open source
+    <!-- Not translated from here: -->    
+
+    <string name="Translation">Translate to your language and get your name here</string>
+
+    <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version (3.0β):
 

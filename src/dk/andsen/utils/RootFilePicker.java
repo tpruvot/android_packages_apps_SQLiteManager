@@ -334,7 +334,7 @@ public class RootFilePicker extends ListActivity {
 									public void onClick(DialogInterface dialog, int id) {
 										// Action for 'Yes' Button
 										Utils.logD("Open root file", _log);
-										openRootFile(dbPath, database);
+										openRootDatabase(dbPath, database);
 										dialog.dismiss();
 									}
 								})
@@ -354,7 +354,7 @@ public class RootFilePicker extends ListActivity {
 
 					} else {
 						// Not a root dir
-						openFile(currPath, newPath);
+						openDatabase(currPath, newPath);
 					}
 				}
 			}
@@ -367,7 +367,7 @@ public class RootFilePicker extends ListActivity {
 	 * @param path to the file
 	 * @param file name of the file
 	 */
-	private void openFile(String path, String file) {
+	private void openDatabase(String path, String file) {
 		boolean treatAllFilesAsDatabases = true;
 		
 		if (treatAllFilesAsDatabases) {
@@ -443,7 +443,7 @@ public class RootFilePicker extends ListActivity {
 	 * @param dbPath Path to the file
 	 * @param file The name of the file
 	 */
-	private void openRootFile(String dbPath, String file) {
+	private void openRootDatabase(String dbPath, String file) {
 		testTempDir();
 		// Does not work with "." in temp path (.aSQLiteManager)
 		String tmpPath = Environment.getExternalStorageDirectory().toString() + tempDir; 
@@ -461,7 +461,7 @@ public class RootFilePicker extends ListActivity {
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		openFile(tmpPath, file);
+		openDatabase(tmpPath, file);
 	}
 
 	/**

@@ -156,9 +156,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 				_recentFiles = settings.getString("Recently", null);
 				if (_recentFiles == null) {
-					Utils.showMessage("Recently files: ", _recentFiles, _cont);
+					Utils.showMessage(getText(R.string.Error).toString(),
+							getText(R.string.NoRecentFiles).toString(), _cont);
 				} else {
-					String[] resently = _recentFiles.split(";");
+					//TODO add special handling for databases in Dropbox (cut part of path)
+					String recentTest = _recentFiles.replaceAll("/mnt/sdcard/Android/data/com.dropbox.android/files/scratch", "[Dropbox]");
+					String[] resently = recentTest.split(";");
+					//TODO test this!!!!!	
+					//String[] resently = _recentFiles.split(";");
 					Utils.logD(_recentFiles, logging);
 					AlertDialog dial = new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.Recently)) 
@@ -205,7 +210,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		 */
 		public class ResentFileOnClickHandler implements DialogInterface.OnClickListener {
 			public void onClick(DialogInterface dialog, int which) {
-				String[] files = _recentFiles.split(";");
+				SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+				String[] files = settings.getString("Recently", null).split(";");
 				String database = files[which];
 				//Utils.toastMsg(_cont, database);
 				dialog.dismiss();

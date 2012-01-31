@@ -194,6 +194,9 @@
     <string name="DropItem">Slet valgte?</string>
     <string name="IndexDefCopied">Index definition kopieret til clip board</string>
     <string name="DescAutoIncError">DESC og AutoInc må ikke begge vælges (selv om SQLite vejledningen siger andet)</string>
+    <string name="NoRecentFiles">Ingen nyligt åbne filer ;-(</string>
+    <string name="Translation">Dansk oversættelse klarede jeg selv</string>
+        
         		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.

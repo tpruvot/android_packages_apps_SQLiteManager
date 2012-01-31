@@ -9,6 +9,7 @@
  */
 package dk.andsen.asqlitemanager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.ClipboardManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +46,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import dk.andsen.types.Types;
+import dk.andsen.utils.AShellInterface;
 import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.Recently;
 import dk.andsen.utils.Utils;
@@ -64,6 +67,12 @@ public class DBViewer extends Activity implements OnClickListener {
 	private final int MENU_SQL = 2;
 	private final int MENU_INFO = 3;
 	private final int MENU_CREATETABLE = 4;
+	//Where to store temporary databases
+	private final String tempDir = "/aSQLiteManager";
+	protected boolean editingDatabase;
+	protected String databasePath;
+	private String databaseTemp;
+	
 	private int _dialogClicked;
 	private boolean logging = false;
 	private boolean newFeatures = true;
@@ -92,45 +101,100 @@ public class DBViewer extends Activity implements OnClickListener {
 			_dbPath = extras.getString("db");
 			tvDB.setText(getText(R.string.Database) + ": " + _dbPath);
 			Utils.logD("Opening database " + _dbPath, logging);
-			database = new Database(_dbPath, _cont);
-			//_SQLiteDb = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
-			if (!database.isDatabase) {
-				Utils.logD("Not a database!", logging);
-				Utils.showMessage(getText(R.string.Error).toString(),
-						getText(R.string.IsNotADatabase).toString(), _cont);
-			} else {
-				// database is a database and is opened
-				// Test if database is working and not corrupt
-				try {
-					database.getTables();
-					// Store recently opened files
-					if (Prefs.getEnableFK(_cont)) {
-						database.FKOn();
+			if ((new File(_dbPath).canRead())) {
+				// it is a readable file no root access needed
+				database = new Database(_dbPath, _cont);
+				//_SQLiteDb = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+				if (!database.isDatabase) {
+					Utils.logD("User has opened something that is not a database!", logging);
+					Utils.showMessage(getText(R.string.Error).toString(),
+							_dbPath + " " + getText(R.string.IsNotADatabase).toString(), _cont);
+				} else {
+					// it is a database and it is opened
+					// Test if database is working and not corrupt
+					try {
+						database.getTables();
+						// Store recently opened files
+						if (Prefs.getEnableFK(_cont)) {
+							database.FKOn();
+						}
+						int noOfFiles = Prefs.getNoOfFiles(_cont);
+						SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
+						String files = settings.getString("Recently", null);
+						files = Recently.updateList(files, _dbPath, noOfFiles);
+						Editor edt = settings.edit();
+						edt.putString("Recently", files);
+						edt.commit();
+						indexes = database.getIndex();
+						list = (ListView) findViewById(R.id.LVList);
+						buildList("Tables");
+					} catch (Exception e) {
+						Utils.showException(e.getLocalizedMessage(), _cont);
 					}
-					int noOfFiles = Prefs.getNoOfFiles(_cont);
-					SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-					String files = settings.getString("Recently", null);
-					files = Recently.updateList(files, _dbPath, noOfFiles);
-					Editor edt = settings.edit();
-					edt.putString("Recently", files);
-					edt.commit();
-//					tables = _db.getTables();
-//					views = _db.getViews();
-					indexes = database.getIndex();
-//					for(String str: tables) {
-//						Utils.logD("Table: " + str);
-//					}
-//					for(String str: views) {
-//						Utils.logD("View: " + str);
-//					}
-					list = (ListView) findViewById(R.id.LVList);
-					buildList("Tables");
-				} catch (Exception e) {
-					Utils.showException(e.getLocalizedMessage(), _cont);
+				}
+			} else {
+				// it is not a readable file root access needed
+				//TODO implement aShels way of opening system databases
+				Utils.showMessage(getText(R.string.Error).toString(), "No editing of system databases yet", _cont);
+				//openRootFile(_dbPath);
+
+				
+			}
+		}
+	}
+	
+	/**
+	 * Open a copy file from the root part of the phone. The file is copied to 
+	 * /mnt/sccard/aSQLiteManager (this method of opening the file did not
+	 * work with catalogs containing "."
+	 * @param dbPath Path to the file
+	 * @param file The name of the file
+	 */
+	private void openRootFile(String dbPath, String file) {
+//		testTempDir();
+//		// Does not work with "." in temp path (.aSQLiteManager)
+//		String tmpPath = Environment.getExternalStorageDirectory().toString() + tempDir; 
+//		AShellInterface shc = new AShellInterface(suShell, delay, _cont);
+//		String cmd = "cat " + dbPath + "/" + file + " > " + tmpPath + "/" + file + ".bck";
+//		shc.runCommand(cmd);
+//		cmd = "cat " + dbPath  + "/" + file + " > " + tmpPath + "/" + file;
+//		shc.runCommand(cmd);
+//		editingDatabase = true;
+//		databasePath = dbPath + "/" + file;
+//		databaseTemp = tmpPath + "/" + file;
+//		try {
+//			Thread.sleep(delay);
+//		}
+//		catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		openFile(databaseTemp);
+	}
+	
+	/**
+	 * This just check if the temporary cataloge for files to be edited is pressent
+	 * if not it is created
+	 */
+	private void testTempDir() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			//Utils.toastMsg(this, "sdcard ok");
+			//mExternalStorageAvailable = mExternalStorageWriteable = true;
+			String tmpPath = Environment.getExternalStorageDirectory().toString() + tempDir; 
+			if( new File(tmpPath).canRead()) {
+				//Utils.toastMsg(this, "tmpdir ok");
+			} else {
+				//Utils.toastMsg(this, "create dir: " + tmpPath);
+				if ( (new File(tmpPath)).mkdir()) {
+					//Utils.toastMsg(this, "tmpdir created");
+				} else {
+					// in troubles
+					//Utils.toastMsg(this, "in troubles");
 				}
 			}
 		}
 	}
+
 	
 	@Override
 	protected void onDestroy() {
@@ -311,6 +375,12 @@ public class DBViewer extends Activity implements OnClickListener {
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	public void onClick(View v) {
+		if (!database.isDatabase) {
+			Utils.logD("User trying to do things with something that is not a database!", logging);
+			Utils.showMessage(getText(R.string.Error).toString(),
+					_dbPath + " " + getText(R.string.IsNotADatabase).toString(), _cont);
+			return;
+		}
 		Utils.logD("DBViewer OnCLick", logging);
 		int key = v.getId();
 		if (key == R.id.Tables) {
@@ -361,6 +431,12 @@ public class DBViewer extends Activity implements OnClickListener {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (!database.isDatabase) {
+			Utils.logD("User trying to do things with something that is not a database!", logging);
+			Utils.showMessage(getText(R.string.Error).toString(),
+					_dbPath + " " + getText(R.string.IsNotADatabase).toString(), _cont);
+			return false;  
+		}
 		switch (item.getItemId()) {
 		case MENU_EXPORT:
 			_dialogClicked = MENU_EXPORT; 

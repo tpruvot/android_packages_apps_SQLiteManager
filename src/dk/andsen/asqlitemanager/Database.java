@@ -159,7 +159,7 @@ public class Database {
 				} catch (Exception e) {
 					Utils.logE("testDB " + e.getLocalizedMessage().toString(), logging);
 					Utils.printStackTrace(e, logging);
-					Utils.showMessage(_cont.getText(R.string.Error).toString(),
+					Utils.showMessage(_cont.getText(R.string.Error).toString(), //TODO 3.0 null pointer exception here _cont?
 							e.getLocalizedMessage().toString() + "\n" +
 							_cont.getText(R.string.StrangeErr).toString(), _cont);
 				}

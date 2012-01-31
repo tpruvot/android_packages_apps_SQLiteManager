@@ -48,8 +48,13 @@
         android:autoLink="all"
         android:text="@string/AAA"
         android:textColor="#FFF" />
-
+    <TextView android:id="@+id/translation"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textColor="#FFF"
+         android:text="@string/Translation"
+         android:autoLink="all"
+         />                      
   </LinearLayout>    
   </LinearLayout>
-                      
 </LinearLayout>

@@ -5,6 +5,11 @@ Working on
 		from next version??
 	Change in orientation with open dialogues must be taken care of
 
+Next version:
+	Easy editing of databases in "Dropbox"
+	Bug fixes: Has solved an annoying null pointer bug - it did appear if
+		users was trying to manipulate something that was not a database  
+
 Version (3.0):
 	A tool to create new databases with PK, ASC / DESC, AUTOINCREMENT,
 	  not null, unique, default values, foreign keys and check for field type.
