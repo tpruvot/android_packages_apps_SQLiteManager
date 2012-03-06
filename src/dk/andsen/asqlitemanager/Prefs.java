@@ -31,6 +31,8 @@ public class Prefs extends PreferenceActivity {
    private static final boolean OPT_SAVESQL_DEF = false;
    private static final String OPT_FILENO = "RecentFiles";
    private static final String OPT_FILENO_DEF = "5";
+   private static final String OPT_FONTSIZE = "FontSize";
+   private static final String OPT_FONTSIZE_DEF = "12";
    private static final String OPT_FK2LIST = "FKList";
    private static final boolean OPT_FK2LIST_DEF = false;
    private static final String OPT_FKON = "EnableForeignKeys";
@@ -57,10 +59,20 @@ public class Prefs extends PreferenceActivity {
     * @param context
     * @return page size
     */
-  public static int getPageSize(Context context) {
-     return new Integer(PreferenceManager.getDefaultSharedPreferences(context)
-           .getString(OPT_PAGESIZE, OPT_PAGESIZE_DEF)).intValue();
-  }
+		public static int getPageSize(Context context) {
+		   return new Integer(PreferenceManager.getDefaultSharedPreferences(context)
+		         .getString(OPT_PAGESIZE, OPT_PAGESIZE_DEF)).intValue();
+		}
+
+  /**
+   * Return the numbers of records to retrieve when paging data
+   * @param context
+   * @return page size
+   */
+	 public static int getFontSize(Context context) {
+	    return new Integer(PreferenceManager.getDefaultSharedPreferences(context)
+	          .getString(OPT_FONTSIZE, OPT_FONTSIZE_DEF)).intValue();
+	 }
 
   /**
    * Return true if executed statements are stored in database
@@ -111,4 +123,10 @@ public class Prefs extends PreferenceActivity {
   	return PreferenceManager.getDefaultSharedPreferences(context)
   		.getBoolean(OPT_TESTROOT, OPT_TESTROOT_DEF);
   }
+  
+  public static int getDefaultView(Context context) {
+  	return new Integer(PreferenceManager.getDefaultSharedPreferences(context)
+    .getString("DefaultView", "1")).intValue();
+  }
+  
 }

@@ -1,5 +1,4 @@
 ToDo / ideas for coming development
-	Done Create Table wizards
 	Create View wizards
 	Compress SQL wines.name -> t1.name in resulting SQL not on lists
 	Sort data / query results by clicking on title
@@ -8,6 +7,7 @@ ToDo / ideas for coming development
 	Scripts editor?  
 	
 Done
+	Create Table wizards
 	Recent database files
 	Data entry and editing form use editing button at each row
 	Execute scripts (single line or full script)

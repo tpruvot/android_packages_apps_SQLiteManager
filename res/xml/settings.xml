@@ -10,14 +10,28 @@
 	    android:inputType="number"
 	    android:defaultValue="20"
 		/>
-	  <EditTextPreference
+      <EditTextPreference
+        android:key="FontSize"
+        android:title="@string/FontSize"
+        android:summary="@string/FontSizeText"
+        android:inputType="number"
+        android:defaultValue="10"
+      />
+   	  <EditTextPreference
 	    android:key="RecentFiles"
 	    android:title="@string/Recently"
 	    android:summary="@string/RecentlyTxt"
 	    android:inputType="number"
 	    android:defaultValue="5"
 	  />
-	  <CheckBoxPreference
+      <ListPreference android:key="DefaultView"
+        android:title="@string/DefaultMode"
+        android:summary="@string/DefaultModeText"
+        android:entries="@array/Modes"
+        android:entryValues="@array/ModeValues"
+        android:defaultValue="1"
+      />      
+      <CheckBoxPreference
 	    android:key="MainVertical"
 	    android:title="Main screen in portrait"
 	    android:summary="Always keep main screen in portrait (after restart)"
@@ -26,7 +40,6 @@
   </PreferenceCategory>
   <PreferenceCategory
  		android:title="@string/SQLPreferences">
-  </PreferenceCategory>
 	  <CheckBoxPreference
 	    android:key="FKList"
 	    android:title="FK lists"
@@ -45,7 +58,7 @@
 	    android:summary="Turn on foreign key constraints"
 	    android:defaultValue="false"
 	  />
-      
+  </PreferenceCategory>
   <PreferenceCategory
  		android:title="@string/DebugPreferences">
     <CheckBoxPreference

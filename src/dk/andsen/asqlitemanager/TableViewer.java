@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.view.Menu;
@@ -61,6 +62,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private static final int MENU_LAST_REC = 2;
 	private static final int MENU_FILETR = 3;
 	private boolean logging;
+	private int _fontSize;
 	
 	/*
 	 * What is needed to allow editing form  table viewer 
@@ -81,14 +83,14 @@ public class TableViewer extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		Utils.logD("TableViewer onCreate", logging);
 		logging = Prefs.getLogging(this);
+		_fontSize = Prefs.getFontSize(this);
 		setContentView(R.layout.table_viewer);
 		TextView tvDB = (TextView)this.findViewById(R.id.TableToView);
-		Button bTab = (Button) this.findViewById(R.id.Fields);
-		Button bVie = (Button) this.findViewById(R.id.Data);
-		Button sVie = (Button) this.findViewById(R.id.SQL);
+		Button bFields = (Button) this.findViewById(R.id.Fields);
+		Button bData = (Button) this.findViewById(R.id.Data);
+		Button bSQL = (Button) this.findViewById(R.id.SQL);
 		bUp = (Button) this.findViewById(R.id.PgUp);
 		bDwn = (Button) this.findViewById(R.id.PgDwn);
 		bUp.setOnClickListener(this);
@@ -97,9 +99,9 @@ public class TableViewer extends Activity implements OnClickListener {
 		bDwn.setVisibility(View.GONE);
 		_cont = this;
 		limit = Prefs.getPageSize(this);
-		bTab.setOnClickListener(this);
-		bVie.setOnClickListener(this);
-		sVie.setOnClickListener(this);
+		bFields.setOnClickListener(this);
+		bData.setOnClickListener(this);
+		bSQL.setOnClickListener(this);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
@@ -113,10 +115,18 @@ public class TableViewer extends Activity implements OnClickListener {
 				tvDB.setText(getString(R.string.DBView) + " " + _table);
 			_db = DBViewer.database;
 			Utils.logD("Database open", logging);
-			onClick(bTab);
+			switch(Prefs.getDefaultView(_cont)){
+			case 2:
+				onClick(bSQL);
+				break;
+			case 3:
+				onClick(bData);
+				break;
+			default:
+				onClick(bFields);
+			}
 		}
 	}
-	
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -142,7 +152,6 @@ public class TableViewer extends Activity implements OnClickListener {
 	  String myString = savedInstanceState.getString("MyString");
 	  Utils.logD("Restore myString " + myString, logging);
 	}
-
 
 	@Override
 	protected void onPause() {
@@ -267,7 +276,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			bDwn.setVisibility(View.GONE);
 		}
 	}
-
 	
 	private void appendRows(TableLayout table, Record[] data, boolean allowEdit) {
 		if (data == null)
@@ -288,7 +296,7 @@ public class TableViewer extends Activity implements OnClickListener {
 			});
 			if (i%2 == 1)
 				row.setBackgroundColor(Color.DKGRAY);
-			// TODO change rows to ConvertView
+			// TODO change rows to ConvertView?
 			// Adding all columns as TextView's should be changed to a ConvertView
 			// as described here:
 			// http://android-er.blogspot.com/2010/06/using-convertview-in-getview-to-make.html
@@ -297,6 +305,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				if (j==0 && allowEdit) {
 					TextView c = new TextView(this);
 					c.setText(getText(R.string.Edit));
+					c.setTextSize(_fontSize);
 					int id;
 					// change to long
 					id = i;
@@ -394,6 +403,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				} else {
 					TextView c = new TextView(this);
 					//c.setText(data[i][j]);
+					c.setTextSize(_fontSize);
 					c.setText(data[i].getFields()[j].getFieldData());
 					c.setBackgroundColor(getBackgroundColor(data[i].getFields()[j].getFieldType(), (i%2 == 1)));
 					c.setPadding(3, 3, 3, 3);
@@ -475,6 +485,7 @@ public class TableViewer extends Activity implements OnClickListener {
 					// TODO use this ?  c.setTextColor(StateColorList);
 					//c.setBackgroundColor(R.color.yellow);
 					c.setText(getText(R.string.Edit));
+					c.setTextSize(_fontSize);
 					//c.setTextColor(R.color.yellow);
 					//Error here if id too large to be integer id can't be long so check needed
 					//int id = new Integer(data[i][j]).intValue();
@@ -554,6 +565,7 @@ public class TableViewer extends Activity implements OnClickListener {
 				} else {
 					TextView c = new TextView(this);
 					c.setText(data[i][j]);
+					c.setTextSize(_fontSize);
 					c.setPadding(3, 3, 3, 3);
 					c.setOnClickListener(new OnClickListener() {
 						public void onClick(View v) {
@@ -584,6 +596,8 @@ public class TableViewer extends Activity implements OnClickListener {
 		if (allowEdit) {
 			TextView c = new TextView(this);
 			c.setText(getText(R.string.New));
+			c.setTextSize(_fontSize);
+			c.setTextAppearance(this, Typeface.BOLD);
 			c.setPadding(3, 3, 3, 3);
 			c.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -647,6 +661,8 @@ public class TableViewer extends Activity implements OnClickListener {
 		for(int i=0; i<rowSize; i++){
 			//TODO add onClickListener to sort based on the column
 			TextView c = new TextView(this);
+			c.setTextSize(_fontSize);
+			c.setTextAppearance(this, Typeface.BOLD);
 			c.setText(titles[i]);
 			c.setPadding(3, 3, 3, 3);
 			row.addView(c);

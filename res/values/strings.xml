@@ -205,7 +205,11 @@
     <string name="NoRecentFiles">No recent files ;-(</string>
         
     <!-- Not translated from here: -->    
-
+    <string name="FontSizeText">Font size to use data list</string>
+    <string name="FontSize">Font size</string>
+    <string name="DefaultModeText">Default view in table viewer</string>
+    <string name="DefaultMode">Default view</string>
+        
     <string name="Translation">Translate to your language and get your name here</string>
 
     <string name="WelcomeMsg">aSQLiteManager is a free open source
