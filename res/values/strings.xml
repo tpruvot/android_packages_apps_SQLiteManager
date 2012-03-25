@@ -209,19 +209,19 @@
     <string name="FontSize">Font size</string>
     <string name="DefaultModeText">Default view in table viewer</string>
     <string name="DefaultMode">Default view</string>
+    <string name="TableDef">Table def.</string>
+    <string name="NewRec">New Rec.</string>
         
     <string name="Translation">Translate to your language and get your name here</string>
-
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
-      \n\nNews in this version (3.0β):
+      \n\nNews in this version (3.1):
 
-			\n\nA tool to create new databases with PK, ASC / DESC, AUTOINCREMENT,
-			  not null, unique, default values, foreign keys and check for field type.
-			\n\nEasy deletion of tables, views and indexes from lists in database viewer by
-	  		"long clicking" the table / view / index
-			\n\nForeign key constraint checking can be turned on (Android default is off)
-			\n\nBetter database handling hopefully giving fewer errors / force closes
+            \n\nGet table definitions mowed to option menu and replaced with
+            New record button for easier data entry
+            \n\nGo directly to favorite view in table viewer (Fields or Data)
+            \n\nConfigurable font size in data lists
+            \n\nEasy editing of databases in "Dropbox"
 			\n\nBug fixes
        
       \n\nFor a description of all features check:

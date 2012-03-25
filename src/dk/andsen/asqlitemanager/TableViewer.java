@@ -61,6 +61,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private static final int MENU_FIRST_REC = 1;
 	private static final int MENU_LAST_REC = 2;
 	private static final int MENU_FILETR = 3;
+	private static final int MENU_TABLE_DEF = 4;
 	private boolean logging;
 	private int _fontSize;
 	
@@ -90,7 +91,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		TextView tvDB = (TextView)this.findViewById(R.id.TableToView);
 		Button bFields = (Button) this.findViewById(R.id.Fields);
 		Button bData = (Button) this.findViewById(R.id.Data);
-		Button bSQL = (Button) this.findViewById(R.id.SQL);
+		Button bNewRec = (Button) this.findViewById(R.id.NewRec);
 		bUp = (Button) this.findViewById(R.id.PgUp);
 		bDwn = (Button) this.findViewById(R.id.PgDwn);
 		bUp.setOnClickListener(this);
@@ -101,7 +102,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		limit = Prefs.getPageSize(this);
 		bFields.setOnClickListener(this);
 		bData.setOnClickListener(this);
-		bSQL.setOnClickListener(this);
+		bNewRec.setOnClickListener(this);
 		Bundle extras = getIntent().getExtras();
 		if(extras !=null)
 		{
@@ -117,9 +118,6 @@ public class TableViewer extends Activity implements OnClickListener {
 			Utils.logD("Database open", logging);
 			switch(Prefs.getDefaultView(_cont)){
 			case 2:
-				onClick(bSQL);
-				break;
-			case 3:
 				onClick(bData);
 				break;
 			default:
@@ -215,13 +213,14 @@ public class TableViewer extends Activity implements OnClickListener {
 				Utils.logE(e.getLocalizedMessage(), logging);
 				e.printStackTrace();
 			}
-		} else if (key == R.id.SQL) {
-			offset = 0;
-			String [] fieldNames = {"SQL"};
-			setTitles(_aTable, fieldNames, false);
-			String [][] data = _db.getSQL(_table);
-			updateButtons(false);
-			oldappendRows(_aTable, data, false);
+		} else if (key == R.id.NewRec) {
+			addNewRecord();
+//			offset = 0;
+//			String [] fieldNames = {"SQL"};
+//			setTitles(_aTable, fieldNames, false);
+//			String [][] data = _db.getSQL(_table);
+//			updateButtons(false);
+//			oldappendRows(_aTable, data, false);
 		} else if (key == R.id.PgDwn) {
 			int childs = _aTable.getChildCount();
 			Utils.logD("Table childs: " + childs, logging);
@@ -245,6 +244,62 @@ public class TableViewer extends Activity implements OnClickListener {
 		}
 	}
 	
+	private void addNewRecord() {
+		final RecordEditorBuilder re;
+		TableField[] rec = _db.getEmptyRecord(_table);
+		final Dialog dial = new Dialog(_cont);
+		dial.setContentView(R.layout.line_editor);
+		dial.setTitle(getText(R.string.InsertNewRow));
+		LinearLayout ll = (LinearLayout)dial.findViewById(R.id.LineEditor);
+		re = new RecordEditorBuilder(rec, _cont, _db);
+		re.setFieldNameWidth(200);
+		re.setTreatEmptyFieldsAsNull(true);
+		final ScrollView sv = re.getScrollView();
+		final Button btnOK = new Button(_cont);
+		btnOK.setText(getText(R.string.OK));
+		btnOK.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+		btnOK.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (v == btnOK) {
+					String msg = re.checkInput(sv); 
+					if (msg == null) {
+						//Utils.logD("Record edited; " + rowid);
+						TableField[] res = re.getEditedData(sv);
+						_db.insertRecord(_table, res, _cont);
+						dial.dismiss();
+						_updateTable = true;
+					}
+					else
+						Utils.showException(msg, sv.getContext());
+				} 
+			}
+		});
+		final Button btnCancel = new Button(_cont);
+		btnCancel.setText(getText(R.string.Cancel));
+		btnCancel.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+		btnCancel.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (v == btnCancel) {
+					dial.dismiss();
+				}
+			}
+		});
+		LinearLayout llButtons = new LinearLayout(_cont);
+		llButtons.setOrientation(LinearLayout.HORIZONTAL);
+		llButtons.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT));
+		llButtons.addView(btnOK);
+		llButtons.addView(btnCancel);
+		ll.addView(llButtons);
+		ll.addView(sv);
+		dial.show();
+	}
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
@@ -678,6 +733,7 @@ public class TableViewer extends Activity implements OnClickListener {
 		menu.add(0, MENU_LAST_REC, 1, R.string.Last);
 		menu.add(0, MENU_FILETR, 2, R.string.Filter);
 		menu.add(0, MENU_DUMP_TABLE, 3, R.string.DumpTable);
+		menu.add(0, MENU_TABLE_DEF, 4, R.string.TableDef);
 		return true;
 	}
 
@@ -708,10 +764,22 @@ public class TableViewer extends Activity implements OnClickListener {
     case MENU_FILETR:
     	buildFilerMenu(_table);
     	return true;
+    case MENU_TABLE_DEF:
+    	getTableDefinition();
+    	return true;
 		}
 		return false;
 	}
 	
+	private void getTableDefinition() {
+		offset = 0;
+		String [] fieldNames = {"SQL"};
+		setTitles(_aTable, fieldNames, false);
+		String [][] data = _db.getSQL(_table);
+		updateButtons(false);
+		oldappendRows(_aTable, data, false);
+	}
+
 	private void buildFilerMenu(String _table2) {
 		final Dialog dial = new Dialog(_cont);
 		dial.setTitle(R.string.Filter);

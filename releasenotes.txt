@@ -1,16 +1,6 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
-Working on
-	Build in root access to system databases (from aShell and experimental)
-		from next version??
-	Change in orientation with open dialogues must be taken care of
-
-ToDo
-	Searching
-	Select where to save export / dump
-	Select file to restore / load
-
-Next version:
+Version (3.1):
 	Go directly to favorite view in table viewer (Fields, SQL or Data)
 	Configurable font size in data lists
 	Easy editing of databases in "Dropbox"

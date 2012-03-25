@@ -24,8 +24,8 @@
   <Button
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-    android:text="@string/DBSQL"
-    android:id="@+id/SQL"
+    android:text="@string/New"
+    android:id="@+id/NewRec"
   />
   <Button
     android:layout_width="wrap_content" 

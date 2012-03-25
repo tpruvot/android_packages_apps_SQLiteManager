@@ -2,12 +2,10 @@
 <resources>
 	<string-array name="Modes">
 		<item>@string/DBFields</item>
-		<item>@string/DBSQL</item>
         <item>@string/DBData</item>
     </string-array>
 	<string-array name="ModeValues">
 		<item>1</item>
 		<item>2</item>
-        <item>3</item>
     </string-array>
 </resources>

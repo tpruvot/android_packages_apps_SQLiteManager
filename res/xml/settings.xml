@@ -15,7 +15,7 @@
         android:title="@string/FontSize"
         android:summary="@string/FontSizeText"
         android:inputType="number"
-        android:defaultValue="10"
+        android:defaultValue="12"
       />
    	  <EditTextPreference
 	    android:key="RecentFiles"

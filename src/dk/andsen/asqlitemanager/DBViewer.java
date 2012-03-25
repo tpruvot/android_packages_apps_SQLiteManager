@@ -171,7 +171,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	}
 	
 	/**
-	 * This just check if the temporary cataloge for files to be edited is pressent
+	 * This just check if the temporary cataloge for files to be edited is present
 	 * if not it is created
 	 */
 	private void testTempDir() {
