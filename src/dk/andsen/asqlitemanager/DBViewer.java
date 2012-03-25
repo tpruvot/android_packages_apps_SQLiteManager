@@ -70,7 +70,7 @@ public class DBViewer extends Activity implements OnClickListener {
 	private final String tempDir = "/aSQLiteManager";
 	protected boolean editingDatabase;
 	protected String databasePath;
-	private String databaseTemp;
+//	private String databaseTemp;
 	
 	private int _dialogClicked;
 	private boolean logging = false;

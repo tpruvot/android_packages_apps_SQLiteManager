@@ -154,7 +154,6 @@
 		    \nYou can also also use aLogViewer to extract extra informations
 		    form the system log to help me find out what is wrong.</string>
 		<string name="NotAnArror">Not an error</string>
-
 		<string name="Normal">Normal</string>
 		<string name="Root">Root</string>
     <string name="RootNeeded">Root mode needed to access</string>
@@ -212,7 +211,7 @@
     <string name="TableDef">Table def.</string>
     <string name="NewRec">New Rec.</string>
         
-    <string name="Translation">Translate to your language and get your name here</string>
+    <string name="Translation">Translate aSQLiteManager to your language and get your name here</string>
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version (3.1):
