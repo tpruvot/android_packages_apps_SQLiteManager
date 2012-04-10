@@ -197,20 +197,25 @@
     <string name="NoRecentFiles">Ingen nyligt åbne filer ;-(</string>
     <string name="Translation">Dansk oversættelse klarede jeg selv</string>
         
+    <string name="FontSizeText">Data liste fontstørrelse</string>
+    <string name="FontSize">Font størrelse</string>
+    <string name="DefaultModeText">Default view i tabelviser</string>
+    <string name="DefaultMode">Default view</string>
+    <string name="TableDef">Tabel def.</string>
+    <string name="NewRec">Ny rec.</string>
         		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
-      \n\nNyt i denne version (3.0):
+      \n\nNyt i denne version (3.1):
 
-			\n\nEt nyt værktøj til at generere nye databaser med PK, AUTOINCREMENT, not null, unique, default værdier,
-				foreign keys og tvungne felttyper.
-			\n\nLet sletning af tabeller, views og indexes fra listen i database vieweren ved
-	  		at "long clicke" på tabllen / viewet / indexet
-			\n\nAktivering af foreign key constraint (Android default er fra)
-			\n\nBedre håndtering af databaser der forhåbentligt vil give færre fejl og
-			færre force close.
+			\n\nTabel definitions flyttet til option menu og erstattet
+			med "Ny record" for lettere inddatering
+			\n\nGå direkte til fovrit view i tablevieweren (Felter eller
+			Data)
+			\n\nKonfigurer font størrelse i data lister
+			\n\nLet redigering af databaser i "Dropbox"
+
       \n\nFejlrettelser
-       
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen

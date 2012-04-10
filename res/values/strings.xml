@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">3.1β</string>
+    <string name="VersionNo">3.1</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
@@ -203,7 +203,8 @@
     <string name="DescAutoIncError">DESC and AutoInc must not both be checked although the manual says otherwise</string>
     <string name="NoRecentFiles">No recent files ;-(</string>
         
-    <!-- Not translated from here: -->    
+    <!-- Translated to German to here -->
+        
     <string name="FontSizeText">Font size to use data list</string>
     <string name="FontSize">Font size</string>
     <string name="DefaultModeText">Default view in table viewer</string>
@@ -211,16 +212,18 @@
     <string name="TableDef">Table def.</string>
     <string name="NewRec">New Rec.</string>
         
+    <!-- Translated to Danish to here -->
+
     <string name="Translation">Translate aSQLiteManager to your language and get your name here</string>
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNews in this version (3.1):
 
-            \n\nGet table definitions mowed to option menu and replaced with
-            New record button for easier data entry
-            \n\nGo directly to favorite view in table viewer (Fields or Data)
-            \n\nConfigurable font size in data lists
-            \n\nEasy editing of databases in "Dropbox"
+			\n\nGet table definitions mowed to option menu and replaced with
+			New record button for easier data entry
+			\n\nGo directly to favorite view in table viewer (Fields or Data)
+			\n\nConfigurable font size in data lists
+			\n\nEasy editing of databases in "Dropbox"
 			\n\nBug fixes
        
       \n\nFor a description of all features check:

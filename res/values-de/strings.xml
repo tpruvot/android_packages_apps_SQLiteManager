@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--β-->
+    <string name="Version">Version</string>
+    <string name="hello">aSQLiteManager</string>
+    <string name="app_name">aSQLiteManager</string>
+    <string name="AboutHeader">Über aSQLiteManager</string>
+    <string name="AboutText">Andsens SQLite manager. Verwalten Sie Ihre Android-Datenbanken.</string>
+    <string name="WWW">Updates gibt es auf:\nhttp://asqlitemanager.sourceforge.net</string>
+    <string name="AAA">Lesen Sie mehr über aSQLiteManager auf:\nhttp://aaa.andsen.dk/aSQLiteManager.html</string>
+    <string name="MAIL">Hier sind Kommentare willkommen:\nandroid41cv@gmail.com</string>
+    <string name="OpdenDB">Datenbank öffnen</string>
+    <string name="About">Über</string>
+    <string name="Location">Ort</string>
+    <string name="View">View</string>
+    <string name="Yes">Ja</string>
+    <string name="No">Nein</string>
+    <string name="DBTables">Tabellen</string>
+    <string name="DBViews">Views</string>
+    <string name="DBIndexs">Index</string>
+    <string name="DBTable">Tabellen</string>
+    <string name="DBView">View</string>
+    <string name="DBIndex">Index</string>
+    <string name="DBField">Feld</string>
+    <string name="DBData">Daten</string>
+    <string name="DBSQL">SQL</string>
+    <string name="OpenDatabase">Öffne Datenbank</string>
+    <string name="NoSDCard">Keine SDCard vorhanden</string>
+    <string name="OK">OK</string>
+    <string name="Path">Pfad:</string>
+    <string name="Database">Datenbank</string>
+    <string name="DBQuery">Abfrage</string>
+    <string name="Run">Ausführen</string>
+    <string name="DBFields">Felder</string>
+    <string name="PgUp">hoch</string>
+    <string name="PgDn">runter</string>
+    <string name="Option">Optionen</string>
+    <string name="Help">Hilfe</string>
+    <string name="HelpHeader">aSQLiteManager Hilfe</string>
+    <string name="PageSize">Seitengröße</string>
+    <string name="PressMenuSQL">Menü drücken für SQL-String-Konstruktion</string>
+    <string name="PageSizeText">Anzuzeigende Zeilen pro Seite</string>
+    <string name="Open">Öffnen</string>
+    <string name="NoResult">Keine Ergebnisse</string>
+    <string name="HelpText">
+      Besuchen Sie aSQLiteManagers\'s Heimatseite auf:
+      \nhttp://aaa.andsen.dk/aSQLiteManager.html
+      \num eine komplette Liste der Funktionalitäten zu erhalten, welche 
+      \nvon aSQLiteManager unterstützt werden.
+      \n\nSenden Sie Kommentare, Fehlerberichte und Vorschläge an:
+      \nandroid41cv@gmail.com
+      \n\n
+      \nEin Datenbanktool um Tabellen, Datenbankviews und Abfragen
+      \nzu erstellen, zu bearbeiten, zu verwalten und zu löschen.
+      \nFremdschlüsselzwang möglich.
+      \nFremdschlüsselfelder über Auswahlliste.
+      \nÖffnen Sie Datenbanken über aSQLiteManager oder 
+      \nüber Dateimanager Ihrer Wahl.
+      \nAnzeigen von Tabellen, Datenbankviews und Indizes
+      \nDatendank Info
+      \nDarstellen von Daten der Tabellen oder Views
+      \nFelder in der Tabellenansicht sind je nach Datentyp eingefärbt.
+      \nDa SQLite keine Felddatentypvalidierung hat, kann der entgültige
+      \nFelddatentyp sich von dem Datentyp unterscheiden der mit dem \'create 
+      \ntable\'-Statement mitgegeben wird.
+      \nDatenbearbeitung und -Löschung über den Tabellenbrowser.
+      \nSie können dort Zeile für Zeile bearbeiten über die 
+      \n1. Spalte (blau) mit "Neu" und in der jeweiligen Spalte über 
+      \n"Edit".
+      \nFühren Sie jedes SQL-Statement aus, \'Drop\' und \'Create\' 
+      \neingeschlossen.
+      \nUnterstützung für BLOB Felder (Ausser beim Bearbeiten)
+      \nUnterstützt \'Begin transaction\', \'Commit\' und \'Rollback\'
+      \nGanze Zeilen können in die Zwischenablage gelegt werden.
+      \nUnterstützt Tabellen- und Spaltennamen mit Leerzeichen.
+      \nSpeichert alle ausgeführten Statements in der geöffneten 
+      \nDatenbank in einer Table \'aSQLiteManager\' (Standard:ausgeschaltet)
+      \nBereits eingegebene SQL-Statements können in der Abfrageansicht
+      \nbequem wieder aufgerufen werden.
+      \nExport und Import der Datenbank als SQL-Skript möglich.
+      \nDumpen einer Tabelle aus der Tabellenansicht in Datei 
+      \n\'Database.Table.sql\' -> Kann als Skript ausgeführt werden.
+      \nExport von Abfrageergebnissen als ASCII Datei.
+      \nAusführen von SQL-Skripte, Volle Skripte oder einzelne Zeilen.
+      \nMerkt sich kürzlich geöffnete Datenbanken für
+      \nschnellen Zugriff auf oft verwendete Datenbanken.
+      \nVerwendung von \'aShell\' (Beta) zur Bearbeitung von System-
+      \ndatenbanken auf gerooteten Geräten
+      \n\nMartin
+    </string>
+    <string name="NewDB">Neue Datenbank erstellen</string>
+    <string name="NewDBSDCard">Neue Datenbank auf SDCard erstellen</string>
+    <string name="NewDBPath">Pfad zur neuen Datenbank</string>
+    <string name="AutoIndex">SQLite speichert keine Autoindexdefinitionen</string>
+    <string name="Message">Nachricht</string>
+    <string name="Error">Fehler</string>
+    <string name="NoFileName">Sie müssen einen Dateinamen angeben</string>
+    <string name="DBQueryType">Abfrageart</string>
+    <string name="OnClickedMess">Sie klickten auf diese SQLite Datenbank</string>
+    <string name="OnClickedOpen">Öffnen Sie die Datenbank mit\naSQLiteManager</string>
+    <string name="RecentSQL">kürzliche SQL-Befehle</string>
+    <string name="Transaction">Transaktion</string>
+    <string name="BeginTransaction">Beginne Transaktion</string>
+    <string name="Commit">Übergeben</string>
+    <string name="Rollback">zurücksetzen</string>
+    <string name="InTransaction">Bei Transaktion</string>
+    <string name="UpdatesCommitted">Updates übergeben</string>
+    <string name="UpdatesRolledback">Updates zurückgesetzt</string>
+    <string name="NothingToRolledback">Nichts zum zurücksetzen</string>
+    <string name="NothingToCommit">Nichts zum übergeben</string>
+    <string name="IsNotADatabase">ist keine Datenbank</string>
+    <string name="Export">Exportiere Datenbank</string>
+    <string name="Restore">Stelle Datenbank wieder her</string>
+    <string name="Cancel">Abbruch</string>
+    <string name="ExportData">Exportieren</string>
+    <string name="NoExportToRestore">Kein Export wiederherzustellen</string>
+    <string name="AlwaysJustOpen">Öffne immer diese Datenbank</string>
+    <string name="Reset">Reset</string>
+    <string name="OpenSQL">SQL Datei öffnen</string>
+    <string name="Working">arbeite...</string>
+    <string name="ReadingScript">Lese Skript</string>
+    <string name="ExecuteStatement">Führe Statement aus</string>
+    <string name="MustNotBeEmpty">Darf nicht leer sein</string>
+    <string name="ShowAtStartUp">Zeige Begrüßung beim Start</string>
+    <string name="Welcome">Willkommen beim aSQLiteManager</string>
+    <string name="DumpTable">Dumpe Tabelle</string>
+    <string name="TableDumpep">Tabelle %s gedumped</string>
+    <string name="DumpFailed">Upps! Dump fehlgeschlagen!</string>
+    <string name="ErrorNothingToExport">Nichts zum Exportieren!</string>
+    <string name="DataExported">Daten exportiert</string>
+    <string name="DataBaseExported">Datenbank exportiert</string>
+    <string name="DataBaseRestored">Datenbank wiederhergestellt</string>
+    <string name="Patience">Bitte warten, es dauert einen kurzen Moment...</string>
+    <string name="Recently">kürzlich geöffnet</string>
+    <string name="RecentlyTxt">Keine kürzlich geöffnete Datenbank zum Speichern</string>
+    <string name="ROSystemTable">sqlite_master ist eine System Tabelle und kann nicht gelöscht werden</string>
+    <string name="CouldNotCreate">Konnte nicht erstellt werden:</string>
+    <string name="SystemFolder">Systemordner</string>
+    <string name="SystemFolderText">Wenn Ihr Gerät gerooted ist, können Sie Systemdatenbanken mit aSQLiteManager über die aShell bearbeiten</string>
+    <string name="DBInfo">DB Info</string>
+    <string name="DatabaseInfo">Datenbank Info</string>
+    <string name="DatabaseExists">existiert schon!</string>
+		<string name="RateMsg">
+			Sie haben aSQLiteManager nun länger als eine Woche und 
+      \nmindestens 10 Mal benutzt. Wenn Sie das Programm mögen,
+      \nunterstützen Sie es doch mit einer guten Bewertung.
+			\nSie können auch einen kleinen Betrag spenden (über die Homepage)
+      \nDas Geld fließt direkt in die Weiterentwicklung und Verbesserung 
+      \ndes Programms.
+			\nDanke für Ihre Unterstützung</string>
+		<string name="Rate">Bewerten</string>
+		<string name="Later">Mach\' ich später</string>
+		<string name="NoThanks">Habe ich bereits</string>
+		<string name="EditDeleteRow">Bearbeiten oder löschen Sie Zeile Nr</string>
+		<string name="Delete">Löschen</string>
+		<string name="CopiedToClipboard">Text in Zwischenablage gelegt</string>
+		<string name="InsertNewRow">Neue Zeile einfügen</string>
+		<string name="EditRow">Zeile bearbeiten</string>
+		<string name="Edit">Bearb.</string>
+		<string name="New">Neu</string>
+		<string name="First">Erster</string>
+		<string name="Last">Letzter</string>
+		<string name="Filter">Filtern</string>
+		<string name="EnterWhere">WHERE-Statement eingeben (ohne WHERE)</string>
+		<string name="StrangeErr">Wenn Sie diesen Fehler reproduzieren können,
+      \nlassen Sie mich per Mail wissen, wie ich ihn auslöse ;-)
+		  \nVerwenden Sie auch \'aLogViewer\' um Extra Infos aus dem Systemlog zu 
+      \nerhalten, mit denen Sie mir helfen können, herauszufinden, was 
+      \nschief gelaufen ist</string>
+		<string name="NotAnArror">Statement enthielt keine Fehler</string>
+		<string name="Normal">Normal</string>
+		<string name="Root">Root</string>
+    <string name="RootNeeded">Rootrechte benötigt um Zugriff zu erhalten</string>
+    <string name="RootWarning">Keine Rootrechte</string>
+    <string name="EnterRoot">Betrete einen Root Eintrag, Seien Sie vorsichtig:</string>
+    <string name="LeavingRoot">Verlasse Root Eintrag:</string>
+    <string name="RootEdit1">Öffnen Sie eine Kopie von</string>
+    <string name="RootEdit2">Systemdatei?</string>
+    <string name="Warning">Warnung</string>
+    <string name="CommitChanges">Änderungen übernehmen?</string>
+    <string name="CommitChangesTo">Übernehme Änderungen:</string>
+    <string name="OneMoreToExit">Erneut drücken um zu beenden!</string>
+    <string name="FilterHint">Filter eingeben</string>
+    <string name="Clear">Löschen</string>
+    <string name="EnterFilter">Filter eingeben</string>
+    <string name="SuShell">Speicherort des \'su\'-Befehls</string>
+    <string name="SuShellText">\'su\'-Befehl kann an verschiedenen Stellen innerhalb oder ausserhalb Ihres Speicherorts gefunden werden</string>
+    <string name="PauseTitle">Pause in millisekunden</string>
+    <string name="PauseText">Wartezeit für Sicherung der Datenbank vor dem Zugriff</string>
+    <string name="RootNotFound">Root shell binary nicht am üblichen Ort gefunden
+        (oder Telefon ist nicht gerooted). Sie können den Speicherort der root shell in der Konfiguration ändern.</string>
+    <string name="RootFilePickerTxt">Root file raussuchen</string>
+    <string name="RootFilePickerMsg">Benutzen Sie den aShell root file picker um Zugriff zu System Datenbanken auf gerooteten Telefonen zu erhalten.</string>
+    <string name="BasicConfiguration">Allgemeine Konfiguration</string>
+    <string name="SuperUserPreferences">Super user Einstellungen - Experimentell</string>
+    <string name="DebugPreferences">Debug-Einstellungen</string>
+    <string name="LoggingTitle">Logge</string>
+    <string name="LoggingText">Loggen einschalten um Debuginformationen zu erhalten</string>
+    <string name="RootUseWarning">System Datenbank-Bearbeitung ist experimentell and potenziell
+        gefährlich - Sie könnten wichtige Daten zerstäören!
+        \n\nVerändern Sie keine System Datenbanken, wenn Sie nicht wissen was Sie da tun!
+        \n\nGeben Sie Acht!\n</string>
+    <string name="ShowRootWarning">Habs verstanden! - Hör auf damit!</string>
+    <string name="CreateTable">Neue Tabelle</string>
+    <string name="AddField">Füge Feld hinzu</string>
+    <string name="CreateField">Feld erstellen</string>
+    <string name="MustEnterFieldName">Sie müssen einen Feldnamen eingeben!</string>
+    <string name="MustEnterTableNameAndOneField">Sie müssen einen Tabellennamen und zumindest ein Feld!</string>
+    <string name="SQLPreferences">SQL Einstellungen</string>
+    <string name="CannotDeleteAutoIndex">Kann automatisch generierten Index nicht löschen</string>
+    <string name="DeleteIndex">Lösche Index</string>
+    <string name="DeleteView">Lösche View</string>
+    <string name="DeleteTable">lösche Tabelle</string>
+    <string name="CannotDeleteSysTable">Kann Systemtabelle nicht löschen</string>
+    <string name="DropItem">Eintrag löschen?</string>
+    <string name="IndexDefCopied">Indexdefinition in Zwischenablage übernommen</string>
+    <string name="DescAutoIncError">DESC und AutoInc dürfen nicht beide angehakt sein, auch wenn das Handbuch was anderes sagt!</string>
+    <string name="NoRecentFiles">keine kürzlich geöffneten Dateien ;-(</string>
+        
+    <!-- Not translated from here: -->    
+
+    <string name="Translation">Translate to your language and get your name here</string>
+
+    <string name="WelcomeMsg">aSQLiteManager is a free open source
+  	  SQLite manager / front end for Android devices.
+      \n\nNews in this version (3.0β):
+
+			\n\nA tool to create new databases with PK, ASC / DESC, AUTOINCREMENT,
+			  not null, unique, default values, foreign keys and check for field type.
+			\n\nEasy deletion of tables, views and indexes from lists in database viewer by
+	  		"long clicking" the table / view / index
+			\n\nForeign key constraint checking can be turned on (Android default is off)
+			\n\nBetter database handling hopefully giving fewer errors / force closes
+			\n\nBug fixes
+       
+      \n\nFor a description of all features check:
+      \naaa.andsen.dk/aSQLiteManager.html
+      \n\nComments, bug reports and feature requests are welcome.
+      just drop me a mail at:
+      \nandroid41cv@gmail.com
+      \n\nAnd thanks to those of you who report bugs instead of complaining ;-) 
+      \n\nHope you enjoy the app!
+      \n\nMartin
+    </string>
+</resources>
