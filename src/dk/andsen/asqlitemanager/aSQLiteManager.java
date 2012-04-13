@@ -54,14 +54,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private boolean loadSettings = false;
 
 	/** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-  			Utils.logD("onCreate", logging);
-        logging = Prefs.getLogging(this);
-        testRoot = Prefs.getTestRoot(this);
-        if (Prefs.getMainVertical(this))
-        	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+			Utils.logD("onCreate", logging);
+      logging = Prefs.getLogging(this);
+      testRoot = Prefs.getTestRoot(this);
+      if (Prefs.getMainVertical(this))
+      	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.main);
         Button open = (Button) this.findViewById(R.id.Open);
         open.setOnClickListener(this);

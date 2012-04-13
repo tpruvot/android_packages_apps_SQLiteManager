@@ -4,6 +4,7 @@ Working on
 	Change in orientation with open dialogues must be taken care of
 
 ToDo / ideas for coming development
+	Delete field in Create table wizard
 	Searching
 	Select where to save export / dump
 	Select file to restore / load
