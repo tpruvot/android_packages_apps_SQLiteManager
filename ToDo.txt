@@ -13,7 +13,8 @@ ToDo / ideas for coming development
 	Sort data / query results by clicking on title
 	Better horizontal scrolling
 	"Tab" view / show active tab
-	Scripts editor?  
+	Scripts editor? 
+	When creating new database: select path with file browser!
 	
 Done
 	Create Table wizards
