@@ -159,11 +159,11 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					Utils.showMessage(getText(R.string.Error).toString(),
 							getText(R.string.NoRecentFiles).toString(), _cont);
 				} else {
-					//TODO add special handling for databases in Dropbox (cut part of path)
+					// Special handling for databases in Dropbox (cut part of path)
 					String recentTest = _recentFiles.replaceAll("/mnt/sdcard/Android/data/com.dropbox.android/files/scratch", "[Dropbox]");
 					String[] resently = recentTest.split(";");
 					//TODO test this!!!!!	
-					//String[] resently = _recentFiles.split(";");
+					// String[] resently = _recentFiles.split(";");
 					Utils.logD(_recentFiles, logging);
 					AlertDialog dial = new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.Recently)) 

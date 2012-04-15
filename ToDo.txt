@@ -9,14 +9,17 @@ ToDo / ideas for coming development
 	Select where to save export / dump
 	Select file to restore / load
 	Create View wizards
+	Alter table wizard
 	Compress SQL wines.name -> t1.name in resulting SQL not on lists
 	Sort data / query results by clicking on title
 	Better horizontal scrolling
 	"Tab" view / show active tab
-	Scripts editor? 
+	Scripts editor?
 	When creating new database: select path with file browser!
 	Save/Load multiple Queries in/from a file
-	
+	A tip pop up window to show information at different places in the program
+		must include a do not show again at message level 
+
 Done
 	Create Table wizards
 	Recent database files
