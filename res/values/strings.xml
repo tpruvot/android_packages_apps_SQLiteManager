@@ -181,6 +181,25 @@
         
     <!-- Translated to Danish to here -->
 
+    <!-- Common strings for Dialogs -->    
+    <string name="DialogYes">Yes</string>
+    <string name="DialogNo">No</string>
+    <string name="DialogOK">OK</string>
+    <string name="DialogCancel">Cancel</string>
+    <string name="DialogAgain">Again</string>
+    <string name="DialogRetry">Retry</string>
+    
+    <!-- Dialog specific strings --> 
+    <string name="DialogSureResetAllSettingsTitle">Attention</string>
+    <string name="DialogSureResetAllSettingsMsg">Do you really want to reset all preferences?</string>
+    
+    <!-- Toast Messages --> 
+    <string name="ToastResetedAllSettings">All preferences were reseted to default</string>
+    <string name="FilePickerChooseThisFolder">Choose this folder</string>
+
+
+    <!-- Place new text above here -->
+
     <string name="Translation">Translate aSQLiteManager to your language and get your name here</string>
 
     <!-- From here text changes in every version -->
@@ -239,21 +258,5 @@
       \n\nHope you enjoy the app!
       \n\nMartin
     </string>
-    <!-- Common strings for Dialogs -->    
-    <string name="DialogYes">Yes</string>
-    <string name="DialogNo">No</string>
-    <string name="DialogOK">OK</string>
-    <string name="DialogCancel">Cancel</string>
-    <string name="DialogAgain">Again</string>
-    <string name="DialogRetry">Retry</string>
-    
-    <!-- Dialog specific strings --> 
-    <string name="DialogSureResetAllSettingsTitle">Attention</string>
-    <string name="DialogSureResetAllSettingsMsg">Do you really want to reset all preferences?</string>
-    
-    <!-- Toast Messages --> 
-    <string name="ToastResetedAllSettings">All preferences were reseted to default</string>
-    
-    <string name="FilePickerChooseThisFolder">Choose this folder</string>
     
 </resources>
