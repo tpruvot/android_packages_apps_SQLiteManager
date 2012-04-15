@@ -32,7 +32,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import dk.andsen.utils.FilePickerMode;
 import dk.andsen.utils.NewFilePicker;
 import dk.andsen.utils.RootFilePicker;
 import dk.andsen.utils.Utils;
@@ -52,6 +54,8 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private boolean testRoot = false;
 	private boolean logging = false;
 	private boolean loadSettings = false;
+
+	private Dialog newDatabaseDialog;
 
 	/** Called when the activity is first created. */
   @Override
@@ -252,6 +256,15 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					 String msg = data.getStringExtra("returnedData");
 					 Utils.showMessage("Returned file", msg, _cont);
 					break;
+				case 2:
+					if (newDatabaseDialog != null) {
+						String folderName = Utils.addSlashIfNotEnding(data
+								.getStringExtra("RESULT"));
+						final TextView newFolder = (TextView) newDatabaseDialog
+								.findViewById(R.id.newFolder);
+						newFolder.setText(folderName);
+					}
+					break;
 				}
 			Utils.logD("Main-activity got result from sub-activity", logging);
 		}		
@@ -260,13 +273,41 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		 * Create a new empty database
 		 */
 		private void newDatabase() {
-			final Dialog newDatabaseDialog = new Dialog(this);
+			newDatabaseDialog = new Dialog(this);
 			newDatabaseDialog.setContentView(R.layout.new_database);
 			newDatabaseDialog.setTitle(getText(R.string.NewDBSDCard));
-			final EditText edNewDB = (EditText)newDatabaseDialog.findViewById(R.id.newCode);
-			edNewDB.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+			final EditText edNewDB = (EditText) newDatabaseDialog
+					.findViewById(R.id.newCode);
+			edNewDB.setInputType(InputType.TYPE_CLASS_TEXT
+					| InputType.TYPE_TEXT_VARIATION_NORMAL);
+			// TODO Change to filename only!!!
 			edNewDB.setHint(getText(R.string.NewDBPath));
-			TextView tvMessage = (TextView) newDatabaseDialog.findViewById(R.id.newMessage);
+			final TextView newFolder = (TextView) newDatabaseDialog
+					.findViewById(R.id.newFolder);
+			newFolder.setText(Environment.getExternalStorageDirectory()
+					.getAbsolutePath() + "/");
+			final ImageButton newFolderSelectButton = (ImageButton) newDatabaseDialog
+					.findViewById(R.id.newFolderSelectButton);
+			newFolderSelectButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Intent i = new Intent(_cont, NewFilePicker.class);
+					i.putExtra("MODE", FilePickerMode.SELECTFOLDER.name());
+
+					try {
+						startActivityForResult(i, 2);
+					} catch (Exception e) {
+						Utils.logE("Error in file picker (root " + testRoot + ")", logging);
+						e.printStackTrace();
+						Utils
+								.showException(
+										"Plase report this error with descriptions of how to generate it",
+										_cont);
+					}
+				}
+			});
+
+			TextView tvMessage = (TextView) newDatabaseDialog
+					.findViewById(R.id.newMessage);
 			tvMessage.setText(getText(R.string.Database));
 			newDatabaseDialog.show();
 			final Button btnMOK = (Button) newDatabaseDialog.findViewById(R.id.btnMOK);
@@ -276,29 +317,32 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					String path;
 					if (v == btnMOK) {
 						if (Utils.isSDAvailable()) {
+							String folderName = Utils.addSlashIfNotEnding(newFolder.getText()
+									.toString());
 							String fileName = edNewDB.getEditableText().toString();
-							path = Environment.getExternalStorageDirectory().getAbsolutePath();
-							path += "/" + fileName;
+							path = folderName + fileName;
 							if (fileName.trim().equals("")) {
-								Utils.showMessage((String)getText(R.string.Error), (String)getText(R.string.NoFileName), _cont);
+								Utils.showMessage((String) getText(R.string.Error),
+										(String) getText(R.string.NoFileName), _cont);
 							} else {
 								if (!path.endsWith(".sqlite"))
 									path += ".sqlite";
 								try {
-									//check to see if it exists
+									// check to see if it exists
 									File f = new File(path);
 									if (f.exists()) {
 										error = true;
 										Utils.showMessage(getString(R.string.Error), path + " "
 												+ getString(R.string.DatabaseExists), _cont);
 									} else {
-										SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(path, null);
+										SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(path,
+												null);
 										db.close();
 									}
 								} catch (Exception e) {
 									error = true;
 									Utils.showMessage(getString(R.string.Error),
-											getString(R.string.CouldNotCreate) +" " + path, _cont);
+											getString(R.string.CouldNotCreate) + " " + path, _cont);
 									e.printStackTrace();
 								}
 								// Ask before??
@@ -306,12 +350,16 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 									Intent i = new Intent(_cont, DBViewer.class);
 									i.putExtra("db", path);
 									newDatabaseDialog.dismiss();
+									newDatabaseDialog = null;
 									try {
 										startActivity(i);
 									} catch (Exception e) {
 										Utils.logE("Error in DBViewer", logging);
 										e.printStackTrace();
-										Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
+										Utils
+												.showException(
+														"Plase report this error with descriptions of how to generate it",
+														_cont);
 									}
 								}
 							}
