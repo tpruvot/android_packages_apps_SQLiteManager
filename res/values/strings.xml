@@ -44,39 +44,6 @@
     <string name="PageSizeText">Number of lines to retrieve when paging data</string>
     <string name="Open">Open</string>
     <string name="NoResult">No result</string>
-    <string name="HelpText">
-      Visit aSQLiteMagers\'s home page at:
-      \nhttp://aaa.andsen.dk/aSQLiteManager.html
-      \nTo get a complete list of the functionality supported by aSQLiteManager. 
-      \n\nYou can also send comments bug reports and feature requests to me at:
-      \nandroid41cv@gmail.com
-      \n\n
-      \nA create databases tool to easily create tables 
-      \nEasy deletion of tables, views and indexes
-      \nForeign key constraint checking can be turned on
-      \nEditing foreign key fields using selection list
-      \nOpen databases form aSQLiteManager or from file managers
-      \nList tables, views and indexes
-      \nDatabase info
-      \nDisplay data from tables and views
-      \nFields in the table viewer are colored based on the type of the field. As SQLite doesn\'t has field type validation the field type can differ from field type given with the create table statement
-      \nData editing and deleting form table browser from Edit label at each row
-      \nData entry add record from label on title at data browser
-      \nExecute any SQL including \'Drop\' / \'Create\' statements
-      \nSupport for BLOB fields (except during editing)
-      \nSupport Begin transaction, Commit and Rollback
-      \nCopy any cell to the clip board by pressing it
-      \nSupport table names and field names with spaces
-      \nStore all executed statements in the opened database in a table called aSQLiteManager (by default turned off)
-      \nSelect SQL history from query form
-      \nExport database to SQL script and restore databases from script
-      \nDump table from table view to file named Database.Table.sql - can be loaded by execute file as script
-      \nExport of query results to ASCII file
-      \nExecute SQL scripts, full script or single lines
-      \nRemember recently opened databases for quick access to often used databases
-      \nUse aShell (Beta) to edit system databases on rooted devices
-      \n\nMartin
-    </string>
     <string name="NewDB">New database</string>
     <string name="NewDBSDCard">New database on SDCard</string>
     <string name="NewDBPath">Path to new database</string>
@@ -215,6 +182,43 @@
     <!-- Translated to Danish to here -->
 
     <string name="Translation">Translate aSQLiteManager to your language and get your name here</string>
+
+    <!-- From here text changes in every version -->
+
+    <string name="HelpText">
+      Visit aSQLiteMagers\'s home page at:
+      \nhttp://aaa.andsen.dk/aSQLiteManager.html
+      \nTo get a complete list of the functionality supported by aSQLiteManager. 
+      \n\nYou can also send comments bug reports and feature requests to me at:
+      \nandroid41cv@gmail.com
+      \n\n
+      \nA create databases tool to easily create tables 
+      \nEasy deletion of tables, views and indexes
+      \nForeign key constraint checking can be turned on
+      \nEditing foreign key fields using selection list
+      \nOpen databases form aSQLiteManager or from file managers
+      \nList tables, views and indexes
+      \nDatabase info
+      \nDisplay data from tables and views
+      \nFields in the table viewer are colored based on the type of the field. As SQLite doesn\'t has field type validation the field type can differ from field type given with the create table statement
+      \nData editing and deleting form table browser from Edit label at each row
+      \nData entry add record from label on title at data browser
+      \nExecute any SQL including \'Drop\' / \'Create\' statements
+      \nSupport for BLOB fields (except during editing)
+      \nSupport Begin transaction, Commit and Rollback
+      \nCopy any cell to the clip board by pressing it
+      \nSupport table names and field names with spaces
+      \nStore all executed statements in the opened database in a table called aSQLiteManager (by default turned off)
+      \nSelect SQL history from query form
+      \nExport database to SQL script and restore databases from script
+      \nDump table from table view to file named Database.Table.sql - can be loaded by execute file as script
+      \nExport of query results to ASCII file
+      \nExecute SQL scripts, full script or single lines
+      \nRemember recently opened databases for quick access to often used databases
+      \nUse aShell (Beta) to edit system databases on rooted devices
+      \n\nMartin
+    </string>
+    
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNew in this version (3.1):

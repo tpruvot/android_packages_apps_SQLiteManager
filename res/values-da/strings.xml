@@ -41,38 +41,6 @@
     <string name="PageSizeText">Antal liner der skal hentes ved bladring</string>
     <string name="Open">Åbn</string>
     <string name="NoResult">Intet resultat</string>
-    <string name="HelpText">
-      Besøg aSQLiteMagers\'s hjemmeside på:
-      \nhttp://aaa.andsen.dk/aSQLiteManager.html
-      \nFor at få en total liste over de funktioner som aSQLiteManager understytter.
-      \n\nSend gerne bug reporter, kommentarer og ønsker til ny funktionalitet til:
-      \nandroid41cv@gmail.com
-      \nTool til let at oprette nye tabller 
-      \nLet sletning af tabeller, views og indexes
-      \nForeign key kan slås til
-      \nEditering af foreign key felter ved valg lister
-      \nåbn databaser fra aSQLiteManager og fil managers
-      \nList tables, views and indexes
-      \nDatabase info
-      \nVis data fra tables og views
-      \nFields in the table viewer are colored based on the type of the field. As SQLite doesn\'t has field type validation the field type can differ from field type given with the create table statement
-      \nData editing and deleting form table browser from Edit label at each row
-      \nData entry add record from label on title at data browser
-      \nExecute any SQL including \'Drop\' / \'Create\' statements
-      \nSupport for BLOB fields (except during editing)
-      \nSupport Begin transaction, Commit and Rollback
-      \nCopy any cell to the clip board by pressing it
-      \nSupport table names and field names with spaces
-      \nStore all executed statements in the opened database in a table called aSQLiteManager (by default turned off)
-      \nSelect SQL history from query form
-      \nExport database to SQL script and restore databases from script
-      \nDump table from table view to file named Database.Table.sql - can be loaded by execute file as script
-      \nExport of query results to ASCII file
-      \nExecute SQL scripts, full script or single lines
-      \nRemember recently opened databases for quick access to often used databases
-      \nWorks from aShell
-      \n\nMartin
-    </string>
     <string name="NewDB">Ny database</string>
     <string name="NewDBSDCard">Ny database på SDCard</string>
     <string name="NewDBPath">Sti til ny database</string>
@@ -196,13 +164,47 @@
     <string name="DescAutoIncError">DESC og AutoInc må ikke begge vælges (selv om SQLite vejledningen siger andet)</string>
     <string name="NoRecentFiles">Ingen nyligt åbne filer ;-(</string>
     <string name="Translation">Dansk oversættelse klarede jeg selv</string>
-        
     <string name="FontSizeText">Data liste fontstørrelse</string>
     <string name="FontSize">Font størrelse</string>
     <string name="DefaultModeText">Default view i tabelviser</string>
     <string name="DefaultMode">Default view</string>
     <string name="TableDef">Tabel def.</string>
     <string name="NewRec">Ny rec.</string>
+
+    <!-- From here text changes in every version -->
+        
+    <string name="HelpText">
+      Besøg aSQLiteMagers\'s hjemmeside på:
+      \nhttp://aaa.andsen.dk/aSQLiteManager.html
+      \nFor at få en total liste over de funktioner som aSQLiteManager understytter.
+      \n\nSend gerne bug reporter, kommentarer og ønsker til ny funktionalitet til:
+      \nandroid41cv@gmail.com
+      \nTool til let at oprette nye tabller 
+      \nLet sletning af tabeller, views og indexes
+      \nForeign key kan slås til
+      \nEditering af foreign key felter ved valg lister
+      \nåbn databaser fra aSQLiteManager og fil managers
+      \nList tables, views and indexes
+      \nDatabase info
+      \nVis data fra tables og views
+      \nFields in the table viewer are colored based on the type of the field. As SQLite doesn\'t has field type validation the field type can differ from field type given with the create table statement
+      \nData editing and deleting form table browser from Edit label at each row
+      \nData entry add record from label on title at data browser
+      \nExecute any SQL including \'Drop\' / \'Create\' statements
+      \nSupport for BLOB fields (except during editing)
+      \nSupport Begin transaction, Commit and Rollback
+      \nCopy any cell to the clip board by pressing it
+      \nSupport table names and field names with spaces
+      \nStore all executed statements in the opened database in a table called aSQLiteManager (by default turned off)
+      \nSelect SQL history from query form
+      \nExport database to SQL script and restore databases from script
+      \nDump table from table view to file named Database.Table.sql - can be loaded by execute file as script
+      \nExport of query results to ASCII file
+      \nExecute SQL scripts, full script or single lines
+      \nRemember recently opened databases for quick access to often used databases
+      \nWorks from aShell
+      \n\nMartin
+    </string>
         		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
