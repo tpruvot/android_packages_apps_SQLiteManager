@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
->
-  <TextView
-    android:id="@+id/newMessage"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20sp"
-    android:gravity="center_horizontal|center_horizontal" />
-  <EditText
-    android:id="@+id/newCode"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:inputType="textCapCharacters"
-    />
-  <Button
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/OK"
-    android:id="@+id/btnMOK"
-     />
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/newMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_horizontal"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/newFolder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.00"
+            android:text="/sdcard/"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/newFolderSelectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="60dp"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/newCode"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapCharacters" />
+
+    <Button
+        android:id="@+id/btnMOK"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/OK" />
+
 </LinearLayout>
