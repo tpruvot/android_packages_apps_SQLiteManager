@@ -15,6 +15,7 @@ ToDo / ideas for coming development
 	"Tab" view / show active tab
 	Scripts editor? 
 	When creating new database: select path with file browser!
+	Save/Load multiple Queries in/from a file
 	
 Done
 	Create Table wizards
