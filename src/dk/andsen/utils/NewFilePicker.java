@@ -72,7 +72,7 @@ public class NewFilePicker extends ListActivity {
 			// _rootMode = extras.getBoolean("RootMode");
 		}
 		for (FilePickerMode testMode : FilePickerMode.values()) {
-			if (strMode.equalsIgnoreCase(testMode.name())) {
+			if (strMode != null && strMode.equalsIgnoreCase(testMode.name())) {  //TODO strMode must not be null
 				mode = testMode;
 				break;
 			}

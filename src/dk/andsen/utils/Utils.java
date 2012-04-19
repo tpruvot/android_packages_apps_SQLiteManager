@@ -6,12 +6,22 @@
  */
 package dk.andsen.utils;
 
+import dk.andsen.asqlitemanager.Prefs;
+import dk.andsen.asqlitemanager.R;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Utils {
@@ -19,6 +29,42 @@ public class Utils {
 
 	private static String app = "aSQLMan";
 
+	/**
+	 * Show a tip to the user. The tips can be turned of individually by unchecking
+	 * the Show tip again check box. The tips must each have a unique number.
+	 * The show tip status is stored in "dk.andsen.asqlitemanager_tips" shared preferences
+	 * @param tip A CharSequence containing the tip
+	 * @param tipNo The number of tip
+	 * @param cont The content of the screen to show the tip
+	 */
+	public static void showTip(CharSequence tip, final int tipNo, Context cont) {
+		final boolean logging = Prefs.getLogging(cont);
+		final Context _cont = cont;
+		Utils.logD("TipNo " + tipNo, logging);
+		SharedPreferences prefs = _cont.getSharedPreferences("dk.andsen.asqlitemanager_tips", Context.MODE_PRIVATE);
+		boolean showTip = prefs.getBoolean("TipNo" + tipNo, true);
+		if(showTip) {
+			final Dialog dial = new Dialog(cont);
+			dial.setContentView(R.layout.tip);
+			dial.setTitle(R.string.Tip);
+			Button _btOK = (Button)dial.findViewById(R.id.OK);
+			TextView tvTip = (TextView)dial.findViewById(R.id.TextViewTip);
+			tvTip.setText(tip);
+			_btOK.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					CheckBox _remember = (CheckBox) dial.findViewById(R.id.ShowTipAgain);
+					_remember.setText(R.string.ShowTipAgain);
+					SharedPreferences prefs = _cont.getSharedPreferences("dk.andsen.asqlitemanager_tips", Context.MODE_PRIVATE);
+					Editor edt = prefs.edit();
+					Utils.logD("Show again " + _remember.isChecked(), logging);
+					edt.putBoolean("TipNo" + tipNo, _remember.isChecked());
+					edt.commit();
+					dial.dismiss();
+				} });
+			dial.show();
+		}
+	}
+	
 	/**
 	 * Write a debug message to the log
 	 * 
@@ -47,7 +93,7 @@ public class Utils {
 	 * @param e
 	 *          the message
 	 * @param cont
-	 *          the programmes content
+	 *          the programs content
 	 */
 	public static void showException(String e, Context cont) {
 		AlertDialog alertDialog = new AlertDialog.Builder(cont).create();

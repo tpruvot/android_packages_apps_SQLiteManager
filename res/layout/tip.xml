@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarFadeDuration="1000000"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TextViewTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:enabled="false"
+                android:paddingLeft="5pt"
+                android:paddingRight="5pt"
+                android:text="Tip"
+                android:textColor="@android:color/secondary_text_light_nodisable" />
+            <!-- Need to set a brighter color because of enabled=false -->
+        </LinearLayout>
+    </ScrollView>
+
+    <CheckBox
+        android:id="@+id/ShowTipAgain"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/ShowTipAgain" />
+
+    <Button
+        android:id="@+id/OK"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/OK" />
+
+</LinearLayout>

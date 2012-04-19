@@ -1,5 +1,13 @@
 Download binaries here: http://market.android.com/details?pub=Andsen
 
+Next version:
+	Select where to create a new database using a directory picker
+	You get tips about what is possible in the different parts of the program
+	
+	Corrections of the French translation (was by my mistake included in 
+		version 3.1)
+	Bug fixes (show table info with no valid database open)
+	
 Version (3.1):
 	Go directly to favorite view in table viewer (Fields, SQL or Data)
 	Configurable font size in data lists

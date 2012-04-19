@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--β-->
-    <string name="VersionNo">3.1</string>
+    <string name="VersionNo">3.2 β</string>
     <string name="Version">Version</string>
     <string name="hello">aSQLiteManager</string>
     <string name="app_name">aSQLiteManager</string>
@@ -197,13 +197,61 @@
     <string name="ToastResetedAllSettings">All preferences were reseted to default</string>
     <string name="FilePickerChooseThisFolder">Choose this folder</string>
 
-
+    <string name="NoDatabaseOpen">No valid database has been opened</string>
+        
+    <string name="Tip">Tip!</string>
+    <string name="ShowTipAgain">Show this tip again?</string>
+		<string name="Tip1">From this main screen you can:
+			\n\nOpen an existing database located on the sdCard
+			\nCreate a new database on the sdCard
+			\nOpen one of your recently used database
+			\nShow brief informations about aSQLiteManager
+			\n\nYou can also configure aSQLiteManager, show a list of implemented
+			functions and reset the configuration by hitting the Menu button.
+			\n\nAs aSQLIteManager is a SQLite front end it is only possible to with
+			the database what SQLite allows. This rules out nearly all changes to 
+			table structure.</string>
+		<string name="Tip2">From query screen you can:
+			\n\nExecute any valid SQLite SQL statements.
+			\n\nUsing the Menu button you have access to a simple SQL builder, This can
+			help with building select, create, drop, delete and insert commands.
+			\n\n Query results can be exported to text files (located in the same catalog
+			as the database).
+			\n\nYou can start transactions, roll back and commit changes to data.
+			\n\nTo copy the content of a data cell to the clip board just tap at the
+			cell.</string>
+		<string name="Tip3">From database screen you can:
+			\n\nSee all tables, views and indexes.
+			\n\nDelete tables, views and indexes by "long tapping" the item you want to
+			delete. It is not possible to delete SQLietes auto generated indexes.
+			\n\nFrom the Menu button you have access to:
+			\nExport and restore of databases
+			\nOpen files containing SQL commands (can be executed line by line whole
+			script)
+			\nInfo about current database and
+			\nA New Table wizard that can guide through the creation of a new table
+			</string>
+		<string name="Tip4">From table viewer you can:
+			\n\nSee the structure of the selected table
+			\nSee it data and page through the data (set the page size in configuration
+			on main screen)
+			\nAdd new records (by using the "New" button or by tapping New cell in the
+			title row)
+			\nEdit a row by tapping Edit in the first row
+			\nTo delete a record tap Edit and and use the Delete button
+			\n\nFrom the Menu you can:
+			\n\nJump to the first / last page
+			\nAdd a simple filter to data
+			\nDump the table to a SQL script (located in the same catalog as the database)
+			\nSee the SQL needed to create the table. This can be copied to the clip board
+			by tapping the cell
+			</string>
+		    		    		    
     <!-- Place new text above here -->
-
     <string name="Translation">Translate aSQLiteManager to your language and get your name here</string>
 
     <!-- From here text changes in every version -->
-
+    <!-- List of functionality for help screen -->
     <string name="HelpText">
       Visit aSQLiteMagers\'s home page at:
       \nhttp://aaa.andsen.dk/aSQLiteManager.html
@@ -237,11 +285,11 @@
       \nUse aShell (Beta) to edit system databases on rooted devices
       \n\nMartin
     </string>
-    
+
+    <!-- Here write what is new in this version -->
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNew in this version (3.1):
-
 			\n\nGet table definitions mowed to option menu and replaced with “New” record button for easier data entry
 			\n\nGo directly to favourite view in table viewer (Fields or Data)
 			\n\nConfigurable font size in data lists

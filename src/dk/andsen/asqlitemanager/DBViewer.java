@@ -136,10 +136,11 @@ public class DBViewer extends Activity implements OnClickListener {
 				//TODO implement aShels way of opening system databases
 				Utils.showMessage(getText(R.string.Error).toString(), "No editing of system databases yet", _cont);
 				//openRootFile(_dbPath);
-
 				
 			}
 		}
+		Utils.logD("Show Tip	" + 3, logging);
+		Utils.showTip(getText(R.string.Tip3), 3, _cont);
 	}
 	
 	/**

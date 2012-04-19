@@ -52,7 +52,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	private Context _cont;
 	private String _recentFiles;
 	private boolean testRoot = false;
-	private boolean logging = false;
+	private boolean _logging = false;
 	private boolean loadSettings = false;
 
 	private Dialog newDatabaseDialog;
@@ -60,69 +60,76 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-			Utils.logD("onCreate", logging);
-      logging = Prefs.getLogging(this);
-      testRoot = Prefs.getTestRoot(this);
-      if (Prefs.getMainVertical(this))
-      	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.main);
-        Button open = (Button) this.findViewById(R.id.Open);
-        open.setOnClickListener(this);
-        Button about = (Button) this.findViewById(R.id.About);
-        about.setOnClickListener(this);
-        Button newDatabase = (Button) this.findViewById(R.id.NewDB);
-        newDatabase.setOnClickListener(this);
-        Button recently = (Button) this.findViewById(R.id.Recently);
-        recently.setOnClickListener(this);
-        TextView tv = (TextView) this.findViewById(R.id.Version);
-        tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
-        _cont = this;
-    		final SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
-    		// Show welcome screen if not disabled
-    		// Perhaps change how the welcome screen is displayed. Store version no in
-    		// in "VersionNo" and show welcome if versionNo has changed
-    		SharedPreferences prefs = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
-    		if (!settings.getString(vers, "").equals(vers)) {
-    			//Clear to many preferences???
-    			Editor editor = prefs.edit();
-    			editor.clear();
-    			editor.commit();
-    		}
-    		Editor ed = settings.edit();
-    		ed.putString(vers, vers);
-    		ed.commit();
-    		if(settings.getBoolean(WelcomeId, true)) {
-    			final Dialog dial = new Dialog(this);
-    			dial.setContentView(R.layout.new_welcome);
-    			dial.setTitle(R.string.Welcome);
-    			Button _btOK = (Button)dial.findViewById(R.id.OK);
-    			_btOK.setOnClickListener(new OnClickListener() {
-    				public void onClick(View v) {
-    					CheckBox _remember = (CheckBox) dial.findViewById(R.id.ShowAtStartUp);
-    					android.content.SharedPreferences.Editor edt = settings.edit();
-    					edt.putBoolean(WelcomeId, _remember.isChecked()); 
-    					edt.commit();
-    					dial.dismiss();
-    				} });
-    			dial.show();
-    		}
-    		AppRater.app_launched(_cont);
-  			Bundle extras = getIntent().getExtras();
-  			if(extras !=null) {
-  				String _dbPath = extras.getString("Database");
-					Intent i = new Intent(_cont, DBViewer.class);
-					i.putExtra("db", _dbPath);
-					startActivity(i);
-  			} else {
-  				
-  			}
-    }
+		super.onCreate(savedInstanceState);
+		Utils.logD("onCreate", _logging);
+		_logging = Prefs.getLogging(this);
+		testRoot = Prefs.getTestRoot(this);
+		if (Prefs.getMainVertical(this))
+			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		setContentView(R.layout.main);
+		Button open = (Button) this.findViewById(R.id.Open);
+		open.setOnClickListener(this);
+		Button about = (Button) this.findViewById(R.id.About);
+		about.setOnClickListener(this);
+		Button newDatabase = (Button) this.findViewById(R.id.NewDB);
+		newDatabase.setOnClickListener(this);
+		Button recently = (Button) this.findViewById(R.id.Recently);
+		recently.setOnClickListener(this);
+		TextView tv = (TextView) this.findViewById(R.id.Version);
+		tv.setText(getText(R.string.Version) + " " + getText(R.string.VersionNo));
+		_cont = this;
+		final SharedPreferences settings = getSharedPreferences("aSQLiteManager",
+				MODE_PRIVATE);
+		// Show welcome screen if not disabled
+		// Perhaps change how the welcome screen is displayed. Store version no in
+		// in "VersionNo" and show welcome if versionNo has changed
+		//SharedPreferences prefs = getSharedPreferences(
+		//		"dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
+		// Should preferences be deleted?
+		if (!settings.getString(vers, "").equals(vers)) {
+			// Clear to many preferences???
+			// Editor editor = prefs.edit();
+			// editor.clear();
+			// editor.commit();
+		}
+		Utils.logD("Show Tip	" + 1, _logging);
+		Utils.showTip(getText(R.string.Tip1), 1, _cont);
+		Editor ed = settings.edit();
+		ed.putString(vers, vers);
+		ed.commit();
+		if (settings.getBoolean(WelcomeId, true)) {
+			final Dialog dial = new Dialog(this);
+			dial.setContentView(R.layout.new_welcome);
+			dial.setTitle(R.string.Welcome);
+			Button _btOK = (Button) dial.findViewById(R.id.OK);
+			_btOK.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					CheckBox _remember = (CheckBox) dial.findViewById(R.id.ShowAtStartUp);
+					android.content.SharedPreferences.Editor edt = settings.edit();
+					edt.putBoolean(WelcomeId, _remember.isChecked());
+					edt.commit();
+					dial.dismiss();
+				}
+			});
+			dial.show();
+		}
+		AppRater.app_launched(_cont);
+		// if aSQLiteManager is started from other app vith a name of a database open it
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			String _dbPath = extras.getString("Database");
+			Intent i = new Intent(_cont, DBViewer.class);
+			i.putExtra("db", _dbPath);
+			startActivity(i);
+		} else {
+
+		}
+  }
     
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
     	super.onConfigurationChanged(newConfig);
-    	Utils.logD("onConfigurationChanged", logging);
+    	Utils.logD("onConfigurationChanged", _logging);
     	//TODO handle change of orientations here?
     	
     }
@@ -135,10 +142,10 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			if (key == R.id.Open) {
 				Intent i = null;
 				if (testRoot) {
-					Utils.logD("Calling RootFilepicker", logging);
+					Utils.logD("Calling RootFilepicker", _logging);
 					i = new Intent(this, RootFilePicker.class);
 				} else {
-					Utils.logD("Calling NewFilepicker", logging);
+					Utils.logD("Calling NewFilepicker", _logging);
 					i = new Intent(this, NewFilePicker.class);
 				}
 //				Utils.logD("Calling NewFilepicker for result");
@@ -146,14 +153,14 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				try {
 					startActivity(i);
 				} catch (Exception e) {
-					Utils.logE("Error in file picker (root " + testRoot + ")", logging);
+					Utils.logE("Error in file picker (root " + testRoot + ")", _logging);
 					e.printStackTrace();
 					Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
 				}
 			} else if (key == R.id.About) {
 				showAboutDialog();
 			}  else if (key == R.id.NewDB) {
-				Utils.logD("Create new database", logging);
+				Utils.logD("Create new database", _logging);
 				newDatabase();
 			} else if (key == R.id.Recently) {
 				// Retrieve recently opened files
@@ -168,7 +175,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					String[] resently = recentTest.split(";");
 					//TODO test this!!!!!	
 					// String[] resently = _recentFiles.split(";");
-					Utils.logD(_recentFiles, logging);
+					Utils.logD(_recentFiles, _logging);
 					AlertDialog dial = new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.Recently)) 
 					.setSingleChoiceItems(resently, 0, new ResentFileOnClickHandler() )
@@ -198,10 +205,10 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 		
 		public void onWindowFocusChanged(boolean hasFocus) {
 			// Works only need to refresh the screen
-			Utils.logD("Focus changed: " + hasFocus, logging);
+			Utils.logD("Focus changed: " + hasFocus, _logging);
 			if(hasFocus) {
 				if (loadSettings  ) {
-	        logging = Prefs.getLogging(this);
+	        _logging = Prefs.getLogging(this);
 	        testRoot = Prefs.getTestRoot(this);
 					
 				}
@@ -224,7 +231,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				try {
 					startActivity(i);
 				} catch (Exception e) {
-					Utils.logE("Error in DBViewer", logging);
+					Utils.logE("Error in DBViewer", _logging);
 					e.printStackTrace();
 					Utils.showException("Plase report this error with descriptions of how to generate it", _cont);
 				}
@@ -246,10 +253,10 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 
 		protected void onActivityResult(int requestCode, int resultCode, Intent data)
 		{
-			Utils.logD("Main-activity got result from sub-activity", logging);
+			Utils.logD("Main-activity got result from sub-activity", _logging);
 			if (resultCode == Activity.RESULT_CANCELED) {
-				Utils.logD("WidgetActivity was cancelled or encountered an error. resultcode == result_cancelled", logging);
-				Utils.logD("WidgetActivity was cancelled - data =" + data, logging);
+				Utils.logD("WidgetActivity was cancelled or encountered an error. resultcode == result_cancelled", _logging);
+				Utils.logD("WidgetActivity was cancelled - data =" + data, _logging);
 			} else
 				switch (requestCode) {
 				case 1:
@@ -266,7 +273,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					}
 					break;
 				}
-			Utils.logD("Main-activity got result from sub-activity", logging);
+			Utils.logD("Main-activity got result from sub-activity", _logging);
 		}		
 		
 		/**
@@ -296,7 +303,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					try {
 						startActivityForResult(i, 2);
 					} catch (Exception e) {
-						Utils.logE("Error in file picker (root " + testRoot + ")", logging);
+						Utils.logE("Error in file picker (root " + testRoot + ")", _logging);
 						e.printStackTrace();
 						Utils
 								.showException(
@@ -354,7 +361,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 									try {
 										startActivity(i);
 									} catch (Exception e) {
-										Utils.logE("Error in DBViewer", logging);
+										Utils.logE("Error in DBViewer", _logging);
 										e.printStackTrace();
 										Utils
 												.showException(
@@ -364,7 +371,7 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 								}
 							}
 						}
-						Utils.logD("Path: " + edNewDB.getText().toString(), logging);
+						Utils.logD("Path: " + edNewDB.getText().toString(), _logging);
 					}
 				}
 			});
@@ -401,12 +408,24 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 			return false;
 		}
 
+		/**
+		 * Clear all preferences. Preferences, different choices, recently opened
+		 * and tip history
+		 */
 		private void resetAllPreferences() {
+			//TODO ask before doing this!
+			//Clear different choices, recently opened, number of times used, day of first use
     	SharedPreferences settings = getSharedPreferences("aSQLiteManager", MODE_PRIVATE);
 			SharedPreferences.Editor editor = settings.edit();
 			editor.clear();
 			editor.commit();
+			// Clear preferences
 			settings = getSharedPreferences("dk.andsen.asqlitemanager_preferences", MODE_PRIVATE);
+			editor = settings.edit();
+			editor.clear();
+			editor.commit();
+			// Clear tip history
+			settings = _cont.getSharedPreferences("dk.andsen.asqlitemanager_tips", MODE_PRIVATE);
 			editor = settings.edit();
 			editor.clear();
 			editor.commit();

@@ -124,6 +124,8 @@ public class TableViewer extends Activity implements OnClickListener {
 				onClick(bFields);
 			}
 		}
+		Utils.logD("Show Tip	" + 4, logging);
+		Utils.showTip(getString(R.string.Tip4), 4, _cont);
 	}
 	
 	@Override
@@ -773,11 +775,16 @@ public class TableViewer extends Activity implements OnClickListener {
 	
 	private void getTableDefinition() {
 		offset = 0;
-		String [] fieldNames = {"SQL"};
-		setTitles(_aTable, fieldNames, false);
-		String [][] data = _db.getSQL(_table);
-		updateButtons(false);
-		oldappendRows(_aTable, data, false);
+		if (_db == null) {
+			Utils.showMessage(getString(R.string.Error), 
+					getString(R.string.NoDatabaseOpen), _cont);
+		} else {
+			String [] fieldNames = {"SQL"};
+			setTitles(_aTable, fieldNames, false);
+			String [][] data = _db.getSQL(_table); //TODO null pointer error here -> no database open
+			updateButtons(false);
+			oldappendRows(_aTable, data, false);
+		}
 	}
 
 	private void buildFilerMenu(String _table2) {

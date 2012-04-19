@@ -121,6 +121,8 @@ public class QueryViewer extends Activity implements OnClickListener{
 			} else {
 				Utils.logD("Database open", logging);
 			}
+			Utils.logD("Show Tip	" + 2, logging);
+			Utils.showTip(getString(R.string.Tip2), 2, _cont);
 		}
 	}
 	
