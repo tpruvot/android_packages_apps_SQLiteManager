@@ -86,7 +86,7 @@
     <string name="DataBaseRestored">Datenbank wiederhergestellt</string>
     <string name="Patience">Bitte warten, es dauert einen kurzen Moment...</string>
     <string name="Recently">kürzlich geöffnet</string>
-    <string name="RecentlyTxt">Keine kürzlich geöffnete Datenbank zum Speichern</string>
+    <string name="RecentlyTxt">Anzahl kürzlich geöffneter Datenbanken</string>
     <string name="ROSystemTable">sqlite_master ist eine System Tabelle und kann nicht gelöscht werden</string>
     <string name="CouldNotCreate">Konnte nicht erstellt werden:</string>
     <string name="SystemFolder">Systemordner</string>
@@ -170,7 +170,22 @@
     <string name="IndexDefCopied">Indexdefinition in Zwischenablage übernommen</string>
     <string name="DescAutoIncError">DESC und AutoInc dürfen nicht beide angehakt sein, auch wenn das Handbuch was anderes sagt!</string>
     <string name="NoRecentFiles">keine kürzlich geöffneten Dateien ;-(</string>
-
+    <string name="FontSizeText">Zeichengröße in der Datenliste</string>
+    <string name="FontSize">Zeichengröße</string>
+    <string name="DefaultModeText">Standard-Ansicht für Tabelle</string>
+    <string name="DefaultMode">Standard-Ansicht</string>
+    <string name="TableDef">Table def.</string>
+    <string name="NewRec">New Rec.</string>
+    <string name="MainScreenInPortrait">Hauptfenster im Hochformat</string>
+    <string name="MainScreenInPortraitText">Hauptfenster immer im Hochformat (nach Neustart)</string>
+    <string name="FKLists">FK Listen</string>
+    <string name="FKListsText">Use Verwende Auswahllisten beim Editieren von FK-Feldern</string>
+    <string name="SaveSQL">Speichere SQL</string>
+    <string name="SaveSQLText">Speichere SQL in Datenbank</string>
+    <string name="ForeignKeys">Aktiviere Fremdschlüssel</string>
+    <string name="ForeignKeysText">Aktiviere Bedingungen für Fremdschlüssel</string>
+    
+    
     <string name="Translation">Translate to german by Denis Dogan</string>
 
     <!-- From here text changes in every version -->
@@ -221,5 +236,4 @@
       \ndatenbanken auf gerooteten Geräten
       \n\nMartin
     </string>
-        
 </resources>

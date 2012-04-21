@@ -33,8 +33,8 @@
       />      
       <CheckBoxPreference
 	    android:key="MainVertical"
-	    android:title="Main screen in portrait"
-	    android:summary="Always keep main screen in portrait (after restart)"
+	    android:title="@string/MainScreenInPortrait"
+	    android:summary="@string/MainScreenInPortraitText"
 	    android:defaultValue="false"
 	  />
   </PreferenceCategory>
@@ -42,20 +42,20 @@
  		android:title="@string/SQLPreferences">
 	  <CheckBoxPreference
 	    android:key="FKList"
-	    android:title="FK lists"
-	    android:summary="Use lists when editing FK fields"
+	    android:title="@string/FKLists"
+	    android:summary="@string/FKListsText"
 	    android:defaultValue="false"
 	  />
 	  <CheckBoxPreference
 	    android:key="SaveSQL"
-	    android:title="Save SQL"
-	    android:summary="Save SQL in database"
+	    android:title="@string/SaveSQL"
+	    android:summary="@string/SaveSQLText"
 	    android:defaultValue="false"
 	  />
 	  <CheckBoxPreference
 	    android:key="EnableForeignKeys"
-	    android:title="Enable foreign keys"
-	    android:summary="Turn on foreign key constraints"
+	    android:title="@string/ForeignKeys"
+	    android:summary="@string/ForeignKeysText"
 	    android:defaultValue="false"
 	  />
   </PreferenceCategory>
