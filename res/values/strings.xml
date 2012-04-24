@@ -207,6 +207,9 @@
     <string name="ToastResetedAllSettings">All preferences were reseted to default</string>
     <string name="FilePickerChooseThisFolder">Choose this folder</string>
     <string name="NoDatabaseOpen">No valid database has been opened</string>
+    <string name="InvalidOrEmptyFK">Foreign key invalid or empty</string>
+    <string name="PlaceNewDBHere">Place new database here</string>
+        
     <string name="Tip">Tip!</string>
     <string name="ShowTipAgain">Show this tip again?</string>
 		<string name="Tip1">From this main screen you can:

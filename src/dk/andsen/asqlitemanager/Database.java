@@ -33,6 +33,7 @@ import dk.andsen.types.AField;
 import dk.andsen.types.AField.FieldType;
 import dk.andsen.types.Field;
 import dk.andsen.types.FieldDescr;
+import dk.andsen.types.ForeignKeyHolder;
 import dk.andsen.types.QueryResult;
 import dk.andsen.types.Record;
 import dk.andsen.utils.Utils;
@@ -1318,8 +1319,6 @@ public class Database {
 				tf.setUpdateable(false);
 				tf.setType(TableField.TYPE_INTEGER);
 			} else {
-				//Utils.logD("QName " + tf.getName());
-				//Utils.logD("DName " +  tabledef[j-1].getName());
 				tf.setUpdateable(true);
 				tf.setType(tabledef[j-1].getType());
 				tf.setNotNull(tabledef[j-1].isNotNull());
@@ -1347,7 +1346,6 @@ public class Database {
 			//Go through all fields to see if the fields has FK
 			for(int i = 0; i < fields; i++) {
 				String fkName = cursor.getString(3);
-				//Utils.logD("NameMH: " + tfs[i].getName());
 				if (tfs[i].getName().equals(fkName)) {
 					Utils.logD("FK: " + cursor.getString(2)+ "->" + cursor.getString(4), logging);
 					tfs[i].setForeignKey("select [" + cursor.getString(4) + "] from [" + cursor.getString(2)+ "]");
@@ -1746,8 +1744,15 @@ public class Database {
 		return recs;
 	}
 
+	/**
+	 * Retrieve a list of lookup values for selection lists
+	 * @param foreignKey
+	 * @return
+	 */
 	public String[] getFKList(String foreignKey) {
-		String[] fk = null;
+		//TODO must be changed to handle lookup tables with code - values
+		// must the return both the foreign key "code" and describing text
+		String[] fk = new String[0];
 		try {
 			Cursor cursor = _db.rawQuery(foreignKey, null);
 			fk = new String[cursor.getCount()];
@@ -1764,6 +1769,61 @@ public class Database {
 		return fk;
 	}
 
+	/**
+	 * Retrieve a list of lookup values for selection lists
+	 * @param foreignKey
+	 * @return
+	 */
+	public ForeignKeyHolder getFKList2(String foreignKey) {
+		//TODO must be changed to handle lookup tables with code - values
+		// must the return both the foreign key "code" and describing text
+		ForeignKeyHolder lists = new ForeignKeyHolder();
+		String[] ids = new String[0];
+		try { 
+			Cursor cursor = _db.rawQuery(foreignKey, null);
+			ids = new String[cursor.getCount()];
+			int i = 0;
+			while(cursor.moveToNext()) {
+				ids[i++] = cursor.getString(0);
+			}
+			cursor.close();
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE("getFKList", logging);
+			Utils.printStackTrace(e, logging);
+		}
+		// select [id] from [foreign]
+		//TODO replace field name with *
+		String sql = foreignKey.substring(0, foreignKey.indexOf('[')) + "*" + 
+				foreignKey.substring(foreignKey.indexOf(']') + 1);
+		Utils.logD("SQL: " + sql, logging);
+		String[] texts = new String[0];
+		try {
+			Cursor cursor = _db.rawQuery(sql, null);
+			texts = new String[cursor.getCount()];
+			int i = 0;
+			int cols = cursor.getColumnCount();
+			while(cursor.moveToNext()) {
+				int j = 0;
+				String rowText = "";
+				for (j = 0; j < cols; j++) {
+					rowText += cursor.getString(j);
+					if (j < cols - 1) 
+						rowText += " | ";
+				}
+				texts[i++] = rowText;
+			}
+			cursor.close();
+		} catch (Exception e) {
+			Utils.showMessage("Error", e.getLocalizedMessage(), _cont);
+			Utils.logE("getFKList", logging);
+			Utils.printStackTrace(e, logging);
+		}
+		lists.setId(ids);
+		lists.setText(texts);
+		return lists;
+	}
+	
 	/**
 	 * Enable foreign keys checking
 	 */

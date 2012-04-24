@@ -51,6 +51,7 @@ public class NewFilePicker extends ListActivity {
 	// _SQLtype is true if opening a .sql file false if opening a database
 	private boolean _SQLtype = false;
 	private String _dbPath = null;
+	private String _newDBPath = null;
 	private boolean logging = false;
 	// _rootMode controls whether filePicker is in roor or normal mode
 	// private boolean _rootMode = false;
@@ -64,6 +65,9 @@ public class NewFilePicker extends ListActivity {
 		logging = Prefs.getLogging(context);
 		Bundle extras = getIntent().getExtras();
 		String strMode = FilePickerMode.SELECTFILE.name();
+		setContentView(R.layout.filepicker);
+		Button btn = (Button)findViewById(R.id.SelectFolder);
+		btn.setVisibility(View.GONE);
 		if (extras != null) {
 			// TODO need to pass path to database from caller to SQLViewer
 			_SQLtype = extras.getBoolean("SQLtype");
@@ -79,8 +83,21 @@ public class NewFilePicker extends ListActivity {
 		}
 		if (mode == null) {
 			mode = FilePickerMode.SELECTFILE;
+			Utils.logD("Filepicker select file mode", logging);
+		} else {
+			if (mode == FilePickerMode.SELECTFOLDER) {
+				btn.setVisibility(View.VISIBLE);
+				Utils.logD("Filepicker in test mode", logging);
+				btn.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						Intent in = new Intent();
+						in.putExtra("RESULT", _newDBPath);
+			      setResult(1,in);//Here I am Setting the Requestcode 1, you can put according to your requirement
+			      finish();
+					}
+				});
+			}
 		}
-		setContentView(R.layout.filepicker);
 		myPath = (TextView) findViewById(R.id.path);
 		File path = null;
 		String state = Environment.getExternalStorageState();
@@ -116,6 +133,7 @@ public class NewFilePicker extends ListActivity {
 	 */
 	{
 		myPath.setText(getText(R.string.Path) + " " + dirPath);
+		_newDBPath = dirPath;
 		item = new ArrayList<String>();
 		path = new ArrayList<String>();
 		File f = new File(dirPath);
@@ -141,8 +159,8 @@ public class NewFilePicker extends ListActivity {
 				path.add(f.getParent());
 			}
 			if (mode == FilePickerMode.SELECTFOLDER) {
-				item.add(getString(R.string.FilePickerChooseThisFolder));
-				path.add(f.getAbsolutePath());
+				//item.add(getString(R.string.FilePickerChooseThisFolder));  //TODO change to button
+				//path.add(f.getAbsolutePath());
 			}
 		}
 		Arrays.sort(files, new FileComparator());

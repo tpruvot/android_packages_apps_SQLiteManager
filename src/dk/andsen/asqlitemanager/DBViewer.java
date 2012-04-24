@@ -464,13 +464,17 @@ public class DBViewer extends Activity implements OnClickListener {
 	/**
 	 * Open a create table dialog where the user can define the table
 	 * by adding fields
+	 * 
+	 * TODO It should be possible to regret a single field before creating the table
 	 */
 	private void createTableDialog() {
 		Button newTabNewField;
 		Button newTabCancel;
 		Button newTabOk;
 		final EditText newTabTabName;
+		// fldList contains the list of fields
 		final List<String> fldList = new ArrayList<String>();
+		// fkList contains the list of foreign keys
 		final List<String> fkList = new ArrayList<String>();
 		final LinearLayout newTabSV;
 		final Dialog createTab = new Dialog(_cont);
@@ -615,14 +619,18 @@ public class DBViewer extends Activity implements OnClickListener {
 									+ fFKFie.getEditableText().toString() + "])";
 								Utils.logD("FK " + fk , logging);
 							}
+							// Create a LiniearLayout with the new field definition
 							LinearLayout ll = new LinearLayout(_cont);
 							ll.setOrientation(LinearLayout.HORIZONTAL);
 							TextView tw = new TextView(_cont);
 							tw.setText(fld);
 							ll.addView(tw);
 							ll.setPadding(5, 5, 5, 5);
+							// Add it to the LinearLayout
 							newTabSV.addView(ll);
+							// also save it in the field List
 							fldList.add(fld);
+							// If a foreign key is defined save that too
 							if (!fk.trim().equals("")) {
 								LinearLayout llfk = new LinearLayout(_cont);
 								llfk.setOrientation(LinearLayout.HORIZONTAL);
@@ -632,6 +640,7 @@ public class DBViewer extends Activity implements OnClickListener {
 								llfk.setPadding(5, 5, 5, 5);
 								newTabSV.addView(llfk);
 							}
+							// And to the foreign key List
 							if (!fk.trim().equals(""))
 								fkList.add(fk);
 							createField.dismiss();

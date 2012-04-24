@@ -24,6 +24,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * @author mh
+ *
+ */
 public class Utils {
 	// public static boolean logging = true;
 
@@ -33,11 +37,12 @@ public class Utils {
 	 * Show a tip to the user. The tips can be turned of individually by unchecking
 	 * the Show tip again check box. The tips must each have a unique number.
 	 * The show tip status is stored in "dk.andsen.asqlitemanager_tips" shared preferences
-	 * @param tip A CharSequence containing the tip
-	 * @param tipNo The number of tip
-	 * @param cont The content of the screen to show the tip
+	 * @param tip - A CharSequence containing the tip
+	 * @param tipNo - The number of tip
+	 * @param cont - The content of the screen to show the tip
 	 */
 	public static void showTip(CharSequence tip, final int tipNo, Context cont) {
+		//TODO Should perhaps not show the tip first time a form is entered???
 		final boolean logging = Prefs.getLogging(cont);
 		final Context _cont = cont;
 		Utils.logD("TipNo " + tipNo, logging);
@@ -67,9 +72,8 @@ public class Utils {
 	
 	/**
 	 * Write a debug message to the log
-	 * 
-	 * @param msg
-	 *          Message
+	 * @param msg - The message
+	 * @param logging - Only write to the log if logging = true
 	 */
 	public static void logD(String msg, boolean logging) {
 		if (logging)
@@ -78,9 +82,8 @@ public class Utils {
 
 	/**
 	 * Write an error message to the log
-	 * 
-	 * @param msg
-	 *          Message
+	 * @param msg - The message
+	 * @param logging - Only write to the log if logging = true
 	 */
 	public static void logE(String msg, boolean logging) {
 		if (logging)
@@ -89,11 +92,8 @@ public class Utils {
 
 	/**
 	 * Show a dialog with an error message
-	 * 
-	 * @param e
-	 *          the message
-	 * @param cont
-	 *          the programs content
+	 * @param e - The message
+	 * @param cont - the content of the form to show the message on
 	 */
 	public static void showException(String e, Context cont) {
 		AlertDialog alertDialog = new AlertDialog.Builder(cont).create();
@@ -113,7 +113,6 @@ public class Utils {
 
 	public static void showMessage(String title, String msg, String btnText,
 			Context cont) {
-
 		showMessage(title, msg, null, btnText, cont);
 	}
 
@@ -183,10 +182,8 @@ public class Utils {
 
 	/**
 	 * Display the message as a short toast message
-	 * 
 	 * @param context
-	 * @param msg
-	 *          the message to display
+	 * @param msg - The message to display
 	 */
 	public static void toastMsg(Context context, String msg) {
 		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
@@ -207,11 +204,21 @@ public class Utils {
 		return false;
 	}
 
+	/**
+	 * Write an exceptions stack trace to the log 
+	 * @param e - The exception
+	 * @param logging - Only write to the log if logging = true
+	 */
 	public static void printStackTrace(Exception e, boolean logging) {
 		if (logging)
 			e.printStackTrace();
 	}
 	
+	/**
+	 * Add a / to the end of a String if it not end with /
+	 * @param str - The String
+	 * @return - The String ending with /
+	 */
 	public static String addSlashIfNotEnding(String str) {
 		if (str != null) {
 		if (!str.substring(str.length() - 1).equalsIgnoreCase("/")) {

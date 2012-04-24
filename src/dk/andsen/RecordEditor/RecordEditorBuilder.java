@@ -19,6 +19,7 @@ import dk.andsen.RecordEditor.types.TableField;
 import dk.andsen.asqlitemanager.Database;
 import dk.andsen.asqlitemanager.Prefs;
 import dk.andsen.asqlitemanager.R;
+import dk.andsen.types.ForeignKeyHolder;
 import dk.andsen.utils.Utils;
 
 /**
@@ -86,7 +87,8 @@ public class RecordEditorBuilder {
 				}
 				if (fields[i].getForeignKey() != null && useSelectLists && useList) {
 					// Editing using selection list
-					Utils.logD("Uses list of FK for " + fields[i].getName(), logging);
+					Utils.logD("Uses list of FK for " + fields[i].getName() + " " + 
+							fields[i].getForeignKey(), logging);
 					ll = buildFKList(fields[i], lineIdBase +i, idBase + i);
 				} else {
 					// Normal input field based on type of field 
@@ -239,9 +241,14 @@ public class RecordEditorBuilder {
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		ll.setId(llId);
+		//TODO only one of the following lines is needed. First original second experimental FK selections lists
 		final String[] fk = _db.getFKList(field.getForeignKey());
+		final ForeignKeyHolder fkh =  _db.getFKList2(field.getForeignKey());
+		if (fk == null) {
+			Utils.showMessage(_cont.getString(R.string.Error), _cont.getString(R.string.InvalidOrEmptyFK), _cont);
+		} 
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(_cont,
-		    android.R.layout.simple_spinner_dropdown_item, fk);
+		    android.R.layout.simple_spinner_dropdown_item, fkh.getText());  //TODO FC Null pointer fk == null?
 		TextView tv = new TextView(_cont);
 		tv.setLayoutParams((new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -253,7 +260,6 @@ public class RecordEditorBuilder {
 		tv.setWidth(fieldNameWidth);
 		tv.setPadding(5, 0, 5, 0);
 		ll.addView(tv);
-
 		//TODO set current value of field as selected!!!
 		final EditText ets = new EditText(_cont);
 		ets.setLayoutParams((new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -263,8 +269,6 @@ public class RecordEditorBuilder {
 		ets.setVisibility(View.GONE);
 		ets.setId(id);
 		ll.addView(ets);
-
-		
 		final Button btn = new Button(_cont);
 		btn.setText("Select from list");
 		btn.setId(id);
@@ -275,7 +279,7 @@ public class RecordEditorBuilder {
 			  .setAdapter(adapter, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int which) {
 			    	Utils.logD("Item pressed:" + which, logging);
-			    	String val = fk[which];
+			    	String val = fkh.getIds()[which];
 			    	Utils.logD("Value selected:" + val, logging);
 			    	btn.setText(val);
 			    	ets.setText(val);

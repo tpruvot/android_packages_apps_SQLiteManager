@@ -214,7 +214,6 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 				}
 			}
 		}
-
 		
 		/**
 		 * Open a the database clicked on from the recently opened file menu
@@ -293,26 +292,23 @@ public class aSQLiteManager extends Activity implements OnClickListener {
 					.findViewById(R.id.newFolder);
 			newFolder.setText(Environment.getExternalStorageDirectory()
 					.getAbsolutePath() + "/");
-			final ImageButton newFolderSelectButton = (ImageButton) newDatabaseDialog
+			final Button newFolderSelectButton = (Button) newDatabaseDialog
 					.findViewById(R.id.newFolderSelectButton);
 			newFolderSelectButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					Intent i = new Intent(_cont, NewFilePicker.class);
 					i.putExtra("MODE", FilePickerMode.SELECTFOLDER.name());
-
 					try {
 						startActivityForResult(i, 2);
 					} catch (Exception e) {
 						Utils.logE("Error in file picker (root " + testRoot + ")", _logging);
 						e.printStackTrace();
-						Utils
-								.showException(
-										"Plase report this error with descriptions of how to generate it",
-										_cont);
+						Utils.showException(
+								"Plase report this error with descriptions of how to generate it",
+								_cont);
 					}
 				}
 			});
-
 			TextView tvMessage = (TextView) newDatabaseDialog
 					.findViewById(R.id.newMessage);
 			tvMessage.setText(getText(R.string.Database));
