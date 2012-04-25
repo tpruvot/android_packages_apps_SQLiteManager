@@ -1,26 +1,30 @@
 Working on
+
+ToDo / unsorted list of ideas for coming development
+	Integrate with DropBox
+		https://www.dropbox.com/developers/reference/sdk
+	Encryption of databases
+		https://guardianproject.info/code/sqlcipher/
 	Build in root access to system databases (from aShell and experimental)
 		from next version??
 	Change in orientation with open dialogues must be taken care of
-
-ToDo / ideas for coming development
 	Delete field in Create table wizard
 	Searching
 	Select where to save export / dump
 	Select file to restore / load
-	Create View wizards
+	Create view wizards
 	Alter table wizard
 	Compress SQL wines.name -> t1.name in resulting SQL not on lists
 	Sort data / query results by clicking on title
 	Better horizontal scrolling
 	"Tab" view / show active tab
 	Scripts editor?
-	When creating new database: select path with file browser!
 	Save/Load multiple Queries in/from a file
-	A tip pop up window to show information at different places in the program
-		must include a do not show again at message level 
 
 Done
+	When creating new database: select path with file browser!
+	A tip pop up window to show information at different places in the program
+		must include a do not show again at message level 
 	Create Table wizards
 	Recent database files
 	Data entry and editing form use editing button at each row

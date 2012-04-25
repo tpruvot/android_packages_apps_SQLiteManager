@@ -3,11 +3,9 @@ Download binaries here: http://market.android.com/details?pub=Andsen
 Next version:
 	Select where to create a new database using a directory picker
 	You get tips about what is possible in the different parts of the program
-	
 	Foreign key selection lists now show a string representation of the records
 		not just the FK fields. The field that the foreign key refers to MUST be 
-		the primary key in the referenced table (is this right???)
-	
+		the primary key in the referenced table (is this right?)
 	Corrections of the French translation (was by my mistake included in 
 		version 3.1)
 	Bug fixes (show table info with no valid database open, test for valid or empty FK
