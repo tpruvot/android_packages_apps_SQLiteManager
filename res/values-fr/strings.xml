@@ -32,8 +32,8 @@
     <string name="DBQuery">Requête</string>
     <string name="Run">Exécuter</string>
     <string name="DBFields">Champs</string>
-    <string name="PgUp">Précédent</string>
-    <string name="PgDn">Suivant</string>
+    <string name="PgUp">Préc.</string>
+    <string name="PgDn">Suiv.</string>
     <string name="Option">Options</string>
     <string name="Help">Aide</string>
     <string name="HelpHeader">Aide sur aSQLiteManager</string>
@@ -199,11 +199,8 @@
     <string name="IndexDefCopied">Définition de l\'index copiée dans le presse papier</string>
     <string name="DescAutoIncError">DESC et AutoInc ne doivent pas être utilisés de paire même si le manuel stipule le contraire.</string>
 
-<!-- Untranslated from here -->
+    <string name="Translation">Traduction française par Jean-Luc Rostini + Nicolas Gourdon</string>
 
-    <string name="Translation">Traduction française par Jean-Luc Rostini</string>
         
-    <!-- Here write what is new in this version -->
-
 
 </resources>

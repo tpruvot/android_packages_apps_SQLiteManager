@@ -172,16 +172,12 @@
     <!-- Translated to French to here -->
         
     <string name="NoRecentFiles">No recent files ;-(</string>
-        
     <string name="FontSizeText">Font size to use data list</string>
     <string name="FontSize">Font size</string>
     <string name="DefaultModeText">Default view in table viewer</string>
     <string name="DefaultMode">Default view</string>
     <string name="TableDef">Table def.</string>
     <string name="NewRec">New Rec.</string>
-
-    <!-- Translated to Danish to here -->
-    
     <string name="MainScreenInPortrait">Main screen in portrait</string>
     <string name="MainScreenInPortraitText">Always keep main screen in portrait (after restart)</string>
     <string name="FKLists">FK lists</string>
@@ -190,9 +186,6 @@
     <string name="SaveSQLText">Save SQL in database</string>
     <string name="ForeignKeys">Enable foreign keys</string>
     <string name="ForeignKeysText">Turn on foreign key constraints</string>
-        
-    <!-- Translated to German to here -->
-
     <!-- Common strings for Dialogs -->    
     <string name="DialogYes">Yes</string>
     <string name="DialogNo">No</string>
@@ -209,7 +202,10 @@
     <string name="NoDatabaseOpen">No valid database has been opened</string>
     <string name="InvalidOrEmptyFK">Foreign key invalid or empty</string>
     <string name="PlaceNewDBHere">Place new database here</string>
-        
+    <string name="NothingToInsert">Noting to insert!</string>
+    <string name="SelectFromList">Select from list</string>
+    <string name="SelectValue">Select value</string>
+    <string name="FKDefError">Both foreign key table and field must be specified""</string>
     <string name="Tip">Tip!</string>
     <string name="ShowTipAgain">Show this tip again?</string>
 		<string name="Tip1">From this main screen you can:
@@ -219,8 +215,8 @@
 			\nShow brief informations about aSQLiteManager
 			\n\nYou can also configure aSQLiteManager, show a list of implemented
 			functions and reset the configuration by hitting the Menu button.
-			\n\nAs aSQLIteManager is a SQLite front end it is only possible to with
-			the database what SQLite allows. This rules out nearly all changes to 
+			\n\nAs aSQLIteManager is a SQLite front end it is only possible to do with
+			the databases what SQLite allows. This rules out nearly all changes to 
 			table structure.</string>
 		<string name="Tip2">From query screen you can:
 			\n\nExecute any valid SQLite SQL statements.
@@ -244,11 +240,11 @@
 			</string>
 		<string name="Tip4">From table viewer you can:
 			\n\nSee the structure of the selected table
-			\nSee it data and page through the data (set the page size in configuration
+			\nSee its data and page through the data (set the page size in configuration
 			on main screen)
 			\nAdd new records (by using the "New" button or by tapping New cell in the
 			title row)
-			\nEdit a row by tapping Edit in the first row
+			\nEdit a row by tapping Edit in the first cell of the row
 			\nTo delete a record tap Edit and and use the Delete button
 			\n\nFrom the Menu you can:
 			\n\nJump to the first / last page
@@ -256,12 +252,18 @@
 			\nDump the table to a SQL script (located in the same catalog as the database)
 			\nSee the SQL needed to create the table. This can be copied to the clip board
 			by tapping the cell
-			</string>
+		</string>
 		    		    		    
     <!-- Place new text above here -->
     <string name="Translation">Translate aSQLiteManager to your language and get your name here</string>
 
+    <!-- Translated to Danish to here -->
+        
+    <!-- Translated to German to here -->
+
+        
     <!-- From here text changes in every version -->
+    
     <!-- List of functionality for help screen -->
     <string name="HelpText">
       Visit aSQLiteMagers\'s home page at:
@@ -274,7 +276,7 @@
       \nEasy deletion of tables, views and indexes
       \nForeign key constraint checking can be turned on
       \nEditing foreign key fields using selection list
-      \nOpen databases form aSQLiteManager or from file managers
+      \nOpen databases from aSQLiteManager or from file managers
       \nList tables, views and indexes
       \nDatabase info
       \nDisplay data from tables and views
@@ -301,7 +303,7 @@
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  SQLite manager / front end for Android devices.
       \n\nNew in this version (3.1):
-			\n\nGet table definitions mowed to option menu and replaced with “New” record button for easier data entry
+			\n\nGet table definitions moved to option menu and replaced with “New” record button for easier data entry
 			\n\nGo directly to favourite view in table viewer (Fields or Data)
 			\n\nConfigurable font size in data lists
 			\n\nEasy editing of databases located in a "Dropbox" folder

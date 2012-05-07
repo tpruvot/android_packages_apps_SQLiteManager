@@ -171,6 +171,83 @@
     <string name="TableDef">Tabel def.</string>
     <string name="NewRec">Ny rec.</string>
 
+
+    <string name="MainScreenInPortrait">Hoved skærm i portræt mode</string>
+    <string name="MainScreenInPortraitText">Hold altid hoved skærmen i portræt mode (efter genstart)</string>
+    <string name="FKLists">FK lister</string>
+    <string name="FKListsText">Brug lister til redigering af FK felter</string>
+    <string name="SaveSQL">Gæm SQL</string>
+    <string name="SaveSQLText">Gæm SQL i databasen</string>
+    <string name="ForeignKeys">Slå fremmednøgler til</string>
+    <string name="ForeignKeysText">Slå fremmednøgler constraints til</string>
+    <!-- Common strings for Dialogs -->    
+    <string name="DialogYes">Ja</string>
+    <string name="DialogNo">Nej</string>
+    <string name="DialogOK">OK</string>
+    <string name="DialogCancel">Fortryd</string>
+    <string name="DialogAgain">Igen</string>
+    <string name="DialogRetry">Prøv igen</string>
+    <!-- Dialog specific strings --> 
+    <string name="DialogSureResetAllSettingsTitle">Bemærk</string>
+    <string name="DialogSureResetAllSettingsMsg">Sikker på at du vil nulstille opsætningen?</string>
+    <!-- Toast Messages --> 
+    <string name="ToastResetedAllSettings">Alle egenskaber er nulstillet</string>
+    <string name="FilePickerChooseThisFolder">Vælg denne folder</string>
+    <string name="NoDatabaseOpen">Ingen valid database er åben</string>
+    <string name="InvalidOrEmptyFK">Fremmendnøgle forkert eller tom</string>
+    <string name="PlaceNewDBHere">Placer databasen her</string>
+    <string name="NothingToInsert">Intet at indsætte!</string>
+    <string name="SelectFromList">Vælg fra liste</string>
+    <string name="SelectValue">Vælg værdi</string>
+    <string name="FKDefError">Både fremmednøgle tabel og felt skal udfyldes</string>
+        
+    <string name="Tip">Tip!</string>
+    <string name="ShowTipAgain">Vis dette tip igen?</string>
+		<string name="Tip1">Her fra kan du:
+			\n\nÅbne eksisterende databaser placeret på sdKortet
+			\nOprette en ny database på sdKortet
+			\nÅbne en af dine sidst åbnede databaser
+			\nVise en kort information om aSQLiteManager
+			\n\nDu kan via menu knappen konfigurere aSQLiteManager, vise en liste af
+			implementerede funktioner og nulstille konfigurationen
+			\n\nDa aSQLiteManager er en SQLite grænseflade er det kun muligt at gøre
+			hvad SQLite tillader. Dette udelukker næsten alle ændringer af tabelstruktur
+			</string>
+		<string name="Tip2">Fra forespørgsels skærmen kan du:
+			\n\nEksekvere alle valide SQLite SQL kommandoer.
+			\n\nVia menuknappen er der adgang til en simpel SQL bygger. Denne kan
+			hjælpe med til at generere select, create, drop, delete og insert kommandoer.
+			\n\nResultatet af forespørgslerne kan eksporteres til tekst filer (placeret
+			samme sted som databasen).
+			\n\nDu kan også starte transaktioner, roll back og kommitte ændringer til
+			databasen.
+			\n\nKopier indholdet af dataceller til clip board ved at tappecellen.</string>
+		<string name="Tip3">Fra database skærmen kan du:
+			\n\nSe alle tabeller, views og indekser.
+			\n\nSlette tabeller, views og indekser ved at "long tappe" hvad du vil slette.
+			Det er ikke muligt, at slette SQLietes autogenerede indexer.
+			\n\nFra Menu knappen har du adgang til:
+			\nExport og restore af databaser
+			\nÅbne filer med SQL kommandoer. Disse kan eksekveres linje for linje eller
+			hele script)
+			\nInfo om den åbne database og
+			\nEn "Ny table" wizard der kan guide dig gennem det at oprette tabeller
+			</string>
+		<string name="Tip4">Fra tabel vieweren kan du:
+			\n\nSe strukturen af den valgte tabel
+			\nSe dens data og bladre gennem data (sæt sidestørrelsen i configurationen)
+			\nTilføj nye data (ved at trykke på "Ny" knappen eller ved at tappe på
+			"Ny" cellen i overskriften)
+			\nRediger en række ved at tappe "Rediger" i første celle af rækken
+			\nSlet en record ved at tapp "Rediger" og derefter "Slet" knappen
+			\n\nFra menuen kan du:
+			\n\nGå til første / sidste side
+			\nTilføje et simpelt filer til data
+			\nDumpe tabellen til et SQL script (placeret i samme katalog som databasen)
+			\nSe den SQL der er brugt til at oprette tabellen. Denne kan kopieres til
+			"clip board" ved at tappe cellen
+		</string>
+        
     <!-- From here text changes in every version -->
         
     <string name="HelpText">

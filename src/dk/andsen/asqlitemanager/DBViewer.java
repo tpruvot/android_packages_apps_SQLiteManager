@@ -199,7 +199,8 @@ public class DBViewer extends Activity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		Utils.logD("DBViewer onDestroy", logging);
-		database.close();
+		if (database != null)
+			database.close();
 		super.onDestroy();
 	}
 
@@ -562,8 +563,13 @@ public class DBViewer extends Activity implements OnClickListener {
 						int iType = fSPType.getSelectedItemPosition();
 						String stype = type[iType];
 						Utils.logD("Field type = " + stype, logging);
-						//Check for name and type not null
-						if (!fName.getEditableText().toString().trim().equals("") 
+						//Check for name and type not null, FK field and table both set or both unset
+						boolean fkCheck = true;
+						if ((fFKFie.getText().toString().trim().equals("") && !fFKTab.getText().toString().trim().equals(""))
+								|| (!fFKFie.getText().toString().trim().equals("") && fFKTab.getText().toString().trim().equals(""))) {
+							fkCheck = false;
+						}
+						if (!fName.getEditableText().toString().trim().equals("")  && (fkCheck) 
 								&& (!(fAutoInc.isChecked() && fDesc.isChecked()))) {
 							boolean forceType = false;
 							// Build the sql for the field
@@ -655,6 +661,11 @@ public class DBViewer extends Activity implements OnClickListener {
 								getText(R.string.DescAutoIncError).toString();
 								msg += "\n" + getText(R.string.DescAutoIncError).toString();
 							}
+							if (!fkCheck) {
+								Utils.logD("FK check fail", logging);
+								getText(R.string.FKDefError).toString();
+								msg += "\n" + getText(R.string.FKDefError).toString();
+							}
 							Utils.showMessage(getText(R.string.Error).toString(),
 									msg, _cont);
 						}
@@ -671,6 +682,8 @@ public class DBViewer extends Activity implements OnClickListener {
 		newTabOk.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// build create table SQL if enough informations
+				//TODO ad more checking here e.g. if foreign keys are specified both table and 
+				// field must be specified
 				if (!(newTabTabName.getEditableText().toString().equals(""))
 						&& (fldList.size() > 0)) {
 					String sql = "create table ["

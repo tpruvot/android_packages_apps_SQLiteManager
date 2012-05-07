@@ -64,6 +64,7 @@ public class TableViewer extends Activity implements OnClickListener {
 	private static final int MENU_TABLE_DEF = 4;
 	private boolean logging;
 	private int _fontSize;
+	protected String _order = "";
 	
 	/*
 	 * What is needed to allow editing form  table viewer 
@@ -722,6 +723,13 @@ public class TableViewer extends Activity implements OnClickListener {
 			c.setTextAppearance(this, Typeface.BOLD);
 			c.setText(titles[i]);
 			c.setPadding(3, 3, 3, 3);
+			c.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					_order  = ((TextView) v).getText().toString();
+					Utils.logD("Sort by " + _order, logging);
+				}
+			});
 			row.addView(c);
 		}
 		table.addView(row, new TableLayout.LayoutParams());

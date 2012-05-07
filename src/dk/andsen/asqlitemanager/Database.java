@@ -1466,22 +1466,30 @@ public class Database {
 			}
 				//sql += "'" + fld.getName() + "', ";
 		}
-		strFields = strFields.substring(0, strFields.length() - 2);
-		strValues = strValues.substring(0, strValues.length() - 2);
-		// remove last ,
-		//sql = sql.substring(0, sql.length() - 2) + ") values (";
-//		for (TableField fld: fields) {
-//			sql += quoteStrings(fld) + ", ";
-//		}
-//		sql = sql.substring(0, sql.length() - 2) + ")";
-		sql += strFields + ") values (" + strValues + ")";
-		Utils.logD("Insert SQL = " + sql, logging);
-		try {
-			_db.execSQL(sql);
-		} catch (Exception e) {
-			Utils.showMessage("Error", e.getLocalizedMessage(), cont);
-			Utils.logE(e.getMessage(), logging);
-			Utils.printStackTrace(e, logging);
+		// Something to update?
+		if(strFields.length() < 2) {
+			Utils.showMessage(_cont.getText(R.string.Error).toString(),
+					cont.getText(R.string.NothingToInsert).toString(), cont);
+		} else {
+			if (strFields.length() > 1)
+				strFields = strFields.substring(0, strFields.length() - 2);
+			if (strValues .length() > 1)
+				strValues = strValues.substring(0, strValues.length() - 2);
+			// remove last ,
+			//sql = sql.substring(0, sql.length() - 2) + ") values (";
+//			for (TableField fld: fields) {
+//				sql += quoteStrings(fld) + ", ";
+//			}
+//			sql = sql.substring(0, sql.length() - 2) + ")";
+			sql += strFields + ") values (" + strValues + ")";
+			Utils.logD("Insert SQL = " + sql, logging);
+			try {
+				_db.execSQL(sql);
+			} catch (Exception e) {
+				Utils.showMessage("Error", e.getLocalizedMessage(), cont);
+				Utils.logE(e.getMessage(), logging);
+				Utils.printStackTrace(e, logging);
+			}
 		}
 	}
 

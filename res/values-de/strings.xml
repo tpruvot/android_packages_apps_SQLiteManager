@@ -170,12 +170,13 @@
     <string name="IndexDefCopied">Indexdefinition in Zwischenablage übernommen</string>
     <string name="DescAutoIncError">DESC und AutoInc dürfen nicht beide angehakt sein, auch wenn das Handbuch was anderes sagt!</string>
     <string name="NoRecentFiles">keine kürzlich geöffneten Dateien ;-(</string>
-    <string name="FontSizeText">Zeichengröße in der Datenliste</string>
-    <string name="FontSize">Zeichengröße</string>
-    <string name="DefaultModeText">Standard-Ansicht für Tabelle</string>
-    <string name="DefaultMode">Standard-Ansicht</string>
-    <string name="TableDef">Table def.</string>
-    <string name="NewRec">New Rec.</string>
+
+    <string name="FontSizeText">Zeichengröße in Datenliste</string>
+		<string name="FontSize">Zeichengröße</string>
+		<string name="DefaultModeText">Standardansicht in Tabellenanzeige</string>
+		<string name="DefaultMode">Standardansicht</string>
+		<string name="TableDef">Tabellendef.</string>
+		<string name="NewRec">Neuer Satz</string>
     <string name="MainScreenInPortrait">Hauptfenster im Hochformat</string>
     <string name="MainScreenInPortraitText">Hauptfenster immer im Hochformat (nach Neustart)</string>
     <string name="FKLists">FK Listen</string>
@@ -184,56 +185,124 @@
     <string name="SaveSQLText">Speichere SQL in Datenbank</string>
     <string name="ForeignKeys">Aktiviere Fremdschlüssel</string>
     <string name="ForeignKeysText">Aktiviere Bedingungen für Fremdschlüssel</string>
-    
-    
-    <string name="Translation">Translate to german by Denis Dogan</string>
+		<!-- Common strings for Dialogs -->
+		<string name="DialogYes">Ja</string>
+		<string name="DialogNo">Nein</string>
+		<string name="DialogOK">OK</string>
+		<string name="DialogCancel">Abbrechen</string>
+		<string name="DialogAgain">Nochmals</string>
+		<string name="DialogRetry">Wiederholen</string>
+		<!-- Dialog specific strings -->
+		<string name="DialogSureResetAllSettingsTitle">Achtung</string>
+		<string name="DialogSureResetAllSettingsMsg">Willst du wirklich alle Voreinstellungen zurücksetzen</string>
+		<!-- Toast Messages -->
+		<string name="ToastResetedAllSettings">Alle Voreinstellungen wurden auf Standardwerte zurückgesetzt</string>
+		<string name="FilePickerChooseThisFolder">Wähle diesen Ordner</string>
+		<string name="NoDatabaseOpen">Keine gültige Datenbank geöffnet</string>
+		<string name="Tip">Tipp</string>
+		<string name="ShowTipAgain">Diesen Tipp nochmals anzeigen?</string>
+		<string name="Tip1">Aus diesen Hauptfenster heraus kannst du:
+			\n\nÖffnen einer bestehenden Datenbank auf der SD-Karte
+			\nErstellen einer neuen Datenbank auf der SD-Karte
+			\nÖffnen einer häufig verwendeten Datenbank 
+			\nAnzeige kurzer Informationen über aSQLiteManager
+			\n\nDu kannst aSQLiteManager auch konfigurieren, zeige die Liste der implementierten
+			Funktionen an und setze die Konfiguration durch Betätigen des Menu-Taste zurück
+			\n\nDa aSQLiteManager ein SQLite-Front-End ist, ist nur das möglich, 
+			was SQLite erlaubt. Das schließt fast alle Änderungen an der
+			 Datenbankstruktur aus.</string>
+		<string name="Tip2">Aus dem Abfragefenster kannst du:
+			\n\nJede gültige SQLite SQL-Anweisung ausführen
+			\n\nMit der Menu-Taste hast du Zugriff auf einen einfachen SQL-Erzeuger. Der kann
+			beim Erstellen von select, create, drop, delete und insert Anweisungen helfen.
+			\n\nAbfrageergebnisse können in Textdateien exportiert werden (gespeichert 
+			im selben Verzeichnis wie die Datenbank).
+			\n\nFür Transaktionen gibt es start, roll back und commit, um Daten zu verändern.
+			\n\nUm den Inhalt einer Datenzelle in die Zwischenablage zu kopieren, tippe auf die Zelle
+		</string>
+		<string name="Tip3">Aus dem Datenbankfenster kannst du:
+			\n\nAlle Tabellen, Views und Indizes sehen
+			\n\nTabellen, Views und Indizes löschen durch „langes“ Antippen des zu löschenden Objektes.
+			Es ist nicht möglich, SQLite\'s automatisch generierte Indizes zu löschen
+			\n\nMit der Menu-Taste hast du Zugriff auf:
+			\nExport und Rückladen von Datenbanken
+			\nÖffnen von Dateien, die SQL-Anweisungen enthalten (diese können zeilenweise ausgeführt werden)
+			\nInformationen über die aktuelle Datenbank und
+			\nein Assistent für neue Tabellen, der einen bei der Definition einer neuen Tabelle unterstützt
+		</string>
+		<string name="Tip4">Aus der Tabellen-Anzeige heraus kannst du:
+			\n\nAnzeigen der Struktur der ausgewählten Tabelle
+			\nDie Daten anzeigen und seitenweise durch die Daten blättern (die Seitengröße kann in der 
+			Konfiguration im Hauptfenster gesetzt werden)
+			\nEinen neuen Datensatz anfügen (durch Betätigen der Neu-Taste oder durch Antippen von  
+			„Neue Zelle“ in der Titelzeile)
+			\nEditiere eine Zeile durch Antippen von „Editieren“ in der ersten Spalte
+			\nUm einen Datensatz zu löschen, drücke Edit und benutze die Löschen-Taste
+			\n\nAus dem Menu kannst du:
+			\n\nZur ersten / letzten Seite springen
+			\nEinen einfachen Datenfilter hinzufügen
+			\nAusgabe des Tabelleninhalts in ein SQL-Skript (gespeichert im gleichen Verzeichnis wie die Datenbank)
+			\nAnzeigen der SQL-Anweisung, mit der die Tabelle erzeugt wird. Diese kann in die Zwischenablage
+			kopiert werden durch Antippen der Zelle
+		</string>
+		
+		<!-- Place new text above here -->
+		<string name="Translation">Übersetzte aSQLiteManager in deine Sprache und finde deinen Namen hier</string>
 
     <!-- From here text changes in every version -->
-        
-    <string name="HelpText">
-      Besuchen Sie aSQLiteManagers\'s Heimatseite auf:
-      \nhttp://aaa.andsen.dk/aSQLiteManager.html
-      \num eine komplette Liste der Funktionalitäten zu erhalten, welche 
-      \nvon aSQLiteManager unterstützt werden.
-      \n\nSenden Sie Kommentare, Fehlerberichte und Vorschläge an:
-      \nandroid41cv@gmail.com
-      \n\n
-      \nEin Datenbanktool um Tabellen, Datenbankviews und Abfragen
-      \nzu erstellen, zu bearbeiten, zu verwalten und zu löschen.
-      \nFremdschlüsselzwang möglich.
-      \nFremdschlüsselfelder über Auswahlliste.
-      \nÖffnen Sie Datenbanken über aSQLiteManager oder 
-      \nüber Dateimanager Ihrer Wahl.
-      \nAnzeigen von Tabellen, Datenbankviews und Indizes
-      \nDatendank Info
-      \nDarstellen von Daten der Tabellen oder Views
-      \nFelder in der Tabellenansicht sind je nach Datentyp eingefärbt.
-      \nDa SQLite keine Felddatentypvalidierung hat, kann der entgültige
-      \nFelddatentyp sich von dem Datentyp unterscheiden der mit dem \'create 
-      \ntable\'-Statement mitgegeben wird.
-      \nDatenbearbeitung und -Löschung über den Tabellenbrowser.
-      \nSie können dort Zeile für Zeile bearbeiten über die 
-      \n1. Spalte (blau) mit "Neu" und in der jeweiligen Spalte über 
-      \n"Edit".
-      \nFühren Sie jedes SQL-Statement aus, \'Drop\' und \'Create\' 
-      \neingeschlossen.
-      \nUnterstützung für BLOB Felder (Ausser beim Bearbeiten)
-      \nUnterstützt \'Begin transaction\', \'Commit\' und \'Rollback\'
-      \nGanze Zeilen können in die Zwischenablage gelegt werden.
-      \nUnterstützt Tabellen- und Spaltennamen mit Leerzeichen.
-      \nSpeichert alle ausgeführten Statements in der geöffneten 
-      \nDatenbank in einer Table \'aSQLiteManager\' (Standard:ausgeschaltet)
-      \nBereits eingegebene SQL-Statements können in der Abfrageansicht
-      \nbequem wieder aufgerufen werden.
-      \nExport und Import der Datenbank als SQL-Skript möglich.
-      \nDumpen einer Tabelle aus der Tabellenansicht in Datei 
-      \n\'Database.Table.sql\' -> Kann als Skript ausgeführt werden.
-      \nExport von Abfrageergebnissen als ASCII Datei.
-      \nAusführen von SQL-Skripte, Volle Skripte oder einzelne Zeilen.
-      \nMerkt sich kürzlich geöffnete Datenbanken für
-      \nschnellen Zugriff auf oft verwendete Datenbanken.
-      \nVerwendung von \'aShell\' (Beta) zur Bearbeitung von System-
-      \ndatenbanken auf gerooteten Geräten
-      \n\nMartin
-    </string>
+		
+		<!-- Here write what is new in this version -->
+		<string name="WelcomeMsg">aSQLiteManager ist ein freier Open Source SQLite Manager / Frontend für Android-Geräte
+			SQLite Manager / Frontend für Android-Geräte.
+			\n\nNeu in dieser Version (3.1):
+			\n\nTaste „Tabellendef.“ verschoben ins Options-Menu und ersetzt durch Taste „Neu“ zum Erzeugen eines neuen Datensatzes für einfachere Dateneingabe
+			\n\nSpringe direkt zu favorisierten Ansicht in Tabellenanzeige (Felder oder Daten)
+			\n\nKonfigurierbare Schriftgröße in Datenlisten
+			\nE\ninfaches Editieren von Datenbanken, die in „Dropbox“-Verzeichnis gespeichert sind
+			\n\nOptimierte Datenbankzugriff
+			\n\nFehlerbehebung
+			\n\nEine Beschreibung alles Funktionalitäten findest du auf:
+			\naaa.andsen.dk/aSQLiteManager.html 
+			\n\nKommentatre, Fehlerhinweise und Funktionsvorschläge sind willkommen.
+			Schickt mir eine Mail an:
+			\nandroid41cv@gmail.com 
+			\n\nEin Dank an alle von Euch, die mir Fehlerbeschreibungen schicken statt zu jammern ;-)
+			\n\nIch hoffe, Ihr mögt die App!
+			\n\nMartin
+		</string>
+
+		<!-- List of functionality for help screen -->
+		<string name="HelpText">
+			Besuche aSQLiteManager\'s Homepage unter:
+			\nhttp://aaa.andsen.dk/aSQLiteManager.html 
+			\num ein vollständiges Verzeichnis der von aSQLiteManager unterstützten Funktionen.
+			\n\nDu kannst Kommentare, Fehlermeldungen und Funktionsanforderungen an mich schicken:
+			\n\nandroid41cv@gmail.com 
+			\n\n\n
+			\nEin Tool zum einfachen Erstellen von Datenbanktabellen
+			\nEinfaches Löschen von Tabellen, Ansichten und Indizes
+			\nPrüfung von Fremdschlüssel-Bedingungen kann eingeschaltet werden
+			\nFelder mit Fremdschlüssel können als Auswahlliste editiert werden
+			\nÖffnen einer Datenbank aus aSQLiteManager oder aus Dateimanager
+			\nAuflisten von Tabellen, Ansichten und Indizes
+			\nDatenbank-Information
+			\nAnzeigen von Daten aus Tabellen und Ansichten
+			\nFelder in Tabellenansicht sind in Abhängigkeit von Typ des Feldes eingefärbt. Da SQLite keine Feldtypen-Prüfung enthält, kann der Feldtyp abweichend vom Typ aus der Create-Table-Anweisung sein
+			\nDaten editieren oder löschen mittels Bearb.-Bezeichner in jeder Zeile des Datenbrowsers
+			\nNeuen Datensatz mittels Taste „Neu“ in der Titelzeile des Datenbrowsers
+			\nAusführen von beliebigen SQLeinschließlich \'Drop\' und \'Create\'-Anweisungen
+			\nUnterstützung von BLOB-Feldern (außer im Editieren)
+			\nUnterstützt \'Begin transaction\', \'Commit\' und \'Rollback\'
+			\nKopieren einer Zelle in die Zwischenablage durch Antippen
+			\nUnterstützt Tabellen- und Feldnamen mit Leerzeichen
+			\nSpeichert alle ausgeführten Anweisungen in der geöffneten Datenbank in einer Tabelle namens aSQLiteManager (standardmäßig abgeschaltet)
+			\nAuswahl von SQL-Anweisungen aus Verlaufs-Liste in Abfragefenster
+			\nExportiere Datenbank in SQL-Skript und Rückladen von Datenbanken aus SQL-Skripten
+			\nAusgabe von Tabelleninhalten aus Tabellenansicht in eine Datei namens Database.Table.sql , die geladen werden kann, indem sie als Skript ausgeführt wird
+			\nExportieren von Abfrage-Ergebnisse in ASCII-Datei
+			\nAusführen von SQL Skripten, komplett oder zeilenweise
+			\nSpeichert die zuletzt geöffneten Datenbanken für den schnellen Zugriff auf häufig benötigte
+			\nVerwendet aShell (Beta) um Systemdatenbank auf gerooteten Geräten zu editieren
+			\n\nMartin
+		</string>
 </resources>

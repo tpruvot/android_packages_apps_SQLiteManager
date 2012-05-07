@@ -5,11 +5,19 @@ Next version:
 	You get tips about what is possible in the different parts of the program
 	Foreign key selection lists now show a string representation of the records
 		not just the FK fields. The field that the foreign key refers to MUST be 
-		the primary key in the referenced table (is this right?)
+		the primary key in the referenced table
+	More checking in create table wizard
 	Corrections of the French translation (was by my mistake included in 
 		version 3.1)
-	Bug fixes (show table info with no valid database open, test for valid or empty FK
-		definition)
+	Bug fixes (hopefully solved)
+		java.lang.StringIndexOutOfBoundsException:
+			at dk.andsen.asqlitemanager.Database.insertRecord(Database.java:1471
+		java.lang.NullPointerException
+			at dk.andsen.asqlitemanager.DBViewer.onClick (DBViewer.java:377)
+		java.lang.NullPointerException
+			at dk.andsen.asqlitemanager.DBViewer.onDestroy(DBViewer.java:201)
+		show table info with no valid database open, test for valid or empty FK
+			definition)
 	
 Version (3.1):
 	Go directly to favorite view in table viewer (Fields, SQL or Data)

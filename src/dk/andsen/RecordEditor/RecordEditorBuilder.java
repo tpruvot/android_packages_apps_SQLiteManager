@@ -89,6 +89,7 @@ public class RecordEditorBuilder {
 					// Editing using selection list
 					Utils.logD("Uses list of FK for " + fields[i].getName() + " " + 
 							fields[i].getForeignKey(), logging);
+					//TODO should set lists to current value of field - add null to list
 					ll = buildFKList(fields[i], lineIdBase +i, idBase + i);
 				} else {
 					// Normal input field based on type of field 
@@ -270,12 +271,12 @@ public class RecordEditorBuilder {
 		ets.setId(id);
 		ll.addView(ets);
 		final Button btn = new Button(_cont);
-		btn.setText("Select from list");
+		btn.setText(_cont.getText(R.string.SelectFromList));
 		btn.setId(id);
 		btn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 			  new AlertDialog.Builder(_cont)
-			  .setTitle("Select value")
+			  .setTitle(_cont.getText(R.string.SelectValue))
 			  .setAdapter(adapter, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int which) {
 			    	Utils.logD("Item pressed:" + which, logging);
