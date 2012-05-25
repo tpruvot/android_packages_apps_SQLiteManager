@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--β-->
+    <string name="Version">Versión</string>
+    <string name="hello">aSQLiteManager</string>
+    <string name="app_name">aSQLiteManager</string>
+    <string name="AboutHeader">Acerca de aSQLiteManager</string>
+    <string name="AboutText">Andsens SQLite manager. Administra tus bases de datos Android</string>
+    <string name="WWW">Busca actualizaciones en:\nhttp://asqlitemanager.sourceforge.net</string>
+    <string name="AAA">Lee más sobre aSQLiteManager en:\nhttp://aaa.andsen.dk/aSQLiteManager.html</string>
+    <string name="MAIL">Comentarios bienvenidos a:\nandroid41cv@gmail.com</string>
+    <string name="OpdenDB">Abrir Base de Datos</string>
+    <string name="About">Acerca de</string>
+    <string name="Location">Ubicación</string>
+    <string name="View">Ver</string>
+    <string name="Yes">Sí</string>
+    <string name="No">No</string>
+    <string name="DBTables">Tablas</string>
+    <string name="DBViews">Vistas</string>
+    <string name="DBIndexs">Índices</string>
+    <string name="DBTable">Tabla</string>
+    <string name="DBView">Vista</string>
+    <string name="DBIndex">Índice</string>
+    <string name="DBField">Campo</string>
+    <string name="DBData">Datos</string>
+    <string name="DBSQL">SQL</string>
+    <string name="OpenDatabase">Abrir base de datos</string>
+    <string name="NoSDCard">Tarjeta SD no disponible</string>
+    <string name="OK">OK</string>
+    <string name="Path">Ruta:</string>
+    <string name="Database">Base de datos</string>
+    <string name="DBQuery">Consulta</string>
+    <string name="Run">Ejecutar</string>
+    <string name="DBFields">Campos</string>
+    <string name="PgUp">RePág</string>
+    <string name="PgDn">AvPág</string>
+    <string name="Option">Opciones</string>
+    <string name="Help">Ayuda</string>
+    <string name="HelpHeader">Ayuda aSQLiteManager</string>
+    <string name="PageSize">Tamaño de página</string>
+    <string name="PressMenuSQL">Pulsa menú para construir SQL</string>
+    <string name="PageSizeText">Núm. de páginas a devolver cuando se paginen datos</string>
+    <string name="Open">Abrir</string>
+    <string name="NoResult">Sin resultado</string>
+    <string name="NewDB">Nueva base de datos</string>
+    <string name="NewDBSDCard">Nueva base de datos en SD</string>
+    <string name="NewDBPath">Ruta a la nueva base de datos</string>
+    <string name="AutoIndex">SQLite no guarda definiciones de auto índice</string>
+    <string name="Message">Mensaje</string>
+    <string name="Error">Error</string>
+    <string name="NoFileName">Al menos debes dar un nombre</string>
+    <string name="DBQueryType">Tipo de Consulta</string>
+    <string name="OnClickedMess">Pulsaste en esta base de datos SQLite:</string>
+    <string name="OnClickedOpen">Abrir base de datos con\naSQLiteManager</string>
+    <string name="RecentSQL">SQL recientes</string>
+    <string name="Transaction">Transacción</string>
+    <string name="BeginTransaction">Comenzar transacción</string>
+    <string name="Commit">Commit</string>
+    <string name="Rollback">Rollback</string>
+    <string name="InTransaction">En transacción</string>
+    <string name="UpdatesCommitted">Actualizaciones hechas Commit</string>
+    <string name="UpdatesRolledback">Actualizaciones  hechas Rollback</string>
+    <string name="NothingToRolledback">Nada para hacer Rollback</string>
+    <string name="NothingToCommit">Nada para hacer Commit</string>
+    <string name="IsNotADatabase">no es una base de datos</string>
+    <string name="Export">Exportar base de datos</string>
+    <string name="Restore">Restaurar base de daots</string>
+    <string name="Cancel">Cancelar</string>
+    <string name="ExportData">Exportar</string>
+    <string name="NoExportToRestore">No hay exportación para restaurar</string>
+    <string name="AlwaysJustOpen">Abrir siempre base de datos</string>
+    <string name="Reset">Reset</string>
+    <string name="OpenSQL">Abrir archivo SQL</string>
+    <string name="Working">Trabajando</string>
+    <string name="ReadingScript">Leyendo script</string>
+    <string name="ExecuteStatement">Ejecutar sentencia</string>
+    <string name="MustNotBeEmpty">Debe no estar vacío</string>
+    <string name="ShowAtStartUp">Mostrar bienvenida al inicio</string>
+    <string name="Welcome">Bienvenido a aSQLiteManager</string>
+    <string name="DumpTable">Volcar tabla</string>
+    <string name="TableDumpep">Tabla %s volcada</string>
+    <string name="DumpFailed">¡Ups! falló el volcado</string>
+    <string name="ErrorNothingToExport">¡Nada para exportar!</string>
+    <string name="DataExported">Datos exportados</string>
+    <string name="DataBaseExported">Base de datos exportada</string>
+    <string name="DataBaseRestored">Base de datos restaurada</string>
+    <string name="Patience">Paciencia - podría tardar un poco</string>
+    <string name="Recently">Abierto recientemente</string>
+    <string name="RecentlyTxt">Núm. de bases de datos abiertas recientemente para guardar</string>
+    <string name="ROSystemTable">sqlite_master tabla de sólo lectura del sistema</string>
+    <string name="CouldNotCreate">No se pudo crear:</string>
+    <string name="SystemFolder">Carpeta del sistema</string>
+    <string name="SystemFolderText">Si tu teléfono está rooteado puedes editar las bases de datos del sistema con aSQLiteManager usando aShell</string>
+    <string name="DBInfo">Info de BD</string>
+    <string name="DatabaseInfo">Info de base de datos.</string>
+    <string name="DatabaseExists">ya existe!</string>
+		<string name="RateMsg">
+			Ya has usado aSQLiteManager durante más de una semana y al menos 10 veces.
+			\nSi te gusta, por favor apóyalo con una buena puntuación.
+			\nTambíen puedes donar una pequeña cantidad de dinero (desde la página
+			principal). Se usará para mejorar el programa.
+			\n¡Gracias por tu apoyo!</string>
+		<string name="Rate">Puntúa</string>
+		<string name="Later">La próxima vez</string>
+		<string name="NoThanks">Ya lo he hecho</string>
+		<string name="EditDeleteRow">Editar o eliminar esta fila#</string>
+		<string name="Delete">Eliminar</string>
+		<string name="CopiedToClipboard">Texto copiado al portapapeles</string>
+		<string name="InsertNewRow">Insertar nueva fila</string>
+		<string name="EditRow">Editar fila</string>
+		<string name="Edit">Editar</string>
+		<string name="New">Nueva</string>
+		<string name="First">Primera</string>
+		<string name="Last">Última</string>
+		<string name="Filter">Filtro</string>
+		<string name="EnterWhere">Introduce cláusula Where (sin el Where)</string>
+		<string name="StrangeErr">Si puedes reproducir este error por favor indícame
+		    por email cómo hacerlo ;-)
+		    \nTambién puedes usar aLogViewer para extraer información extra
+		    del registro del sistema y ayudarme a saber qué ha pasado.</string>
+		<string name="NotAnArror">No es un error</string>
+		<string name="Normal">Normal</string>
+		<string name="Root">Root</string>
+    <string name="RootNeeded">Se necesita acceso Root</string>
+    <string name="RootWarning">No hay acceso Root</string>
+    <string name="EnterRoot">Entrando a un catálogo Root, ten cuidado:</string>
+    <string name="LeavingRoot">Saliendo de catálogo Root:</string>
+    <string name="RootEdit1">Quieres abrir una copia de</string>
+    <string name="RootEdit2">archivo de sistema?</string>
+    <string name="Warning">Atención</string>
+    <string name="CommitChanges">¿Hacer Commit de los cambios?</string>
+    <string name="CommitChangesTo">Hacer Commit a:</string>
+    <string name="OneMoreToExit">¡Pulsa una vez más para salir!</string>
+    <string name="FilterHint">Introducir filtro</string>
+    <string name="Clear">Limpiar</string>
+    <string name="EnterFilter">Introducir filtro</string>
+    <string name="SuShell">Ubicación del ejecutable su</string>
+    <string name="SuShellText">El ejecutable su puedes estar en diferentes lugares dentro o fuera de tu ruta</string>
+    <string name="PauseTitle">Pausa en mseg</string>
+    <string name="PauseText">Tiempo a esperar tras empezar a copiar la BD antes de abrirla</string>
+    <string name="RootNotFound">Binario Root no encontrado en la ubicación por defecto
+        (o el teléfono no es Root). Puedes especificar la ubicación del Root en la configuración.</string>
+    <string name="RootFilePickerTxt">Usar selecto de archivo de Root</string>
+    <string name="RootFilePickerMsg">Usar selector de archivo Root aShell para acceder a BD del sistema en teléfonos rooteados</string>
+    <string name="BasicConfiguration">Configuración básica</string>
+    <string name="SuperUserPreferences">Preferencias de Súper usuario - Experimental</string>
+    <string name="DebugPreferences">Depurando preferencias</string>
+    <string name="LoggingTitle">Registro</string>
+    <string name="LoggingText">Habilitar registro para recuperar información de depuración</string>
+    <string name="RootUseWarning">Editar BDs del sistema es experimental y potencialmente
+        peligroso - podrías eliminar datos.
+        \n\n¡No modifiques BDs a menos que sepas qué estás haciendo!
+        \n\n¡Ten cuidado!\n</string>
+    <string name="ShowRootWarning">Lo entiendo - deja de decírmelo</string>
+    <string name="CreateTable">Nueva Tabla</string>
+    <string name="AddField">Añadir Campor</string>
+    <string name="CreateField">Crear campo</string>
+    <string name="MustEnterFieldName">¡Debes introducir un nombre de campo!</string>
+    <string name="MustEnterTableNameAndOneField">¡Debes introducir un nombre de tabla y al menos un campo!</string>
+    <string name="SQLPreferences">Preferencias SQL</string>
+    <string name="CannotDeleteAutoIndex">No se puede eliminar índice auto generado</string>
+    <string name="DeleteIndex">Eliminar índice</string>
+    <string name="DeleteView">Eliminar vista</string>
+    <string name="DeleteTable">Eliminar tabla</string>
+    <string name="CannotDeleteSysTable">No se puede eliminar una tabla del sistema</string>
+    <string name="DropItem">¿Hacer Drop del elemento?</string>
+    <string name="IndexDefCopied">Definición de Índice copiada al portapapeles</string>
+    <string name="DescAutoIncError">DESC y AutoInc deben estar marcadas aunque el manual diga lo contrario</string>
+
+    <!-- Translated to French to here -->
+        
+    <string name="NoRecentFiles">No hay archivos recientes ;-(</string>
+    <string name="FontSizeText">Tamaño de fuentes a utilizar en lista de datos</string>
+    <string name="FontSize">Tamaño de fuente</string>
+    <string name="DefaultModeText">Vista por defecto en visor de tabla</string>
+    <string name="DefaultMode">Vista por defecto</string>
+    <string name="TableDef">Def. de tabla</string>
+    <string name="NewRec">Nuevo Reg.</string>
+    <string name="MainScreenInPortrait">Pantalla principal en orientación vertical</string>
+    <string name="MainScreenInPortraitText">Mantener siempre la pantalla principal en orientación vertical (tras reiniciar)</string>
+    <string name="FKLists">Listas de CF</string>
+    <string name="FKListsText">Usar listas cuando se editen campos de CF</string>
+    <string name="SaveSQL">Guardar SQL</string>
+    <string name="SaveSQLText">Guardar SQL en la BD</string>
+    <string name="ForeignKeys">Habilitar claves foráneas</string>
+    <string name="ForeignKeysText">Habilitar constraints de clave foránea</string>
+    <!-- Common strings for Dialogs -->    
+    <string name="DialogYes">Sí</string>
+    <string name="DialogNo">No</string>
+    <string name="DialogOK">OK</string>
+    <string name="DialogCancel">Cancelar</string>
+    <string name="DialogAgain">De nuevo</string>
+    <string name="DialogRetry">Reintentar</string>
+    <!-- Dialog specific strings --> 
+    <string name="DialogSureResetAllSettingsTitle">Atención</string>
+    <string name="DialogSureResetAllSettingsMsg">¿De verdad quieres restablecer todas las preferencias?</string>
+    <!-- Toast Messages --> 
+    <string name="ToastResetedAllSettings">Todas las preferencias restablecidas al valor por defecto</string>
+    <string name="FilePickerChooseThisFolder">Elegir esta carpeta</string>
+    <string name="NoDatabaseOpen">No se ha abierto ninguna BD válida</string>
+    <string name="InvalidOrEmptyFK">Clave foránea inválida o vacía</string>
+    <string name="PlaceNewDBHere">Coloca la nueva BD aquí</string>
+    <string name="NothingToInsert">Nada a insertar!</string>
+    <string name="SelectFromList">Elige de la lista</string>
+    <string name="SelectValue">Elige valor</string>
+    <string name="FKDefError">Se deben especificar tanto la clave foránea como la tabla""</string>
+    <string name="Tip">¡Consejo!</string>
+    <string name="ShowTipAgain">¿Mostrar este consejo de nuevo?</string>
+		<string name="Tip1">Desde esta pantalla principal puedes:
+			\n\nAbrir una BD existente ubicada en la tarjeta SD
+			\nCrear una nueva BD en la tarjeta SD
+			\nAbrir una de las BD usadas recientemente
+			\nVer una breve descripción de aSQLiteManager
+			\n\nTambién puedes configurar aSQLiteManager, ver una lista de funciones
+			implementadas y restablecer la configuración pulsando el botón Menú.
+			\n\nComo aSQLIteManager es un interfaz de SQLite sólo es posible trabajar con
+			BDs que SQLite permita. Esto excluye casi cualquier cambio a 
+			la estructura de tabla.</string>
+		<string name="Tip2">Desde la pantalla de consulta puedes:
+			\n\nEjecutar cualquier sentencia SQL que SQLite permita.
+			\n\nUsando el botón Menú tienes acceso a un sencillo constructor SQL. Este puede
+			ayudar a construir comandos Select, Create, Drop, Delete e Insert.
+			\n\nLos resultados de una Consulta se pueden exportar a archivos de texto (ubicados en el mismo catálogo
+			que la BD).
+			\n\nPuedes iniciar transacciones, hacer roll back y commit a cambios en datos.
+			\n\nPara copiar el contenido de una celda al portapapeles simplemente presiona esa
+			celda.</string>
+		<string name="Tip3">Desde la pantalla de Base de Datos puedes:
+			\n\nVer todas las tablas, vistas e índices.
+			\n\nEliminar tablas, vistas e índices haciendo una "pulsación larga" en el elemento que quieras
+			borrar. No es posible borrar índices SQLite generados automáticamente.
+			\n\nDesde el botón Menú tienes acceso a:
+			\nExportar y restaurar bases de datos
+			\nAbrir archivos que contengan comandos SQL (se puede ejecutar línea a línea todo el script)
+			\nInformación de la BD actual y
+			\nUn asistente de Nueva Tabla que te guiará en el proceso de creación
+			</string>
+		<string name="Tip4">Desde el visor de tablas puedes:
+			\n\nVer las estructura de la tabla seleccionada
+			\nVer sus datos y moverte por las páginas de datos (indica el tamaño de página en la configuración
+			en la pantalla principal)
+			\nAñadir nuevos registros (usando el botón "Nuevo" o pulsando Nueva celda en la
+			fila de título)
+			\nEditar una fila pulsando Editar en la primera celda de la fila
+			\nEliminar un registro pulsando el botón Eliminar
+			\n\nDesde el Menú puedes:
+			\n\nSaltar a la primera / última página
+			\nAñadir un filtro sencillo de datos
+			\nVolcar la tabla a un script SQL (ubicado en el mismo catálogo que la BD)
+			\nVer el SQL necesario para crear una tabla. Este se puede copiar al portapapeles
+			si pulsas la celda
+		</string>
+		    		    		    
+    <!-- Place new text above here -->
+    <string name="Translation">Traducido al español por Gonzalo Zeigon</string>
+
+    <!-- Translated to Danish to here -->
+        
+    <!-- Translated to German to here -->
+
+        
+    <!-- From here text changes in every version -->
+    
+    <!-- List of functionality for help screen -->
+    <string name="HelpText">
+      Visita la página de aSQLiteMagers\'s:
+      \nhttp://aaa.andsen.dk/aSQLiteManager.html
+      \nPara una lista completa de la funcionalidad soportada por aSQLiteManager. 
+      \n\nTambién puedes enviar comentarios, informes de errores y peticiones de funcionalidad a:
+      \nandroid41cv@gmail.com
+      \n\n
+      \nUna herramienta para crear bases de datos fácilmente
+      \nFácil borrado de tablas, vistas e índices
+      \nLa comprobación de constraints de claves foráneas se puede habilitar
+      \nEditar campos de clave foránea usando la lista
+      \nAbrir bases de datos desde aSQLiteManager o administradores del sistema
+      \nLista de tablas, vistas e índices
+      \nInformación de la base de datos
+      \nVer datos de tablas y vistas
+      \nLos campos en el visor de tablas se colorean basados en el tipo de campo. Como SQLite no tiene validación de tipo de campo, el campo puede diferir del tipo de campo especificado con la instrucción de creación de tabla
+      \nEdita y borra datos desde el visor de tablas en la etiqueta Editar de cada fila
+      \nAñade registros desde la etiqueta en el título en el visor de tablas
+      \nEjecuta cualquier instrucción SQL incluyendo \'Drop\' / \'Create\'
+      \nSoporte de campos tipo BLOB (excepto en edición)
+      \nSoporte de Inicio, Commit y Rollback de transacciones
+      \nCopia cualquier celda al portapapeles pulsando en ella
+      \nSoporte de nombres de campo y tablas con espacios
+      \nGuarda todos las instrucciones ejecutadas en la BD abierta en una tabla llamada aSQLiteManager (por defecto deshabilitado)
+      \nSelecciona del historial de SQL desde el campo de consultas
+      \nExporta BD a scripts SQL y restaura BD desde scripts
+      \nVuelca tablas desde una vista a una archivo llamado Database.Table.sql - el cual se puede ejecutar desde el selector de archivos
+      \nExporta resultados de consultas a archivos ASCII
+      \nEjecuta scripts SQL completos o líneas individuales
+      \nRecuerda las bases de datos abiertas recientemente para su rápido acceso
+      \nUsa aShell (Beta) para editar BD del sistema en dispositivos rooteados
+      \n\nMartin
+    </string>
+
+    <!-- Here write what is new in this version -->
+    <string name="WelcomeMsg">aSQLiteManager is a free open source
+  	  Administrador SQLite / interfaz para dispositivos Android.
+      \n\nNuevo en esta versión (3.1):
+			\n\nRecuperar definiciones de tabla movido a opción de menú y reemplazado con botón de "Nuevo" registro para acceso rápido
+			\n\nVe directamente a la vista favorita en el visor de tabla (Campos o Datos)
+			\n\nTamaño de fuente configurable en listas de datos
+			\n\nFácil edición de BD ubicadas en carpetas "Dropbox"
+			\n\nMejor manejo de las BDs
+			\n\nArreglo de errores
+       
+      \n\nPara una descripción de todas las características visita:
+      \naaa.andsen.dk/aSQLiteManager.html
+      \n\nComentarios, informes de error y peticiones son bienvenidas.
+      Sólo mándame un email a:
+      \nandroid41cv@gmail.com
+      \n\nY gracias a aquellos que informan sobre errores en lugar de quejarse ;-) 
+      \n\n¡Espero que disfrutes la aplicación!
+      \n\nMartin
+    </string>
+    
+</resources>

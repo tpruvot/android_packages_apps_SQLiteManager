@@ -203,7 +203,7 @@
     <string name="SelectValue">Seleziona valore</string>
     <string name="FKDefError">Sia la chiave esterna sia il campo devono essere specificati""</string>
     <string name="Tip">Suggerimento!</string>
-    <string name="ShowTipAgain">Visualizzare questo suggerimento di nuovo?</string>
+    <string name="ShowTipAgain">Visualizzare di nuovo questo suggerimento?</string>
 		<string name="Tip1"> Dalla schermata principale puoi:
 		    \n\nAprire un database posizionato su SD
 			\nCreare un nuovo database su SD
@@ -212,7 +212,7 @@
 			\n\nPuoi inoltre configurare aSQLiteManager, vedere una lista delle funzioni
 			implementate e ripristinare la configurazione attraverso il bottone Menu
 			\n\nEssendo aSQLiteManager un\'interfaccia SQLite è possibile fare sui database
-			solo quello che SQLie permette. Questo esclude quasi tutte le modifiche alla struttura 
+			solo quello che SQLite permette. Questo esclude quasi tutte le modifiche alla struttura 
 			della tabella.	</string>
 		<string name="Tip2">Dalla maschera delle query puoi:
 			\n\nEseguire qualsiasi istruzione SQL di SQLite
@@ -225,12 +225,12 @@
 		<string name="Tip3">Dalla maschera dei database puoi:
 			\n\nVedere tutte le tabelle, viste ed indici.
 			\n\nEliminare tabelle, viste ed indici con un "tap lungo" sull\'elemento che vuoi
-			 eliminare. Non è possibile cancellare gli indici create automaticamente da SQlite.
+			 eliminare. Non è possibile cancellare gli indici creati automaticamente da SQlite.
 			\n\nDal bottone Menu hai accesso a:
 			\nEsportazione e ripristino dei database
 			\nL\'apertura dei file contenenti comandi SQL (possono eseguiti script linea per linea)
 			\nInformazioni sul database e
-			\nUn nuovo wizard per le nuove tabelle che puoi aiutarti nelle creazione delle nuove tabelle
+			\nUn nuovo wizard per le nuove tabelle che può aiutarti nelle creazione delle nuove tabelle
 			</string>
 		<string name="Tip4">Dal visualizzatore delle tabelle puoi:
 			\n\nVedere la struttura della tabella selezionata
@@ -248,9 +248,16 @@
 			della cella
 		</string>
 		    		    		    
+    <!-- Place new text above here -->
     <string name="Translation">Traduzione italiana di Giuseppe Tumino
-    	http://play.google.com/store/search?q=pub:Giuseppe+Tumino</string>
+    	https://play.google.com/store/apps/developer?id=Giuseppe+Tumino</string>
 
+    <!-- Translated to Danish to here -->
+        
+    <!-- Translated to German to here -->
+
+        
+    <!-- From here text changes in every version -->
     
     <!-- List of functionality for help screen -->
     <string name="HelpText">
@@ -292,7 +299,7 @@
     <string name="WelcomeMsg">aSQLiteManager è un software libero open source
   	  SQLite manager / front end per dispositivi Android.
       \n\nNovità in questa versione (3.1):
-			\n\nVisualizzazione definizione tabella spostata nel menu opzioni e sostituita con il bottone "New" per un inserimento più rapido dei dati
+			\n\nVisualizzazione definizione tabella spostata nel menu opzioni e sostituita con il bottone "Nuovo" per un inserimento più rapido dei dati
 			\n\nAccesso diretto alle viste preferite nel visualizzatore di tabelle (Campi o Data)
 			\n\nDimensione font nella lista dati configurabile
 			\n\nVisualizzazione rapida dei database posizionati nella cartella "Dropbox"
