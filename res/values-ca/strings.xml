@@ -301,13 +301,18 @@
     <!-- Here write what is new in this version -->
     <string name="WelcomeMsg">aSQLiteManager és un gestor de SQLite
   	  de codi obert / front end for Android devices.
-      \n\nNew a this version (3.1):
-			\n\nGet taula definitions moved to option menu i replaced with “New” record button for easier les dades entry
-			\n\nGo directly to favourite vista a taula viewer (Fields o Data)
-			\n\nConfigurable font size a les dades lists
-			\n\nEasy editing of bases de dades located a a "Dropbox" carpeta
-			\n\nMillor gestió de la base de dades
-			\n\nBug fixes
+      \n\nNew a this version (3.2):
+			\n\n•	Select where to create a new database using a directory picker – thanks to Malte Heizelmann
+			\n•	You get tips about what is possible in the different parts of the program
+			\n•	Foreign key selection lists now show a string representation of the records not just the FK fields. The field that the foreign key refers to MUST be the primary key in the referenced table
+			\n•	More checking in create table wizard
+			\n•	Hopefully back on the French version of Google Play (I had placed an unfinished French translation in a wrong place)
+			\n•	French translation – thanks to Jean-Luc Rostini + Nicolas Gourdon
+			\n•	Italian translation – thanks to Giuseppe Tumino https://play.google.com/store/apps/developer?id=Giuseppe+Tumino
+			\n•	Catalan translation – thanks to Paco Rivière
+			\n•	Brazilian translation – thanks to Leandro Lopes
+			\n•	Spanish translation – thanks to Gonzalo Rodriguez
+			\n•	Several bug fixes – thanks for reporting!
        
       \n\nFor a description of all features check:
       \naaa.andsen.dk/aSQLiteManager.html

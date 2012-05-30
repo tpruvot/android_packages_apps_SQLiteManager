@@ -254,13 +254,20 @@
 		<!-- Here write what is new in this version -->
 		<string name="WelcomeMsg">aSQLiteManager ist ein freier Open Source SQLite Manager / Frontend für Android-Geräte
 			SQLite Manager / Frontend für Android-Geräte.
-			\n\nNeu in dieser Version (3.1):
-			\n\nTaste „Tabellendef.“ verschoben ins Options-Menu und ersetzt durch Taste „Neu“ zum Erzeugen eines neuen Datensatzes für einfachere Dateneingabe
-			\n\nSpringe direkt zu favorisierten Ansicht in Tabellenanzeige (Felder oder Daten)
-			\n\nKonfigurierbare Schriftgröße in Datenlisten
-			\nE\ninfaches Editieren von Datenbanken, die in „Dropbox“-Verzeichnis gespeichert sind
-			\n\nOptimierte Datenbankzugriff
-			\n\nFehlerbehebung
+			\n\nNeu in dieser Version (3.2):
+
+			\n\n•	Select where to create a new database using a directory picker – thanks to Malte Heizelmann
+			\n•	You get tips about what is possible in the different parts of the program
+			\n•	Foreign key selection lists now show a string representation of the records not just the FK fields. The field that the foreign key refers to MUST be the primary key in the referenced table
+			\n•	More checking in create table wizard
+			\n•	Hopefully back on the French version of Google Play (I had placed an unfinished French translation in a wrong place)
+			\n•	French translation – thanks to Jean-Luc Rostini + Nicolas Gourdon
+			\n•	Italian translation – thanks to Giuseppe Tumino https://play.google.com/store/apps/developer?id=Giuseppe+Tumino
+			\n•	Catalan translation – thanks to Paco Rivière
+			\n•	Brazilian translation – thanks to Leandro Lopes
+			\n•	Spanish translation – thanks to Gonzalo Rodriguez
+			\n•	Several bug fixes – thanks for reporting!
+
 			\n\nEine Beschreibung alles Funktionalitäten findest du auf:
 			\naaa.andsen.dk/aSQLiteManager.html 
 			\n\nKommentatre, Fehlerhinweise und Funktionsvorschläge sind willkommen.

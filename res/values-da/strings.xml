@@ -285,16 +285,18 @@
         		    
   	<string name="WelcomeMsg">aSQLiteManager er en gratis open source
       SQLite manager / front end til Android enheder.
-      \n\nNyt i denne version (3.1):
-
-			\n\nTabel definitions flyttet til option menu og erstattet
-			med "Ny record" for lettere inddatering
-			\n\nGå direkte til fovrit view i tablevieweren (Felter eller
-			Data)
-			\n\nKonfigurer font størrelse i data lister
-			\n\nLet redigering af databaser i "Dropbox"
-
-      \n\nFejlrettelser
+      \n\nNyt i denne version (3.2):
+			\n\n•	Select where to create a new database using a directory picker – thanks to Malte Heizelmann
+			\n•	You get tips about what is possible in the different parts of the program
+			\n•	Foreign key selection lists now show a string representation of the records not just the FK fields. The field that the foreign key refers to MUST be the primary key in the referenced table
+			\n•	More checking in create table wizard
+			\n•	Hopefully back on the French version of Google Play (I had placed an unfinished French translation in a wrong place)
+			\n•	French translation – thanks to Jean-Luc Rostini + Nicolas Gourdon
+			\n•	Italian translation – thanks to Giuseppe Tumino https://play.google.com/store/apps/developer?id=Giuseppe+Tumino
+			\n•	Catalan translation – thanks to Paco Rivière
+			\n•	Brazilian translation – thanks to Leandro Lopes
+			\n•	Spanish translation – thanks to Gonzalo Rodriguez
+			\n•	Several bug fixes – thanks for reporting!
       \n\nDu kan redigere system databaser med aShell (beta) på rooted telefoner
       med aSQLiteManager. Du finder aShell her:
       \nhttp://market.android.com/search?q=pub:Andsen

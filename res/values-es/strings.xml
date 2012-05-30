@@ -64,7 +64,7 @@
     <string name="NothingToCommit">Nada para hacer Commit</string>
     <string name="IsNotADatabase">no es una base de datos</string>
     <string name="Export">Exportar base de datos</string>
-    <string name="Restore">Restaurar base de daots</string>
+    <string name="Restore">Restaurar base de datos</string>
     <string name="Cancel">Cancelar</string>
     <string name="ExportData">Exportar</string>
     <string name="NoExportToRestore">No hay exportación para restaurar</string>
@@ -74,7 +74,7 @@
     <string name="Working">Trabajando</string>
     <string name="ReadingScript">Leyendo script</string>
     <string name="ExecuteStatement">Ejecutar sentencia</string>
-    <string name="MustNotBeEmpty">Debe no estar vacío</string>
+    <string name="MustNotBeEmpty">No debe estar vacío</string>
     <string name="ShowAtStartUp">Mostrar bienvenida al inicio</string>
     <string name="Welcome">Bienvenido a aSQLiteManager</string>
     <string name="DumpTable">Volcar tabla</string>
@@ -113,7 +113,7 @@
 		<string name="First">Primera</string>
 		<string name="Last">Última</string>
 		<string name="Filter">Filtro</string>
-		<string name="EnterWhere">Introduce cláusula Where (sin el Where)</string>
+		<string name="EnterWhere">Introduce cláusula WHERE(sin el WHERE)</string>
 		<string name="StrangeErr">Si puedes reproducir este error por favor indícame
 		    por email cómo hacerlo ;-)
 		    \nTambién puedes usar aLogViewer para extraer información extra
@@ -153,7 +153,7 @@
         \n\n¡Ten cuidado!\n</string>
     <string name="ShowRootWarning">Lo entiendo - deja de decírmelo</string>
     <string name="CreateTable">Nueva Tabla</string>
-    <string name="AddField">Añadir Campor</string>
+    <string name="AddField">Añadir Campo</string>
     <string name="CreateField">Crear campo</string>
     <string name="MustEnterFieldName">¡Debes introducir un nombre de campo!</string>
     <string name="MustEnterTableNameAndOneField">¡Debes introducir un nombre de tabla y al menos un campo!</string>
@@ -252,7 +252,7 @@
 		</string>
 		    		    		    
     <!-- Place new text above here -->
-    <string name="Translation">Traducido al español por Gonzalo Zeigon</string>
+    <string name="Translation">Traducido al español por Gonzalo Rodriguez</string>
 
     <!-- Translated to Danish to here -->
         
@@ -299,13 +299,19 @@
     <!-- Here write what is new in this version -->
     <string name="WelcomeMsg">aSQLiteManager is a free open source
   	  Administrador SQLite / interfaz para dispositivos Android.
-      \n\nNuevo en esta versión (3.1):
-			\n\nRecuperar definiciones de tabla movido a opción de menú y reemplazado con botón de "Nuevo" registro para acceso rápido
-			\n\nVe directamente a la vista favorita en el visor de tabla (Campos o Datos)
-			\n\nTamaño de fuente configurable en listas de datos
-			\n\nFácil edición de BD ubicadas en carpetas "Dropbox"
-			\n\nMejor manejo de las BDs
-			\n\nArreglo de errores
+      \n\nNuevo en esta versión (3.2):
+
+			\n\n•	Select where to create a new database using a directory picker – thanks to Malte Heizelmann
+			\n•	You get tips about what is possible in the different parts of the program
+			\n•	Foreign key selection lists now show a string representation of the records not just the FK fields. The field that the foreign key refers to MUST be the primary key in the referenced table
+			\n•	More checking in create table wizard
+			\n•	Hopefully back on the French version of Google Play (I had placed an unfinished French translation in a wrong place)
+			\n•	French translation – thanks to Jean-Luc Rostini + Nicolas Gourdon
+			\n•	Italian translation – thanks to Giuseppe Tumino https://play.google.com/store/apps/developer?id=Giuseppe+Tumino
+			\n•	Catalan translation – thanks to Paco Rivière
+			\n•	Brazilian translation – thanks to Leandro Lopes
+			\n•	Spanish translation – thanks to Gonzalo Rodriguez
+			\n•	Several bug fixes – thanks for reporting!
        
       \n\nPara una descripción de todas las características visita:
       \naaa.andsen.dk/aSQLiteManager.html

@@ -198,7 +198,6 @@
     <string name="DropItem">Supprimer l\'élément ?</string>
     <string name="IndexDefCopied">Définition de l\'index copiée dans le presse papier</string>
     <string name="DescAutoIncError">DESC et AutoInc ne doivent pas être utilisés de paire même si le manuel stipule le contraire.</string>
-
     <string name="Translation">Traduction française par Jean-Luc Rostini + Nicolas Gourdon</string>
 
         
