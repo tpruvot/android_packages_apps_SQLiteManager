@@ -2,8 +2,6 @@
 <resources>
     <!--β Catalan locale-->
     <string name="Version">Versió</string>
-    <string name="hello">aSQLiteManager</string>
-    <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Quant a aSQLiteManager</string>
     <string name="AboutText">Andsens és un gestor de SQLite. Us permet gestionar les vostres bases de dades per Android Android 
         bases de dades</string>

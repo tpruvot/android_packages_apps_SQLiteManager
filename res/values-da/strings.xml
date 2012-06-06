@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Version">Version</string>
-    <string name="hello">aSQLiteManager</string>
-    <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Om aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager. Håndter alle dine Android databaser</string>
     <string name="WWW">Tjek for opdateringer her:\nhttp://asqlitemanager.sourceforge.net</string>

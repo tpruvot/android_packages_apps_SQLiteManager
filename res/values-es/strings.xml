@@ -2,8 +2,6 @@
 <resources>
     <!--β-->
     <string name="Version">Versión</string>
-    <string name="hello">aSQLiteManager</string>
-    <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">Acerca de aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager. Administra tus bases de datos Android</string>
     <string name="WWW">Busca actualizaciones en:\nhttp://asqlitemanager.sourceforge.net</string>

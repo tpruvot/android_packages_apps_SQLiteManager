@@ -2,8 +2,6 @@
 <resources>
     <!--β-->
     <string name="Version">Version</string>
-    <string name="hello">aSQLiteManager</string>
-    <string name="app_name">aSQLiteManager</string>
     <string name="AboutHeader">A propos de aSQLiteManager</string>
     <string name="AboutText">Andsens SQLite manager. Administrez vos bases de données sur un terminal ANDROID.</string>
     <string name="WWW">Vérifier les mises à jour :\nhttp://asqlitemanager.sourceforge.net</string>
@@ -43,15 +41,15 @@
     <string name="Open">Ouvrir</string>
     <string name="NoResult">Aucun résultat</string>
     <string name="HelpText">
-      Visitez la page d\'accueil de aSQLiteMagers sur :
+      Visitez la page d\'accueil de aSQLiteManager sur :
       \nhttp://aaa.andsen.dk/aSQLiteManager.html
       \nPour obtenir une liste complète des fonctionnalités supportées par aSQLiteManager. 
-      \n\nVous pouvez aussi m\'envoyer des commentaires, me rapporter des bugs ou me faire part de vos souhaits de fonctionnalités à:
+      \n\nVous pouvez aussi m\'envoyer des commentaires, me rapporter des bugs ou me faire part de vos souhaits de fonctionnalités via:
       \nandroid41cv@gmail.com
       \n\n
-      \nUn outil de création de base de données pour administrer facilement vos bases. 
+      \nOutil de création de base de données pour administrer facilement vos bases. 
       \nCréation et suppression facile de tables, vues et index.
-	    \nActivation de vos contraintes de clés étrangères.
+      \nActivation de vos contraintes de clés étrangères.
       \nEdition de vos champs de clé étrangère à l\'aide d\'une liste de choix.
       \nOuvrez vos bases de données depuis aSQLiteManager ou depuis le gestionnaire de fichier.
       \nListe des tables, vues et index.
@@ -64,7 +62,7 @@
       \nExécutez n\'importe quel type de requêtes SQL, y compris les requêtes de type DROP et CREATE.
       \nSupport du type BLOB (sauf durant l\'édition).
       \nSupporte les commandes Begin Transaction, Commit and Rollback.
-      \nCopiez n\'importe quel texte dans le presse papier par simple pression.
+      \nCopiez du texte dans le presse papier par simple pression.
       \nSupporte les espaces dans les noms de champs et de tables.
       \nMémorise toutes les requêtes effectuées sur la base courante dans une table appelée aSQLiteManager (désactivée par défaut).
       \nReprendre une requête déjà exécutée depuis l\'écran de composition de requêtes SQL.
@@ -73,7 +71,7 @@
       \nExporte les résultats d\'une requête dans un ficher  ASCII.
       \nExecution de scripts SQL : depuis les simples lignes jusqu\'aux scripts complets de création.
       \nMémorise les bases récemment ouvertes pour un accès plus rapide.
-	  	\nUtilise aShell (Beta) pour éditer les informations systèmes des bases sur les terminaux rootés.
+      \nUtilise aShell (Beta) pour éditer les informations systèmes des bases sur les terminaux rootés.
       \n\nMartin
     </string>
     <string name="NewDB">Nouvelle base</string>
@@ -83,7 +81,7 @@
     <string name="Message">Message</string>
     <string name="Error">Erreur</string>
     <string name="NoFileName">Vous devez indiquer un nom de fichier</string>
-	  <string name="DBQueryType">Type de requête</string>
+    <string name="DBQueryType">Type de requête</string>
     <string name="OnClickedMess">Vous avez sélectionné cette base SQLite :</string>
     <string name="OnClickedOpen">Ouverture de la base avec\naSQLiteManager</string>
     <string name="RecentSQL">Requêtes récentes</string>
@@ -128,31 +126,31 @@
     <string name="DBInfo">Information sur la base</string>
     <string name="DatabaseInfo">Base : informations</string>
     <string name="DatabaseExists">Existe déjà !</string>
-		<string name="RateMsg">
-			Vous utilisez maintenant aSQLiteManager depuis plus d\'une semaine (ou vous l\'avez lancé plus de 10fois).
-			\nSi vous aimez l\'utiliser, supportez le programme par un vote positif.
-			\nVous pouvez aussi contribuer par un modeste don (depuis la page d\'accueil de l\'application).
-			Vos contributions seront utilisées pour améliorer le programme.
-			\nMerci pour votre soutien !</string>
-		<string name="Rate">Vote</string>
-		<string name="Later">Je le ferai la prochaine fois</string>
-		<string name="NoThanks">Je l\'ai déjà fait</string>
-		<string name="EditDeleteRow">Editer ou supprimer cet enregistrement #</string>
-		<string name="Delete">Supprimer</string>
-		<string name="CopiedToClipboard">Texte copié dans le presse papier.</string>
-		<string name="InsertNewRow">Insérer un nouvel enregistrement.</string>
-		<string name="EditRow">Editer l\'enregistrement</string>
-		<string name="Edit">Editer</string>
-		<string name="New">Ajouter</string>
-		<string name="First">Premier</string>
-		<string name="Last">Dernier</string>
-		<string name="Filter">Filtrer</string>
-		<string name="EnterWhere">Entrez une clause WHERE (sans le WHERE).</string>
-		<string name="StrangeErr">Si vous êtes susceptible de reproduire cette erreur contactez moi par e-mail afin de m\'indiquer comment vous avez procédé ;-)
-		    \nVous pouvez aussi utiliser aLogViewer afin d\'extraire des informations supplémentaires depuis le journal système et m\'aider ainsi à diagnostiquer le problème.</string>
-		<string name="NotAnArror">Pas d\'erreur</string>
-		<string name="Normal">Normal</string>
-		<string name="Root">Rooté</string>
+    <string name="RateMsg">
+    Vous utilisez maintenant aSQLiteManager depuis plus d\'une semaine (ou vous l\'avez lancé plus de 10fois).
+    \nSi vous aimez l\'utiliser, supportez le programme par un vote positif.
+    \nVous pouvez aussi contribuer par un modeste don (depuis la page d\'accueil de l\'application).
+    Vos contributions seront utilisées pour améliorer le programme.
+    \nMerci pour votre soutien !</string>
+    <string name="Rate">Noter</string>
+    <string name="Later">Je le ferai la prochaine fois</string>
+    <string name="NoThanks">Je l\'ai déjà fait</string>
+    <string name="EditDeleteRow">Modifier ou supprimer cet enregistrement #</string>
+    <string name="Delete">Supprimer</string>
+    <string name="CopiedToClipboard">Texte copié dans le presse papier.</string>
+    <string name="InsertNewRow">Insérer un nouvel enregistrement.</string>
+    <string name="EditRow">Modifier l\'enregistrement</string>
+    <string name="Edit">Modifier</string>
+    <string name="New">Ajouter</string>
+    <string name="First">Premier</string>
+    <string name="Last">Dernier</string>
+    <string name="Filter">Filtrer</string>
+    <string name="EnterWhere">Entrez une clause WHERE (sans le WHERE).</string>
+    <string name="StrangeErr">Si vous êtes susceptible de reproduire cette erreur contactez moi par e-mail afin de m\'indiquer comment vous avez procédé ;-)
+    \nVous pouvez aussi utiliser aLogViewer ou \"adb logcat\" afin d\'extraire des informations supplémentaires depuis le journal système et m\'aider ainsi à diagnostiquer le problème.</string>
+    <string name="NotAnArror">Pas d\'erreur</string>
+    <string name="Normal">Normal</string>
+    <string name="Root">Rooté</string>
     <string name="RootNeeded">Mode Root obligatoire pour l\'accès</string>
     <string name="RootWarning">Pas de mode root disponible</string>
     <string name="EnterRoot">Entrée dans un répertoire Root, SOYEZ PRUDENT :</string>
@@ -171,7 +169,7 @@
     <string name="PauseTitle">Pause en msec</string>
     <string name="PauseText">Temps d\'immobilisation de la base après le démarrage de la copie.</string>
     <string name="RootNotFound">Les fichiers de rootage n\'ont pas été trouvés dans l\'emplacement par défaut (ou bien votre téléphone n\'est pas rooté).
-        Vous pouvez définir ce chemin dans les options de configuration.</string>
+    Vous pouvez définir ce chemin dans les options de configuration.</string>
     <string name="RootFilePickerTxt">Utiliser un explorateur de fichiers rootés</string>
     <string name="RootFilePickerMsg">Utiliser un explorateur de fichiers rootés pour accéder aux bases systèmes sur les mobiles rootés.</string>
     <string name="BasicConfiguration">Configuration de base</string>
@@ -180,9 +178,9 @@
     <string name="LoggingTitle">Connexion</string>
     <string name="LoggingText">Identifiez-vous pour accéder aux informations de déboguage.</string>
     <string name="RootUseWarning">L\'édition des bases système est expérimentale
-    		et potentiellement dangereuse - Vous pouvez perdre des données.
-        \n\nNe pas modifier les bases systèmes sans savoir précisément ce que vous faîtes !
-        \n\nPrenez garde !\n</string>
+    et potentiellement dangereuse - Vous pouvez perdre des données.
+    \n\nNe pas modifier les bases systèmes sans savoir précisément ce que vous faîtes !
+    \n\nPrenez garde !\n</string>
     <string name="ShowRootWarning">Compris - Ne plus me le rappeler</string>
     <string name="CreateTable">Nouvelle table</string>
     <string name="AddField">Ajouter un champ</string>
@@ -191,15 +189,12 @@
     <string name="MustEnterTableNameAndOneField">Vous devez entrer un nom de table et saisir un nom de champ !</string>
     <string name="SQLPreferences">Préférences SQL</string>
     <string name="CannotDeleteAutoIndex">Ne peut effacer un index auto généré</string>
-    <string name="DeleteIndex">Effacer l\'index</string>
-    <string name="DeleteView">Effacer la vue</string>
-    <string name="DeleteTable">Effacer la table</string>
+    <string name="DeleteIndex">Supprimer l\'index</string>
+    <string name="DeleteView">Supprimer la vue</string>
+    <string name="DeleteTable">Supprimer la table</string>
     <string name="CannotDeleteSysTable">Ne peut pas effacer la table système</string>
     <string name="DropItem">Supprimer l\'élément ?</string>
     <string name="IndexDefCopied">Définition de l\'index copiée dans le presse papier</string>
     <string name="DescAutoIncError">DESC et AutoInc ne doivent pas être utilisés de paire même si le manuel stipule le contraire.</string>
     <string name="Translation">Traduction française par Jean-Luc Rostini + Nicolas Gourdon</string>
-
-        
-
 </resources>
